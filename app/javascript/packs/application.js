@@ -11,3 +11,12 @@ import "channels"
 Rails.start(***REMOVED***
 Turbolinks.start(***REMOVED***
 ActiveStorage.start(***REMOVED***
+
+import 'bootstrap'
+import 'autosize'
+
+document.addEventListener("turbolinks:load", (***REMOVED*** => {
+  $('[data-toggle="tooltip"]'***REMOVED***.tooltip(***REMOVED***;
+  $('[data-toggle="popover"]'***REMOVED***.popover(***REMOVED***;
+  autosize(document.querySelectorAll('textarea'***REMOVED******REMOVED***;
+***REMOVED******REMOVED***
