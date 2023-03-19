@@ -132,8 +132,6 @@ GEM
       nio4r (~> 2.0***REMOVED***
     racc (1.6.2***REMOVED***
     rack (2.2.6.2***REMOVED***
-    rack-mini-profiler (2.3.4***REMOVED***
-      rack (>= 1.2.0***REMOVED***
     rack-proxy (0.7.6***REMOVED***
       rack
     rack-test (2.0.2***REMOVED***
@@ -238,7 +236,6 @@ DEPENDENCIES
   pg (~> 1.1***REMOVED***
   pgreset
   puma (~> 5.0***REMOVED***
-  rack-mini-profiler (~> 2.0***REMOVED***
   rails (~> 6.1.0***REMOVED***
   sass-rails (>= 6***REMOVED***
   selenium-webdriver
