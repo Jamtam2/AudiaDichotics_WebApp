@@ -1,0 +1,49 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+  ***REMOVED***
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  ***REMOVED***
+  
+  th {
+    background-color: #f2f2f2;
+  ***REMOVED***
+  
+  tr:nth-child(even***REMOVED*** {
+    background-color: #f2f2f2;
+  ***REMOVED***
+  
+  tr:hover {
+    background-color: #ddd;
+  ***REMOVED***
+  
+  td:first-child {
+    padding-left: 0;
+  ***REMOVED***
+  
+  td:last-child {
+    padding-right: 0;
+  ***REMOVED***
+  
+  td a {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('edit_icon.png'***REMOVED***;
+    background-repeat: no-repeat;
+    background-size: contain;
+    text-indent: -9999px;
+  ***REMOVED***
+  
+  td a:hover {
+    opacity: 0.7;
+  ***REMOVED***
+  
+  td:last-child a {
+    background-image: url('delete_icon.png'***REMOVED***;
+  ***REMOVED***
+  
