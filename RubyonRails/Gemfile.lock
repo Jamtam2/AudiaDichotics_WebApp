@@ -82,6 +82,12 @@ GEM
       rack-test (>= 0.6.3***REMOVED***
       regexp_parser (>= 1.5, < 3.0***REMOVED***
       xpath (~> 3.2***REMOVED***
+    carrierwave (0.11.2***REMOVED***
+      activemodel (>= 3.2.0***REMOVED***
+      activesupport (>= 3.2.0***REMOVED***
+      json (>= 1.7***REMOVED***
+      mime-types (>= 1.16***REMOVED***
+      mimemagic (>= 0.3.0***REMOVED***
     concurrent-ruby (1.2.0***REMOVED***
     crass (1.0.6***REMOVED***
     date (3.3.3***REMOVED***
@@ -91,9 +97,13 @@ GEM
       activesupport (>= 5.0***REMOVED***
     i18n (1.12.0***REMOVED***
       concurrent-ruby (~> 1.0***REMOVED***
+    image_processing (1.12.2***REMOVED***
+      mini_magick (>= 4.9.5, < 5***REMOVED***
+      ruby-vips (>= 2.0.17, < 3***REMOVED***
     jbuilder (2.11.5***REMOVED***
       actionview (>= 5.0.0***REMOVED***
       activesupport (>= 5.0.0***REMOVED***
+    json (2.6.3***REMOVED***
     listen (3.8.0***REMOVED***
       rb-fsevent (~> 0.10, >= 0.10.3***REMOVED***
       rb-inotify (~> 0.9, >= 0.9.10***REMOVED***
@@ -108,6 +118,13 @@ GEM
     marcel (1.0.2***REMOVED***
     matrix (0.4.2***REMOVED***
     method_source (1.0.0***REMOVED***
+    mime-types (3.4.1***REMOVED***
+      mime-types-data (~> 3.2015***REMOVED***
+    mime-types-data (3.2023.0218.1***REMOVED***
+    mimemagic (0.4.3***REMOVED***
+      nokogiri (~> 1***REMOVED***
+      rake
+    mini_magick (4.12.0***REMOVED***
     mini_mime (1.1.2***REMOVED***
     mini_portile2 (2.8.1***REMOVED***
     minitest (5.17.0***REMOVED***
@@ -168,6 +185,8 @@ GEM
       ffi (~> 1.0***REMOVED***
     regexp_parser (2.7.0***REMOVED***
     rexml (3.2.5***REMOVED***
+    ruby-vips (2.1.4***REMOVED***
+      ffi (~> 1.12***REMOVED***
     rubyzip (2.3.2***REMOVED***
     sass-rails (6.0.0***REMOVED***
       sassc-rails (~> 2.1, >= 2.1.1***REMOVED***
@@ -231,6 +250,8 @@ DEPENDENCIES
   bootstrap_form (~> 4.0***REMOVED***
   byebug
   capybara (>= 3.26***REMOVED***
+  carrierwave (~> 0.11.2***REMOVED***
+  image_processing (~> 1.12, >= 1.12.2***REMOVED***
   jbuilder (~> 2.7***REMOVED***
   listen (~> 3.3***REMOVED***
   pg (~> 1.1***REMOVED***
