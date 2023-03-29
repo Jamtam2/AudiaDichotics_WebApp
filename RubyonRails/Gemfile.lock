@@ -264,12 +264,9 @@ DEPENDENCIES
   bootstrap_form (~> 4.0***REMOVED***
   byebug
   capybara (>= 3.26***REMOVED***
-<<<<<<< HEAD
-  devise
-=======
   carrierwave (~> 0.11.2***REMOVED***
+  devise
   image_processing (~> 1.12, >= 1.12.2***REMOVED***
->>>>>>> c1f450c293d1c2449208872e2dc52012f2e3355d
   jbuilder (~> 2.7***REMOVED***
   listen (~> 3.3***REMOVED***
   pg (~> 1.1***REMOVED***
