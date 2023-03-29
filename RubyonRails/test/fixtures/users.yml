@@ -16,9 +16,13 @@
 #  index_users_on_email                 (email***REMOVED*** UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token***REMOVED*** UNIQUE
 #
-class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-end
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the '{***REMOVED***' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one: {***REMOVED***
+# column: value
+#
+two: {***REMOVED***
+# column: value
