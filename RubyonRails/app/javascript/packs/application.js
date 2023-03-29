@@ -20,3 +20,14 @@ document.addEventListener("turbolinks:load", (***REMOVED*** => {
   $('[data-toggle="popover"]'***REMOVED***.popover(***REMOVED***;
   autosize(document.querySelectorAll('textarea'***REMOVED******REMOVED***;
 ***REMOVED******REMOVED***
+
+function hideInput(***REMOVED*** {
+  var colDiv = document.getElementById("normalCol"***REMOVED***;
+  colDiv.style.display === "block" ? colDiv.style.display = 'none' : colDiv.style.display = 'block';
+***REMOVED***
+
+
+
+
+
+
