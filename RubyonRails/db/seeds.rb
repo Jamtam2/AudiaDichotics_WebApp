@@ -5,3 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' ***REMOVED***, { name: 'Lord of the Rings' ***REMOVED***]***REMOVED***
 #   Character.create(name: 'Luke', movie: movies.first***REMOVED***
+
+load(Rails.root.join('db', 'seeds', 'clients_seed.rb'***REMOVED******REMOVED***

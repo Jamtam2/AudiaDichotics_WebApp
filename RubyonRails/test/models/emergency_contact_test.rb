@@ -18,10 +18,6 @@
 #
 #  index_emergency_contacts_on_client_id  (client_id***REMOVED***
 #
-# Foreign Keys
-#
-#  fk_rails_...  (client_id => clients.id***REMOVED***
-#
 require "test_helper"
 
 class EmergencyContactTest < ActiveSupport::TestCase
