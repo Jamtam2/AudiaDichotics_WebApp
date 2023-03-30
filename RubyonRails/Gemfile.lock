@@ -99,6 +99,8 @@ GEM
       responders
       warden (~> 1.2.3***REMOVED***
     erubi (1.12.0***REMOVED***
+    faker (3.1.1***REMOVED***
+      i18n (>= 1.8.11, < 2***REMOVED***
     ffi (1.15.5***REMOVED***
     globalid (1.1.0***REMOVED***
       activesupport (>= 5.0***REMOVED***
@@ -270,6 +272,7 @@ DEPENDENCIES
   capybara (>= 3.26***REMOVED***
   carrierwave (~> 0.11.2***REMOVED***
   devise
+  faker
   image_processing (~> 1.12, >= 1.12.2***REMOVED***
   jbuilder (~> 2.7***REMOVED***
   jquery-rails
@@ -289,7 +292,7 @@ DEPENDENCIES
   webpacker (~> 5.0***REMOVED***
 
 RUBY VERSION
-   ruby 2.7.2p137
+   ruby 3.1.1p18
 
 BUNDLED WITH
    2.1.4
