@@ -5,6 +5,8 @@
 #  id                     :bigint           not null, primary key
 #  email                  :string           default(""***REMOVED***, not null
 #  encrypted_password     :string           default(""***REMOVED***, not null
+#  fname                  :string
+#  lname                  :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
