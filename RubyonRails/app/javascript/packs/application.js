@@ -13,7 +13,7 @@ Turbolinks.start(***REMOVED***
 ActiveStorage.start(***REMOVED***
 
 import 'bootstrap'
-import 'autosize'
+import autosize from 'autosize'
 
 document.addEventListener("turbolinks:load", (***REMOVED*** => {
   $('[data-toggle="tooltip"]'***REMOVED***.tooltip(***REMOVED***;
