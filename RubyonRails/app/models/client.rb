@@ -30,6 +30,7 @@ class Client < ApplicationRecord
     def full_name
       "#{first_name***REMOVED*** #{last_name***REMOVED***"
     end
+end
   
 
 
