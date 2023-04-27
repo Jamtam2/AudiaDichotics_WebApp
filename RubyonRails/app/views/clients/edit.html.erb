@@ -1,20 +1,25 @@
 
 
 <div class="tabs-container">
-  <div class="tab active" id="users-tab">Client</div>
-  <div class="tab" id="new-client-tab">Testing</div>
+  <div class="tab active" id="users-tab" data-tab="users-content">Edit</div>
+  <div class="tab" id="new-client-tab" data-tab="new-client-content">Testing</div>
 </div>
 
 <div class="tab-content-container">
   <div class="tab-content active" id="users-content">
   <head>
   <%= stylesheet_link_tag 'application', 'users' %>
-  <h1>Edit client</h1>
+
+  
+<h1>Edit client</h1>
 
 <%= bootstrap_form_with model: @client do |f| %>
   <div class="row">
+  
     <div class="col-md-6">
       <div class="form-group">
+
+      
         <%= f.text_field :first_name, class: "form-control" %>
       </div>
 
@@ -122,27 +127,36 @@
 <% end %>
       <%= link_to "Add Test", new_client_test_path(@client***REMOVED***, class: "btn btn-primary" %>
 
+  <%= render partial: "tests/index", locals: { client: @client ***REMOVED*** %>
     
 
 
-</head>
 
   </div>
   <div class="tab-content" id="new-client-content">
-      <%= link_to "Add Test", new_client_test_path(@client***REMOVED***, class: "btn btn-primary" %>
-
+  <%= render partial: "tests/index", locals: { client: @client ***REMOVED*** %>
   </div>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function(***REMOVED*** {
+    const tabs = document.querySelectorAll(".tab"***REMOVED***;
 
+    tabs.forEach((tab***REMOVED*** => {
+      tab.addEventListener("click", function(event***REMOVED*** {
+        const tabId = event.target.getAttribute("data-tab"***REMOVED***;
 
+        // Remove active class from all tabs and tab content
+        tabs.forEach((t***REMOVED*** => t.classList.remove("active"***REMOVED******REMOVED***;
+        document.querySelectorAll(".tab-content"***REMOVED***.forEach((tc***REMOVED*** => tc.classList.remove("active"***REMOVED******REMOVED***;
 
-
-
-
-
-
-
+        // Add active class to the clicked tab and its content
+        event.target.classList.add("active"***REMOVED***;
+        document.getElementById(tabId***REMOVED***.classList.add("active"***REMOVED***;
+      ***REMOVED******REMOVED***;
+    ***REMOVED******REMOVED***;
+  ***REMOVED******REMOVED***;
+</script>
 
 
 
