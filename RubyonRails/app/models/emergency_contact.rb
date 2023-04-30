@@ -18,6 +18,10 @@
 #
 #  index_emergency_contacts_on_client_id  (client_id***REMOVED***
 #
+# Foreign Keys
+#
+#  fk_rails_...  (client_id => clients.id***REMOVED***
+#
 class EmergencyContact < ApplicationRecord
   belongs_to :client
   
