@@ -13,6 +13,7 @@ class TestsController < ApplicationController
     def create
       @client = Client.find(params[:client_id]***REMOVED***
       @test = @client.tests.build(test_params***REMOVED***
+      @test.user = current_user
       @test.client = @client
       
   

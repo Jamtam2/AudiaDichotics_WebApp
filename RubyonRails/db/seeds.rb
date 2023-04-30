@@ -7,3 +7,36 @@
 #   Character.create(name: 'Luke', movie: movies.first***REMOVED***
 
 load(Rails.root.join('db', 'seeds', 'clients_seed.rb'***REMOVED******REMOVED***
+# db/seeds.rb
+
+# Generate Users
+5.times do
+    User.create!(
+      email: Faker::Internet.unique.email,
+      password: 'password123',
+      password_confirmation: 'password123',
+      fname: Faker::Name.first_name,
+      lname: Faker::Name.last_name
+    ***REMOVED***
+  end
+  
+  users = User.all
+    
+  clients = Client.all
+  
+  # Generate Tests
+  3.times do
+    Test.create!(
+      user: users.sample,
+      client: clients.sample,
+      client_name: "#{Faker::Name.first_name***REMOVED*** #{Faker::Name.last_name***REMOVED***",
+      ear_advantage: %w[Left Right].sample,
+      ear_advantage_score: rand(1.0..10.0***REMOVED***.round(2***REMOVED***,
+      label: Faker::Lorem.word,
+      left_score: rand(1.0..10.0***REMOVED***.round(2***REMOVED***,
+      notes: Faker::Lorem.sentence,
+      right_score: rand(1.0..10.0***REMOVED***.round(2***REMOVED***,
+      test_type: %w[DWT RDT].sample
+    ***REMOVED***
+  end
+  
