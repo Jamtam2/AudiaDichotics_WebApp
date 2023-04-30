@@ -14,6 +14,14 @@ class CliniciansController < ApplicationController
           end
     end
 
+    def search
+      if params[:search].blank?
+        @clients = Client.all
+      else
+        @clients = Client.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]***REMOVED***%", "%#{params[:search]***REMOVED***%"***REMOVED***
+      end
+    end
+    
     def index
         @clinicians = Clinician.all
     end
