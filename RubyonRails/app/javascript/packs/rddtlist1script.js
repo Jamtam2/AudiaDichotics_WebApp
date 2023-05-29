@@ -1,176 +1,8 @@
-<body class= "bg-light center">
-<div class="container p-5 my-3 w-100 border rounded bg-white ">
 
-
-<%= javascript_include_tag 'application', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' %>
-
-
-<h1 class= "display-5", style= 'padding-bottom:20px' ><strong><%= "Testing " + @client.first_name + " " + @client.last_name%></strong></h1>
-
-<!--Test page for DNW List 1 Contains everything for completing and submitting a test  -->
-<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-<%= form_with model: [@client, @test], local: true do |f| %>
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      <div class="form-group row">
-        <label for="exampleLabel">Label</label>
-          <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Dnw List One" %>
-      </div>
-      <div class="form-group row">
-        <label for="testType">Client</label>
-        <input class="form-control" type="text" id="testType" placeholder="<%= @client.first_name + ' ' + @client.last_name %>" readonly>
-      </div>
-      <div class="form-group row">
-        <label for="testType">Type</label>
-        <input class="form-control" type="text" id="testType" placeholder="DNW" readonly>
-      </div>
-      <hr/>
-      <div class="form-group row">
-        <label for="conditionSelect">Condition</label>
-        <input class="form-control" type="text" id="testType" placeholder="" readonly>
-      </div>
-      <%= button_tag "Switch left/right", :onclick => "event.preventDefault(***REMOVED***;" %>
-
-      <hr/>
-      <label for="Notes">Notes</label>
-      <%= f.text_area :notes, class: 'form-control', rows: '3' %>
-      <hr/>
-      <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-      <audio controls>
-        <source src="/assets/DNW List 1.mp3" type="audio/mpeg">
-      </audio>
-      <hr/>
-      <!--Table for ear advantage percentage that is calculated in the script-->
-      <p>Scores:</p>
-      <table class="table table-sm table-bordered m1-4" style="max-width: 25rem;">
-        <thead>
-          <tr>
-            <th scope="col">Pairs</th>
-            <th scope="col">Left</th>
-            <th scope="col">Right</th>
-            <th scope="col">Ear Adv</th>
-          </tr>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td><span id="column1-percent">0</span>%</p></td>
-              <td><span id="column2-percent">0</span>%</td>
-              <td><span id="advantage-Diff">0</span>%</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
-            <tr>
-              <th scope="row">3</th>           
-            </tr>
-          </tbody>
-        </thead>
-      </table>
-      <!--Table for ear advantage that is calculated in the script and ear diagnosis/interpretation-->
-      <label for="read-Only">Ear Advantage</label>
-      <input class="form-control" type="text" id="read-Only" value="" readonly>
-      <span hidden id="advantage-Name"></span>
-      <label for="read-Only">Interpretation</label>
-      <input class="form-control" type="text" id="read-Only-diag" value="" readonly>
-      <span hidden id="Diagnosis"></span>
-    </div>
+  
+document.addEventListener('turbolinks:load', function(***REMOVED*** {
 
     
-    <div class="col-sm">
-      <div class="table-responsive" style="height: 1000px; overflow-y: auto; overflow-x: hidden;">
-        <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
-          <thead class="thead-dark">
-            <tr>
-              <th>Number</th>
-              <th>Left</th>
-              <th>Right</th>
-            </tr>
-          </thead>
-          <tbody>
-          <!-- Loop for table of words and creation of all buttons, only loops 25 times and creates table for buttons-->
-            <% 25.times do |i| %>
-              <% words = [
-                ["Beeth", "Ked"],
-                ["Dith", "Feev"],
-                ["Thich", "Yob"],
-                ["Yid", "Jeek"],
-                ["Duth", "Pel"],
-                ["Koid", "Zuth"],
-                ["Poim", "Zug"],
-                ["Choid", "Thooch"],
-                ["Boap", "Rudge"],
-                ["Looth", "Sich"],
-                ["Veb", "Zite"],
-                ["Jeeth", "Koom"],
-                ["Chiv", "Feek"],
-                ["Beev", "Zoil"],
-                ["Meeth", "Wid"],
-                ["Vich", "Zayg"],
-                ["Widge", "Zuch"],
-                ["Choog", "Zith"],
-                ["Vum", "Waf"],
-                ["Meech", "Zoth"],
-                ["Futh", "Zoop"],
-                ["Keek", "Noof"],
-                ["Kich", "Weeth"],
-                ["Mayp", "Tith"],
-                ["Maych", "Veeb"]
-                ] %>
-              <tr>
-                <td><%= i + 1 %></td>
-                <td>
-                  <div class="btn-group-toggle" data="buttons">
-                    <label class="btn btn-outline-primary column1-button">
-                      <input type="checkbox" name="column1[<%= i %>][]" value="1"> <%= words[i][0] %>
-                    </label>
-                  </div>
-                </td>
-                <td>
-                  <div class="btn-group-toggle" data="buttons">
-                    <label class="btn btn-outline-primary column2-button">
-                      <input type="checkbox" name="column1[<%= i %>][]" value="2"> <%= words[i][1] %>
-                    </label>
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-          <!--Hidden table for submition items-->
-        </table>
-      </div>
-        <%= f.hidden_field :client_name, value: "Example user" %>
-        <%= f.hidden_field :test_type, value: "DNW" %>
-        <%= f.hidden_field :left_score, id: "left_score" %>
-        <%= f.hidden_field :right_score, id: "right_score" %>
-        <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
-        <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
-    
-        <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "populateHiddenFields(***REMOVED***" %>
-      
-      <% end %>
-
-      <div>
-        <p><span hidden id="column1-count"></span></p>
-        <p><span id="column1-percent"></span></p>
-        <p><span hidden id="column2-count"></span></p>
-        <p><span id="column2-percent"></span></p>
-        <p><span id="advantage-Diff"></span></p>
-      </div>
-
-
-
-    <script>
-
-
-    document.addEventListener('DOMContentLoaded', function(***REMOVED*** {
-          // Disable scrolling
-          document.body.style.overflow = 'hidden';
-
-          // Enable scrolling
-          // document.body.style.overflow = 'auto';
-        ***REMOVED******REMOVED***;
 
     //function for keeping the buttons blue after being clicked
       const checkboxes = document.querySelectorAll('input[type="checkbox"]'***REMOVED***;
@@ -188,14 +20,31 @@
 
       //script completes all logic for calculating diagnosis and ear advantage values, It updates the percentages and lists the ear diag and advantage
       // Get the toggle buttons and count elements
-      const column1Buttons = document.querySelectorAll(".column1-button input[type='checkbox']"***REMOVED***;
-      const column2Buttons = document.querySelectorAll(".column2-button input[type='checkbox']"***REMOVED***;
-      const allButtons = document.querySelectorAll(".column1-button input[type='checkbox'], .column2-button input[type='checkbox']"***REMOVED***;
+      const column1ButtonsGroup1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']"***REMOVED***;
+      const column1ButtonsGroup2 = document.querySelectorAll(".column1Group2-button input[type='checkbox']"***REMOVED***;
+      const column1ButtonsGroup3 = document.querySelectorAll(".column1Group3-button input[type='checkbox']"***REMOVED***;
+      const column2ButtonsGroup1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']"***REMOVED***;
+      const column2ButtonsGroup2 = document.querySelectorAll(".column2Group2-button input[type='checkbox']"***REMOVED***;
+      const column2ButtonsGroup3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']"***REMOVED***;
+
+      const allButtons = document.querySelectorAll(".column1Group1-button input[type='checkbox'], .column1Group2-button input[type='checkbox'], .column1Group3-button input[type='checkbox'], .column2Group1-button input[type='checkbox'], .column2Group2-button input[type='checkbox'], .column2Group3-button input[type='checkbox']"***REMOVED***;
+      
       const column1Count = document.getElementById("column1-count"***REMOVED***;
       const column2Count = document.getElementById("column2-count"***REMOVED***;
-      const column1Percent = document.getElementById("column1-percent"***REMOVED***;
-      const column2Percent = document.getElementById("column2-percent"***REMOVED***;
-      const advantageDiff = document.getElementById("advantage-Diff"***REMOVED***;
+      
+      const column1Group1Percent = document.getElementById("column1Group1-percent"***REMOVED***;
+      const column1Group2Percent = document.getElementById("column1Group2-percent"***REMOVED***;
+      const column1Group3Percent = document.getElementById("column1Group3-percent"***REMOVED***;
+      const column2Group1Percent = document.getElementById("column2Group1-percent"***REMOVED***;
+      const column2Group2Percent = document.getElementById("column2Group2-percent"***REMOVED***;
+      const column2Group3Percent = document.getElementById("column2Group3-percent"***REMOVED***;
+
+      const advantageDiffGroup1 = document.getElementById("Group1advantage-Diff"***REMOVED***;
+      const advantageDiffGroup2 = document.getElementById("Group2advantage-Diff"***REMOVED***;
+      const advantageDiffGroup3 = document.getElementById("Group3advantage-Diff"***REMOVED***;
+
+
+
       const advantageName = document.getElementById("advantage-Name"***REMOVED***;
       const testDiagnosis = document.getElementById("Diagnosis"***REMOVED***;
       const readOnly = document.getElementById("read-Only"***REMOVED***;
@@ -207,12 +56,46 @@
       
       allButtons.forEach(function(button***REMOVED*** {
         button.addEventListener("click", function(***REMOVED*** {
-        const checkedCount1 = document.querySelectorAll(".column1-button input[type='checkbox']:checked"***REMOVED***.length;
-        const checkedCount2 = document.querySelectorAll(".column2-button input[type='checkbox']:checked"***REMOVED***.length;
-        const totalCount1 = column1Buttons.length;
-        const totalCount2 = column2Buttons.length;
-        const percent1 = ((checkedCount1 / totalCount1***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
-        const percent2 = ((checkedCount2 / totalCount2***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
+        const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked"***REMOVED***.length;
+        const checkedCount1Group2 = document.querySelectorAll(".column1Group2-button input[type='checkbox']:checked"***REMOVED***.length;
+        const checkedCount1Group3 = document.querySelectorAll(".column1Group3-button input[type='checkbox']:checked"***REMOVED***.length;
+        const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked"***REMOVED***.length;
+        const checkedCount2Group2 = document.querySelectorAll(".column2Group2-button input[type='checkbox']:checked"***REMOVED***.length;
+        const checkedCount2Group3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']:checked"***REMOVED***.length;
+
+        const totalCountColumn1Group1 = column1ButtonsGroup1.length;
+        const totalCountColumn1Group2 = column1ButtonsGroup2.length;
+        const totalCountColumn1Group3 = column1ButtonsGroup3.length;
+        const totalCountColumn2Group1 = column2ButtonsGroup1.length;
+        const totalCountColumn2Group2 = column2ButtonsGroup2.length;
+        const totalCountColumn2Group3 = column2ButtonsGroup3.length;
+
+
+        const percentColumn1Group1 = ((checkedCount1Group1 / totalCountColumn1Group1***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
+        const percentColumn1Group2 = ((checkedCount1Group2 / totalCountColumn1Group2***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
+        const percentColumn1Group3 = ((checkedCount1Group3 / totalCountColumn1Group3***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
+        const percentColumn2Group1 = ((checkedCount2Group1 / totalCountColumn2Group1***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
+        const percentColumn2Group2 = ((checkedCount2Group2 / totalCountColumn2Group2***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
+        const percentColumn2Group3 = ((checkedCount2Group3 / totalCountColumn2Group3***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
+
+        const group1Advantage = (percentColumn1Group1 - percentColumn2Group1***REMOVED***.toFixed(2***REMOVED***;
+        const group2Advantage = (percentColumn1Group2 - percentColumn2Group2***REMOVED***.toFixed(2***REMOVED***;
+        const group3Advantage = (percentColumn1Group3 - percentColumn2Group3***REMOVED***.toFixed(2***REMOVED***;
+
+        let direction = null;
+        console.log(group1Advantage + group2Advantage + group3Advantage***REMOVED***;
+        if ((parseFloat(group1Advantage***REMOVED*** + parseFloat(group2Advantage***REMOVED*** + parseFloat(group3Advantage***REMOVED******REMOVED*** > 0***REMOVED*** {
+          direction = "Left";
+        ***REMOVED***
+        else if ((parseFloat(group1Advantage***REMOVED*** + parseFloat(group2Advantage***REMOVED*** + parseFloat(group3Advantage***REMOVED******REMOVED*** < 0***REMOVED*** {
+          direction = "Right";
+        ***REMOVED***
+        else{
+          direction = "Neutral";
+        ***REMOVED***
+
+
+        /*
         const advantage = (percent1 - percent2***REMOVED***.toFixed(2***REMOVED***;
         const avgPercent = ((+percent1 + +percent2***REMOVED*** / 2***REMOVED***.toFixed(2***REMOVED***;
 
@@ -368,20 +251,36 @@
             ***REMOVED***
           ***REMOVED***          
         ***REMOVED***
+        */
         // Passes values to strings so they can be pushed to the html above
-        column1Count.innerText = checkedCount1.toString(***REMOVED***;
-        column1Percent.innerText = percent1.toString(***REMOVED***;
-        column2Count.innerText = checkedCount2.toString(***REMOVED***;
-        column2Percent.innerText = percent2.toString(***REMOVED***;
-        advantageDiff.innerText = advantage.toString(***REMOVED***;
+
+
+        column1Group1Percent.innerText = percentColumn1Group1.toString(***REMOVED***;
+        column1Group2Percent.innerText = percentColumn1Group2.toString(***REMOVED***;
+        column1Group3Percent.innerText = percentColumn1Group3.toString(***REMOVED***;
+
+        column2Group1Percent.innerText = percentColumn2Group1.toString(***REMOVED***;
+        column2Group2Percent.innerText = percentColumn2Group2.toString(***REMOVED***;
+        column2Group3Percent.innerText = percentColumn2Group3.toString(***REMOVED***;
+
+
+
+        advantageDiffGroup1.innerText = group1Advantage.toString(***REMOVED***;
+        advantageDiffGroup2.innerText = group2Advantage.toString(***REMOVED***;
+        advantageDiffGroup3.innerText = group3Advantage.toString(***REMOVED***;
+
+
         advantageName.innerText = direction;
+        readOnly.value = advantageName.innerText;
+
+        /*
         testDiagnosis.innerText = interpretation;
         readOnly.value = advantageName.innerText;
         readOnlyDiag.value = testDiagnosis.innerText;
-
+*/
         ***REMOVED******REMOVED***
       ***REMOVED******REMOVED***
-     // gets the elements from hidden field submit above and populates them from the results in the script 
+    // gets the elements from hidden field submit above and populates them from the results in the script 
     function populateHiddenFields(***REMOVED*** {
       document.getElementById("left_score"***REMOVED***.value = column1Percent.innerText;
       document.getElementById("right_score"***REMOVED***.value = column2Percent.innerText;
@@ -389,9 +288,6 @@
       document.getElementById("ear_advantage_score"***REMOVED***.value = advantageDiff.innerText;
     ***REMOVED***
 
-    </script>
 
-    </div>
-  </div>
-</div>
-</body>
+***REMOVED******REMOVED***;
+  
