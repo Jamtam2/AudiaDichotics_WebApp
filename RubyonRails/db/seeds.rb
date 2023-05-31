@@ -10,15 +10,30 @@ load(Rails.root.join('db', 'seeds', 'clients_seed.rb'***REMOVED******REMOVED***
 # db/seeds.rb
 
 # Generate Users
-5.times do
-    User.create!(
-      email: Faker::Internet.unique.email,
-      password: 'password123',
-      password_confirmation: 'password123',
-      fname: Faker::Name.first_name,
-      lname: Faker::Name.last_name
-    ***REMOVED***
-  end
+# Create 2 local moderators
+2.times do
+  User.create!(
+    email: Faker::Internet.unique.email,
+    password: 'password123',
+    password_confirmation: 'password123',
+    fname: Faker::Name.first_name,
+    lname: Faker::Name.last_name,
+    role: :local_moderator
+  ***REMOVED***
+end
+
+# Create 9 regular users
+9.times do
+  User.create!(
+    email: Faker::Internet.unique.email,
+    password: 'password123',
+    password_confirmation: 'password123',
+    fname: Faker::Name.first_name,
+    lname: Faker::Name.last_name,
+    role: :regular_user
+  ***REMOVED***
+end
+
   
   users = User.all
     
@@ -40,3 +55,6 @@ load(Rails.root.join('db', 'seeds', 'clients_seed.rb'***REMOVED******REMOVED***
     ***REMOVED***
   end
   
+User.create(email: "globalmod@gmail.com", password: "password", fname: "Global", lname:"Mod", role: :global_moderator***REMOVED***
+User.create(email: "localmod@gmail.com", password: "password",fname: "Local", lname:"Mod", role: :local_moderator***REMOVED***
+User.create(email: "user@gmail.com", password: "password",fname: "Regular", lname:"User", role: :regular_user***REMOVED***
