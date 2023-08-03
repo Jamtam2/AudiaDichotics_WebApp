@@ -31,7 +31,7 @@ class User < ApplicationRecord
   belongs_to :tenant
   enum role: { regular_user: 0, local_moderator: 1, global_moderator: 2 ***REMOVED***
   attr_accessor :registration_key
-  validate :validate_registration_key, on: :create
+  before_validation :validate_registration_key, on: :create
 
 
   has_many :tests
@@ -40,6 +40,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+
+
+  def global_moderator?
+    role == 'global_moderator'
+  end
+  
   private
   def validate_registration_key
     key = Key.find_by(code: registration_key***REMOVED***
@@ -48,16 +54,16 @@ class User < ApplicationRecord
     if key.present? && !key.used
       key.update(used: true***REMOVED***
       puts "Valid registration key found: #{key.inspect***REMOVED***"
-
-      self.tenant = Tenant.find_or_create_by(subdomain: generate_subdomain***REMOVED***
-
-      puts "New tenant created: #{self.tenant.inspect***REMOVED***"
+      return 
     else
       errors.add(:registration_key, "is invalid."***REMOVED***
       puts "Invalid registration key: #{registration_key***REMOVED***"
       return false
     end
   end
+
+
+
   
   
   
