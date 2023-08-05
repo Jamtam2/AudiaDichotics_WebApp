@@ -42,23 +42,34 @@ class ClientsController < ApplicationController
     end
   
     def index
+      puts "Clients: #{Client.all.inspect***REMOVED***"
+      if current_user.global_moderator?
+        # For a global moderator, all clients are accessible
+        client_scope = Client.unscoped.all
+      else
+        # For regular users, only clients of the same tenant are accessible
+        client_scope = current_user.clients
+      end
+    
       if params[:query]
         split_query = params[:query].split(' '***REMOVED***
         if split_query.length > 1
           # Case when both first name and last name are typed
-          @clients = Client.where('lower(first_name***REMOVED*** LIKE :first AND lower(last_name***REMOVED*** LIKE :last OR phone1 LIKE :query', 
-                                  first: "#{split_query.first.downcase***REMOVED***%", 
-                                  last: "#{split_query.last.downcase***REMOVED***%", 
-                                  query: "%#{params[:query]***REMOVED***%"***REMOVED***
+          @clients = client_scope.where('lower(first_name***REMOVED*** LIKE :first AND lower(last_name***REMOVED*** LIKE :last OR phone1 LIKE :query', 
+                                      first: "#{split_query.first.downcase***REMOVED***%", 
+                                      last: "#{split_query.last.downcase***REMOVED***%", 
+                                      query: "%#{params[:query]***REMOVED***%"***REMOVED***
         else
           # Case when either first name, last name, email, or phone number is typed
-          @clients = Client.where('lower(first_name***REMOVED*** LIKE :query OR lower(last_name***REMOVED*** LIKE :query OR lower(email***REMOVED*** LIKE :query OR phone1 LIKE :query', 
-                                  query: "%#{params[:query].downcase***REMOVED***%"***REMOVED***
+          @clients = client_scope.where('lower(first_name***REMOVED*** LIKE :query OR lower(last_name***REMOVED*** LIKE :query OR lower(email***REMOVED*** LIKE :query OR phone1 LIKE :query', 
+                                      query: "%#{params[:query].downcase***REMOVED***%"***REMOVED***
         end
       else
-        @clients = Client.all
+        @clients = client_scope
       end
     end
+    
+    
       
     def show
       @client = Client.find(params[:id]***REMOVED***
@@ -85,8 +96,3 @@ class ClientsController < ApplicationController
         ]
   ***REMOVED***
       end
-      
-      
-  
-
-  

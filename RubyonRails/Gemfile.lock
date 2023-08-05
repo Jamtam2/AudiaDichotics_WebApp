@@ -60,6 +60,9 @@ GEM
       minitest (>= 5.1***REMOVED***
       tzinfo (~> 2.0***REMOVED***
       zeitwerk (~> 2.3***REMOVED***
+    acts_as_tenant (0.6.1***REMOVED***
+      rails (>= 5.2***REMOVED***
+      request_store (>= 1.0.5***REMOVED***
     addressable (2.8.4***REMOVED***
       public_suffix (>= 2.0.2, < 6.0***REMOVED***
     annotate (3.2.0***REMOVED***
@@ -199,6 +202,8 @@ GEM
     rb-inotify (0.10.1***REMOVED***
       ffi (~> 1.0***REMOVED***
     regexp_parser (2.8.0***REMOVED***
+    request_store (1.5.1***REMOVED***
+      rack (>= 1.4***REMOVED***
     responders (3.1.0***REMOVED***
       actionpack (>= 5.2***REMOVED***
       railties (>= 5.2***REMOVED***
@@ -265,6 +270,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_tenant
   annotate
   bootsnap (>= 1.4.4***REMOVED***
   bootstrap_form (~> 4.0***REMOVED***
