@@ -9,6 +9,17 @@
 #  phone      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  tenant_id  :bigint
+#
+# Indexes
+#
+#  index_clinicians_on_tenant_id  (tenant_id***REMOVED***
+#
+# Foreign Keys
+#
+#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
 #
 class Clinician < ApplicationRecord
+    acts_as_tenant(:tenant***REMOVED***
+
 end

@@ -15,16 +15,19 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  client_id           :bigint           not null
+#  tenant_id           :bigint
 #  user_id             :bigint
 #
 # Indexes
 #
 #  index_tests_on_client_id  (client_id***REMOVED***
+#  index_tests_on_tenant_id  (tenant_id***REMOVED***
 #  index_tests_on_user_id    (user_id***REMOVED***
 #
 # Foreign Keys
 #
 #  fk_rails_...  (client_id => clients.id***REMOVED***
+#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
 #  fk_rails_...  (user_id => users.id***REMOVED***
 #
 
