@@ -22,6 +22,8 @@ class ClientsController < ApplicationController
     
     def edit
         @client = Client.find(params[:id]***REMOVED***
+        id = params[:test_id]
+        @test = @client.tests.find_by(params[id: id]***REMOVED***
       end
 
 
