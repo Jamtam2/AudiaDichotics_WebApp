@@ -14,6 +14,7 @@
 #  mgmt_ref      :string
 #  phone1        :string
 #  phone2        :string
+#  race          :string
 #  state         :string
 #  zip           :string
 #  created_at    :datetime         not null
@@ -49,6 +50,17 @@ class Client < ApplicationRecord
       age = now.year - dob.year
       age -= 1 if now < dob + age.years # for days before birthday
       age
+    end
+
+
+    def anonymized
+      self.attributes.except('address1', 'email', 'phone1', 'phone2'***REMOVED***
+        .merge({
+          'address1' => Digest::SHA256.hexdigest(self.address1***REMOVED***,
+          'email' => Digest::SHA256.hexdigest(self.email***REMOVED***,
+          'phone1' => Digest::SHA256.hexdigest(self.phone1***REMOVED***,
+          'phone2' => Digest::SHA256.hexdigest(self.phone2***REMOVED***
+        ***REMOVED******REMOVED***
     end
 end
   
