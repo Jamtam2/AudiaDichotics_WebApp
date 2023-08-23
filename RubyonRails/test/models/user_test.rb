@@ -13,11 +13,17 @@
 #  role                   :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  tenant_id              :bigint
 #
 # Indexes
 #
 #  index_users_on_email                 (email***REMOVED*** UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token***REMOVED*** UNIQUE
+#  index_users_on_tenant_id             (tenant_id***REMOVED***
+#
+# Foreign Keys
+#
+#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
 #
 require "test_helper"
 
