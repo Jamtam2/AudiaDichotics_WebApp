@@ -18,14 +18,17 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  client_id           :bigint           not null
+#  tenant_id           :bigint
 #
 # Indexes
 #
 #  index_rddt_tests_on_client_id  (client_id***REMOVED***
+#  index_rddt_tests_on_tenant_id  (tenant_id***REMOVED***
 #
 # Foreign Keys
 #
 #  fk_rails_...  (client_id => clients.id***REMOVED***
+#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
 #
 class RddtTest < ApplicationRecord
     acts_as_tenant(:tenant***REMOVED***
