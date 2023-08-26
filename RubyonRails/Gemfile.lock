@@ -200,6 +200,10 @@ GEM
       rake (>= 12.2***REMOVED***
       thor (~> 1.0***REMOVED***
     rake (13.0.6***REMOVED***
+    ransack (4.0.0***REMOVED***
+      activerecord (>= 6.1.5***REMOVED***
+      activesupport (>= 6.1.5***REMOVED***
+      i18n
     rb-fsevent (0.11.2***REMOVED***
     rb-inotify (0.10.1***REMOVED***
       ffi (~> 1.0***REMOVED***
@@ -290,6 +294,7 @@ DEPENDENCIES
   popper_js (~> 2.11.5***REMOVED***
   puma (~> 5.0***REMOVED***
   rails (~> 6.1.0***REMOVED***
+  ransack
   sass-rails (>= 6***REMOVED***
   selenium-webdriver
   spring
@@ -303,4 +308,4 @@ RUBY VERSION
    ruby 3.1.1p18
 
 BUNDLED WITH
-   2.3.7
+   2.4.18
