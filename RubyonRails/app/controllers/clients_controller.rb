@@ -42,26 +42,44 @@ class ClientsController < ApplicationController
             redirect_to edit_client_path(@client***REMOVED***, notice: "client was not updated."
         end
     end
-
-    
     def destroy
       @client = Client.find(params[:id]***REMOVED***
       @client.destroy
   
       redirect_to clients_url, notice: "client was successfully deleted."
     end
-
-
+  
     def index
-      # Determine the scope based on the user role
+      puts "Clients: #{Client.all.inspect***REMOVED***"
       if current_user.global_moderator?
         # For a global moderator, all clients are accessible
-        client_scope = Client.unscoped
+        client_scope = Client.unscoped.all
       else
         # For regular users, only clients of the same tenant are accessible
         client_scope = current_user.clients.where(tenant_id: current_user.tenant_id***REMOVED***
       end
-
+    
+      if params[:query]
+        split_query = params[:query].split(' '***REMOVED***
+        if split_query.length > 1
+          # Case when both first name and last name are typed
+          @clients = client_scope.where('lower(first_name***REMOVED*** LIKE :first AND lower(last_name***REMOVED*** LIKE :last OR phone1 LIKE :query', 
+                                      first: "#{split_query.first.downcase***REMOVED***%", 
+                                      last: "#{split_query.last.downcase***REMOVED***%", 
+                                      query: "%#{params[:query]***REMOVED***%"***REMOVED***
+          
+        else
+          # Case when either first name, last name, email, or phone number is typed
+          @clients = client_scope.where('lower(first_name***REMOVED*** LIKE :query OR lower(last_name***REMOVED*** LIKE :query OR lower(email***REMOVED*** LIKE :query OR phone1 LIKE :query', 
+                                      query: "%#{params[:query].downcase***REMOVED***%"***REMOVED***
+        end
+      else
+        @clients = client_scope
+      end
+      respond_to do |format|
+        format.html
+        format.csv { send_data generate_csv(@clients***REMOVED***, filename: "client_data-#{Date.today***REMOVED***.csv" ***REMOVED***
+      end
       # Set the selected sorting option based on params
       selected_sorting_name = params[:q]&.dig(:sort_by_name***REMOVED***
       selected_sort_by_client = params[:q]&.dig(:sort_by_client***REMOVED***
@@ -76,36 +94,8 @@ class ClientsController < ApplicationController
         @q.sorts = selected_sort_by_client
         @q.sorts = selected_sort_by_date_birth
       end
-
-      # Code below is used to allow user to filter clients on age, broken for now. FIX ME
-      #   # Filter by age range
-    # age_gteq = params[:q]&.dig(:age_gteq***REMOVED***
-    # age_eq = params[:q]&.dig(:age_eq***REMOVED***
-    # age_lteq = params[:q]&.dig(:age_lteq***REMOVED***
-
-    # if age_gteq.present? && age_lteq.present?
-    #   @q.result = @q.result.where("age_in_years >= ? AND age_in_years <= ?", age_gteq, age_lteq***REMOVED***
-    # elsif age_gteq.present?
-    #   @q.result = @q.result.where("age_in_years >= ?", age_gteq***REMOVED***
-    # elsif age_eq.present?
-    #   @q.result = @q.result.where(age_in_years: age_eq***REMOVED***
-    # elsif age_lteq.present?
-    #   @q.result = @q.result.where("age_in_years <= ?", age_lteq***REMOVED***
-    # end
-
-      # Execute the search query, ensuring distinct results
-      @clients = @q.result(distinct: true***REMOVED***
-    
-      respond_to do |format|
-        format.html
-        format.csv { send_data generate_csv(@clients***REMOVED***, filename: "client_data-#{Date.today***REMOVED***.csv" ***REMOVED***
-      end
-        # Regular users can only access clients in their tenant
-        client_scope = Client.where(tenant_id: current_user.tenant_id***REMOVED***
-      end
-    
-    
     end
+    
     
       
     def show
@@ -114,9 +104,14 @@ class ClientsController < ApplicationController
       @dnw_tests = @client.dnw_tests
       @rddt_tests = @client.rddt_tests
       end
-  
-  
-    def global_moderator_index
+    def search
+      if params[:search].blank?
+        @clients = Client.all
+      else
+        @clients = Client.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]***REMOVED***%", "%#{params[:search]***REMOVED***%"***REMOVED***
+      end
+    end
+  def global_moderator_index
     if current_user.global_moderator?
       @clients = Client.includes(:dwt_tests***REMOVED***.all
       @clients = Client.includes(:dnw_tests***REMOVED***.all
@@ -132,6 +127,8 @@ class ClientsController < ApplicationController
       redirect_to root_path, alert: 'You do not have access to this page.'
     end
   end
+end
+
 
 
 def generate_csv(clients***REMOVED***
@@ -164,6 +161,8 @@ def generate_csv(clients***REMOVED***
 end
 
 
+
+
     private
     
     def client_params
@@ -173,4 +172,3 @@ end
         ]
   ***REMOVED***
       end
-  

@@ -29,6 +29,12 @@ class DwtTestsController < ApplicationController
         render :index
     end
 
+    def show
+      @client = Client.find(params[:client_id]***REMOVED***
+      @dwt_test = @client.dwt_tests.find(params[:id]***REMOVED***
+
+    end
+
 
     def edit
         @client = Client.find(params[:client_id]***REMOVED***
