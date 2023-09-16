@@ -29,6 +29,12 @@ class DwtTestsController < ApplicationController
         render :index
     end
 
+    def show
+      @client = Client.find(params[:client_id]***REMOVED***
+      @dwt_test = @client.dwt_tests.find(params[:id]***REMOVED***
+
+    end
+
 
     def edit
         @client = Client.find(params[:client_id]***REMOVED***
@@ -73,7 +79,7 @@ class DwtTestsController < ApplicationController
       private
     
       def dwt_test_params
-        params.require(:dwt_test***REMOVED***.permit(:label, :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :scan, :authenticity_token***REMOVED***
+        params.require(:dwt_test***REMOVED***.permit(:label, :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :interpretation, :scan, :authenticity_token***REMOVED***
       end
         
     
