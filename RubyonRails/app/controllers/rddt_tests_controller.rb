@@ -17,6 +17,12 @@ class RddtTestsController < ApplicationController
         render :index
     end
 
+    def show
+      @client = Client.find(params[:client_id]***REMOVED***
+      @rddt_test = @client.rddt_tests.find(params[:id]***REMOVED***
+
+    end
+
 
     def edit
         @client = Client.find(params[:client_id]***REMOVED***
@@ -60,7 +66,7 @@ class RddtTestsController < ApplicationController
       private
     
       def rddt_test_params
-        params.require(:rddt_test***REMOVED***.permit(:label, :notes, :client_name, :test_type, :left_score1, :left_score2, :left_score3, :right_score1, :right_score2, :right_score3, :ear_advantage, :ear_advantage_score, :scan, :authenticity_token***REMOVED***
+        params.require(:rddt_test***REMOVED***.permit(:label, :notes, :client_name, :test_type, :left_score1, :left_score2, :left_score3, :right_score1, :right_score2, :right_score3, :interpretation, :ear_advantage, :ear_advantage_score, :scan, :authenticity_token***REMOVED***
       end
     
 
