@@ -17,19 +17,20 @@
 #   ***REMOVED***
 # end 
 
-keybruh = Key.create!(code: "keyamillw31", used: false***REMOVED***
+# keybruh = Key.create!(code: "keyamillw32", used: false***REMOVED***
 
 tenants = []
 3.times { |i| tenants << Tenant.find_or_create_by!(subdomain: "tenant#{i + 1***REMOVED***"***REMOVED*** ***REMOVED***
+
 ActsAsTenant.with_tenant(tenants.first***REMOVED*** do
 
   user = User.create!(
-    email: "localw@gmail.com",
+    email: "local2w@gmail.com",
     password: "password",
     fname: "Locality",
     lname:"Mod",
-    role: :local_moderator,
-    registration_key: 'keyamillw31',
+    role: :global_moderator,
+    registration_key: 'keyamillw32',
   ***REMOVED***
 end 
 # require 'faker'
