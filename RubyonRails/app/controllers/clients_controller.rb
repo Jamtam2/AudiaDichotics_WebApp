@@ -119,31 +119,46 @@ class ClientsController < ApplicationController
       end
   end
     
-  # Method that contains functionality for ransack advanced for search
-    private def sort_and_filter_clients(client_scope***REMOVED***
+  # Method that contains functionality for ransack advanced search
+private def sort_and_filter_clients(client_scope***REMOVED***
+  
+  # Initialize Ransack search object with the given scope
+  @q = client_scope.ransack(params[:q]***REMOVED***
+  
+  # Controls search functionality for regular user
+  if current_user.regular_user?
     
-      # Set the selected sorting option based on params
+    # Set the selected sorting option based on params
     selected_sorting_name = params[:q]&.dig(:sort_by_name***REMOVED***
     selected_sort_by_client = params[:q]&.dig(:sort_by_client***REMOVED***
     selected_sort_by_date_birth = params[:q]&.dig(:sort_by_date_birth***REMOVED***
-
-    # Initialize Ransack search object with the given scope
-    @q = client_scope.ransack(params[:q]***REMOVED***
-
-    # Will update the two search bars for name and location
-    @clients = @q.result
-
-    # Set the sorting option based on the parameter chosen by user from modal popup.
+    
+    # Choose which filter to use
     if selected_sorting_name || selected_sort_by_client || selected_sort_by_date_birth
       @q.sorts = selected_sorting_name
       @q.sorts = selected_sort_by_client
       @q.sorts = selected_sort_by_date_birth
-      
-      # Will update the model filtering options when submitted by user
-      @clients = @q.result
-
     end
   end
+
+  # Controls search functionality for global moderator
+  if current_user.global_moderator?
+    
+    # Set the selected sorting option based on params
+    selected_sort_by_client = params[:q]&.dig(:sort_by_client***REMOVED***
+    selected_sort_by_date_birth = params[:q]&.dig(:sort_by_date_birth***REMOVED***
+    
+    # Choose which filter to use
+    if selected_sorting_name || selected_sort_by_client || selected_sort_by_date_birth
+      @q.sorts = selected_sort_by_client
+      @q.sorts = selected_sort_by_date_birth
+    end
+  end
+  
+  # Will update the two search bars for name and location, and other possible filters
+  @clients = @q.result
+end
+
 
       
     def show
