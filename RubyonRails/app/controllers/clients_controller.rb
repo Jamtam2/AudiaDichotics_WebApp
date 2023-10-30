@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
- before_action:authenticate_user!, except: [:index]  
+ before_action :authenticate_user!, except: [:index]
  require 'csv'
   
   def new
@@ -62,33 +62,21 @@ class ClientsController < ApplicationController
 
       # Initialize instance variable to be used in clients > index.html.erb
       @clients = client_scope
-      
+
+      # Instance variable to be used to use scope from HashedData model for filtering
+      hashed_datum_scope = HashedDatum.unscoped.all
+      @active_hashed_data = hashed_datum_scope
+
+
       # Calling method that enables Ransack functionality
-      sort_and_filter_clients(client_scope***REMOVED***
-    
+      # sort_and_filter_clients(client_scope***REMOVED***
+
+      process_hashed_search_parameters
+
       respond_to do |format|
         format.html
         format.csv { send_data generate_csv(@clients***REMOVED***, filename: "client_data-#{Date.today***REMOVED***.csv" ***REMOVED***
       end
-
-      # Old code below was used for old search filtering
-      # if params[:query]
-      #   split_query = params[:query].split(' '***REMOVED***
-      #   if split_query.length > 1
-      #     # Case when both first name and last name are typed
-      #     @clients = client_scope.where('lower(first_name***REMOVED*** LIKE :first AND lower(last_name***REMOVED*** LIKE :last OR phone1 LIKE :query', 
-      #                                 first: "#{split_query.first.downcase***REMOVED***%", 
-      #                                 last: "#{split_query.last.downcase***REMOVED***%", 
-      #                                 query: "%#{params[:query]***REMOVED***%"***REMOVED***
-          
-      #   else
-      #     # Case when either first name, last name, email, or phone number is typed
-      #     @clients = client_scope.where('lower(first_name***REMOVED*** LIKE :query OR lower(last_name***REMOVED*** LIKE :query OR lower(email***REMOVED*** LIKE :query OR phone1 LIKE :query', 
-      #                                 query: "%#{params[:query].downcase***REMOVED***%"***REMOVED***
-      #   end
-      # else
-      #   @clients = client_scope
-      # end
 
     end
 
@@ -110,16 +98,19 @@ class ClientsController < ApplicationController
         @clients = client_scope
 
         # Calling method that enables Ransack functionality
-        sort_and_filter_clients(client_scope***REMOVED***
-  
+        # sort_and_filter_clients(client_scope***REMOVED***
+
+      # process_hashed_search_parameters(client_scope***REMOVED***
+
         respond_to do |format|
           format.html
           format.csv { send_data generate_csv(@clients***REMOVED***, filename: "global_moderator_data-#{Date.today***REMOVED***.csv" ***REMOVED***
         end
       end
   end
+
     
-  # Method that contains functionality for ransack advanced search
+# Method that contains functionality for ransack advanced search
 private def sort_and_filter_clients(client_scope***REMOVED***
   
   # Initialize Ransack search object with the given scope
@@ -132,7 +123,7 @@ private def sort_and_filter_clients(client_scope***REMOVED***
     sorting_options_regular = {
       age: params[:q]&.dig(:sort_by_age***REMOVED***,
       gender: params[:q]&.dig(:gender_eq***REMOVED***,
-      name: params[:q]&.dig(:sort_by_name***REMOVED***,
+      name: params[:q]&.dig(:hashed_data_source_attribute***REMOVED***,
       client: params[:q]&.dig(:sort_by_client***REMOVED***,
       date_birth: params[:q]&.dig(:sort_by_date_birth***REMOVED***,
       country: params[:q]&.dig(:country_eq***REMOVED***,
@@ -172,6 +163,36 @@ private def sort_and_filter_clients(client_scope***REMOVED***
   @clients = @q.result
 end
 
+
+
+def process_hashed_search_parameters(***REMOVED***
+
+  # Check if there's a search term provided by the user
+  if params[:q]&.key?(:search_term***REMOVED***
+    search_term_string = params[:q][:search_term].to_s
+    # Hash the entire search term
+    hashed_search_term = Digest::SHA256.hexdigest(search_term_string***REMOVED***
+
+    # Replace the search term with the hashed search term, specifying the associated model's attribute
+    params[:q][:"hashed_data_hashed_first_name_eq"] = hashed_search_term # please adjust the field name based on your actual field for the hashed data
+
+    # Print the original and hashed search term to the server logs
+    Rails.logger.debug "Original Search Term: #{params[:q][:search_term]***REMOVED***"
+    Rails.logger.debug "Hashed Search Term: #{hashed_search_term***REMOVED***"
+
+    @hashed_search_term = hashed_search_term
+    # Delete the original search term as we're now searching by the hashed value
+    # params[:q].delete(:search_term***REMOVED***
+
+    # Perform the search on the HashedDatum model, and include the associated hashable records in the results
+    @q = HashedDatum.includes(:hashable***REMOVED***.ransack(params[:q], sort: params[:s]***REMOVED***
+    @clients = @q.result.includes(:hashable***REMOVED***.map(&:hashable***REMOVED*** # This retrieves the associated hashable records
+  else
+    # If no search term was provided, you can default to a standard search on the client model
+    @q = Client.ransack(params[:q], sort: params[:s]***REMOVED***
+    @clients = @q.result
+  end
+end
 
       
     def show
