@@ -95,7 +95,7 @@ class Client < ApplicationRecord
     attribute_map.each do |client_attr, hashed_attr|
       value = self.send(client_attr***REMOVED***
 
-      # Convert value to string if it's not already
+      # Convert value to string if its not already
       stringified_value = value.is_a?(String***REMOVED*** ? value : value.to_s
 
       # Hash the string
