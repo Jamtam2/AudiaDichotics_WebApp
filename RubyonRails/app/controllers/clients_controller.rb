@@ -169,77 +169,68 @@ def process_hashed_search_parameters
   @q = Client.ransack(params[:q], sort: params[:s]***REMOVED***
   @clients = @q.result
 
-  if params[:all_data_search_term].present?
-    hashed_search_term = Digest::SHA256.hexdigest(params[:all_data_search_term].to_s***REMOVED***
-    hashed_records = HashedDatum.where(hashed_first_name: hashed_search_term***REMOVED***
-                                .or(HashedDatum.where(hashed_last_name: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_address: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_age: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_city: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_country: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_date_of_birth: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_email: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_gender: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_phone1: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_phone2: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_state: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_zip: hashed_search_term***REMOVED******REMOVED***
-                                .or(HashedDatum.where(hashed_race: hashed_search_term***REMOVED******REMOVED***
+  # Store the search terms with the following model attributes with the hashed data
+  dict_of_search_terms = {
+    :age_search_term => [:hashed_age, Digest::SHA256.hexdigest(params[:age_search_term].to_s***REMOVED***],
+    :gender_search_term => [:hashed_gender, Digest::SHA256.hexdigest(params[:gender_search_term].to_s***REMOVED***],
+    :name_search_term => [:hashed_first_name, Digest::SHA256.hexdigest(params[:name_search_term].to_s***REMOVED***],
+    :date_of_birth_search_term => [:hashed_date_of_birth, Digest::SHA256.hexdigest(params[:date_of_birth_search_term].to_s***REMOVED***],
+    :country_search_term => [:hashed_country, Digest::SHA256.hexdigest(params[:country_search_term].to_s***REMOVED***],
+    :state_search_term => [:hashed_state, Digest::SHA256.hexdigest(params[:state_search_term].to_s***REMOVED***]
+  ***REMOVED***
 
-    @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
-  end
-  if params[:country_search_term].present?
-    hashed_search_term = Digest::SHA256.hexdigest(params[:country_search_term].to_s***REMOVED***
-    hashed_records = HashedDatum.where(hashed_country: hashed_search_term***REMOVED***
-    @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
-  end
-  if params[:age_search_term].present?
-    hashed_search_term = Digest::SHA256.hexdigest(params[:age_search_term].to_s***REMOVED***
-    hashed_records = HashedDatum.where(hashed_age: hashed_search_term***REMOVED***
-    @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
-  end
-  # if params[:gender_search_term].present?
-  #   hashed_search_term = Digest::SHA256.hexdigest(params[:gender_search_term].to_s***REMOVED***
-  #   hashed_records = HashedDatum.where(hashed_gender: hashed_search_term***REMOVED***
-  #   @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
-  # end
-  if params[:name_search_term].present?
-    hashed_search_term = Digest::SHA256.hexdigest(params[:name_search_term].to_s***REMOVED***
-    hashed_records = HashedDatum.where(hashed_first_name: hashed_search_term***REMOVED***
-                       .or(HashedDatum.where(hashed_last_name: hashed_search_term***REMOVED******REMOVED***
-    @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
-  end
-  # if params[:date_of_birth_search_term].present?
-  #   hashed_search_term = Digest::SHA256.hexdigest(params[:date_of_birth_search_term].to_s***REMOVED***
-  #   hashed_records = HashedDatum.where(hashed_date_of_birth: hashed_search_term***REMOVED***
-  #   @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
-  # end
-  if params[:state_search_term].present?
-    hashed_search_term = Digest::SHA256.hexdigest(params[:state_search_term].to_s***REMOVED***
-    hashed_records = HashedDatum.where(hashed_state: hashed_search_term***REMOVED***
-    @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
-  end
+  non_nil_search_terms = {***REMOVED***
 
-  if params[:date_of_birth_search_term].present? && params[:gender_search_term].present?
-    hashed_dob_term = Digest::SHA256.hexdigest(params[:date_of_birth_search_term].to_s***REMOVED***
-    hashed_gender_term = Digest::SHA256.hexdigest(params[:gender_search_term].to_s***REMOVED***
-
-    hashed_dob_records = HashedDatum.where(hashed_date_of_birth: hashed_dob_term***REMOVED***
-    hashed_gender_records = HashedDatum.where(hashed_gender: hashed_gender_term***REMOVED***
-
-    if hashed_dob_records.exists? && hashed_gender_records.exists?
-      @clients = @clients.where(id: hashed_dob_records.pluck(:hashable_id***REMOVED******REMOVED***
-                         .where(id: hashed_gender_records.pluck(:hashable_id***REMOVED******REMOVED***
+  # loop over the dict of search terms and filter results if the user is using search term
+  dict_of_search_terms.each do |search_term, (hashed_attribute, hashed_value***REMOVED***|
+    if params[search_term].present?
+      hashed_records = HashedDatum.where(hashed_attribute => hashed_value***REMOVED***
+      @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
+      non_nil_search_terms[search_term] = hashed_value
     end
-  elsif params[:date_of_birth_search_term].present?
-    hashed_dob_term = Digest::SHA256.hexdigest(params[:date_of_birth_search_term].to_s***REMOVED***
-    hashed_dob_records = HashedDatum.where(hashed_date_of_birth: hashed_dob_term***REMOVED***
-    @clients = @clients.where(id: hashed_dob_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_dob_records.exists?
-  elsif params[:gender_search_term].present?
-    hashed_gender_term = Digest::SHA256.hexdigest(params[:gender_search_term].to_s***REMOVED***
-    hashed_gender_records = HashedDatum.where(hashed_gender: hashed_gender_term***REMOVED***
-    @clients = @clients.where(id: hashed_gender_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_gender_records.exists?
   end
+  Rails.logger.info "Here it is #{non_nil_search_terms***REMOVED***"
+
+  # if params[:all_data_search_term].present?
+  #   hashed_search_term = Digest::SHA256.hexdigest(params[:all_data_search_term].to_s***REMOVED***
+  #   hashed_records = HashedDatum.where(hashed_first_name: hashed_search_term***REMOVED***
+  #                               .or(HashedDatum.where(hashed_last_name: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_address: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_age: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_city: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_country: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_date_of_birth: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_email: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_gender: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_phone1: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_phone2: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_state: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_zip: hashed_search_term***REMOVED******REMOVED***
+  #                               .or(HashedDatum.where(hashed_race: hashed_search_term***REMOVED******REMOVED***
+  #
+  #   @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
+  # end
+
+  # if params[:date_of_birth_search_term].present? && params[:gender_search_term].present?
+  #   hashed_dob_term = Digest::SHA256.hexdigest(params[:date_of_birth_search_term].to_s***REMOVED***
+  #   hashed_gender_term = Digest::SHA256.hexdigest(params[:gender_search_term].to_s***REMOVED***
+  #
+  #   hashed_dob_records = HashedDatum.where(hashed_date_of_birth: hashed_dob_term***REMOVED***
+  #   hashed_gender_records = HashedDatum.where(hashed_gender: hashed_gender_term***REMOVED***
+  #
+  #   if hashed_dob_records.exists? && hashed_gender_records.exists?
+  #     @clients = @clients.where(id: hashed_dob_records.pluck(:hashable_id***REMOVED******REMOVED***
+  #                        .where(id: hashed_gender_records.pluck(:hashable_id***REMOVED******REMOVED***
+  #   end
+  # elsif params[:date_of_birth_search_term].present?
+  #   hashed_dob_term = Digest::SHA256.hexdigest(params[:date_of_birth_search_term].to_s***REMOVED***
+  #   hashed_dob_records = HashedDatum.where(hashed_date_of_birth: hashed_dob_term***REMOVED***
+  #   @clients = @clients.where(id: hashed_dob_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_dob_records.exists?
+  # elsif params[:gender_search_term].present?
+  #   hashed_gender_term = Digest::SHA256.hexdigest(params[:gender_search_term].to_s***REMOVED***
+  #   hashed_gender_records = HashedDatum.where(hashed_gender: hashed_gender_term***REMOVED***
+  #   @clients = @clients.where(id: hashed_gender_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_gender_records.exists?
+  # end
 
   # if params[:address_search].present?
   #   address_search_term = Digest::SHA256.hexdigest(params[:address_search].to_s***REMOVED***
