@@ -69,7 +69,7 @@ class User < ApplicationRecord
 
   private
   def validate_registration_key
-    key = Key.find_by(code: registration_key***REMOVED***
+    key = Key.find_by(activation_code: registration_key***REMOVED***
     puts "key checker: #{key.inspect***REMOVED***"
   
     if key.present? && !key.used

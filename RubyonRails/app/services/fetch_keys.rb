@@ -22,15 +22,16 @@ class FetchKeys
   private
 
   def self.create_key(data***REMOVED***
-    Key.find_or_create_by(license_id: data['licenseID']***REMOVED*** do |key|
-      key.activation_code = data['activationCode']
-      key.license_type = data['licenseType']
-      key.expiration = data['expiration']
-      key.product_id = data['productID']
-      key.customer_id = data['customerID']
-      key.subscription_id = data['subscriptiontID']
-      puts "this license expires: #{data['expiration']***REMOVED***"
-
+    key = Key.find_or_initialize_by(license_id: data['licenseID']***REMOVED***
+    key.assign_attributes(
+      activation_code: data['activationCode'],
+      license_type: data['licenseType'],
+      expiration: data['expiration'],
+      product_id: data['productID'],
+      customer_id: data['customerID'],
+      subscription_id: data['subscriptiontID']
+    ***REMOVED***
+    key.save if key.new_record? || key.changed?
+    puts "This license expires: #{data['expiration']***REMOVED***"
     end
   end
-end
