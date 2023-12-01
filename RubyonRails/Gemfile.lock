@@ -94,6 +94,7 @@ GEM
       json (>= 1.7***REMOVED***
       mime-types (>= 1.16***REMOVED***
       mimemagic (>= 0.3.0***REMOVED***
+    chronic (0.10.2***REMOVED***
     concurrent-ruby (1.2.2***REMOVED***
     crass (1.0.6***REMOVED***
     date (3.3.3***REMOVED***
@@ -275,6 +276,8 @@ GEM
     websocket-driver (0.7.6***REMOVED***
       websocket-extensions (>= 0.1.0***REMOVED***
     websocket-extensions (0.1.5***REMOVED***
+    whenever (1.0.0***REMOVED***
+      chronic (>= 0.6.3***REMOVED***
     xpath (3.2.0***REMOVED***
       nokogiri (~> 1.8***REMOVED***
     zeitwerk (2.6.11***REMOVED***
@@ -283,6 +286,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   acts_as_tenant
   annotate
   attr_encrypted
@@ -312,6 +316,7 @@ DEPENDENCIES
   web-console (>= 4.1.0***REMOVED***
   webdrivers
   webpacker (~> 5.0***REMOVED***
+  whenever
 
 RUBY VERSION
    ruby 3.1.1p18
