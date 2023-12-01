@@ -8,7 +8,7 @@ class FetchKeys
   base_uri 'api.dichoticsinc.com/api'
 
   def self.call
-    response = get("/license", query: { apiKey: 'ears_lobo_audia_dichotic_capstone_winter23' ***REMOVED******REMOVED***
+    response = get("/license", query: { apiKey: '[CHANGE API KEY WHEN RUNNING]' ***REMOVED******REMOVED***
     if response.success?
       response.parsed_response.each do |data|
         create_key(data***REMOVED*** if data['expiration'] && Time.parse(data['expiration']***REMOVED*** > Time.now
