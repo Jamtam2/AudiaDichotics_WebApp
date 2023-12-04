@@ -90,5 +90,10 @@ class User < ApplicationRecord
     # Be aware this might not be unique. You will need to add validations or create more sophisticated logic.
     self.email.split('@'***REMOVED***.first
   end
+
+  public
+  def license_key
+    Key.find_by(email: email***REMOVED***
+  end
 end
 
