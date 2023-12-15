@@ -95,6 +95,7 @@ GEM
       mime-types (>= 1.16***REMOVED***
       mimemagic (>= 0.3.0***REMOVED***
     chronic (0.10.2***REMOVED***
+    chunky_png (1.4.0***REMOVED***
     concurrent-ruby (1.2.2***REMOVED***
     crass (1.0.6***REMOVED***
     date (3.3.3***REMOVED***
@@ -111,6 +112,12 @@ GEM
     ffi (1.15.5***REMOVED***
     globalid (1.1.0***REMOVED***
       activesupport (>= 5.0***REMOVED***
+    google-authenticator-rails (3.3.1***REMOVED***
+      actionpack
+      activerecord
+      rails
+      rotp (>= 5.0, < 7.0***REMOVED***
+      rqrcode
     httparty (0.21.0***REMOVED***
       mini_mime (>= 1.0.0***REMOVED***
       multi_xml (>= 0.5.2***REMOVED***
@@ -222,6 +229,11 @@ GEM
       actionpack (>= 5.2***REMOVED***
       railties (>= 5.2***REMOVED***
     rexml (3.2.6***REMOVED***
+    rotp (6.3.0***REMOVED***
+    rqrcode (2.2.0***REMOVED***
+      chunky_png (~> 1.0***REMOVED***
+      rqrcode_core (~> 1.0***REMOVED***
+    rqrcode_core (1.2.0***REMOVED***
     ruby-vips (2.1.4***REMOVED***
       ffi (~> 1.12***REMOVED***
     rubyzip (2.3.2***REMOVED***
@@ -297,6 +309,7 @@ DEPENDENCIES
   carrierwave (~> 0.11.2***REMOVED***
   devise
   faker
+  google-authenticator-rails
   httparty
   image_processing (~> 1.12, >= 1.12.2***REMOVED***
   jbuilder (~> 2.7***REMOVED***
@@ -308,6 +321,8 @@ DEPENDENCIES
   puma (~> 5.0***REMOVED***
   rails (~> 6.1.0***REMOVED***
   ransack
+  rotp
+  rqrcode
   sass-rails (>= 6***REMOVED***
   selenium-webdriver
   spring
