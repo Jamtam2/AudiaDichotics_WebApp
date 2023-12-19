@@ -25,16 +25,23 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params***REMOVED***
-    # @user.role = current_user.local_moderator? ? "regular_user" : @user.role
-    puts "Current user #{@user.inspect***REMOVED***"
 
     key = Key.find_by(activation_code: params[:registration_key]***REMOVED***
+    Rails.logger("DEBUG: User: #{@user.inspect***REMOVED***"***REMOVED***
+    Rails.logger("DEBUG: key: #{key.inspect***REMOVED***"***REMOVED***
+
     if valid_registration_key?(key***REMOVED***
+      Rails.logger("DEBUG: KEY IS VALID!!!"***REMOVED***
+
       tenant = Tenant.create!
+      Rails.logger("DEBUG: Created tenant #{tenant.inspect***REMOVED***"***REMOVED***
       @user.tenant_id = tenant.id
       @user.role = 'local_moderator'
+      Rails.logger("DEBUG: tenant_id: #{@user.tenant_id.inspect***REMOVED***"***REMOVED***
+      Rails.logger("DEBUG: user role: #{@user.role.inspect***REMOVED***"***REMOVED***
 
       if @user.save
+        Rails.logger("DEBUG: Saving user: #{@user.inspect***REMOVED***"***REMOVED***
         key.update(used: true***REMOVED***
         # User, tenant, and key update successful
         puts "New user (local moderator***REMOVED*** was saved with Tenant ID: #{tenant.id***REMOVED***"
@@ -42,6 +49,7 @@ class UsersController < ApplicationController
       else
         # Handle user creation failure
         puts "Failed to create user"
+        Rails.logger("DEBUG: FAILED TO CREATE USER: #{@user.role.inspect***REMOVED***"***REMOVED***
         render :new
       end
     else
@@ -64,7 +72,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user***REMOVED***.permit(:fname, :lname, :email, :password, :password_confirmation***REMOVED***
+    params.require(:user***REMOVED***.permit(:fname, :lname, :email, :password, :password_confirmation, :tenant_id, :registration_key***REMOVED***
     Rails.logger("DEBUG: #{@user.email.inspect***REMOVED***"***REMOVED***
   end
 end
