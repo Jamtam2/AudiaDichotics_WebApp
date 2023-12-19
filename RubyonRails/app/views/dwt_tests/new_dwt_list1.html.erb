@@ -1,4 +1,4 @@
-<body class= "bg-light center">
+<body id= "defBG">
 <div class="container p-5 my-3 w-100 border rounded bg-white ">
 
 
@@ -37,12 +37,11 @@
       <div class="form-group row">
         <label for="conditionSelect">Condition</label>
         <select class="form-control" id="conditionSelect">
+          <option>FreeRecall</option>
           <option>DirectedLeft</option>
           <option>DirectedRight</option>
-          <option>FreeRecall</option>
         </select>
       </div>
-      <%= button_tag "Switch left/right", :onclick => "event.preventDefault(***REMOVED***;" %>
 
       <hr/>
       <div class="sticky">
@@ -298,10 +297,10 @@
               interpretation = "Dichotic Dysaudia";
             ***REMOVED***
             else if (((dom > 64***REMOVED*** && (nondom > 44***REMOVED******REMOVED*** && (advantage <= -32***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Right Ear Dominant";
+              interpretation = "Ambylaudia Left Ear Dominant";
             ***REMOVED***
             else if (((dom > 64***REMOVED*** && (nondom > 44***REMOVED******REMOVED*** && (advantage >= 32***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Left Ear Dominant";
+              interpretation = "Ambylaudia Right Ear Dominant";
             ***REMOVED***
             else{
               interpretation = "Within Normal Limits";
@@ -325,10 +324,10 @@
               interpretation = "Dichotic Dysaudia";
             ***REMOVED***
             else if (((dom > 76***REMOVED*** && (nondom > 60***REMOVED******REMOVED*** && (advantage <= -24***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Right Ear Dominant";
+              interpretation = "Ambylaudia Left Ear Dominant";
             ***REMOVED***
             else if (((dom > 76***REMOVED*** && (nondom > 60***REMOVED******REMOVED*** && (advantage >= 24***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Left Ear Dominant";
+              interpretation = "Ambylaudia Right Ear Dominant";
             ***REMOVED***
             else{
               interpretation = "Within Normal Limits";
@@ -352,10 +351,10 @@
               interpretation = "Dichotic Dysaudia";
             ***REMOVED***
             else if (((dom > 84***REMOVED*** && (nondom > 72***REMOVED******REMOVED*** && (advantage <= -20***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Right Ear Dominant";
+              interpretation = "Ambylaudia Left Ear Dominant";
             ***REMOVED***
             else if (((dom > 84***REMOVED*** && (nondom > 72***REMOVED******REMOVED*** && (advantage >= 20***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Left Ear Dominant";
+              interpretation = "Ambylaudia Right Ear Dominant";
             ***REMOVED***
             else{
               interpretation = "Within Normal Limits";
@@ -379,10 +378,10 @@
               interpretation = "Dichotic Dysaudia";
             ***REMOVED***
             else if (((dom > 92***REMOVED*** && (nondom > 76***REMOVED******REMOVED*** && (advantage <= -16***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Right Ear Dominant";
+              interpretation = "Ambylaudia Left Ear Dominant";
             ***REMOVED***
             else if (((dom > 92***REMOVED*** && (nondom > 76***REMOVED******REMOVED*** && (advantage >= 16***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Left Ear Dominant";
+              interpretation = "Ambylaudia Right Ear Dominant";
             ***REMOVED***
             else{
               interpretation = "Within Normal Limits";
@@ -406,10 +405,10 @@
               interpretation = "Dichotic Dysaudia";
             ***REMOVED***
             else if (((dom > 88***REMOVED*** && (nondom > 80***REMOVED******REMOVED*** && (advantage <= -14***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Right Ear Dominant";
+              interpretation = "Ambylaudia Left Ear Dominant";
             ***REMOVED***
             else if (((dom > 88***REMOVED*** && (nondom > 80***REMOVED******REMOVED*** && (advantage >= 14***REMOVED******REMOVED***{
-              interpretation = "Ambylaudia Left Ear Dominant";
+              interpretation = "Ambylaudia Right Ear Dominant";
             ***REMOVED***
             else{
               interpretation = "Within Normal Limits";

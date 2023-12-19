@@ -52,3 +52,28 @@ background: linear-gradient(180deg, rgba(255,255,255,1***REMOVED*** 16%, rgba(18
     background: rgb(3,187,210***REMOVED***;
     background: linear-gradient(180deg, rgba(3,187,210,1***REMOVED*** 0%, rgba(46,131,204,1***REMOVED*** 100%***REMOVED***;
 ***REMOVED***
+
+
+html {
+    min-height: 100%;
+***REMOVED***
+body {
+    min-height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    
+***REMOVED***
+
+#defBG{
+    background: hsla(353, 76%, 50%, 1***REMOVED***;
+    background: linear-gradient(215deg, hsla(353, 76%, 50%, .49***REMOVED*** 35%, hsla(187, 97%, 42%, .56***REMOVED*** 65%***REMOVED***;
+    background: -moz-linear-gradient(215deg, hsla(353, 76%, 50%, .49***REMOVED*** 35%, hsla(187, 97%, 42%, .56***REMOVED*** 65%***REMOVED***;
+    background: -webkit-linear-gradient(215deg, hsla(353, 76%, 50%, .70***REMOVED*** -75%, hsla(187, 97%, 42%, .56***REMOVED*** 150%***REMOVED***;
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#df1e36", endColorstr="#03bbd2", GradientType=1 ***REMOVED***;
+
+    font-family: kanit;
+    font-weight: bold;
+    font-size: larger;
+
+***REMOVED***
