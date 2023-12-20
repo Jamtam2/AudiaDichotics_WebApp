@@ -58,3 +58,29 @@
     border-color: #0062cc;
   ***REMOVED***
   
+  .instructions {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f0f8ff;
+    border: 1px solid #b0e0e6;
+    border-radius: 5px;
+  
+    p, ol {
+      margin: 0;
+      padding: 0;
+    ***REMOVED***
+  
+    ol {
+      margin-left: 20px;
+    ***REMOVED***
+  
+    a {
+      color: #007bff;
+      text-decoration: none;
+  
+      &:hover {
+        text-decoration: underline;
+      ***REMOVED***
+    ***REMOVED***
+  ***REMOVED***
+  
