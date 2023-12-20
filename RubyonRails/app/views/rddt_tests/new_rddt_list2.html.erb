@@ -1,4 +1,5 @@
-
+  <!--Test page for RDDT List 1 Contains everything for completing and submitting a test  -->
+    <!--this tests interpretation is identical to DWT just with different normative values, NOTE: the interpretation and ear advantge is only based on the 2 button pairs and no others-->
 <html>
   <body id= "defBG">
   <div class="container p-5 my-3 w-100 border rounded bg-white ">
@@ -439,6 +440,15 @@
           let nondomPercent = null;
           let domPercent = null;
           let adv_percent = null;
+          let advantage_25th = null;
+          let advantage_10th = null;
+          let advantage_5th = null;
+          let dominant_25th = null;
+          let dominant_10th = null;
+          let dominant_5th = null;
+          let nondominant_25th = null;
+          let nondominant_10th = null;
+          let nondominant_5th = null;
 
           if (group2Advantage < 0***REMOVED*** {
             direction = "Left";
@@ -450,384 +460,168 @@
             nondom = percentColumn1Group2;
           ***REMOVED*** else {
             direction = "Neutral";
+            dom = percentColumn2Group2;
+            nondom = percentColumn1Group2;
+          ***REMOVED***
+          if (age == 5 || age == 6***REMOVED***{
+            advantage_25th = 39;
+            advantage_10th = 54;
+            advantage_5th = 71;
+            dominant_25th = 67;
+            dominant_10th = 46;
+            dominant_5th = 44;
+            nondominant_25th = 33;
+            nondominant_10th = 28;
+            nondominant_5th = 18;
+          ***REMOVED***
+          if (age >= 7 && age <= 9***REMOVED***{
+            advantage_25th = 28;
+            advantage_10th = 43;
+            advantage_5th = 50;
+            dominant_25th = 83;
+            dominant_10th = 72;
+            dominant_5th = 67;
+            nondominant_25th = 56;
+            nondominant_10th = 44;
+            nondominant_5th = 31;
+          ***REMOVED***
+          if (age >= 10 && age <= 12***REMOVED***{
+            advantage_25th = 14;
+            advantage_10th = 27;
+            advantage_5th = 34;
+            dominant_25th = 89;
+            dominant_10th = 78;
+            dominant_5th = 72;
+            nondominant_25th = 72;
+            nondominant_10th = 56;
+            nondominant_5th = 50;
+          ***REMOVED***
+          if (age >= 13 && age <= 15***REMOVED***{
+            advantage_25th = 17;
+            advantage_10th = 28;
+            advantage_5th = 33;
+            dominant_25th = 89;
+            dominant_10th = 78;
+            dominant_5th = 78;
+            nondominant_25th = 72;
+            nondominant_10th = 61;
+            nondominant_5th = 50;
+          ***REMOVED***
+          if (age >= 16 && age <= 18***REMOVED***{
+            advantage_25th = 11;
+            advantage_10th = 22;
+            advantage_5th = 28;
+            dominant_25th = 94;
+            dominant_10th = 83;
+            dominant_5th = 78;
+            nondominant_25th = 83;
+            nondominant_10th = 67;
+            nondominant_5th = 61;
           ***REMOVED***
 
 
   // IF else logic for diagnosis based on the childs age. Still unsure if this works as intended accoring to Employer, but we believe it does
-          if (age == 5 || age == 6***REMOVED***{
-            if (direction == "Neutral"***REMOVED***{
-              if (percent1 <= 33***REMOVED***{
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
+
+          if (direction == "Neutral"***REMOVED***{
+            if (percentColumn1Group2 <= nondominant_25th***REMOVED***{
+              interpretation = "Dichotic Dysaudia";
+            ***REMOVED***
+            else if (percentColumn1Group2 > nondominant_25th && percentColumn1Group2 <= dominant_25th***REMOVED***{
+              interpretation = "Possible Dichotic Dysaudia";
             ***REMOVED***
             else{
-              if (((dom <= 67***REMOVED*** && (nondom <= 33***REMOVED******REMOVED*** && ((group2Advantage <= -39***REMOVED*** || (group2Advantage >= 39***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Amblyaudia + Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom <= 67***REMOVED*** && (nondom <= 33***REMOVED******REMOVED*** || (((dom <= 67***REMOVED*** && (nondom > 33***REMOVED******REMOVED*** && (((group2Advantage > -39***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED*** || ((group2Advantage < 39***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*** {
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom > 67***REMOVED*** && (nondom <= 33***REMOVED******REMOVED*** && ((group2Advantage > -39***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 67***REMOVED*** && (nondom <= 33***REMOVED******REMOVED*** && ((group2Advantage < 39***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 67***REMOVED*** && (nondom > 33***REMOVED******REMOVED*** && (group2Advantage <= -39***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 67***REMOVED*** && (nondom > 33***REMOVED******REMOVED*** && (group2Advantage >= 39***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 67***REMOVED*** && (nondom <= 33***REMOVED******REMOVED*** && (group2Advantage <= -39***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 67***REMOVED*** && (nondom <= 33***REMOVED******REMOVED*** && (group2Advantage >= 39***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
-            ***REMOVED*** 
-            if (dom <= 44***REMOVED***{
+              interpretation = "Within Normal Limits";
+            ***REMOVED***
+            if (dom <= dominant_5th***REMOVED***{
               domPercent = "5th Percentile";
             ***REMOVED***
-            else if (dom <= 46***REMOVED***{
+            else if (dom <= dominant_10th***REMOVED***{
               domPercent = "10th Percentile";
             ***REMOVED***
-            else if (dom <= 67***REMOVED***{
+            else if (dom <= dominant_25th***REMOVED***{
               domPercent = "25th Percentile";
             ***REMOVED***
             else{
               domPercent = "Within Normal Limits";
             ***REMOVED***
-            if (nondom <= 18***REMOVED***{
+            if (nondom <= nondominant_5th***REMOVED***{
               nondomPercent = "5th Percentile";
             ***REMOVED***
-            else if (nondom <= 28***REMOVED***{
+            else if (nondom <= nondominant_10th***REMOVED***{
               nondomPercent = "10th Percentile";
             ***REMOVED***
-            else if (nondom <= 33***REMOVED***{
+            else if (nondom <= nondominant_25th***REMOVED***{
               nondomPercent = "25th Percentile";
             ***REMOVED***
             else{
               nondomPercent = "Within Normal Limits";
             ***REMOVED***
-            if ((group2Advantage >= 71***REMOVED*** || (group2Advantage <= -71***REMOVED******REMOVED***{
-              adv_percent = "5th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= 54***REMOVED*** || (group2Advantage <= -54***REMOVED******REMOVED***{
-              adv_percent = "10th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= 39***REMOVED*** || (group2Advantage <= -39***REMOVED******REMOVED***{
-              adv_percent = "25th Percentile";
-            ***REMOVED***
-            else{
-              adv_percent = "Within Normal Limits";
-            ***REMOVED***       
+            adv_percent = "Within Normal Limits";
           ***REMOVED***
-          if (age >= 7 && age <= 9***REMOVED***{
-            if (direction == "Neutral"***REMOVED***{
-              if (percent1 <= 56***REMOVED***{
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
+          else{
+            if (((dom <= dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && ((group2Advantage <= -advantage_25th***REMOVED*** || (group2Advantage >= advantage_25th***REMOVED******REMOVED******REMOVED***{
+              interpretation = "Amblyaudia + Dichotic Dysaudia";
+            ***REMOVED***
+            else if (((dom <= dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** || (((dom <= dominant_25th***REMOVED*** && (nondom > nondominant_25th***REMOVED******REMOVED*** && (((group2Advantage > -advantage_25th***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED*** || ((group2Advantage < advantage_25th***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*** {
+              interpretation = "Dichotic Dysaudia";
+            ***REMOVED***
+            else if (((dom > dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && ((group2Advantage > -advantage_25th***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED******REMOVED***{
+              interpretation = "Possible Ambylaudia Left Ear Dominant";
+            ***REMOVED***
+            else if (((dom > dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && ((group2Advantage < advantage_25th***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED***{
+              interpretation = "Possible Ambylaudia Right Ear Dominant";
+            ***REMOVED***
+            else if (((dom > dominant_25th***REMOVED*** && (nondom > nondominant_25th***REMOVED******REMOVED*** && (group2Advantage <= -advantage_25th***REMOVED******REMOVED***{
+              interpretation = "Possible Ambylaudia Left Ear Dominant";
+            ***REMOVED***
+            else if (((dom > dominant_25th***REMOVED*** && (nondom > nondominant_25th***REMOVED******REMOVED*** && (group2Advantage >= advantage_25th***REMOVED******REMOVED***{
+              interpretation = "Possible Ambylaudia Right Ear Dominant";
+            ***REMOVED***
+            else if (((dom > dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && (group2Advantage <= -advantage_25th***REMOVED******REMOVED***{
+              interpretation = "Ambylaudia Left Ear Dominant";
+            ***REMOVED***
+            else if (((dom > dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && (group2Advantage >= advantage_25th***REMOVED******REMOVED***{
+              interpretation = "Ambylaudia Right Ear Dominant";
             ***REMOVED***
             else{
-              if (((dom <= 83***REMOVED*** && (nondom <= 56***REMOVED******REMOVED*** && ((group2Advantage <= -28***REMOVED*** || (group2Advantage >= 28***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Amblyaudia + Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom <= 83***REMOVED*** && (nondom <= 56***REMOVED******REMOVED*** || (((dom <= 83***REMOVED*** && (nondom > 56***REMOVED******REMOVED*** && (((group2Advantage > -28***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED*** || ((group2Advantage < 28***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*** {
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom > 83***REMOVED*** && (nondom <= 56***REMOVED******REMOVED*** && ((group2Advantage > -28***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 83***REMOVED*** && (nondom <= 56***REMOVED******REMOVED*** && ((group2Advantage < 28***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 83***REMOVED*** && (nondom > 56***REMOVED******REMOVED*** && (group2Advantage <= -28***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 83***REMOVED*** && (nondom > 56***REMOVED******REMOVED*** && (group2Advantage >= 28***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 83***REMOVED*** && (nondom <= 56***REMOVED******REMOVED*** && (group2Advantage <= -28***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 83***REMOVED*** && (nondom <= 56***REMOVED******REMOVED*** && (group2Advantage >= 28***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
-            ***REMOVED*** 
-            if (dom <= 67***REMOVED***{
+              interpretation = "Within Normal Limits";
+            ***REMOVED***
+            if (dom <= dominant_5th***REMOVED***{
               domPercent = "5th Percentile";
             ***REMOVED***
-            else if (dom <= 72***REMOVED***{
+            else if (dom <= dominant_10th***REMOVED***{
               domPercent = "10th Percentile";
             ***REMOVED***
-            else if (dom <= 83***REMOVED***{
+            else if (dom <= dominant_25th***REMOVED***{
               domPercent = "25th Percentile";
             ***REMOVED***
             else{
               domPercent = "Within Normal Limits";
             ***REMOVED***
-            if (nondom <= 31***REMOVED***{
+            if (nondom <= nondominant_5th***REMOVED***{
               nondomPercent = "5th Percentile";
             ***REMOVED***
-            else if (nondom <= 44***REMOVED***{
+            else if (nondom <= nondominant_10th***REMOVED***{
               nondomPercent = "10th Percentile";
             ***REMOVED***
-            else if (nondom <= 56***REMOVED***{
+            else if (nondom <= nondominant_25th***REMOVED***{
               nondomPercent = "25th Percentile";
             ***REMOVED***
             else{
               nondomPercent = "Within Normal Limits";
             ***REMOVED***
-            if ((group2Advantage >= 50***REMOVED*** || (group2Advantage <= -50***REMOVED******REMOVED***{
+            if ((group2Advantage >= advantage_5th***REMOVED*** || (group2Advantage <= -advantage_5th***REMOVED******REMOVED***{
               adv_percent = "5th Percentile";
             ***REMOVED***
-            else if ((group2Advantage >= 43***REMOVED*** || (group2Advantage <= -43***REMOVED******REMOVED***{
+            else if ((group2Advantage >= advantage_10th***REMOVED*** || (group2Advantage <= -advantage_10th***REMOVED******REMOVED***{
               adv_percent = "10th Percentile";
             ***REMOVED***
-            else if ((group2Advantage >= 28***REMOVED*** || (group2Advantage <= -28***REMOVED******REMOVED***{
+            else if ((group2Advantage >= advantage_25th***REMOVED*** || (group2Advantage <= -advantage_25th***REMOVED******REMOVED***{
               adv_percent = "25th Percentile";
             ***REMOVED***
             else{
               adv_percent = "Within Normal Limits";
-            ***REMOVED***          
-          ***REMOVED***
-          if (age >= 10 && age <= 12***REMOVED***{
-            if (direction == "Neutral"***REMOVED***{
-              if (percent1 <= 72***REMOVED***{
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
-            ***REMOVED***
-            else{
-              if (((dom <= 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && ((group2Advantage <= -14***REMOVED*** || (group2Advantage >= 14***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Amblyaudia + Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom <= 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** || (((dom <= 89***REMOVED*** && (nondom > 72***REMOVED******REMOVED*** && (((group2Advantage > -14***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED*** || ((group2Advantage < 14***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*** {
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && ((group2Advantage > -14***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && ((group2Advantage < 14***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom > 72***REMOVED******REMOVED*** && (group2Advantage <= -14***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom > 72***REMOVED******REMOVED*** && (group2Advantage >= 14***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && (group2Advantage <= -14***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && (group2Advantage >= 14***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
-            ***REMOVED*** 
-            if (dom <= 72***REMOVED***{
-              domPercent = "5th Percentile";
-            ***REMOVED***
-            else if (dom <= 78***REMOVED***{
-              domPercent = "10th Percentile";
-            ***REMOVED***
-            else if (dom <= 89***REMOVED***{
-              domPercent = "25th Percentile";
-            ***REMOVED***
-            else{
-              domPercent = "Within Normal Limits";
-            ***REMOVED***
-            if (nondom <= 50***REMOVED***{
-              nondomPercent = "5th Percentile";
-            ***REMOVED***
-            else if (nondom <= 56***REMOVED***{
-              nondomPercent = "10th Percentile";
-            ***REMOVED***
-            else if (nondom <= 72***REMOVED***{
-              nondomPercent = "25th Percentile";
-            ***REMOVED***
-            else{
-              nondomPercent = "Within Normal Limits";
-            ***REMOVED***
-            if ((group2Advantage >= 34***REMOVED*** || (group2Advantage <= -34***REMOVED******REMOVED***{
-              adv_percent = "5th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= 27***REMOVED*** || (group2Advantage <= -27***REMOVED******REMOVED***{
-              adv_percent = "10th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= 14***REMOVED*** || (group2Advantage <= -14***REMOVED******REMOVED***{
-              adv_percent = "25th Percentile";
-            ***REMOVED***
-            else{
-              adv_percent = "Within Normal Limits";
-            ***REMOVED*** 
-          ***REMOVED***
-          if (age >= 13 && age <= 15***REMOVED***{
-            if (direction == "Neutral"***REMOVED***{
-              if (percent1 <= 72***REMOVED***{
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
-            ***REMOVED***
-            else{
-              if (((dom <= 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && ((group2Advantage <= -17***REMOVED*** || (group2Advantage >= 17***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Amblyaudia + Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom <= 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** || (((dom <= 89***REMOVED*** && (nondom > 72***REMOVED******REMOVED*** && (((group2Advantage > -17***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED*** || ((group2Advantage < 17***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*** {
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && ((group2Advantage > -17***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && ((group2Advantage < 17***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom > 72***REMOVED******REMOVED*** && (group2Advantage <= -17***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom > 72***REMOVED******REMOVED*** && (group2Advantage >= 17***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && (group2Advantage <= -17***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 89***REMOVED*** && (nondom <= 72***REMOVED******REMOVED*** && (group2Advantage >= 17***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
-            ***REMOVED*** 
-            if (dom <= 78***REMOVED***{
-              domPercent = "5th Percentile";
-            ***REMOVED***
-            else if (dom <= 78***REMOVED***{
-              domPercent = "10th Percentile";
-            ***REMOVED***
-            else if (dom <= 89***REMOVED***{
-              domPercent = "25th Percentile";
-            ***REMOVED***
-            else{
-              domPercent = "Within Normal Limits";
-            ***REMOVED***
-            if (nondom <= 50***REMOVED***{
-              nondomPercent = "5th Percentile";
-            ***REMOVED***
-            else if (nondom <= 61***REMOVED***{
-              nondomPercent = "10th Percentile";
-            ***REMOVED***
-            else if (nondom <= 72***REMOVED***{
-              nondomPercent = "25th Percentile";
-            ***REMOVED***
-            else{
-              nondomPercent = "Within Normal Limits";
-            ***REMOVED***
-            if ((group2Advantage >= 33***REMOVED*** || (group2Advantage <= -33***REMOVED******REMOVED***{
-              adv_percent = "5th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= 28***REMOVED*** || (group2Advantage <= -28***REMOVED******REMOVED***{
-              adv_percent = "10th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= 17***REMOVED*** || (group2Advantage <= -17***REMOVED******REMOVED***{
-              adv_percent = "25th Percentile";
-            ***REMOVED***
-            else{
-              adv_percent = "Within Normal Limits";
-            ***REMOVED***         
-          ***REMOVED***
-          if (age >= 16 && age <= 18***REMOVED***{
-            if (direction == "Neutral"***REMOVED***{
-              if (percent1 <= 83***REMOVED***{
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
-            ***REMOVED***
-            else{
-              if (((dom <= 94***REMOVED*** && (nondom <= 83***REMOVED******REMOVED*** && ((group2Advantage <= -11***REMOVED*** || (group2Advantage >= 11***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Amblyaudia + Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom <= 94***REMOVED*** && (nondom <= 83***REMOVED******REMOVED*** || (((dom <= 94***REMOVED*** && (nondom > 83***REMOVED******REMOVED*** && (((group2Advantage > -11***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED*** || ((group2Advantage < 11***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*** {
-                interpretation = "Dichotic Dysaudia";
-              ***REMOVED***
-              else if (((dom > 94***REMOVED*** && (nondom <= 83***REMOVED******REMOVED*** && ((group2Advantage > -11***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 94***REMOVED*** && (nondom <= 83***REMOVED******REMOVED*** && ((group2Advantage < 11***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 94***REMOVED*** && (nondom > 83***REMOVED******REMOVED*** && (group2Advantage <= -11***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 94***REMOVED*** && (nondom > 83***REMOVED******REMOVED*** && (group2Advantage >= 11***REMOVED******REMOVED***{
-                interpretation = "Possible Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 94***REMOVED*** && (nondom <= 83***REMOVED******REMOVED*** && (group2Advantage <= -11***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Left Ear Dominant";
-              ***REMOVED***
-              else if (((dom > 94***REMOVED*** && (nondom <= 83***REMOVED******REMOVED*** && (group2Advantage >= 11***REMOVED******REMOVED***{
-                interpretation = "Ambylaudia Right Ear Dominant";
-              ***REMOVED***
-              else{
-                interpretation = "Within Normal Limits";
-              ***REMOVED***
-            ***REMOVED*** 
-            if (dom <= 78***REMOVED***{
-              domPercent = "5th Percentile";
-            ***REMOVED***
-            else if (dom <= 83***REMOVED***{
-              domPercent = "10th Percentile";
-            ***REMOVED***
-            else if (dom <= 94***REMOVED***{
-              domPercent = "25th Percentile";
-            ***REMOVED***
-            else{
-              domPercent = "Within Normal Limits";
-            ***REMOVED***
-            if (nondom <= 61***REMOVED***{
-              nondomPercent = "5th Percentile";
-            ***REMOVED***
-            else if (nondom <= 67***REMOVED***{
-              nondomPercent = "10th Percentile";
-            ***REMOVED***
-            else if (nondom <= 83***REMOVED***{
-              nondomPercent = "25th Percentile";
-            ***REMOVED***
-            else{
-              nondomPercent = "Within Normal Limits";
-            ***REMOVED***
-            if ((group2Advantage >= 28***REMOVED*** || (group2Advantage <= -28***REMOVED******REMOVED***{
-              adv_percent = "5th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= 22***REMOVED*** || (group2Advantage <= -22***REMOVED******REMOVED***{
-              adv_percent = "10th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= 11***REMOVED*** || (group2Advantage <= -11***REMOVED******REMOVED***{
-              adv_percent = "25th Percentile";
-            ***REMOVED***
-            else{
-              adv_percent = "Within Normal Limits";
-            ***REMOVED***          
+            ***REMOVED***  
           ***REMOVED***
           
           
@@ -857,12 +651,12 @@
             rightEarPercentile.innerText = nondomPercent.toString(***REMOVED***;
           ***REMOVED***
           else{
-            leftEarPercentile.innerText = "No Dominant Ear";
-            rightEarPercentile.innerText = "No Dominant Ear";
+            leftEarPercentile.innerText = nondomPercent.toString(***REMOVED***;
+            rightEarPercentile.innerText = domPercent.toString(***REMOVED***;
           ***REMOVED***
 
 
-        advantagePercentile.innerText = adv_percent.toString(***REMOVED***;
+          advantagePercentile.innerText = adv_percent.toString(***REMOVED***;
           advantageName.innerText = direction;
           readOnly.value = advantageName.innerText;
 
@@ -891,17 +685,17 @@
             const percValue = cell.textContent.trim(***REMOVED***;
 
             // Check the value and set the background color accordingly
-            if ((percValue == "5th Percentile"***REMOVED*** || (percValue == "No Dominant Ear"***REMOVED******REMOVED*** {
+            if (percValue == "5th Percentile"***REMOVED*** {
               cell.style.backgroundColor = 'lightpink';
             ***REMOVED*** 
             else if (percValue == "10th Percentile"***REMOVED*** {
-              cell.style.backgroundColor = 'hsl(40, 100%, 60%***REMOVED***';
+              cell.style.backgroundColor = 'hsl(60, 100%, 70%***REMOVED***';
             ***REMOVED*** 
             else if (percValue == "25th Percentile"***REMOVED*** {
-              cell.style.backgroundColor = 'hsl(60, 100%, 70%***REMOVED***';
+              cell.style.backgroundColor = 'lightgreen';
             ***REMOVED***
             else{
-              cell.style.backgroundColor = 'lightgreen';
+              cell.style.backgroundColor = 'lightblue';
             ***REMOVED***
           ***REMOVED******REMOVED***;
           ***REMOVED******REMOVED***
