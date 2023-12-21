@@ -95,6 +95,7 @@ GEM
       mime-types (>= 1.16***REMOVED***
       mimemagic (>= 0.3.0***REMOVED***
     chronic (0.10.2***REMOVED***
+    chunky_png (1.4.0***REMOVED***
     concurrent-ruby (1.2.2***REMOVED***
     crass (1.0.6***REMOVED***
     date (3.3.3***REMOVED***
@@ -108,9 +109,15 @@ GEM
     erubi (1.12.0***REMOVED***
     faker (3.2.1***REMOVED***
       i18n (>= 1.8.11, < 2***REMOVED***
-    ffi (1.16.2***REMOVED***
-    globalid (1.2.1***REMOVED***
-      activesupport (>= 6.1***REMOVED***
+    ffi (1.15.5***REMOVED***
+    globalid (1.1.0***REMOVED***
+      activesupport (>= 5.0***REMOVED***
+    google-authenticator-rails (3.3.1***REMOVED***
+      actionpack
+      activerecord
+      rails
+      rotp (>= 5.0, < 7.0***REMOVED***
+      rqrcode
     httparty (0.21.0***REMOVED***
       mini_mime (>= 1.0.0***REMOVED***
       multi_xml (>= 0.5.2***REMOVED***
@@ -150,7 +157,7 @@ GEM
     mini_magick (4.12.0***REMOVED***
     mini_mime (1.1.5***REMOVED***
     mini_portile2 (2.8.4***REMOVED***
-    minitest (5.20.0***REMOVED***
+    minitest (5.19.0***REMOVED***
     msgpack (1.7.2***REMOVED***
     multi_xml (0.6.0***REMOVED***
     net-imap (0.3.7***REMOVED***
@@ -160,14 +167,14 @@ GEM
       net-protocol
     net-protocol (0.2.1***REMOVED***
       timeout
-    net-smtp (0.4.0***REMOVED***
+    net-smtp (0.3.3***REMOVED***
       net-protocol
     nio4r (2.5.9***REMOVED***
     nokogiri (1.15.4***REMOVED***
       mini_portile2 (~> 2.8.2***REMOVED***
       racc (~> 1.4***REMOVED***
     orm_adapter (0.5.0***REMOVED***
-    pg (1.5.4***REMOVED***
+    pg (1.5.3***REMOVED***
     pgreset (0.3***REMOVED***
     popper_js (2.11.8***REMOVED***
     public_suffix (5.0.3***REMOVED***
@@ -175,7 +182,7 @@ GEM
       nio4r (~> 2.0***REMOVED***
     racc (1.7.1***REMOVED***
     rack (2.2.8***REMOVED***
-    rack-proxy (0.7.7***REMOVED***
+    rack-proxy (0.7.6***REMOVED***
       rack
     rack-test (2.1.0***REMOVED***
       rack (>= 1.3***REMOVED***
@@ -222,6 +229,11 @@ GEM
       actionpack (>= 5.2***REMOVED***
       railties (>= 5.2***REMOVED***
     rexml (3.2.6***REMOVED***
+    rotp (6.3.0***REMOVED***
+    rqrcode (2.2.0***REMOVED***
+      chunky_png (~> 1.0***REMOVED***
+      rqrcode_core (~> 1.0***REMOVED***
+    rqrcode_core (1.2.0***REMOVED***
     ruby-vips (2.1.4***REMOVED***
       ffi (~> 1.12***REMOVED***
     rubyzip (2.3.2***REMOVED***
@@ -241,7 +253,7 @@ GEM
       websocket (~> 1.0***REMOVED***
     semantic_range (3.0.0***REMOVED***
     spring (4.1.1***REMOVED***
-    sprockets (4.2.1***REMOVED***
+    sprockets (4.2.0***REMOVED***
       concurrent-ruby (~> 1.0***REMOVED***
       rack (>= 2.2.4, < 4***REMOVED***
     sprockets-rails (3.4.2***REMOVED***
@@ -249,7 +261,7 @@ GEM
       activesupport (>= 5.2***REMOVED***
       sprockets (>= 3.0.0***REMOVED***
     thor (1.2.2***REMOVED***
-    tilt (2.3.0***REMOVED***
+    tilt (2.2.0***REMOVED***
     timeout (0.4.0***REMOVED***
     turbolinks (5.2.1***REMOVED***
       turbolinks-source (~> 5.2***REMOVED***
@@ -258,7 +270,7 @@ GEM
       concurrent-ruby (~> 1.0***REMOVED***
     warden (1.2.9***REMOVED***
       rack (>= 2.0.9***REMOVED***
-    web-console (4.2.1***REMOVED***
+    web-console (4.2.0***REMOVED***
       actionview (>= 6.0.0***REMOVED***
       activemodel (>= 6.0.0***REMOVED***
       bindex (>= 0.4.0***REMOVED***
@@ -272,7 +284,7 @@ GEM
       rack-proxy (>= 0.6.1***REMOVED***
       railties (>= 5.2***REMOVED***
       semantic_range (>= 2.3.0***REMOVED***
-    websocket (1.2.10***REMOVED***
+    websocket (1.2.9***REMOVED***
     websocket-driver (0.7.6***REMOVED***
       websocket-extensions (>= 0.1.0***REMOVED***
     websocket-extensions (0.1.5***REMOVED***
@@ -280,7 +292,7 @@ GEM
       chronic (>= 0.6.3***REMOVED***
     xpath (3.2.0***REMOVED***
       nokogiri (~> 1.8***REMOVED***
-    zeitwerk (2.6.12***REMOVED***
+    zeitwerk (2.6.11***REMOVED***
 
 PLATFORMS
   ruby
@@ -297,6 +309,7 @@ DEPENDENCIES
   carrierwave (~> 0.11.2***REMOVED***
   devise
   faker
+  google-authenticator-rails
   httparty
   image_processing (~> 1.12, >= 1.12.2***REMOVED***
   jbuilder (~> 2.7***REMOVED***
@@ -308,6 +321,8 @@ DEPENDENCIES
   puma (~> 5.0***REMOVED***
   rails (~> 6.1.0***REMOVED***
   ransack
+  rotp
+  rqrcode
   sass-rails (>= 6***REMOVED***
   selenium-webdriver
   spring
