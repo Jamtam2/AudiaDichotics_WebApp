@@ -60,19 +60,18 @@ GEM
       minitest (>= 5.1***REMOVED***
       tzinfo (~> 2.0***REMOVED***
       zeitwerk (~> 2.3***REMOVED***
-    acts_as_tenant (0.6.1***REMOVED***
-      rails (>= 5.2***REMOVED***
-      request_store (>= 1.0.5***REMOVED***
-    addressable (2.8.5***REMOVED***
+    acts_as_tenant (1.0.1***REMOVED***
+      rails (>= 6.0***REMOVED***
+    addressable (2.8.6***REMOVED***
       public_suffix (>= 2.0.2, < 6.0***REMOVED***
     annotate (3.2.0***REMOVED***
       activerecord (>= 3.2, < 8.0***REMOVED***
       rake (>= 10.4, < 14.0***REMOVED***
     attr_encrypted (4.0.0***REMOVED***
       encryptor (~> 3.0.0***REMOVED***
-    bcrypt (3.1.19***REMOVED***
+    bcrypt (3.1.20***REMOVED***
     bindex (0.8.1***REMOVED***
-    bootsnap (1.16.0***REMOVED***
+    bootsnap (1.17.0***REMOVED***
       msgpack (~> 1.2***REMOVED***
     bootstrap_form (4.5.0***REMOVED***
       actionpack (>= 5.2***REMOVED***
@@ -98,8 +97,8 @@ GEM
     chunky_png (1.4.0***REMOVED***
     concurrent-ruby (1.2.2***REMOVED***
     crass (1.0.6***REMOVED***
-    date (3.3.3***REMOVED***
-    devise (4.9.2***REMOVED***
+    date (3.3.4***REMOVED***
+    devise (4.9.3***REMOVED***
       bcrypt (~> 3.0***REMOVED***
       orm_adapter (~> 0.1***REMOVED***
       railties (>= 4.1.0***REMOVED***
@@ -107,11 +106,11 @@ GEM
       warden (~> 1.2.3***REMOVED***
     encryptor (3.0.0***REMOVED***
     erubi (1.12.0***REMOVED***
-    faker (3.2.1***REMOVED***
+    faker (3.2.2***REMOVED***
       i18n (>= 1.8.11, < 2***REMOVED***
-    ffi (1.15.5***REMOVED***
-    globalid (1.1.0***REMOVED***
-      activesupport (>= 5.0***REMOVED***
+    ffi (1.16.3***REMOVED***
+    globalid (1.2.1***REMOVED***
+      activesupport (>= 6.1***REMOVED***
     google-authenticator-rails (3.3.1***REMOVED***
       actionpack
       activerecord
@@ -133,11 +132,11 @@ GEM
       rails-dom-testing (>= 1, < 3***REMOVED***
       railties (>= 4.2.0***REMOVED***
       thor (>= 0.14, < 2.0***REMOVED***
-    json (2.6.3***REMOVED***
+    json (2.7.1***REMOVED***
     listen (3.8.0***REMOVED***
       rb-fsevent (~> 0.10, >= 0.10.3***REMOVED***
       rb-inotify (~> 0.9, >= 0.9.10***REMOVED***
-    loofah (2.21.3***REMOVED***
+    loofah (2.22.0***REMOVED***
       crass (~> 1.0.2***REMOVED***
       nokogiri (>= 1.12.0***REMOVED***
     mail (2.8.1***REMOVED***
@@ -150,39 +149,39 @@ GEM
     method_source (1.0.0***REMOVED***
     mime-types (3.5.1***REMOVED***
       mime-types-data (~> 3.2015***REMOVED***
-    mime-types-data (3.2023.0808***REMOVED***
+    mime-types-data (3.2023.1205***REMOVED***
     mimemagic (0.4.3***REMOVED***
       nokogiri (~> 1***REMOVED***
       rake
     mini_magick (4.12.0***REMOVED***
     mini_mime (1.1.5***REMOVED***
-    mini_portile2 (2.8.4***REMOVED***
-    minitest (5.19.0***REMOVED***
+    mini_portile2 (2.8.5***REMOVED***
+    minitest (5.20.0***REMOVED***
     msgpack (1.7.2***REMOVED***
     multi_xml (0.6.0***REMOVED***
-    net-imap (0.3.7***REMOVED***
+    net-imap (0.4.8***REMOVED***
       date
       net-protocol
     net-pop (0.1.2***REMOVED***
       net-protocol
-    net-protocol (0.2.1***REMOVED***
+    net-protocol (0.2.2***REMOVED***
       timeout
-    net-smtp (0.3.3***REMOVED***
+    net-smtp (0.4.0***REMOVED***
       net-protocol
-    nio4r (2.5.9***REMOVED***
-    nokogiri (1.15.4***REMOVED***
+    nio4r (2.7.0***REMOVED***
+    nokogiri (1.15.5***REMOVED***
       mini_portile2 (~> 2.8.2***REMOVED***
       racc (~> 1.4***REMOVED***
     orm_adapter (0.5.0***REMOVED***
-    pg (1.5.3***REMOVED***
-    pgreset (0.3***REMOVED***
+    pg (1.5.4***REMOVED***
+    pgreset (0.4***REMOVED***
     popper_js (2.11.8***REMOVED***
-    public_suffix (5.0.3***REMOVED***
+    public_suffix (5.0.4***REMOVED***
     puma (5.6.7***REMOVED***
       nio4r (~> 2.0***REMOVED***
-    racc (1.7.1***REMOVED***
+    racc (1.7.3***REMOVED***
     rack (2.2.8***REMOVED***
-    rack-proxy (0.7.6***REMOVED***
+    rack-proxy (0.7.7***REMOVED***
       rack
     rack-test (2.1.0***REMOVED***
       rack (>= 1.3***REMOVED***
@@ -214,18 +213,16 @@ GEM
       method_source
       rake (>= 12.2***REMOVED***
       thor (~> 1.0***REMOVED***
-    rake (13.0.6***REMOVED***
-    ransack (4.0.0***REMOVED***
+    rake (13.1.0***REMOVED***
+    ransack (4.1.1***REMOVED***
       activerecord (>= 6.1.5***REMOVED***
       activesupport (>= 6.1.5***REMOVED***
       i18n
     rb-fsevent (0.11.2***REMOVED***
     rb-inotify (0.10.1***REMOVED***
       ffi (~> 1.0***REMOVED***
-    regexp_parser (2.8.1***REMOVED***
-    request_store (1.5.1***REMOVED***
-      rack (>= 1.4***REMOVED***
-    responders (3.1.0***REMOVED***
+    regexp_parser (2.8.3***REMOVED***
+    responders (3.1.1***REMOVED***
       actionpack (>= 5.2***REMOVED***
       railties (>= 5.2***REMOVED***
     rexml (3.2.6***REMOVED***
@@ -234,7 +231,7 @@ GEM
       chunky_png (~> 1.0***REMOVED***
       rqrcode_core (~> 1.0***REMOVED***
     rqrcode_core (1.2.0***REMOVED***
-    ruby-vips (2.1.4***REMOVED***
+    ruby-vips (2.2.0***REMOVED***
       ffi (~> 1.12***REMOVED***
     rubyzip (2.3.2***REMOVED***
     sass-rails (6.0.0***REMOVED***
@@ -252,17 +249,17 @@ GEM
       rubyzip (>= 1.2.2, < 3.0***REMOVED***
       websocket (~> 1.0***REMOVED***
     semantic_range (3.0.0***REMOVED***
-    spring (4.1.1***REMOVED***
-    sprockets (4.2.0***REMOVED***
+    spring (4.1.3***REMOVED***
+    sprockets (4.2.1***REMOVED***
       concurrent-ruby (~> 1.0***REMOVED***
       rack (>= 2.2.4, < 4***REMOVED***
     sprockets-rails (3.4.2***REMOVED***
       actionpack (>= 5.2***REMOVED***
       activesupport (>= 5.2***REMOVED***
       sprockets (>= 3.0.0***REMOVED***
-    thor (1.2.2***REMOVED***
-    tilt (2.2.0***REMOVED***
-    timeout (0.4.0***REMOVED***
+    thor (1.3.0***REMOVED***
+    tilt (2.3.0***REMOVED***
+    timeout (0.4.1***REMOVED***
     turbolinks (5.2.1***REMOVED***
       turbolinks-source (~> 5.2***REMOVED***
     turbolinks-source (5.2.0***REMOVED***
@@ -270,7 +267,7 @@ GEM
       concurrent-ruby (~> 1.0***REMOVED***
     warden (1.2.9***REMOVED***
       rack (>= 2.0.9***REMOVED***
-    web-console (4.2.0***REMOVED***
+    web-console (4.2.1***REMOVED***
       actionview (>= 6.0.0***REMOVED***
       activemodel (>= 6.0.0***REMOVED***
       bindex (>= 0.4.0***REMOVED***
@@ -284,7 +281,7 @@ GEM
       rack-proxy (>= 0.6.1***REMOVED***
       railties (>= 5.2***REMOVED***
       semantic_range (>= 2.3.0***REMOVED***
-    websocket (1.2.9***REMOVED***
+    websocket (1.2.10***REMOVED***
     websocket-driver (0.7.6***REMOVED***
       websocket-extensions (>= 0.1.0***REMOVED***
     websocket-extensions (0.1.5***REMOVED***
@@ -292,7 +289,7 @@ GEM
       chronic (>= 0.6.3***REMOVED***
     xpath (3.2.0***REMOVED***
       nokogiri (~> 1.8***REMOVED***
-    zeitwerk (2.6.11***REMOVED***
+    zeitwerk (2.6.12***REMOVED***
 
 PLATFORMS
   ruby
