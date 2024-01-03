@@ -32,7 +32,7 @@ def create
         puts "Key has been paired with user: #{key.inspect***REMOVED***"
         puts "User: #{user.inspect***REMOVED***"
         sign_in(:user, user***REMOVED***
-        redirect_to root_path, notice: 'User was successfully created set up 2fa auth.'
+        redirect_to root_path, notice: 'User was successfully created set up 2FA auth.'
       end
 
     else
