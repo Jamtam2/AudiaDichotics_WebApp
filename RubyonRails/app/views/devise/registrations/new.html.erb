@@ -41,7 +41,7 @@
 
       <div class="form-group" id="signUpCodeField" style="display:none;">
         <%= f.label :sign_up_code, "Enter Sign-Up Code" %>
-        <%#= f.text_field :sign_up_code, class: "form-control form-control-lg", style: 'padding:10px;' %>
+        <%= f.text_field :moderator_code, class: "form-control form-control-lg", style: 'padding:10px;' %>
       </div>
 
       <div class="actions">
@@ -51,8 +51,8 @@
   </div>
   <script>
       document.addEventListener('turbolinks:load', function (***REMOVED*** {
-          var localModeratorRadioButton = document.getElementById('localModerator'***REMOVED***;
-          var signUpCodeRadioButton = document.getElementById('signupCode'***REMOVED***;
+          let localModeratorRadioButton = document.getElementById('localModerator'***REMOVED***;
+          let signUpCodeRadioButton = document.getElementById('signupCode'***REMOVED***;
 
           localModeratorRadioButton.addEventListener('change', toggleFields***REMOVED***;
           signUpCodeRadioButton.addEventListener('change', toggleFields***REMOVED***;
@@ -62,8 +62,8 @@
       ***REMOVED******REMOVED***;
 
       function toggleFields(***REMOVED*** {
-          var localModerator = document.getElementById('localModerator'***REMOVED***.checked;
-          var signUpCode = document.getElementById('signupCode'***REMOVED***.checked;
+          let localModerator = document.getElementById('localModerator'***REMOVED***.checked;
+          let signUpCode = document.getElementById('signupCode'***REMOVED***.checked;
           document.getElementById('registrationKeyField'***REMOVED***.style.display = localModerator ? 'block' : 'none';
           document.getElementById('signUpCodeField'***REMOVED***.style.display = signUpCode ? 'block' : 'none';
       ***REMOVED***

@@ -5,28 +5,30 @@ class UserMfaSessionsController < ApplicationController
     # Initialization code (if any***REMOVED***
 
   end
-  
-  def create
-    user = current_user
-    secret_key = user.user_mfa_sessions.first.secret_key
-    user.google_secret = secret_key
-  
-    user.save!
-    if user.google_authentic?(params[:mfa_code]***REMOVED***
-      user.user_mfa_sessions.first.update(activated: true***REMOVED***
-      redirect_to root_path, notice: "MFA setup successful"
-    else
-      attempted_time = Time.now
-      server_code = ROTP::TOTP.new(secret_key***REMOVED***.at(attempted_time***REMOVED***
-      flash.now[:alert] = "Invalid code. Attempted Code: #{params[:mfa_code]***REMOVED***, Server Code: #{server_code***REMOVED***, Time: #{attempted_time***REMOVED***"
-      # flash.now[:alert] = specific_error_message(user, params[:mfa_code]***REMOVED***
 
-      render :new
+  def create
+    Rails.logger.debug "DEBUG: STARTS HERE"
+    # TODO: remove or comment this this condition before pushing code into production.
+    if Rails.env.development?
+      redirect_to root_path, notice: "MFA bypassed in development." and return
+    else
+      Rails.logger.debug "DEBUG: SHOULD NOT RUN THIS"
+      user = current_user
+      secret_key = user.user_mfa_sessions.first.secret_key
+      user.google_secret = secret_key
+
+      user.save!
+      if user.google_authentic?(params[:mfa_code]***REMOVED***
+        user.user_mfa_sessions.first.update(activated: true***REMOVED***
+        redirect_to root_path, notice: "MFA setup successful"
+      else
+        attempted_time = Time.now
+        server_code = ROTP::TOTP.new(secret_key***REMOVED***.at(attempted_time***REMOVED***
+        flash.now[:alert] = "Invalid code. Attempted Code: #{params[:mfa_code]***REMOVED***, Server Code: #{server_code***REMOVED***, Time: #{attempted_time***REMOVED***"
+        render :new
+      end
     end
   end
-
-  
-  
 
   private
 
