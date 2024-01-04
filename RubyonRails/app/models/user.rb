@@ -4,6 +4,7 @@
 #
 #  id                     :bigint           not null, primary key
 #  email                  :string           default(""***REMOVED***, not null
+#  email_2fa_code         :string
 #  encrypted_password     :string           default(""***REMOVED***, not null
 #  fname                  :string
 #  google_secret          :string
@@ -48,11 +49,16 @@ class User < ApplicationRecord
   scope :local_moderators, -> { where(role: roles[:local_moderator]***REMOVED*** ***REMOVED***
 
   attr_accessor :registration_key
-  # before_validation :validate_registration_key, on: :create
-  before_validation :validate_registration_key, on: :create, if: -> { local_moderator? || registration_key.present? ***REMOVED***
+
+  before_validation :validate_registration_key, on: :create, if: -> { local_moderator? || registration_key.present? ***REMOVED***  
+
 
   # Will validate the verification key only for the owner.
   validates :verification_key, presence: true, if: :owner?
+  after_create :create_mfa_session
+
+ 
+ 
 
 
   has_many :dwt_tests,dependent: :destroy
@@ -129,6 +135,12 @@ class User < ApplicationRecord
       break unless User.exists?(moderator_code: self.moderator_code***REMOVED***
     end
   end
+
+  def create_mfa_session
+    self.user_mfa_sessions.create(secret_key: ROTP::Base32.random_base32, activated: false***REMOVED*** # Activates later when the user sets up MFA***REMOVED***
+  end
+
+      
 
   public
 
