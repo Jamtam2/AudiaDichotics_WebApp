@@ -4,11 +4,13 @@
 #
 #  id                     :bigint           not null, primary key
 #  email                  :string           default(""***REMOVED***, not null
+#  email_2fa_code         :string
 #  encrypted_password     :string           default(""***REMOVED***, not null
 #  fname                  :string
 #  google_secret          :string
 #  lname                  :string
 #  mfa_secret             :integer
+#  moderator_code         :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -21,6 +23,7 @@
 # Indexes
 #
 #  index_users_on_email                 (email***REMOVED*** UNIQUE
+#  index_users_on_moderator_code        (moderator_code***REMOVED***
 #  index_users_on_reset_password_token  (reset_password_token***REMOVED*** UNIQUE
 #  index_users_on_tenant_id             (tenant_id***REMOVED***
 #

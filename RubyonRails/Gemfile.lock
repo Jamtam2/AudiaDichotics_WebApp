@@ -246,6 +246,7 @@ GEM
       sprockets (> 3.0***REMOVED***
       sprockets-rails
       tilt
+    securerandom (0.1.1***REMOVED***
     selenium-webdriver (4.10.0***REMOVED***
       rexml (~> 3.2, >= 3.2.5***REMOVED***
       rubyzip (>= 1.2.2, < 3.0***REMOVED***
@@ -324,6 +325,7 @@ DEPENDENCIES
   rotp
   rqrcode
   sass-rails (>= 6***REMOVED***
+  securerandom
   selenium-webdriver
   spring
   turbolinks (~> 5***REMOVED***
@@ -337,4 +339,4 @@ RUBY VERSION
    ruby 3.1.1p18
 
 BUNDLED WITH
-   2.4.18
+   2.4.20
