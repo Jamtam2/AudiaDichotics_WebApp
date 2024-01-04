@@ -31,7 +31,7 @@
       <div class="form-group">
         <label>Select Account Type:</label><br />
         <input type="radio" name="account_type" value="local_moderator" id="localModerator"> Create a Local Moderator<br />
-        <input type="radio" name="account_type" value="signup_code" id="signupCode"> I Have a Sign-Up Code
+        <input type="radio" name="account_type" value="regular_user" id="regularUser"> I Have a Sign-Up Code
       </div>
 
       <div class="form-group" id="registrationKeyField" style="display:none;">
@@ -49,23 +49,4 @@
       </div>
     <% end %>
   </div>
-  <script>
-      document.addEventListener('turbolinks:load', function (***REMOVED*** {
-          let localModeratorRadioButton = document.getElementById('localModerator'***REMOVED***;
-          let signUpCodeRadioButton = document.getElementById('signupCode'***REMOVED***;
-
-          localModeratorRadioButton.addEventListener('change', toggleFields***REMOVED***;
-          signUpCodeRadioButton.addEventListener('change', toggleFields***REMOVED***;
-
-          // Initialize the form with the correct fields visible
-          toggleFields(***REMOVED***;
-      ***REMOVED******REMOVED***;
-
-      function toggleFields(***REMOVED*** {
-          let localModerator = document.getElementById('localModerator'***REMOVED***.checked;
-          let signUpCode = document.getElementById('signupCode'***REMOVED***.checked;
-          document.getElementById('registrationKeyField'***REMOVED***.style.display = localModerator ? 'block' : 'none';
-          document.getElementById('signUpCodeField'***REMOVED***.style.display = signUpCode ? 'block' : 'none';
-      ***REMOVED***
-  </script>
 </body>
