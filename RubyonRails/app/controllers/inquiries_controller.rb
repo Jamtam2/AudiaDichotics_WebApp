@@ -8,13 +8,14 @@ class InquiriesController < ApplicationController
       flash[:notice] = 'Inquiry sent! We will respond within 24-48 hours.'
       redirect_to home_path 
     else
-      render :new
+      flash.now[:alert] = 'Failed to send inquiry: ' + @inquiry.errors.full_messages.to_sentence
+      render 'pages/about'
     end
   end
 
   private
 
   def inquiry_params
-    params.require(:inquiry***REMOVED***.permit(:email, :company, :purpose***REMOVED***
-  end
+    params.require(:inquiry***REMOVED***.permit(:email, :company, :purpose, :inquiry_type***REMOVED***
+    end
 end
