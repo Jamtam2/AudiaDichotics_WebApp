@@ -5,13 +5,16 @@ document.addEventListener('turbolinks:load', function (***REMOVED*** {
     localModeratorRadioButton.addEventListener('change', toggleFields***REMOVED***;
     regularUserRadioButton.addEventListener('change', toggleFields***REMOVED***;
 
-    // Initialize the form with the correct fields visible
-    toggleFields(***REMOVED***;
+    toggleFields(***REMOVED***; // Initialize the form with the correct fields visible
 ***REMOVED******REMOVED***;
 
 function toggleFields(***REMOVED*** {
     let localModerator = document.getElementById('localModerator'***REMOVED***.checked;
     let regularUser = document.getElementById('regularUser'***REMOVED***.checked;
-    document.getElementById('registrationKeyField'***REMOVED***.style.display = localModerator ? 'block' : 'none';
-    document.getElementById('signUpCodeField'***REMOVED***.style.display = regularUser ? 'block' : 'none';
+
+    let registrationKeyField = document.getElementById('registrationKeyField'***REMOVED***;
+    let signUpCodeField = document.getElementById('signUpCodeField'***REMOVED***;
+
+    registrationKeyField.style.display = localModerator || regularUser ? 'block' : 'none';
+    signUpCodeField.style.display = regularUser ? 'block' : 'none';
 ***REMOVED***
