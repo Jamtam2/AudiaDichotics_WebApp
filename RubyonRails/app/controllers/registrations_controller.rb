@@ -24,7 +24,8 @@ class RegistrationsController < Devise::RegistrationsController
   # local moderator code and a registration key. Associates the user with
   # a local moderator's tenant_id.
   def create_regular_user
-    user = User.new(sign_up_params***REMOVED***
+    # The moderator code will be used for validation but will not be be stored under regular use.
+    user = User.new(sign_up_params.except(:moderator_code***REMOVED******REMOVED***
     user.role = :regular_user
     local_moderator = User.find_by(role: User.roles[:local_moderator], moderator_code: params[:user][:moderator_code]***REMOVED***
     # Validate the registration key for security purposes.
@@ -34,6 +35,7 @@ class RegistrationsController < Devise::RegistrationsController
       # The user is associated with the tenant of the local moderator whose code was entered.
       user.tenant_id = local_moderator.tenant_id
 
+      # Check if user record was saved before proceeding.
       if user.save
         key.update(used: true***REMOVED***
         flash[:notice] = 'Regular user was successfully created.'
