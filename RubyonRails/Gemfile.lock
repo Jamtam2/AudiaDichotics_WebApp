@@ -258,6 +258,7 @@ GEM
       actionpack (>= 5.2***REMOVED***
       activesupport (>= 5.2***REMOVED***
       sprockets (>= 3.0.0***REMOVED***
+    stripe (10.5.0***REMOVED***
     thor (1.3.0***REMOVED***
     tilt (2.3.0***REMOVED***
     timeout (0.4.1***REMOVED***
@@ -325,6 +326,7 @@ DEPENDENCIES
   securerandom
   selenium-webdriver
   spring
+  stripe
   turbolinks (~> 5***REMOVED***
   tzinfo-data
   web-console (>= 4.1.0***REMOVED***
