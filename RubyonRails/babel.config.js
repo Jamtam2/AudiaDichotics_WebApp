@@ -47,6 +47,13 @@ module.exports = function(api***REMOVED*** {
           loose: true
         ***REMOVED***
       ],
+
+      [
+        '@babel/plugin-proposal-private-methods',
+        {
+          loose: true
+        ***REMOVED***
+      ],
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
@@ -63,6 +70,12 @@ module.exports = function(api***REMOVED*** {
         '@babel/plugin-transform-regenerator',
         {
           async: false
+        ***REMOVED***
+      ],
+      [
+        '@babel/plugin-proposal-private-property-in-object',
+        {
+          loose: true
         ***REMOVED***
       ]
     ].filter(Boolean***REMOVED***

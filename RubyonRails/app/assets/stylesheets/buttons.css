@@ -3,7 +3,7 @@ button {
     border-radius: 50px;
     border: 0;
     background-color: #2a0307;
-    box-shadow: rgb(0 0 0 / 15%***REMOVED*** 0 0 10px;
+    box-shadow: rgba(0, 0, 0, 0.15***REMOVED*** 0 0 10px;
 
     text-transform: uppercase;
     font-size: 15px;
@@ -19,9 +19,9 @@ button {
    
    button:active {
     letter-spacing: 3px;
-    background-color: hsl(261deg 80% 48%***REMOVED***;
+    background-color: hsl(261, 80%, 48%***REMOVED***;
     color: hsl(0, 0%, 100%***REMOVED***;
-    box-shadow: rgb(93 24 220***REMOVED*** 0px 0px 0px 0px;
+    box-shadow: rgb(93, 24, 220***REMOVED*** 0px 0px 0px 0px;
     transform: translateY(10px***REMOVED***;
     transition: 100ms;
    ***REMOVED***

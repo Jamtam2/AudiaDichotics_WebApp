@@ -70,10 +70,10 @@ body {
     background: linear-gradient(215deg, hsla(353, 76%, 50%, .49***REMOVED*** 35%, hsla(187, 97%, 42%, .56***REMOVED*** 65%***REMOVED***;
     background: -moz-linear-gradient(215deg, hsla(353, 76%, 50%, .49***REMOVED*** 35%, hsla(187, 97%, 42%, .56***REMOVED*** 65%***REMOVED***;
     background: -webkit-linear-gradient(215deg, hsla(353, 76%, 50%, .70***REMOVED*** -75%, hsla(187, 97%, 42%, .56***REMOVED*** 150%***REMOVED***;
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#df1e36", endColorstr="#03bbd2", GradientType=1 ***REMOVED***;
+    /* filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#df1e36", endColorstr="#03bbd2", GradientType=1 ***REMOVED***; */
 
     font-family: kanit;
-    font-weight: bold;
+
     font-size: larger;
 
 ***REMOVED***
