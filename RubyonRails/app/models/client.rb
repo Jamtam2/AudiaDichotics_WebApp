@@ -112,7 +112,16 @@ class Client < ApplicationRecord
   end
 
 
-
+  # def self.decrypt_client_names_for_tenant(tenant_id***REMOVED***
+  #   clients = where(tenant_id: tenant_id***REMOVED***
+  #
+  #   clients.map do |client|
+  #     {
+  #       client_id: client.id,
+  #       decrypted_client_name: client.first_name  # This will automatically decrypt the name
+  #     ***REMOVED***
+  #   end
+  # end
 
 
   def date_of_birth=(date***REMOVED***

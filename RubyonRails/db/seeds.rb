@@ -43,6 +43,17 @@ keybruh = Key.create!(
   email: "global@gmail.com"
 ***REMOVED***
 
+keybruh = Key.create!(
+  activation_code: "expkey",
+  used: false,
+  license_type: 1,
+  product_id: 1,
+  customer_id: 1,
+  subscription_id: 1,
+  expiration: Time.zone.now + 1.year, # Set expiration to 1 year from the current time
+  email: "exp@gmail.com"
+***REMOVED***
+
 tenants = []
 3.times { |i| tenants << Tenant.find_or_create_by!(subdomain: "tenant#{i + 1***REMOVED***"***REMOVED*** ***REMOVED***
 ActsAsTenant.with_tenant(tenants.first***REMOVED*** do
@@ -53,7 +64,7 @@ ActsAsTenant.with_tenant(tenants.first***REMOVED*** do
     fname: "Locality",
     lname:"Mod",
     role: :global_moderator,
-    registration_key: 'globalmodkey',
+    verification_key: 'globalmodkey',
   ***REMOVED*** 
 
   user.user_mfa_sessions.create!(
@@ -68,7 +79,20 @@ ActsAsTenant.with_tenant(tenants.first***REMOVED*** do
     fname: "Locality",
     lname:"Mod",
     role: :local_moderator,
-    registration_key: 'localmodkey',
+    verification_key: 'localmodkey',
+  ***REMOVED*** 
+  user.user_mfa_sessions.create!(
+    secret_key: ROTP::Base32.random_base32, # Generate a random secret key
+    activated: false, # You can activate it later when the user sets up MFA
+  ***REMOVED***
+
+  user = User.create!(
+    email: "exp@gmail.com",
+    password: "password",
+    fname: "Locality",
+    lname:"Mod",
+    role: :local_moderator,
+    verification_key: 'expkey',
   ***REMOVED*** 
   user.user_mfa_sessions.create!(
     secret_key: ROTP::Base32.random_base32, # Generate a random secret key
@@ -76,6 +100,8 @@ ActsAsTenant.with_tenant(tenants.first***REMOVED*** do
   ***REMOVED***
 
 end 
+keybruh.update(expiration: Time.zone.now - 1.day***REMOVED*** # Set expiration to 1 day ago
+keybruh.save
 
 
 #Create multiple users and seeds
@@ -98,7 +124,7 @@ tenants.each do |tenant|
         fname: Faker::Name.first_name,
         lname: Faker::Name.last_name,
         role: :local_moderator,
-        registration_key: keys.pop.activation_code,
+        verification_key: keys.pop.activation_code,
       ***REMOVED***
       
       # Create 50 Clients and related Emergency Contacts and Tests for each user
