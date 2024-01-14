@@ -60,7 +60,7 @@ class RegistrationsController < Devise::RegistrationsController
     ActsAsTenant.with_tenant(tenant***REMOVED*** do
       user = User.new(sign_up_params***REMOVED*** # Initialize new user
       user.role = :local_moderator    # Set the role
-      key = Key.find_by(activation_code: user.registration_key***REMOVED***
+      key = Key.find_by(activation_code: user.verification_key***REMOVED***
 
       if valid_registration_key?(key***REMOVED***
         # Save the user, which will trigger before_create callback
@@ -95,7 +95,7 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    allowed_params = [:fname, :lname, :email, :password, :password_confirmation, :registration_key]
+    allowed_params = [:fname, :lname, :email, :password, :password_confirmation, :verification_key]
     allowed_params << :moderator_code if params[:account_type] == 'regular_user'
     params.require(:user***REMOVED***.permit(allowed_params***REMOVED***
   end
