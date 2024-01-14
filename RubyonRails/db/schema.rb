@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_11_225349***REMOVED*** do
+ActiveRecord::Schema.define(version: 2024_01_14_121642***REMOVED*** do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 2024_01_11_225349***REMOVED*** do
     t.bigint "user_id", null: false
     t.string "encrypted_client_name"
     t.string "encrypted_client_name_iv"
+    t.decimal "price", precision: 10, scale: 2
     t.index ["client_id"], name: "index_dnw_tests_on_client_id"
     t.index ["tenant_id"], name: "index_dnw_tests_on_tenant_id"
     t.index ["user_id"], name: "index_dnw_tests_on_user_id"
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 2024_01_11_225349***REMOVED*** do
     t.string "interpretation"
     t.string "encrypted_client_name"
     t.string "encrypted_client_name_iv"
+    t.decimal "price", precision: 10, scale: 2
     t.index ["client_id"], name: "index_dwt_tests_on_client_id"
     t.index ["tenant_id"], name: "index_dwt_tests_on_tenant_id"
     t.index ["user_id"], name: "index_dwt_tests_on_user_id"
@@ -236,6 +238,7 @@ ActiveRecord::Schema.define(version: 2024_01_11_225349***REMOVED*** do
     t.bigint "user_id", null: false
     t.string "encrypted_client_name"
     t.string "encrypted_client_name_iv"
+    t.decimal "price", precision: 10, scale: 2
     t.index ["client_id"], name: "index_rddt_tests_on_client_id"
     t.index ["tenant_id"], name: "index_rddt_tests_on_tenant_id"
     t.index ["user_id"], name: "index_rddt_tests_on_user_id"

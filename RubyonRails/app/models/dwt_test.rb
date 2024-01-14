@@ -14,6 +14,7 @@
 #  left_percentile          :string
 #  left_score               :float
 #  notes                    :text
+#  price                    :decimal(10, 2***REMOVED***
 #  right_percentile         :string
 #  right_score              :float
 #  test_type                :string
@@ -40,7 +41,19 @@ class DwtTest < ApplicationRecord
   
     belongs_to :client
     belongs_to :user
+    before_save :set_default_price
 
+    def set_default_price
+      self.price ||= 2.00 # set default price if not present
+    end
+  
+    def apply_discount(discount_code***REMOVED***
+      if valid_discount_code?(discount_code***REMOVED***
+        self.price = discounted_price
+      end
+    end
+  
+   
 
 # Allow these attributes to be searched through Ransack
 def self.ransackable_attributes(auth_object = nil***REMOVED***
@@ -53,4 +66,17 @@ def self.ransackable_attributes(auth_object = nil***REMOVED***
   end
     attr_encrypted :client_name, key: ENV['ENCRYPTION_KEY']
 
-end
+    private
+  
+    def valid_discount_code?(code***REMOVED***
+      # Define how to validate a discount code
+      # This is just a placeholder
+      code == "SPECIALDISCOUNT"
+    end
+  
+    def discounted_price
+      # This is just a placeholder
+      0.00
+    end
+  end
+
