@@ -104,6 +104,10 @@ GEM
       railties (>= 4.1.0***REMOVED***
       responders
       warden (~> 1.2.3***REMOVED***
+    dotenv (2.8.1***REMOVED***
+    dotenv-rails (2.8.1***REMOVED***
+      dotenv (= 2.8.1***REMOVED***
+      railties (>= 3.2***REMOVED***
     encryptor (3.0.0***REMOVED***
     erubi (1.12.0***REMOVED***
     faker (3.2.2***REMOVED***
@@ -155,11 +159,10 @@ GEM
       rake
     mini_magick (4.12.0***REMOVED***
     mini_mime (1.1.5***REMOVED***
-    mini_portile2 (2.8.5***REMOVED***
     minitest (5.20.0***REMOVED***
     msgpack (1.7.2***REMOVED***
     multi_xml (0.6.0***REMOVED***
-    net-imap (0.4.8***REMOVED***
+    net-imap (0.4.9***REMOVED***
       date
       net-protocol
     net-pop (0.1.2***REMOVED***
@@ -169,8 +172,9 @@ GEM
     net-smtp (0.4.0***REMOVED***
       net-protocol
     nio4r (2.7.0***REMOVED***
-    nokogiri (1.15.5***REMOVED***
-      mini_portile2 (~> 2.8.2***REMOVED***
+    nokogiri (1.16.0-arm64-darwin***REMOVED***
+      racc (~> 1.4***REMOVED***
+    nokogiri (1.16.0-x86_64-linux***REMOVED***
       racc (~> 1.4***REMOVED***
     orm_adapter (0.5.0***REMOVED***
     pg (1.5.4***REMOVED***
@@ -294,7 +298,8 @@ GEM
     zeitwerk (2.6.12***REMOVED***
 
 PLATFORMS
-  ruby
+  arm64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   activesupport
@@ -307,6 +312,8 @@ DEPENDENCIES
   capybara (>= 3.26***REMOVED***
   carrierwave (~> 0.11.2***REMOVED***
   devise
+  dotenv-rails
+  encryptor
   faker
   google-authenticator-rails
   httparty
