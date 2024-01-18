@@ -1,0 +1,27 @@
+<!-- app/views/stripe_payment/setup.html.erb -->
+<h1>Setup Payment Method</h1>
+<button id="setup-button">Set up payment method</button>
+
+<script type="text/javascript">
+  document.getElementById('setup-button'***REMOVED***.addEventListener('click', function (***REMOVED*** {
+    // Create a new Checkout Session using the server-side endpoint you
+    // created in your StripePaymentController
+    fetch('/stripe_payment/initialize_payment', {
+      method: 'POST',
+    ***REMOVED******REMOVED***
+    .then(function (response***REMOVED*** {
+      return response.json(***REMOVED***;
+    ***REMOVED******REMOVED***
+    .then(function (session***REMOVED*** {
+      return stripe.redirectToCheckout({ sessionId: session.id ***REMOVED******REMOVED***;
+    ***REMOVED******REMOVED***
+    .then(function (result***REMOVED*** {
+      if (result.error***REMOVED*** {
+        alert(result.error.message***REMOVED***;
+      ***REMOVED***
+    ***REMOVED******REMOVED***
+    .catch(function (error***REMOVED*** {
+      console.error('Error:', error***REMOVED***;
+    ***REMOVED******REMOVED***;
+  ***REMOVED******REMOVED***;
+</script>

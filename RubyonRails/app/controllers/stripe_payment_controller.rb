@@ -5,7 +5,28 @@ class StripePaymentController < ApplicationController
   before_action :check_moderator_role
   before_action :set_stripe_api_key
 
+
+  def initialize_payment_setup
+    customer = Stripe::Customer.create(email: current_user.email***REMOVED***
+
+    @session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      customer: customer.id,
+      mode: 'setup',
+      success_url: success_stripe_payment_url(host: request.base_url***REMOVED*** + '?session_id={CHECKOUT_SESSION_ID***REMOVED***',
+      cancel_url: failure_stripe_payment_url(host: request.base_url***REMOVED***,
+    ***REMOVED***
+
+    render json: { session_id: @session.id ***REMOVED***
+  end
+end
+
+
+
   def initialize_payment
+
+    customer = Stripe::Customer.create(email: current_user.email***REMOVED***
+
     @session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{
@@ -40,7 +61,7 @@ class StripePaymentController < ApplicationController
     begin
       sig_header = require.env['HTTP_STRIPE_SIGNATURE']
       payload = request.body.read
-      secret = Rails.application.secrets.stripe_webhook_secret
+      secret = [API KEY]
       event = Stripe::Webhook.construct_event(payload, sig_header, secret***REMOVED***
     rescue JSON::ParseError, Stripe::SignatureVerificationError => e
     #   Invalid payload signature
@@ -52,9 +73,18 @@ class StripePaymentController < ApplicationController
   end
 
   def success
+    session_id = params[:session_id]
+    session = Stripe::Checkout::Session.retrieve(session_id***REMOVED***
+    setup_intent = Stripe::SetupIntent.retrieve(session.setup_intent***REMOVED***
+  
+    current_user.update(stripe_customer_id: setup_intent.customer***REMOVED***
+    redirect_to billing_dashboard_index_path, notice: "Payment method setup successful."
+
+    # Redirect or render success message
   end
 
   def failure
+    redirect_to billing_dashboard_index_path, alert: "Payment method setup failed."
   end
 
   private
@@ -66,6 +96,5 @@ class StripePaymentController < ApplicationController
   end
 
   def set_stripe_api_key
-    Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key***REMOVED***
+    Stripe.api_key = [API KEY]
   end
-end
