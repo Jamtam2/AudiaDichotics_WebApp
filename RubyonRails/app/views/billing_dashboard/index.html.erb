@@ -1,4 +1,8 @@
 <!-- app/views/billing_dashboard/index.html.erb -->
+<head>
+  <!-- Other head elements -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
 
 <% if @current_month_tests.present? %>
   <h2>Current Month's Tests</h2>
@@ -18,15 +22,15 @@
   <button id="setup-button">Set up payment method</button>
 </div>
 
-<script src="https://js.stripe.com/v3/"></script>
 <script>
-  var stripePublicKey = [TEST_PUBLIC_KEY];
+  var stripePublicKey = 'pk_test_51OXZ5bEdjXO5pqxuSJlhPKeetS2Mps2Wa9dVb5MNAUSdo4C4HdC1PgtK7g5iHGtPibtQeXqiZdrwEz1PX5XTcvDa00SbAZ4Bh6';
   var stripe = Stripe(stripePublicKey***REMOVED***;
   
-  document.addEventListener('DOMContentLoaded', (event***REMOVED*** => {
+  document.addEventListener('turbolinks:load', function(***REMOVED*** {
     var setupButton = document.getElementById('setup-button'***REMOVED***;
     if (setupButton***REMOVED*** {
-      setupButton.addEventListener('click', function (***REMOVED*** {
+        setupButton.addEventListener('click', function(***REMOVED*** {
+
     fetch('/stripe_payment/initialize_payment_setup', {
       method: 'POST',
       headers: {
