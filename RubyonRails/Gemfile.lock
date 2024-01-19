@@ -96,6 +96,7 @@ GEM
     chronic (0.10.2***REMOVED***
     chunky_png (1.4.0***REMOVED***
     concurrent-ruby (1.2.2***REMOVED***
+    connection_pool (2.4.1***REMOVED***
     crass (1.0.6***REMOVED***
     date (3.3.4***REMOVED***
     devise (4.9.3***REMOVED***
@@ -225,6 +226,8 @@ GEM
     rb-fsevent (0.11.2***REMOVED***
     rb-inotify (0.10.1***REMOVED***
       ffi (~> 1.0***REMOVED***
+    redis-client (0.19.1***REMOVED***
+      connection_pool
     regexp_parser (2.8.3***REMOVED***
     responders (3.1.1***REMOVED***
       actionpack (>= 5.2***REMOVED***
@@ -254,6 +257,11 @@ GEM
       rubyzip (>= 1.2.2, < 3.0***REMOVED***
       websocket (~> 1.0***REMOVED***
     semantic_range (3.0.0***REMOVED***
+    sidekiq (7.2.1***REMOVED***
+      concurrent-ruby (< 2***REMOVED***
+      connection_pool (>= 2.3.0***REMOVED***
+      rack (>= 2.2.4***REMOVED***
+      redis-client (>= 0.19.0***REMOVED***
     spring (4.1.3***REMOVED***
     sprockets (4.2.1***REMOVED***
       concurrent-ruby (~> 1.0***REMOVED***
@@ -332,6 +340,7 @@ DEPENDENCIES
   sass-rails (>= 6***REMOVED***
   securerandom
   selenium-webdriver
+  sidekiq
   spring
   stripe
   turbolinks (~> 5***REMOVED***
