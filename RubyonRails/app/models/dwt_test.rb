@@ -47,13 +47,6 @@ class DwtTest < ApplicationRecord
       self.price ||= 2.00 # set default price if not present
     end
   
-    def apply_discount(discount_code***REMOVED***
-      if valid_discount_code?(discount_code***REMOVED***
-        self.price = discounted_price
-      end
-    end
-  
-   
 
 # Allow these attributes to be searched through Ransack
 def self.ransackable_attributes(auth_object = nil***REMOVED***
@@ -66,17 +59,12 @@ def self.ransackable_attributes(auth_object = nil***REMOVED***
   end
     attr_encrypted :client_name, key: ENV['ENCRYPTION_KEY']
 
-    private
-  
-    def valid_discount_code?(code***REMOVED***
-      # Define how to validate a discount code
-      # This is just a placeholder
-      code == "SPECIALDISCOUNT"
-    end
-  
-    def discounted_price
-      # This is just a placeholder
-      0.00
-    end
+  def apply_discount(discount_code***REMOVED***
+    discount = Discount.find_by(code: discount_code***REMOVED***
+    return unless discount
+
+    self.price *= (1 - discount.percentage_off / 100.0***REMOVED***
   end
+end
+  
 
