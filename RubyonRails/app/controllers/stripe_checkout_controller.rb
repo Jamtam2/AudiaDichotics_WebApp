@@ -1,6 +1,12 @@
 class StripeCheckoutController < ApplicationController
     before_action :set_stripe_api_key, only: [:create]
     def create
+        discount_code = params[:discount_code]
+
+        # Prepare the discounts array if a discount code is provided
+        discounts = discount_code.present? ? [{coupon: discount_code***REMOVED***] : []
+      
+        
       @session = Stripe::Checkout::Session.create({
         payment_method_types: ['card'],
         line_items: [{
@@ -10,6 +16,9 @@ class StripeCheckoutController < ApplicationController
         mode: 'subscription',
         success_url: success_stripe_payment_url(host: request.base_url***REMOVED*** + '?session_id={CHECKOUT_SESSION_ID***REMOVED***',
         cancel_url: failure_stripe_payment_url(host: request.base_url***REMOVED***,
+        # Include the discounts array in the session creation
+        allow_promotion_codes: true,  
+
       ***REMOVED******REMOVED***
   
       respond_to do |format|
@@ -23,5 +32,10 @@ class StripeCheckoutController < ApplicationController
     def success
         # Redirect or render success message
       end  
+    def failure
+        redirect_to sign_in, flash[:failure] = "Failed to complete transaction."
+    # Redirect or render success message
+    end  
+
 end
   
