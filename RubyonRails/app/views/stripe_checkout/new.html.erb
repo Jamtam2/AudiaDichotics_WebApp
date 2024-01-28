@@ -1,0 +1,26 @@
+<!-- Add a button to initiate checkout -->
+<button id="checkout-button">Pay $4500</button>
+<%= button_to 'Pay $4500', stripe_checkout_path, method: :post, id: 'checkout-button', class: 'btn btn-primary', remote: true %>
+
+<!-- Include Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+  var stripe = Stripe('pk_test_51OXZ5bEdjXO5pqxuSJlhPKeetS2Mps2Wa9dVb5MNAUSdo4C4HdC1PgtK7g5iHGtPibtQeXqiZdrwEz1PX5XTcvDa00SbAZ4Bh6'***REMOVED***; // Replace with your Stripe public key
+
+  var checkoutButton = document.getElementById('checkout-button'***REMOVED***;
+  checkoutButton.addEventListener('click', function (***REMOVED*** {
+    fetch('/stripe_checkout', {
+      method: 'POST',
+    ***REMOVED******REMOVED***
+    .then(function (response***REMOVED*** {
+      return response.json(***REMOVED***;
+    ***REMOVED******REMOVED***
+    .then(function (session***REMOVED*** {
+      return stripe.redirectToCheckout({ sessionId: session.id ***REMOVED******REMOVED***;
+    ***REMOVED******REMOVED***
+    .catch(function (error***REMOVED*** {
+      console.error('Error:', error***REMOVED***;
+    ***REMOVED******REMOVED***;
+  ***REMOVED******REMOVED***;
+</script>
