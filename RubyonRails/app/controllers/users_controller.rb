@@ -81,4 +81,16 @@ class UsersController < ApplicationController
     params.require(:user***REMOVED***.permit(:fname, :lname, :email, :password, :password_confirmation, :tenant_id, :registration_key***REMOVED***
     Rails.logger("DEBUG: #{@user.email.inspect***REMOVED***"***REMOVED***
   end
+
+  # def assign_location_moderator
+  #   @user = User.find(params[:id]***REMOVED***
+  #   @location = Location.find(params[:id]***REMOVED***
+  #
+  #   if @user.location_moderator?
+  #     @location.users << @user unless @location.users.include?(@user***REMOVED***
+  #     flash[:notice] = "Location moderator assigned successfully."
+  #   else
+  #     flash[:alert] = "Only location moderators can be assigned."
+  #   end
+  # end
 end
