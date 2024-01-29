@@ -10,25 +10,29 @@ class StripePaymentController < ApplicationController
     customer = Stripe::Customer.create(email: current_user.email***REMOVED***
     current_user.update(stripe_customer_id: customer.id***REMOVED***
 
-    @session = Stripe::Checkout::Session.create(
+    # Generate a unique idempotency key
+    idempotency_key = "setup_#{current_user.id***REMOVED***_#{Time.now.to_i***REMOVED***"
+
+    @session = Stripe::Checkout::Session.create({
       payment_method_types: ['card'],
       customer: customer.id,
       mode: 'setup',
       success_url: success_stripe_payment_url(host: request.base_url***REMOVED*** + '?session_id={CHECKOUT_SESSION_ID***REMOVED***',
       cancel_url: failure_stripe_payment_url(host: request.base_url***REMOVED***,
-    ***REMOVED***
+    ***REMOVED***, {
+      idempotency_key: idempotency_key
+    ***REMOVED******REMOVED***
 
     render json: { session_id: @session.id ***REMOVED***
   end
-end
-
-
 
   def initialize_payment
-
     customer = Stripe::Customer.create(email: current_user.email***REMOVED***
 
-    @session = Stripe::Checkout::Session.create(
+    # Generate a unique idempotency key
+    idempotency_key = "payment_#{current_user.id***REMOVED***_#{Time.now.to_i***REMOVED***"
+
+    @session = Stripe::Checkout::Session.create({
       payment_method_types: ['card'],
       line_items: [{
                      name: "License",
@@ -39,9 +43,10 @@ end
                    ***REMOVED***],
       success_url: success_stripe_payment_url(host: request.base_url***REMOVED***,
       cancel_url: failure_stripe_payment_url(host: request.base_url***REMOVED***,
-      ***REMOVED***
+    ***REMOVED***, {
+      idempotency_key: idempotency_key
+    ***REMOVED******REMOVED***
 
-    # Respond with session ID to your frontend
     render json: { session_id: @session.id ***REMOVED***
   end
 
@@ -91,3 +96,4 @@ end
   def set_stripe_api_key
     Stripe.api_key = '[API KEY]'
   end
+end

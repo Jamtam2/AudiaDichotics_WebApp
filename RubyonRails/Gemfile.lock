@@ -160,6 +160,7 @@ GEM
       rake
     mini_magick (4.12.0***REMOVED***
     mini_mime (1.1.5***REMOVED***
+    mini_portile2 (2.8.5***REMOVED***
     minitest (5.20.0***REMOVED***
     msgpack (1.7.2***REMOVED***
     multi_xml (0.6.0***REMOVED***
@@ -173,6 +174,9 @@ GEM
     net-smtp (0.4.0***REMOVED***
       net-protocol
     nio4r (2.7.0***REMOVED***
+    nokogiri (1.16.0***REMOVED***
+      mini_portile2 (~> 2.8.2***REMOVED***
+      racc (~> 1.4***REMOVED***
     nokogiri (1.16.0-arm64-darwin***REMOVED***
       racc (~> 1.4***REMOVED***
     nokogiri (1.16.0-x86_64-linux***REMOVED***
@@ -307,6 +311,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  ruby
   x86_64-linux
 
 DEPENDENCIES
