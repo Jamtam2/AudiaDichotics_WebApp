@@ -3,6 +3,7 @@
 # Seeds file with 3 tenants, 50 users, clients, and registration keys for each tenant
 require 'faker'
 
+# key = Key.find_or_create_by(activation_code: 'globalmodkey', email: 'global@gmail.com'***REMOVED***
 
 
 #First just create a global mod and local mod for testing
@@ -53,6 +54,10 @@ keybruh = Key.create!(
   expiration: Time.zone.now + 1.year, # Set expiration to 1 year from the current time
   email: "exp@gmail.com"
 ***REMOVED***
+key = Key.find_or_create_by(activation_code: 'globalmodkey', email: 'global@gmail.com'***REMOVED***
+
+Location.find_or_create_by(name: 'Location 1', address: '123 Main St', key: key***REMOVED***
+Location.find_or_create_by(name: 'Location 2', address: '456 Elm St', key: key***REMOVED***
 
 tenants = []
 3.times { |i| tenants << Tenant.find_or_create_by!(subdomain: "tenant#{i + 1***REMOVED***"***REMOVED*** ***REMOVED***
