@@ -1,4 +1,5 @@
 <!-- app/views/billing_dashboard/index.html.erb -->
+
 <head>
   <!-- Other head elements -->
   <script src="https://js.stripe.com/v3/"></script>
@@ -15,47 +16,6 @@
   <%= render 'tests_table', tests: @previous_tests %>
 <% end %>
 
-<%# <!-- Stripe payment setup section -->
-<div>
-  <h2>Payment Method</h2>
-  <button id="setup-button">Set up payment method</button>
-</div>
 
-<script>
-  var stripePublicKey = 'TEST_PUBLIC_KEY';
-  var stripe = Stripe(stripePublicKey***REMOVED***;
-  
-  document.addEventListener('turbolinks:load', function(***REMOVED*** {
-    var setupButton = document.getElementById('setup-button'***REMOVED***;
-    if (setupButton***REMOVED*** {
-        setupButton.addEventListener('click', function(***REMOVED*** {
 
-    fetch('/stripe_payment/initialize_payment_setup', {
-      method: 'POST',
-      headers: {
-    'X-CSRF-Token': document.querySelector("[name='csrf-token']"***REMOVED***.content,
-    'Content-Type': 'application/json'
-  ***REMOVED***,
-  credentials: 'same-origin'
-
-    ***REMOVED******REMOVED***
-    .then(function (response***REMOVED*** {
-      return response.json(***REMOVED***;
-    ***REMOVED******REMOVED***
-    .then(function (data***REMOVED*** {
-      // 'data' is the result of response.json(***REMOVED***. It should contain the session_id.
-      if (data && data.session_id***REMOVED*** {
-        return stripe.redirectToCheckout({ sessionId: data.session_id ***REMOVED******REMOVED***;
-      ***REMOVED*** else {
-        // Throw an error if session_id is not found
-        throw new Error('Session ID not found'***REMOVED***;
-      ***REMOVED***
-    ***REMOVED******REMOVED***
-
-    .catch(function (error***REMOVED*** {
-      console.error('Error:', error***REMOVED***;
-    ***REMOVED******REMOVED***;
- ***REMOVED******REMOVED***;
-  ***REMOVED***
-***REMOVED******REMOVED***;
-</script> %>
+<%= button_to 'Manage Billing', customer_portal_path, method: :post %>
