@@ -71,18 +71,18 @@ GEM
       encryptor (~> 3.0.0***REMOVED***
     bcrypt (3.1.20***REMOVED***
     bindex (0.8.1***REMOVED***
-    bootsnap (1.17.0***REMOVED***
+    bootsnap (1.18.3***REMOVED***
       msgpack (~> 1.2***REMOVED***
     bootstrap_form (4.5.0***REMOVED***
       actionpack (>= 5.2***REMOVED***
       activemodel (>= 5.2***REMOVED***
     builder (3.2.4***REMOVED***
     byebug (11.1.3***REMOVED***
-    capybara (3.39.2***REMOVED***
+    capybara (3.40.0***REMOVED***
       addressable
       matrix
       mini_mime (>= 0.1.3***REMOVED***
-      nokogiri (~> 1.8***REMOVED***
+      nokogiri (~> 1.11***REMOVED***
       rack (>= 1.6.0***REMOVED***
       rack-test (>= 0.6.3***REMOVED***
       regexp_parser (>= 1.5, < 3.0***REMOVED***
@@ -95,7 +95,7 @@ GEM
       mimemagic (>= 0.3.0***REMOVED***
     chronic (0.10.2***REMOVED***
     chunky_png (1.4.0***REMOVED***
-    concurrent-ruby (1.2.2***REMOVED***
+    concurrent-ruby (1.2.3***REMOVED***
     crass (1.0.6***REMOVED***
     date (3.3.4***REMOVED***
     devise (4.9.3***REMOVED***
@@ -104,13 +104,13 @@ GEM
       railties (>= 4.1.0***REMOVED***
       responders
       warden (~> 1.2.3***REMOVED***
-    dotenv (2.8.1***REMOVED***
-    dotenv-rails (2.8.1***REMOVED***
-      dotenv (= 2.8.1***REMOVED***
-      railties (>= 3.2***REMOVED***
+    dotenv (3.0.0***REMOVED***
+    dotenv-rails (3.0.0***REMOVED***
+      dotenv (= 3.0.0***REMOVED***
+      railties (>= 6.1***REMOVED***
     encryptor (3.0.0***REMOVED***
     erubi (1.12.0***REMOVED***
-    faker (3.2.2***REMOVED***
+    faker (3.2.3***REMOVED***
       i18n (>= 1.8.11, < 2***REMOVED***
     ffi (1.16.3***REMOVED***
     globalid (1.2.1***REMOVED***
@@ -151,37 +151,37 @@ GEM
     marcel (1.0.2***REMOVED***
     matrix (0.4.2***REMOVED***
     method_source (1.0.0***REMOVED***
-    mime-types (3.5.1***REMOVED***
+    mime-types (3.5.2***REMOVED***
       mime-types-data (~> 3.2015***REMOVED***
-    mime-types-data (3.2023.1205***REMOVED***
+    mime-types-data (3.2024.0206***REMOVED***
     mimemagic (0.4.3***REMOVED***
       nokogiri (~> 1***REMOVED***
       rake
     mini_magick (4.12.0***REMOVED***
     mini_mime (1.1.5***REMOVED***
-    minitest (5.20.0***REMOVED***
+    minitest (5.22.2***REMOVED***
     msgpack (1.7.2***REMOVED***
     multi_xml (0.6.0***REMOVED***
-    net-imap (0.4.9***REMOVED***
+    net-imap (0.4.10***REMOVED***
       date
       net-protocol
     net-pop (0.1.2***REMOVED***
       net-protocol
     net-protocol (0.2.2***REMOVED***
       timeout
-    net-smtp (0.4.0***REMOVED***
+    net-smtp (0.4.0.1***REMOVED***
       net-protocol
     nio4r (2.7.0***REMOVED***
-    nokogiri (1.16.0-arm64-darwin***REMOVED***
+    nokogiri (1.16.2-arm64-darwin***REMOVED***
       racc (~> 1.4***REMOVED***
-    nokogiri (1.16.0-x86_64-linux***REMOVED***
+    nokogiri (1.16.2-x86_64-linux***REMOVED***
       racc (~> 1.4***REMOVED***
     orm_adapter (0.5.0***REMOVED***
     pg (1.5.4***REMOVED***
     pgreset (0.4***REMOVED***
     popper_js (2.11.8***REMOVED***
     public_suffix (5.0.4***REMOVED***
-    puma (5.6.7***REMOVED***
+    puma (5.6.8***REMOVED***
       nio4r (~> 2.0***REMOVED***
     racc (1.7.3***REMOVED***
     rack (2.2.8***REMOVED***
@@ -225,7 +225,7 @@ GEM
     rb-fsevent (0.11.2***REMOVED***
     rb-inotify (0.10.1***REMOVED***
       ffi (~> 1.0***REMOVED***
-    regexp_parser (2.8.3***REMOVED***
+    regexp_parser (2.9.0***REMOVED***
     responders (3.1.1***REMOVED***
       actionpack (>= 5.2***REMOVED***
       railties (>= 5.2***REMOVED***
@@ -248,7 +248,7 @@ GEM
       sprockets (> 3.0***REMOVED***
       sprockets-rails
       tilt
-    securerandom (0.1.1***REMOVED***
+    securerandom (0.3.1***REMOVED***
     selenium-webdriver (4.10.0***REMOVED***
       rexml (~> 3.2, >= 3.2.5***REMOVED***
       rubyzip (>= 1.2.2, < 3.0***REMOVED***
@@ -294,7 +294,7 @@ GEM
       chronic (>= 0.6.3***REMOVED***
     xpath (3.2.0***REMOVED***
       nokogiri (~> 1.8***REMOVED***
-    zeitwerk (2.6.12***REMOVED***
+    zeitwerk (2.6.13***REMOVED***
 
 PLATFORMS
   arm64-darwin-21

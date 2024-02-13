@@ -23,33 +23,23 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    render :new
   end
+
 
   def create
     @user = User.new(user_params***REMOVED***
     key = Key.find_by(activation_code: params[:registration_key]***REMOVED***
   
-    # Rails.logger("DEBUG: User: #{@user.inspect***REMOVED***"***REMOVED***
-    # Rails.logger("DEBUG: key: #{key.inspect***REMOVED***"***REMOVED***
-  
-    if valid_registration_key?(key***REMOVED***
-      # Rails.logger("DEBUG: KEY IS VALID!!!"***REMOVED***
-  
-      tenant = Tenant.create!
-      # Rails.logger("DEBUG: Created tenant #{tenant.inspect***REMOVED***"***REMOVED***
-      @user.tenant_id = tenant.id
-      @user.role = 'local_moderator'
-  
-      # Rails.logger("DEBUG: tenant_id: #{@user.tenant_id.inspect***REMOVED***"***REMOVED***
-      # Rails.logger("DEBUG: user role: #{@user.role.inspect***REMOVED***"***REMOVED***
+    if valid_registration_key?(key***REMOVED*** || params[:role] == 'local_moderator'
+      if params[:role] == 'local_moderator'
+        tenant = Tenant.create!  # Create tenant for local moderator
+        @user.tenant_id = tenant.id
+      end
   
       if @user.save
-        # Rails.logger("DEBUG: Saving user: #{@user.inspect***REMOVED***"***REMOVED***
-  
-  
-        # key.update(used: true***REMOVED***
-        # User, tenant, and key update successful
-        puts "New user (local moderator***REMOVED*** was saved with Tenant ID: #{tenant.id***REMOVED***"
+        # Optional: key.update(used: true***REMOVED***
+        puts "New user (local moderator***REMOVED*** was saved with Tenant ID: ##{tenant.id***REMOVED***"
       else
         # Handle user creation failure
         puts "Failed to create user"
@@ -61,6 +51,13 @@ class UsersController < ApplicationController
       flash[:alert] = 'Invalid registration key.'
       render :new
     end
+  end
+  def destroy
+    debugger
+    @user = User.find(params[:id]***REMOVED***
+    @user.destroy
+
+    redirect_to clients_url, notice: "client was successfully deleted."
   end
 
   private
