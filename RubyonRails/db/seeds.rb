@@ -158,7 +158,7 @@ tenants.each do |tenant|
         DnwTest.create(
           client: client,
           user: client.tenant.users.sample,
-          test_type: "Type#{j + 1***REMOVED***",
+          test_type: "DNW",
           ear_advantage: "Left",
           ear_advantage_score: rand(0.0..100.0***REMOVED***,
           left_score: 8.5,
@@ -168,7 +168,7 @@ tenants.each do |tenant|
         RddtTest.create(
           client: client,
           user: client.tenant.users.sample,
-          test_type: "Type#{j + 1***REMOVED***",
+          test_type: "RDDT",
           ear_advantage: "Left",
           ear_advantage_score: rand(0.0..100.0***REMOVED***,
           left_score1: rand(0.0..100.0***REMOVED***,
@@ -184,7 +184,7 @@ tenants.each do |tenant|
         DwtTest.create(
           client: client,
           user: client.tenant.users.sample,
-          test_type: "Type#{j + 1***REMOVED***",
+          test_type: "DWT",
           ear_advantage: "Left",
           ear_advantage_score: rand(0.0..100.0***REMOVED***,
           left_score: rand(0.0..100.0***REMOVED***,

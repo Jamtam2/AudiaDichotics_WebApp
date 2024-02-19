@@ -37,6 +37,7 @@ class RegistrationsController < Devise::RegistrationsController
 
       # Check if user record was saved before proceeding.
       if user.save
+        
         key.update(used: true***REMOVED***
         flash[:notice] = 'Regular user was successfully created.'
         sign_in(:user, user***REMOVED***
@@ -67,14 +68,14 @@ class RegistrationsController < Devise::RegistrationsController
         if user.save
           # Handler for successful save actions
           key.update(used: true, email: user.email***REMOVED***
-          user.verification_key = key.activation_code
+          user.update(stripe_customer_id: key.customer_id,verification_key: key.activation_code***REMOVED***
           secret_key = ROTP::Base32.random_base32
           user.user_mfa_sessions.create!(secret_key: secret_key, activated: false***REMOVED***
           sign_in(:user, user***REMOVED***
           redirect_to root_path, notice: 'Local moderator was successfully created set up 2FA auth.'
         else
           # Handler for save failures
-          flash[:alert] = 'An internal error occurred.'
+          flash[:alert] = 'An internal error occurred. Try a different email, or reinput your license key.'
           Rails.logger.info("DEBUG: Failed to save user: #{user.errors.full_messages***REMOVED***"***REMOVED***
           redirect_to new_user_registration_path and return
         end
@@ -91,6 +92,8 @@ class RegistrationsController < Devise::RegistrationsController
   def valid_registration_key?(key***REMOVED***
     key.present? && !key.used && (key.expiration.nil? || key.expiration > Time.current***REMOVED***
   end
+
+  
 
   private
 

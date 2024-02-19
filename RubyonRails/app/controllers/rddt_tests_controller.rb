@@ -61,7 +61,28 @@ class RddtTestsController < ApplicationController
       end
     end
   
+    def apply_discount
+      @client = Client.find(params[:client_id]***REMOVED***
+      @rddt_test = RddtTest.find(params[:id]***REMOVED***
+      discount = Discount.find_by(code: params[:discount_code]***REMOVED***
   
+      if discount
+        new_price = @rddt_test.price * (1 - discount.percentage_off / 100.0***REMOVED***
+        @rddt_test.update(price:  new_price***REMOVED***
+        redirect_to edit_client_path(@client***REMOVED***
+        puts "------------------------------------------------"
+        puts "TEST STUFF #{@rddt_test.inspect***REMOVED***"
+        puts "------------------------------------------------"
+        flash[:notice] = "Discount applied. New price: #{new_price***REMOVED***"
+        
+      else
+        puts "------------------------------------------------"
+        puts "IT DID NOT WORK STUFF #{@rddt_test.inspect***REMOVED***"
+        puts "------------------------------------------------"
+        redirect_to edit_client_path(@client***REMOVED***
+        flash[:alert] = "Invalid discount code."
+      end
+    end
     
       private
     

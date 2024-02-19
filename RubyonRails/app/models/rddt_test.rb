@@ -18,6 +18,7 @@
 #  left_score2              :float
 #  left_score3              :float
 #  notes                    :text
+#  price                    :decimal(10, 2***REMOVED***
 #  right_percentile         :string
 #  right_score1             :float
 #  right_score2             :float
@@ -46,6 +47,18 @@ class RddtTest < ApplicationRecord
   
     belongs_to :client
     belongs_to :user
+    before_save :set_default_price
+
     attr_encrypted :client_name, key: ENV['ENCRYPTION_KEY']
 
-end
+    def set_default_price
+        self.price ||= 2.00 # set default price if not present
+      end
+    
+    def apply_discount(discount_code***REMOVED***
+      discount = Discount.find_by(code: discount_code***REMOVED***
+      return unless discount
+  
+      self.price *= (1 - discount.percentage_off / 100.0***REMOVED***
+    end
+  end
