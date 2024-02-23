@@ -1,60 +1,60 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (6.1.7.6***REMOVED***
-      actionpack (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    actioncable (6.1.7.7***REMOVED***
+      actionpack (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       nio4r (~> 2.0***REMOVED***
       websocket-driver (>= 0.6.1***REMOVED***
-    actionmailbox (6.1.7.6***REMOVED***
-      actionpack (= 6.1.7.6***REMOVED***
-      activejob (= 6.1.7.6***REMOVED***
-      activerecord (= 6.1.7.6***REMOVED***
-      activestorage (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    actionmailbox (6.1.7.7***REMOVED***
+      actionpack (= 6.1.7.7***REMOVED***
+      activejob (= 6.1.7.7***REMOVED***
+      activerecord (= 6.1.7.7***REMOVED***
+      activestorage (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       mail (>= 2.7.1***REMOVED***
-    actionmailer (6.1.7.6***REMOVED***
-      actionpack (= 6.1.7.6***REMOVED***
-      actionview (= 6.1.7.6***REMOVED***
-      activejob (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    actionmailer (6.1.7.7***REMOVED***
+      actionpack (= 6.1.7.7***REMOVED***
+      actionview (= 6.1.7.7***REMOVED***
+      activejob (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       mail (~> 2.5, >= 2.5.4***REMOVED***
       rails-dom-testing (~> 2.0***REMOVED***
-    actionpack (6.1.7.6***REMOVED***
-      actionview (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    actionpack (6.1.7.7***REMOVED***
+      actionview (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       rack (~> 2.0, >= 2.0.9***REMOVED***
       rack-test (>= 0.6.3***REMOVED***
       rails-dom-testing (~> 2.0***REMOVED***
       rails-html-sanitizer (~> 1.0, >= 1.2.0***REMOVED***
-    actiontext (6.1.7.6***REMOVED***
-      actionpack (= 6.1.7.6***REMOVED***
-      activerecord (= 6.1.7.6***REMOVED***
-      activestorage (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    actiontext (6.1.7.7***REMOVED***
+      actionpack (= 6.1.7.7***REMOVED***
+      activerecord (= 6.1.7.7***REMOVED***
+      activestorage (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       nokogiri (>= 1.8.5***REMOVED***
-    actionview (6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    actionview (6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       builder (~> 3.1***REMOVED***
       erubi (~> 1.4***REMOVED***
       rails-dom-testing (~> 2.0***REMOVED***
       rails-html-sanitizer (~> 1.1, >= 1.2.0***REMOVED***
-    activejob (6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    activejob (6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       globalid (>= 0.3.6***REMOVED***
-    activemodel (6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
-    activerecord (6.1.7.6***REMOVED***
-      activemodel (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
-    activestorage (6.1.7.6***REMOVED***
-      actionpack (= 6.1.7.6***REMOVED***
-      activejob (= 6.1.7.6***REMOVED***
-      activerecord (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    activemodel (6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
+    activerecord (6.1.7.7***REMOVED***
+      activemodel (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
+    activestorage (6.1.7.7***REMOVED***
+      actionpack (= 6.1.7.7***REMOVED***
+      activejob (= 6.1.7.7***REMOVED***
+      activerecord (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       marcel (~> 1.0***REMOVED***
       mini_mime (>= 1.1.0***REMOVED***
-    activesupport (6.1.7.6***REMOVED***
+    activesupport (6.1.7.7***REMOVED***
       concurrent-ruby (~> 1.0, >= 1.0.2***REMOVED***
       i18n (>= 1.6, < 2***REMOVED***
       minitest (>= 5.1***REMOVED***
@@ -104,9 +104,9 @@ GEM
       railties (>= 4.1.0***REMOVED***
       responders
       warden (~> 1.2.3***REMOVED***
-    dotenv (3.0.0***REMOVED***
-    dotenv-rails (3.0.0***REMOVED***
-      dotenv (= 3.0.0***REMOVED***
+    dotenv (3.0.2***REMOVED***
+    dotenv-rails (3.0.2***REMOVED***
+      dotenv (= 3.0.2***REMOVED***
       railties (>= 6.1***REMOVED***
     encryptor (3.0.0***REMOVED***
     erubi (1.12.0***REMOVED***
@@ -115,7 +115,7 @@ GEM
     ffi (1.16.3***REMOVED***
     globalid (1.2.1***REMOVED***
       activesupport (>= 6.1***REMOVED***
-    google-authenticator-rails (3.3.1***REMOVED***
+    google-authenticator-rails (3.4.0***REMOVED***
       actionpack
       activerecord
       rails
@@ -177,32 +177,32 @@ GEM
     nokogiri (1.16.2-x86_64-linux***REMOVED***
       racc (~> 1.4***REMOVED***
     orm_adapter (0.5.0***REMOVED***
-    pg (1.5.4***REMOVED***
+    pg (1.5.5***REMOVED***
     pgreset (0.4***REMOVED***
     popper_js (2.11.8***REMOVED***
     public_suffix (5.0.4***REMOVED***
     puma (5.6.8***REMOVED***
       nio4r (~> 2.0***REMOVED***
     racc (1.7.3***REMOVED***
-    rack (2.2.8***REMOVED***
+    rack (2.2.8.1***REMOVED***
     rack-proxy (0.7.7***REMOVED***
       rack
     rack-test (2.1.0***REMOVED***
       rack (>= 1.3***REMOVED***
-    rails (6.1.7.6***REMOVED***
-      actioncable (= 6.1.7.6***REMOVED***
-      actionmailbox (= 6.1.7.6***REMOVED***
-      actionmailer (= 6.1.7.6***REMOVED***
-      actionpack (= 6.1.7.6***REMOVED***
-      actiontext (= 6.1.7.6***REMOVED***
-      actionview (= 6.1.7.6***REMOVED***
-      activejob (= 6.1.7.6***REMOVED***
-      activemodel (= 6.1.7.6***REMOVED***
-      activerecord (= 6.1.7.6***REMOVED***
-      activestorage (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    rails (6.1.7.7***REMOVED***
+      actioncable (= 6.1.7.7***REMOVED***
+      actionmailbox (= 6.1.7.7***REMOVED***
+      actionmailer (= 6.1.7.7***REMOVED***
+      actionpack (= 6.1.7.7***REMOVED***
+      actiontext (= 6.1.7.7***REMOVED***
+      actionview (= 6.1.7.7***REMOVED***
+      activejob (= 6.1.7.7***REMOVED***
+      activemodel (= 6.1.7.7***REMOVED***
+      activerecord (= 6.1.7.7***REMOVED***
+      activestorage (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       bundler (>= 1.15.0***REMOVED***
-      railties (= 6.1.7.6***REMOVED***
+      railties (= 6.1.7.7***REMOVED***
       sprockets-rails (>= 2.0.0***REMOVED***
     rails-dom-testing (2.2.0***REMOVED***
       activesupport (>= 5.0.0***REMOVED***
@@ -211,9 +211,9 @@ GEM
     rails-html-sanitizer (1.6.0***REMOVED***
       loofah (~> 2.21***REMOVED***
       nokogiri (~> 1.14***REMOVED***
-    railties (6.1.7.6***REMOVED***
-      actionpack (= 6.1.7.6***REMOVED***
-      activesupport (= 6.1.7.6***REMOVED***
+    railties (6.1.7.7***REMOVED***
+      actionpack (= 6.1.7.7***REMOVED***
+      activesupport (= 6.1.7.7***REMOVED***
       method_source
       rake (>= 12.2***REMOVED***
       thor (~> 1.0***REMOVED***
@@ -235,7 +235,7 @@ GEM
       chunky_png (~> 1.0***REMOVED***
       rqrcode_core (~> 1.0***REMOVED***
     rqrcode_core (1.2.0***REMOVED***
-    ruby-vips (2.2.0***REMOVED***
+    ruby-vips (2.2.1***REMOVED***
       ffi (~> 1.12***REMOVED***
     rubyzip (2.3.2***REMOVED***
     sass-rails (6.0.0***REMOVED***
