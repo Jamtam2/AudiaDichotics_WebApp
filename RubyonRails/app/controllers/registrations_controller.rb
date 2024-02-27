@@ -14,6 +14,8 @@ class RegistrationsController < Devise::RegistrationsController
       create_regular_user
     when 'local_moderator'
       create_local_moderator
+    when 'location_moderator'
+      create_location_moderator
     else
       flash[:alert] = 'Invalid account type.'
       redirect_to new_user_registration_path and return
@@ -29,15 +31,47 @@ class RegistrationsController < Devise::RegistrationsController
     user.role = :regular_user
     local_moderator = User.find_by(role: User.roles[:local_moderator], moderator_code: params[:user][:moderator_code]***REMOVED***
     # Validate the registration key for security purposes.
-    key = Key.find_by(activation_code: user.registration_key***REMOVED***
+    # key = Key.find_by(activation_code: user.verification_key***REMOVED***
+    # Rails.logger.debug "Params: #{params.inspect***REMOVED***"
 
-    if local_moderator.present? && valid_registration_key?(key***REMOVED***
+    if local_moderator.present?
       # The user is associated with the tenant of the local moderator whose code was entered.
       user.tenant_id = local_moderator.tenant_id
 
       # Check if user record was saved before proceeding.
       if user.save
-        key.update(used: true***REMOVED***
+        # key.update(used: true***REMOVED***
+        flash[:notice] = 'Regular user was successfully created.'
+        sign_in(:user, user***REMOVED***
+        redirect_to root_path, notice: 'User was successfully created set up 2FA auth.'
+      else
+        # If user creation fails, render the registration form again with error messages.
+        flash.now[:alert] = user.errors.full_messages.join(', '***REMOVED***
+        render :new
+      end
+    else
+      flash[:alert] = 'Invalid moderator code or registration key.'
+      redirect_to new_user_registration_path and return
+    end
+  end
+
+  def create_location_moderator
+    # The moderator code will be used for validation but will not be be stored under regular use.
+    user = User.new(sign_up_params.except(:moderator_code***REMOVED******REMOVED***
+    user.role = :location_moderator
+    local_moderator = User.find_by(role: User.roles[:local_moderator], moderator_code: params[:user][:moderator_code]***REMOVED***
+
+    # Validate the registration key for security purposes.
+    # key = Key.find_by(activation_code: user.verification_key***REMOVED***
+    # Rails.logger.debug "Params: #{params.inspect***REMOVED***"
+
+    if local_moderator.present?
+      # The user is associated with the tenant of the local moderator whose code was entered.
+      user.tenant_id = local_moderator.tenant_id
+
+      # Check if user record was saved before proceeding.
+      if user.save
+        # key.update(used: true***REMOVED***
         flash[:notice] = 'Regular user was successfully created.'
         sign_in(:user, user***REMOVED***
         redirect_to root_path, notice: 'User was successfully created set up 2FA auth.'
@@ -89,6 +123,7 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def valid_registration_key?(key***REMOVED***
+    # puts "Key validity check: #{key.inspect***REMOVED***"
     key.present? && !key.used && (key.expiration.nil? || key.expiration > Time.current***REMOVED***
   end
 
@@ -97,7 +132,9 @@ class RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     allowed_params = [:fname, :lname, :email, :password, :password_confirmation, :verification_key]
     allowed_params << :moderator_code if params[:account_type] == 'regular_user'
+    Rails.logger.debug "Account Type: #{params[:account_type]***REMOVED***"
     params.require(:user***REMOVED***.permit(allowed_params***REMOVED***
   end
+
 
 end
