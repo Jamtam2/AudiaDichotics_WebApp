@@ -2,7 +2,7 @@ require 'websocket-client-simple'
 require 'base64'
 require 'json'
 
-auth_header = {'Authorization': '{your_api_token}'}
+auth_header = {'Authorization': '{8323e4c46ab24be5822b111c7fd30635}'}
 sample_rate = 16000
 word_boost = ["HackerNews", "Twitter"]
 url = "wss://api.assemblyai.com/v2/realtime/ws?word_boost=#{word_boost.to_json}&sample_rate=#{sample_rate}"
