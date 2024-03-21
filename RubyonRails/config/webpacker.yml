@@ -90,3 +90,9 @@ production:
 
   # Cache manifest.json for performance
   cache_manifest: true
+<<<<<<< HEAD
+=======
+
+# module.exports = {
+#   entry: './app/javascript/packs/application..js',
+>>>>>>> speech-api

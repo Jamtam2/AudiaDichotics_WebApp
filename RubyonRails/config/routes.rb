@@ -107,4 +107,7 @@ Rails.application.routes.draw do
     end
   end
 
+  # Adding a route for the speech api
+  get 'speech_api', to: 'speech_api#index'
+
 end
