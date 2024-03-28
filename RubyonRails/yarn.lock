@@ -1533,6 +1533,13 @@ asn1.js@^5.2.0:
     minimalistic-assert "^1.0.0"
     safer-buffer "^2.1.0"
 
+assemblyai@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/assemblyai/-/assemblyai-4.3.3.tgz#1268aa41884249f131df6225255f8d9d46aa4b54"
+  integrity sha512-T76XC/zahbSAkuGvDIO42xDS/8nHL8/21PgI4yxRy85wIzrU538xI2CDWV/H3I+A+f1sSEkMxlbRk71pIZUHNQ==
+  dependencies:
+    ws "^8.16.0"
+
 assert@^1.1.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/assert/-/assert-1.5.1.tgz#038ab248e4ff078e7bc2485ba6e6388466c78f76"
@@ -7410,6 +7417,11 @@ ws@^6.2.1:
   integrity sha512-zmhltoSR8u1cnDsD43TX59mzoMZsLKqUweyYBAIvTngR3shc0W6aOZylZmq/7hqyVxPdi+5Ud2QInblgyE72fw==
   dependencies:
     async-limiter "~1.0.0"
+
+ws@^8.16.0:
+  version "8.16.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.16.0.tgz#d1cd774f36fbc07165066a60e40323eab6446fd4"
+  integrity sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"

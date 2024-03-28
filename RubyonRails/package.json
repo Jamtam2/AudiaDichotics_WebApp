@@ -6,6 +6,7 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.4.4",
+    "assemblyai": "^4.3.3",
     "autosize": "^4.0.2",
     "bootstrap": "^4.5.3",
     "bootswatch": "^4.5.3",
