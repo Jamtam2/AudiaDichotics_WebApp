@@ -58,33 +58,42 @@
         <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
 
-        <%= audio_tag 'Track 02 Dichotic Words Test Track 1.mp3', controls: true, onplay: "checkSpeechToText()" %>
+<audio id="audioPlayer" controls onplay="checkSpeechToText()">
+  <source src="<%= asset_path('Track 02 Dichotic Words Test Track 1.mp3') %>" type="audio/mpeg">
+</audio>
 
-        <script>
-          function checkSpeechToText() {
-            // Check if the speech-to-text checkbox is checked
-            var checkbox = document.querySelector('input[type="checkbox"][data-toggle="toggle"]');
-            if (checkbox.checked) {
-              // Activate speech-to-text functionality
-              activateSpeechToText();
-            } else {
-              // Continue playing the audio
-              console.log('Audio started playing');
-            }
-          }
+<hr/>
 
-          function activateSpeechToText() {
-            // Code to activate speech-to-text functionality
-            console.log('Speech-to-Text activated');
-            // You can add your speech-to-text activation code here
-          }
-        </script>
+<label class="checkbox">
+  <input id="speechToTextToggle" type="checkbox" data-toggle="toggle" onchange="checkSpeechToText()"> Speech-to-Text
+</label>
 
-        <hr/>
+<script>
+  function checkSpeechToText() {
+    if (document.getElementById('speechToTextToggle').checked) {
+      console.log('Speech-to-Text enabled');
+      requestRecording();
+    } else {
+      console.log('Speech-to-Text disabled');
+    }
+  }
 
-        <label class="checkbox">
-          <input type="checkbox" data-toggle="toggle"> Speech-to-Text
-        </label>
+  async function requestRecording() {
+    try {
+      console.log('Requesting recording permission...');
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+      const context = new AudioContext();
+      const source = context.createMediaStreamSource(stream);
+    } catch (error) {
+      console.error('Error requesting recording:', error);
+    }
+  }
+
+  
+</script>
+
 
         <hr/>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
