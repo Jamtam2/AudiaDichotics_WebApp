@@ -57,9 +57,35 @@
         <%= f.text_area :notes, class: 'form-control', rows: '3' %>
         <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-        <audio controls>
-          <source src="<%= audio_path('Track 02 Dichotic Words Test Track 1.mp3') %>" type="audio/mpeg">
-        </audio>
+
+        <%= audio_tag 'Track 02 Dichotic Words Test Track 1.mp3', controls: true, onplay: "checkSpeechToText()" %>
+
+        <script>
+          function checkSpeechToText() {
+            // Check if the speech-to-text checkbox is checked
+            var checkbox = document.querySelector('input[type="checkbox"][data-toggle="toggle"]');
+            if (checkbox.checked) {
+              // Activate speech-to-text functionality
+              activateSpeechToText();
+            } else {
+              // Continue playing the audio
+              console.log('Audio started playing');
+            }
+          }
+
+          function activateSpeechToText() {
+            // Code to activate speech-to-text functionality
+            console.log('Speech-to-Text activated');
+            // You can add your speech-to-text activation code here
+          }
+        </script>
+
+        <hr/>
+
+        <label class="checkbox">
+          <input type="checkbox" data-toggle="toggle"> Speech-to-Text
+        </label>
+
         <hr/>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!--css for the background color of the test scores, the pos and neg ones are not used currently-->
