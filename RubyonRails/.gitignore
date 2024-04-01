@@ -41,6 +41,5 @@ RubyonRails/.env
 yarn-debug.log*
 .yarn-integrity
 
-/app/assets
 
 .DS_Store
