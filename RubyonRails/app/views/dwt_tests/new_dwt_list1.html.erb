@@ -67,6 +67,8 @@
 <label class="checkbox">
   <input id="speechToTextToggle" type="checkbox" data-toggle="toggle" onchange="checkSpeechToText()"> Speech-to-Text
 </label>
+<!-- Button here for triggering autofill -->
+<button id="autofillBtn" type="button" class="btn btn-info">Simulate Answers</button>
 
 <script>
   function checkSpeechToText() {
@@ -90,9 +92,9 @@
       console.error('Error requesting recording:', error);
     }
   }
+  document.addEventListener("DOMContentLoaded", function() {
 
-  
-</script>
+   
 
 
         <hr/>
@@ -650,4 +652,37 @@
   </div>
 </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('autofillBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent form submission and page reload
+
+        const simulatedAnswers = ['Pig', 'Sheep', 'Cake', 'Storm', 'Say', 'Yes', 'Most', 'One', 'Green', 'Glass', 'Teeth', 'Share', 'Bonk', 'Soft', 'Kite', 'Quack', 'Comb', 'Love', 'Wet', 'Juice', 'Camp', 'Goose', 'Lip', 'Room', 'Old' ]; // Revised answers
+        let delay = 500; // Start with a 500ms delay
+
+        simulatedAnswers.forEach((answer, index) => {
+            setTimeout(() => {
+                let allLabels = document.querySelectorAll('label');
+                allLabels.forEach(label => {
+                    if (label.textContent.trim() === answer) {
+                        let checkbox = label.querySelector('input[type="checkbox"]');
+                        if (checkbox && !checkbox.checked) { // Check if not already checked
+                            checkbox.checked = true;
+                            const event = new Event('change', {
+                                'bubbles': true,
+                                'cancelable': true
+                            });
+                            checkbox.dispatchEvent(event); // Dispatch change event if needed
+                            label.classList.add('active'); // Visual feedback
+                        }
+                    }
+                });
+            }, index * 1000 + delay); // Increment delay for each button press
+        });
+    });
+});
+</script>
+
+
+
 </body>
