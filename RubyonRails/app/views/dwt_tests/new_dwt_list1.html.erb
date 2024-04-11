@@ -58,44 +58,15 @@
         <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
 
-<audio id="audioPlayer" controls onplay="checkSpeechToText()">
-  <source src="<%= asset_path('Track 02 Dichotic Words Test Track 1.mp3') %>" type="audio/mpeg">
-</audio>
+        <audio id="audioPlayer" controls >
+          <source src="<%= asset_path('Track 02 Dichotic Words Test Track 1.mp3') %>" type="audio/mpeg">
+        </audio>
 
-<hr/>
+        <hr/>
 
-<label class="checkbox">
-  <input id="speechToTextToggle" type="checkbox" data-toggle="toggle" onchange="checkSpeechToText()"> Speech-to-Text
-</label>
-<!-- Button here for triggering autofill -->
-<button id="autofillBtn" type="button" class="btn btn-info">Simulate Answers</button>
-
-<script>
-  function checkSpeechToText() {
-    if (document.getElementById('speechToTextToggle').checked) {
-      console.log('Speech-to-Text enabled');
-      requestRecording();
-    } else {
-      console.log('Speech-to-Text disabled');
-    }
-  }
-
-  async function requestRecording() {
-    try {
-      console.log('Requesting recording permission...');
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
-      const context = new AudioContext();
-      const source = context.createMediaStreamSource(stream);
-    } catch (error) {
-      console.error('Error requesting recording:', error);
-    }
-  }
-  document.addEventListener("DOMContentLoaded", function() {
-
-   
-
+        <!--BUTTONS FOR RECORDING AUDIO AND SENDING TO SERVER FOR TRANSCRIPTION-->
+        <button id="startBtn" type="button" class="btn btn-info">Start Recording</button>
+        <button id="stopBtn" type="button" class="btn btn-info" disabled>Stop Recording</button>
 
         <hr/>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -645,44 +616,88 @@
     }
 
     </script>
-    
 
+    <!--script for recording audio and sending it to the server for transcription-->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const ws = new WebSocket('ws://localhost:8080');
+        let mediaRecorder;
 
+        startBtn.onclick = async () => {
+            // Request permissions and get stream
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.onstart = () => {
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                console.log('Recording started');
+            };
+
+            mediaRecorder.onstop = () => {
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+                console.log('Recording stopped');
+            };
+
+            // Handle data as it becomes available
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0 && ws.readyState === WebSocket.OPEN) {
+                    ws.send(event.data);
+                    console.log('Sending audio chunk to server');
+                }
+            };
+
+            mediaRecorder.start();
+        };
+
+        stopBtn.onclick = () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+        };
+
+        ws.onmessage = function(event) {
+            const transcript = JSON.parse(event.data);
+            // Instead of appending to #transcript, match and check answers
+            checkAnswer(transcript.text.replace(/\./, ''));
+            console.log(transcript);
+        };
+
+        // Handle WebSocket connection errors or closures
+        ws.onerror = (error) => {
+            console.log(`WebSocket error: ${error}`);
+        };
+
+        ws.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+
+        function checkAnswer(transcribedText) {
+            let answer = transcribedText 
+            let allLabels = document.querySelectorAll('label');
+            allLabels.forEach(label => {
+                if (label.textContent.trim() === answer) {
+                    let checkbox = label.querySelector('input[type="checkbox"]');
+                    if (checkbox && !checkbox.checked) { // Check if not already checked
+                        checkbox.checked = true;
+                        checkbox.dispatchEvent(new Event('change', {
+                            'bubbles': true,
+                            'cancelable': true
+                        }));
+                        label.classList.add('active'); // Visual feedback
+                    }
+                }
+            });
+        }
+    });
+    </script>
 
   </div>
 </div>
 </div>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('autofillBtn').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent form submission and page reload
-
-        const simulatedAnswers = ['Pig', 'Sheep', 'Cake', 'Storm', 'Say', 'Yes', 'Most', 'One', 'Green', 'Glass', 'Teeth', 'Share', 'Bonk', 'Soft', 'Kite', 'Quack', 'Comb', 'Love', 'Wet', 'Juice', 'Camp', 'Goose', 'Lip', 'Room', 'Old' ]; // Revised answers
-        let delay = 500; // Start with a 500ms delay
-
-        simulatedAnswers.forEach((answer, index) => {
-            setTimeout(() => {
-                let allLabels = document.querySelectorAll('label');
-                allLabels.forEach(label => {
-                    if (label.textContent.trim() === answer) {
-                        let checkbox = label.querySelector('input[type="checkbox"]');
-                        if (checkbox && !checkbox.checked) { // Check if not already checked
-                            checkbox.checked = true;
-                            const event = new Event('change', {
-                                'bubbles': true,
-                                'cancelable': true
-                            });
-                            checkbox.dispatchEvent(event); // Dispatch change event if needed
-                            label.classList.add('active'); // Visual feedback
-                        }
-                    }
-                });
-            }, index * 1000 + delay); // Increment delay for each button press
-        });
-    });
-});
-</script>
-
 
 
 </body>
