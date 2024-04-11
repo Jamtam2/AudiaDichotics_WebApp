@@ -1384,10 +1384,10 @@ asn1.js@^5.2.0:
     minimalistic-assert "^1.0.0"
     safer-buffer "^2.1.0"
 
-assemblyai@^4.3.3:
-  version "4.3.3"
-  resolved "https://registry.npmjs.org/assemblyai/-/assemblyai-4.3.3.tgz"
-  integrity sha512-T76XC/zahbSAkuGvDIO42xDS/8nHL8/21PgI4yxRy85wIzrU538xI2CDWV/H3I+A+f1sSEkMxlbRk71pIZUHNQ==
+assemblyai@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.npmjs.org/assemblyai/-/assemblyai-4.3.4.tgz"
+  integrity sha512-qsDkLjbAKqgVrpxTdoxF1b5dt1Txmdh49lmO/02MJzXFXzMFUqpsgE/hvQ8Hkfykx/aXuU7WcU2otA9tXKgTPA==
   dependencies:
     ws "^8.16.0"
 
@@ -2737,6 +2737,11 @@ elliptic@^6.5.3:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
+
+emitter-component@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/emitter-component/-/emitter-component-1.1.2.tgz"
+  integrity sha512-QdXO3nXOzZB4pAjM0n6ZE+R9/+kPpECA/XSELIcc54NeYVnBqIk+4DFiBgK+8QbV3mdvTG6nedl7dTYgO+5wDw==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -6598,6 +6603,13 @@ stream-shift@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/stream-shift/-/stream-shift-1.0.1.tgz"
   integrity sha512-AiisoFqQ0vbGcZgQPY1cdP2I76glaVA/RauYR4G4thNFgkTqr90yXTo4LYX60Jl+sIlPNHHdGSwo01AvbKUSVQ==
+
+stream@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.npmjs.org/stream/-/stream-0.0.2.tgz"
+  integrity sha512-gCq3NDI2P35B2n6t76YJuOp7d6cN/C7Rt0577l91wllh0sY9ZBuw9KaSGqH/b0hzn3CWWJbpbW0W0WvQ1H/Q7g==
+  dependencies:
+    emitter-component "^1.1.1"
 
 strict-uri-encode@^1.0.0:
   version "1.1.0"

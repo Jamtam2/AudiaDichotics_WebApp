@@ -1,6 +1,12 @@
 const { Readable } = require('stream');
 const { AssemblyAI } = require('assemblyai');
 const recorder = require('node-record-lpcm16');
+const express = require('express');
+const WebSocket = require('ws');
+
+const app = express();
+const server = require('http').createServer(app);
+const wss = new WebSocket.Server({ server });
 
 const run = async () => {
   const client = new AssemblyAI({
@@ -29,10 +35,19 @@ const run = async () => {
     }
 
     if (transcript.message_type === 'PartialTranscript') {
-      console.log('Partial:', transcript.text);
+      // console.log('Partial:', transcript.text);
     } else {
       console.log('Final:', transcript.text);
     }
+  });
+
+  wss.on('connection', (ws) => {
+    transcriber.on('transcript', (transcript) => {
+      if (transcript.message_type === 'FinalTranscript') {
+        // Serialize and send the transcript data
+        ws.send(JSON.stringify(transcript));
+      }
+    });
   });
 
   try {
@@ -65,3 +80,7 @@ const run = async () => {
 };
 
 run();
+
+server.listen(8080, () => {
+  console.log('Server started on port 8080');
+});
