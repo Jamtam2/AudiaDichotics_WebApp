@@ -15,6 +15,7 @@ function toggleFields(***REMOVED*** {
     let registrationKeyField = document.getElementById('registrationKeyField'***REMOVED***;
     let signUpCodeField = document.getElementById('signUpCodeField'***REMOVED***;
 
-    registrationKeyField.style.display = localModerator || regularUser ? 'block' : 'none';
+    // registrationKeyField.style.display = localModerator || regularUser ? 'block' : 'none';
+    registrationKeyField.style.display = localModerator ? 'block' : 'none';
     signUpCodeField.style.display = regularUser ? 'block' : 'none';
 ***REMOVED***
