@@ -1,0 +1,7 @@
+Live Demo: https://vimeo.com/936424964/d2ff6bb0f3?share=copy
+
+The feature works as expected and picking up most of the words that were spoken. 
+However, there is a slight lag when the words are spoken and some of the words
+were not selected because of the wrong word being understood. There should be some
+feature that speeds up the response and accuracy of the words being selected, 
+or a guess that most resembles the word.
