@@ -3,9 +3,9 @@ const { AssemblyAI } = require('assemblyai');
 const recorder = require('node-record-lpcm16');
 const express = require('express');
 const WebSocket = require('ws');
+const server = require('http').createServer(app);
 
 const app = express();
-const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server });
 
 const run = async () => {
@@ -17,18 +17,22 @@ const run = async () => {
     sampleRate: 16000
   });
 
+  // Event handler for when the connection is opened
   transcriber.on('open', ({ sessionId }) => {
     console.log(`Session opened with ID: ${sessionId}`);
   });
 
+  // Event handler for errors
   transcriber.on('error', (error) => {
     console.error('Error:', error);
   });
 
+  // Event handler for when the connection is closed
   transcriber.on('close', (code, reason) =>
     console.log('Session closed:', code, reason)
   );
 
+  // Event handler for receiving transcripts
   transcriber.on('transcript', (transcript) => {
     if (!transcript.text) {
       return;
@@ -41,6 +45,7 @@ const run = async () => {
     }
   });
 
+  // Event handler for WebSocket connection
   wss.on('connection', (ws) => {
     transcriber.on('transcript', (transcript) => {
       if (transcript.message_type === 'FinalTranscript') {
