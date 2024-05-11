@@ -2,8 +2,14 @@ class UsersController < ApplicationController
   before_action :check_permission, only: [:new, :create]
 
   def index
-    local_users = User.where(tenant_id: current_user.tenant_id***REMOVED***
 
+    if current_user.global_moderator?
+      local_users = User.unscoped { User.all ***REMOVED***
+      # @users = User.unscoped { User.all ***REMOVED***
+    else
+      local_users = User.where(tenant_id: current_user.tenant_id***REMOVED***
+      # @users = User.where(tenant_id: current_user.tenant_id***REMOVED***
+  end 
     if params[:query]
       split_query = params[:query].split(' '***REMOVED***
       if split_query.length > 1
@@ -17,7 +23,8 @@ class UsersController < ApplicationController
                             query: "%#{params[:query].downcase***REMOVED***%"***REMOVED***
       end
     else
-      @users = User.where(tenant_id: current_user.tenant_id***REMOVED***
+      @users =local_users
+      #@users = User.where(tenant_id: current_user.tenant_id***REMOVED***
     end
   end
 

@@ -161,10 +161,10 @@ class Client < ApplicationRecord
         ***REMOVED******REMOVED***
     end
   # Validations for various client attributes
-  validates :first_name, :last_name, :email, :address1, :country, :state, :city, :zip, :phone1, :date_of_birth, presence: true
+  validates :first_name, :last_name, :zip, :gender, :date_of_birth, presence: true
 
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP ***REMOVED***
-  validates :phone1, numericality: { only_integer: true ***REMOVED***
+  # validates :email, format: { with: URI::MailTo::EMAIL_REGEXP ***REMOVED***
+  # validates :phone1, numericality: { only_integer: true ***REMOVED***
 
   # Allow these attributes to be searched through Ransack
   def self.ransackable_attributes(auth_object = nil***REMOVED***
