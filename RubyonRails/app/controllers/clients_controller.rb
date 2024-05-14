@@ -105,7 +105,7 @@ class ClientsController < ApplicationController
 
 
       # Calling method that enables Ransack functionality
-      # sort_and_filter_clients(client_scope***REMOVED***
+      sort_and_filter_clients(client_scope***REMOVED***
 
       process_hashed_search_parameters
 
@@ -118,6 +118,7 @@ class ClientsController < ApplicationController
 
     # Controller for global_moderator_index page functionality
     def global_moderator_index
+      client_scope = nil
       if current_user.global_moderator?
         ActsAsTenant.without_tenant do
             client_scope = Client.unscoped.includes(:dwt_tests, :dnw_tests, :rddt_tests***REMOVED***
@@ -128,7 +129,7 @@ class ClientsController < ApplicationController
             end
 
         end
-        @q = @clients.ransack(params[:q]***REMOVED***
+        # @q = @clients.ransack(params[:q]***REMOVED***
     # Include associated tests to avoid N+1 query problems
         @clients = client_scope
         # @clients = client_scope.includes(:dwt_tests, :dnw_tests, :rddt_tests***REMOVED***
@@ -144,7 +145,7 @@ class ClientsController < ApplicationController
         # Calling method that enables Ransack functionality
         # sort_and_filter_clients(client_scope***REMOVED***
 
-      # process_hashed_search_parameters
+      process_hashed_search_parameters
 
         respond_to do |format|
           format.html
@@ -210,7 +211,7 @@ end
 
 def process_hashed_search_parameters
   @q = Client.ransack(params[:q], sort: params[:s]***REMOVED***
-  @clients = @q.result
+  # @clients = @q.result
 
   # Store the search terms with the following model attributes with the hashed data
   dict_of_search_terms = {
@@ -226,7 +227,7 @@ def process_hashed_search_parameters
   dict_of_search_terms.each do |search_term, (hashed_attribute, hashed_value***REMOVED***|
     if params[search_term].present?
       hashed_records = HashedDatum.where(hashed_attribute => hashed_value***REMOVED***
-      @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
+      # @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
     end
   end
 
