@@ -1,0 +1,1 @@
+I worked on creating a modal for the calibration page. We got our page features set up toward the very end of the sprint so not a whole lot was completed on it outside of the planning of where it would go and how it would look. It was displayed in the slideshow and demo used for demo day but I definitely plan on having it more polished by the end of the next sprint.

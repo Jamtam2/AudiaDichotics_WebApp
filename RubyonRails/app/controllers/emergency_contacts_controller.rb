@@ -1,15 +1,15 @@
 class EmergencyContactsController < ApplicationController
   def new
-    @client = Client.find(params[:client_id]***REMOVED***
+    @client = Client.find(params[:client_id])
     @emergency_contact = EmergencyContact.new
   end
 
   def create
-    @client = Client.find(params[:client_id]***REMOVED***
-    @emergency_contact = @client.emergency_contacts.build(emergency_contact_params***REMOVED***
+    @client = Client.find(params[:client_id])
+    @emergency_contact = @client.emergency_contacts.build(emergency_contact_params)
 
     if @emergency_contact.save
-      redirect_to edit_client_path(@client***REMOVED***, notice: "Emergency Contact created successfully."
+      redirect_to edit_client_path(@client), notice: "Emergency Contact created successfully."
     else
       flash.now[:error] = "Emergency Contact creation failed"
       render :new
@@ -17,16 +17,16 @@ class EmergencyContactsController < ApplicationController
   end
 
   def edit
-    @client = Client.find(params[:client_id]***REMOVED***
-    @emergency_contact = @client.emergency_contacts.find(params[:id]***REMOVED***
+    @client = Client.find(params[:client_id])
+    @emergency_contact = @client.emergency_contacts.find(params[:id])
   end
 
   def update
-    @client = Client.find(params[:client_id]***REMOVED***
-    @emergency_contact = @client.emergency_contacts.find(params[:id]***REMOVED***
+    @client = Client.find(params[:client_id])
+    @emergency_contact = @client.emergency_contacts.find(params[:id])
 
-    if @emergency_contact.update(emergency_contact_params***REMOVED***
-      redirect_to edit_client_path(@client***REMOVED***, notice: "Emergency Contact updated successfully."
+    if @emergency_contact.update(emergency_contact_params)
+      redirect_to edit_client_path(@client), notice: "Emergency Contact updated successfully."
     else
       flash.now[:error] = "Emergency Contact update failed"
       render :edit
@@ -34,15 +34,15 @@ class EmergencyContactsController < ApplicationController
   end
 
   def destroy
-    @client = Client.find(params[:client_id]***REMOVED***
-    @emergency_contact = @client.emergency_contacts.find(params[:id]***REMOVED***
+    @client = Client.find(params[:client_id])
+    @emergency_contact = @client.emergency_contacts.find(params[:id])
     @emergency_contact.destroy
-    redirect_to edit_client_path(@client***REMOVED***, notice: "Emergency contact successfully deleted."
+    redirect_to edit_client_path(@client), notice: "Emergency contact successfully deleted."
   end
 
   private
 
   def emergency_contact_params
-    params.require(:emergency_contact***REMOVED***.permit(:first_name, :last_name, :phone_number, :address, :email, :state, :city***REMOVED***
+    params.require(:emergency_contact).permit(:first_name, :last_name, :phone_number, :address, :email, :state, :city)
   end
 end

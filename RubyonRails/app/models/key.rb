@@ -28,12 +28,12 @@ class Key < ApplicationRecord
     end
 
     def self.expired
-      where('expiration > ?', Time.current***REMOVED***
+      where('expiration > ?', Time.current)
     end
 
     public
     def associated_user_by_email
-      User.find_by(email: self.email***REMOVED***
+      User.find_by(email: self.email)
     end
 end
   

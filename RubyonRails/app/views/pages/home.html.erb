@@ -8,7 +8,7 @@
     <% if user_signed_in? %>
       <h1 class= "card-title display-6", style= 'padding-bottom:20px'> <strong> Hello <%= current_user.fname + " " + current_user.lname%>! </strong> </h1>
     <% else %>
-      <h1 class= "card-title display-6"> <strong><%= link_to 'Sign in before using features', new_user_session_path, class: " nav-link #{active_class(new_user_session_path***REMOVED******REMOVED***"%></strong></h1>
+      <h1 class= "card-title display-6"> <strong><%= link_to 'Sign in before using features', new_user_session_path, class: " nav-link #{active_class(new_user_session_path)}"%></strong></h1>
     <% end %>
    </p>
 

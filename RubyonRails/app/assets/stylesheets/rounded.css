@@ -1,37 +1,37 @@
 .rounded {
     border-radius: 20%;
-  ***REMOVED***
+  }
 
 .btn-rounded {
     border-radius: 50%;
-  ***REMOVED***
+  }
 
 /*.container {
     border-radius: 10% !important;
-***REMOVED***
+}
 
 .card {
     border-radius: 10% !important;
-***REMOVED***
+}
  */
 .modal-content {
     border-radius:10% 10%  !important;
-***REMOVED***
+}
 
 .navbar-brand {
     float:left !important;
-***REMOVED***
+}
 
 #containGrad{
     border-radius: 68px;
-background: linear-gradient(145deg, #ffffff, #e1e1e1***REMOVED***;
+background: linear-gradient(145deg, #ffffff, #e1e1e1);
 box-shadow:  28px 28px 49px #aaaaaa,
              -28px -28px 49px #ffffff;
-***REMOVED***
+}
 
 #containGrad2{
     border-radius: 50px;
-background: linear-gradient(145deg, #f8f8f8, #d1d1d1***REMOVED***;
+background: linear-gradient(145deg, #f8f8f8, #d1d1d1);
 box-shadow:  25px 25px 50px #c5c5c5,
              -25px -25px 50px #ffffff;
-***REMOVED***
+}

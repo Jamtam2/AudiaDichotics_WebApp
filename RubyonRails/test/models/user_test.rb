@@ -3,10 +3,10 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  email                  :string           default(""***REMOVED***, not null
+#  email                  :string           default(""), not null
 #  email_2fa_code         :string
 #  email_2fa_code_sent_at :datetime
-#  encrypted_password     :string           default(""***REMOVED***, not null
+#  encrypted_password     :string           default(""), not null
 #  fname                  :string
 #  google_secret          :string
 #  lname                  :string
@@ -25,14 +25,14 @@
 #
 # Indexes
 #
-#  index_users_on_email                 (email***REMOVED*** UNIQUE
-#  index_users_on_moderator_code        (moderator_code***REMOVED***
-#  index_users_on_reset_password_token  (reset_password_token***REMOVED*** UNIQUE
-#  index_users_on_tenant_id             (tenant_id***REMOVED***
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_moderator_code        (moderator_code)
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_tenant_id             (tenant_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
+#  fk_rails_...  (tenant_id => tenants.id)
 #
 require "test_helper"
 

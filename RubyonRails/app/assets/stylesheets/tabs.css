@@ -5,25 +5,25 @@
     background-color: #f1f1f1;
     border: 1px solid #ccc;
     margin-right: -1px;
-  ***REMOVED***
+  }
   
   .tab:hover {
     background-color: #ddd;
-  ***REMOVED***
+  }
   
   .tab.active {
     background-color: #fff;
     border-bottom: none;
-  ***REMOVED***
+  }
   
   .tab-content {
     display: none;
     padding: 15px;
     border: 1px solid #ccc;
     border-top: none;
-  ***REMOVED***
+  }
   
   .tab-content.active {
     display: block;
-  ***REMOVED***
+  }
   

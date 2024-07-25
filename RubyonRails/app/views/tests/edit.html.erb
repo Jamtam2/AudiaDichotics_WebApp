@@ -1,6 +1,6 @@
 <h1>Test Details</h1>
 
-<%= bootstrap_form_with model: @test, url: client_test_path(@test***REMOVED***, method: :patch, local: true do |f| %>
+<%= bootstrap_form_with model: @test, url: client_test_path(@test), method: :patch, local: true do |f| %>
 
 
   <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Rddt List One" %>
@@ -24,7 +24,7 @@
 
   
 
-  <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "populateHiddenFields(***REMOVED***" %>
+  <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "populateHiddenFields()" %>
 <% end %>
 <!-- Other test details -->
 

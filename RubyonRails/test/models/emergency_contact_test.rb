@@ -24,13 +24,13 @@
 #
 # Indexes
 #
-#  index_emergency_contacts_on_client_id  (client_id***REMOVED***
-#  index_emergency_contacts_on_tenant_id  (tenant_id***REMOVED***
+#  index_emergency_contacts_on_client_id  (client_id)
+#  index_emergency_contacts_on_tenant_id  (tenant_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (client_id => clients.id***REMOVED***
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
+#  fk_rails_...  (client_id => clients.id)
+#  fk_rails_...  (tenant_id => tenants.id)
 #
 require "test_helper"
 

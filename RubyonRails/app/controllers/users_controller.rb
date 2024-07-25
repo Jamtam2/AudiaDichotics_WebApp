@@ -2,29 +2,22 @@ class UsersController < ApplicationController
   before_action :check_permission, only: [:new, :create]
 
   def index
+    local_users = User.where(tenant_id: current_user.tenant_id)
 
-    if current_user.global_moderator?
-      local_users = User.unscoped { User.all ***REMOVED***
-      # @users = User.unscoped { User.all ***REMOVED***
-    else
-      local_users = User.where(tenant_id: current_user.tenant_id***REMOVED***
-      # @users = User.where(tenant_id: current_user.tenant_id***REMOVED***
-  end 
     if params[:query]
-      split_query = params[:query].split(' '***REMOVED***
+      split_query = params[:query].split(' ')
       if split_query.length > 1
         # Case when both first name and last name are typed
-        @users = local_users.where('lower(fname***REMOVED*** LIKE :first AND lower(lname***REMOVED*** LIKE :last', 
-                            first: "#{split_query.first.downcase***REMOVED***%", 
-                            last: "#{split_query.last.downcase***REMOVED***%"***REMOVED***
+        @users = local_users.where('lower(fname) LIKE :first AND lower(lname) LIKE :last', 
+                            first: "#{split_query.first.downcase}%", 
+                            last: "#{split_query.last.downcase}%")
       else
         # Case when either first name, last name, or email is typed
-        @users = local_users.where('lower(fname***REMOVED*** LIKE :query OR lower(lname***REMOVED*** LIKE :query OR lower(email***REMOVED*** LIKE :query', 
-                            query: "%#{params[:query].downcase***REMOVED***%"***REMOVED***
+        @users = local_users.where('lower(fname) LIKE :query OR lower(lname) LIKE :query OR lower(email) LIKE :query', 
+                            query: "%#{params[:query].downcase}%")
       end
     else
-      @users =local_users
-      #@users = User.where(tenant_id: current_user.tenant_id***REMOVED***
+      @users = User.where(tenant_id: current_user.tenant_id)
     end
   end
 
@@ -33,34 +26,34 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params***REMOVED***
-    key = Key.find_by(activation_code: params[:registration_key]***REMOVED***
+    @user = User.new(user_params)
+    key = Key.find_by(activation_code: params[:registration_key])
   
-    # Rails.logger("DEBUG: User: #{@user.inspect***REMOVED***"***REMOVED***
-    # Rails.logger("DEBUG: key: #{key.inspect***REMOVED***"***REMOVED***
+    # Rails.logger("DEBUG: User: #{@user.inspect}")
+    # Rails.logger("DEBUG: key: #{key.inspect}")
   
-    if valid_registration_key?(key***REMOVED***
-      # Rails.logger("DEBUG: KEY IS VALID!!!"***REMOVED***
+    if valid_registration_key?(key)
+      # Rails.logger("DEBUG: KEY IS VALID!!!")
   
       tenant = Tenant.create!
-      # Rails.logger("DEBUG: Created tenant #{tenant.inspect***REMOVED***"***REMOVED***
+      # Rails.logger("DEBUG: Created tenant #{tenant.inspect}")
       @user.tenant_id = tenant.id
       @user.role = 'local_moderator'
   
-      # Rails.logger("DEBUG: tenant_id: #{@user.tenant_id.inspect***REMOVED***"***REMOVED***
-      # Rails.logger("DEBUG: user role: #{@user.role.inspect***REMOVED***"***REMOVED***
+      # Rails.logger("DEBUG: tenant_id: #{@user.tenant_id.inspect}")
+      # Rails.logger("DEBUG: user role: #{@user.role.inspect}")
   
       if @user.save
-        # Rails.logger("DEBUG: Saving user: #{@user.inspect***REMOVED***"***REMOVED***
+        # Rails.logger("DEBUG: Saving user: #{@user.inspect}")
   
   
-        # key.update(used: true***REMOVED***
+        # key.update(used: true)
         # User, tenant, and key update successful
-        puts "New user (local moderator***REMOVED*** was saved with Tenant ID: #{tenant.id***REMOVED***"
+        puts "New user (local moderator) was saved with Tenant ID: #{tenant.id}"
       else
         # Handle user creation failure
         puts "Failed to create user"
-        Rails.logger("DEBUG: FAILED TO CREATE USER: #{@user.role.inspect***REMOVED***"***REMOVED***
+        Rails.logger("DEBUG: FAILED TO CREATE USER: #{@user.role.inspect}")
         render :new
       end
     else
@@ -72,8 +65,8 @@ class UsersController < ApplicationController
 
   private
 
-  def valid_registration_key?(key***REMOVED***
-    key.present? && !key.used && (key.expiration.nil? || key.expiration > Time.current***REMOVED***
+  def valid_registration_key?(key)
+    key.present? && !key.used && (key.expiration.nil? || key.expiration > Time.current)
   end
 
   private
@@ -85,7 +78,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user***REMOVED***.permit(:fname, :lname, :email, :password, :password_confirmation, :tenant_id, :registration_key***REMOVED***
-    Rails.logger("DEBUG: #{@user.email.inspect***REMOVED***"***REMOVED***
+    params.require(:user).permit(:fname, :lname, :email, :password, :password_confirmation, :tenant_id, :registration_key)
+    Rails.logger("DEBUG: #{@user.email.inspect}")
   end
 end

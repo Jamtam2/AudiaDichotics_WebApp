@@ -35,11 +35,11 @@
 #
 # Indexes
 #
-#  index_clients_on_tenant_id  (tenant_id***REMOVED***
+#  index_clients_on_tenant_id  (tenant_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
+#  fk_rails_...  (tenant_id => tenants.id)
 #
 require "test_helper"
 

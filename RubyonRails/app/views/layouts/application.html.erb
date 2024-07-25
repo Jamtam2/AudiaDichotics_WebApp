@@ -26,14 +26,14 @@
     <style id= "complied-css" type="text/css">
   .navbardrop::after{
     float:left;
-  ***REMOVED***
+  }
 
   .main-content {
     padding-top: 70px; 
-  ***REMOVED***
+  }
   .flash-messages {
   padding-top: 70px; /* Adjust this value based on the actual height of your navbar */
-***REMOVED***
+}
 
 
   
@@ -47,7 +47,7 @@
     <div class="container-fluid clearfix justify-content-start">
       <a class="navbar-brand" href="/home">
       <%= image_tag 'AUDIA_RGB_single_letter.png', style: "width: 50px", class:"d-inline-block"%>
-      <%# <%= link_to edit_client_path(user***REMOVED*** do %>
+      <%# <%= link_to edit_client_path(user) do %>
       
                     <%# <% end %>
       
@@ -55,14 +55,14 @@
 
         <ul class="navbar-nav flex-wrap">
           <span class="navbar-brand">
-        <%= link_to image_tag('info.png', alt: 'Edit', width: 15***REMOVED***, '/about', class:"d-inline-block" %>
+        <%= link_to image_tag('info.png', alt: 'Edit', width: 15), '/about', class:"d-inline-block" %>
       </span>
             <h5><small><li class='nav-item'>
-    <%= link_to 'Clients', (current_user&.global_moderator? ? global_moderator_index_path : clients_path***REMOVED***, class: 'nav-link ' %> </small></h5>
+    <%= link_to 'Clients', (current_user&.global_moderator? ? global_moderator_index_path : clients_path), class: 'nav-link ' %> </small></h5>
           </li>
           <h5><small><li class='nav-item'>
             <%# <%= image_tag 'headphones.png', style: "width: 50px", class:"d-inline-block"%>
-            <%= link_to 'Calibrate', "#", data: {toggle: "modal", target: '#myModal'***REMOVED***, class: 'nav-link ' %></small></h5>
+            <%= link_to 'Calibrate', "#", data: {toggle: "modal", target: '#myModal'}, class: 'nav-link ' %></small></h5>
 
           </li>
           </li>
@@ -91,11 +91,11 @@
           </li>
       <% end %>
       <h5><small><li class='nav-item'>
-        <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, data: { turbo: false ***REMOVED***, class: 'nav-link text-white text-decoration-none' %>
+        <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'nav-link text-white text-decoration-none' %>
           </small></h5></li>
       <%else%>
       <h5><small><li class='nav-item'>
-        <%= link_to 'Login', new_user_session_path, class: "text-white nav-link #{active_class(new_user_session_path***REMOVED******REMOVED***"%>
+        <%= link_to 'Login', new_user_session_path, class: "text-white nav-link #{active_class(new_user_session_path)}"%>
         </small></h5></li>
       <%end %>
     </form>
@@ -104,14 +104,14 @@
 
 <div class="flash-messages">
   <% flash.each do |key, messages| %>
-    <% if messages.respond_to?(:each***REMOVED*** %>
+    <% if messages.respond_to?(:each) %>
       <% messages.each do |message| %>
-        <div class="alert alert-<%= flash_message(key***REMOVED*** %> fade show" role="alert">
+        <div class="alert alert-<%= flash_message(key) %> fade show" role="alert">
           <%= message %>
         </div>
       <% end %>
     <% else %>
-      <div class="alert alert-<%= flash_message(key***REMOVED*** %> fade show" role="alert">
+      <div class="alert alert-<%= flash_message(key) %> fade show" role="alert">
         <%= messages %>
       </div>
     <% end %>
@@ -120,7 +120,7 @@
 
 
 
-<%# all code for the calibration feature (inside modal made here***REMOVED*** %>
+<%# all code for the calibration feature (inside modal made here) %>
 <div class="modal fade content-justify-center" id="myModal">
 
  
@@ -155,12 +155,12 @@
     <%# This script resets the calibraion audio in the modal after it is closed
     this makes the audio to stop playing whenever you've closed the modal %>
     <script>
-         $('#myModal'***REMOVED***.on('hide.bs.modal', function (***REMOVED*** { 
-          $('audio'***REMOVED***.each(function(***REMOVED***{
-           this.pause(***REMOVED***; // Stop playing
+         $('#myModal').on('hide.bs.modal', function () { 
+          $('audio').each(function(){
+           this.pause(); // Stop playing
             this.currentTime = 0; // Reset time
-           ***REMOVED******REMOVED***; 
-          ***REMOVED******REMOVED***
+           }); 
+          })
     </script>
   </div>
   

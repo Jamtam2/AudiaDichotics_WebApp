@@ -4,22 +4,22 @@ require 'csv'
 class LicenseKeyCheckJob < ApplicationJob
   queue_as :default
 
-  def perform(license_key***REMOVED***
-    csv_data = generate_csv_data_for(license_key***REMOVED***
+  def perform(license_key)
+    csv_data = generate_csv_data_for(license_key)
     associated_user = license_key.associated_user_by_email
-    encrypted_csv_data = encrypt_csv_data(csv_data***REMOVED***
-    UserMailer.license_key_expired_mail(associated_user, encrypted_csv_data***REMOVED***.deliver_later if associated_user
+    encrypted_csv_data = encrypt_csv_data(csv_data)
+    UserMailer.license_key_expired_mail(associated_user, encrypted_csv_data).deliver_later if associated_user
   end
 
-  def encrypt_csv_data(csv_data***REMOVED***
+  def encrypt_csv_data(csv_data)
     key = ENV['CSV_EMAILER_ENCRYPTION_KEY']
-    iv = OpenSSL::Cipher.new('aes-256-gcm'***REMOVED***.random_iv
-    encrypted_data = Encryptor.encrypt(value: csv_data, key: key, iv: iv, algorithm: 'aes-256-gcm'***REMOVED***
+    iv = OpenSSL::Cipher.new('aes-256-gcm').random_iv
+    encrypted_data = Encryptor.encrypt(value: csv_data, key: key, iv: iv, algorithm: 'aes-256-gcm')
     encrypted_data
   end
 
-  def generate_csv_data_for(license_key***REMOVED***
-    CSV.generate(headers: true***REMOVED*** do |csv|
+  def generate_csv_data_for(license_key)
+    CSV.generate(headers: true) do |csv|
 
       headers = ["Test Type", "Tenant ID", "Client ID", "Client Name", "Advantage Percentile",
                  "Ear Advantage", "Ear Advantage Score", "Interpretation", "label",

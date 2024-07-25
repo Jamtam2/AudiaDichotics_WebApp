@@ -1,0 +1,4 @@
+The speech-api branch is what I worked on for sprint 2. Right now it will not run because in order to use it,
+our team needs for the sponsor to have a paid account for AssemblyAI, as it is a locked feature otherwise. I have
+added the required code in the mean time. It was a python sdk but I translated it to ruby. I will have to do more work
+as there is pyaudio that needs to be installed, and I'm not sure yet how I would do that with ruby.

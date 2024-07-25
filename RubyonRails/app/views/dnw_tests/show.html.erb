@@ -74,53 +74,53 @@
 
 
 <script>
-    const earAdvantageCells = document.querySelectorAll('.ear-advantage'***REMOVED***;
-    const percentileCells = document.querySelectorAll('.percentile'***REMOVED***;
+    const earAdvantageCells = document.querySelectorAll('.ear-advantage');
+    const percentileCells = document.querySelectorAll('.percentile');
     
     // Loop through each ear advantage cell
     earAdvantageCells.forEach(cell => {
     // Get the value of the cell
-    const value = parseFloat(cell.textContent***REMOVED***;
+    const value = parseFloat(cell.textContent);
 
     // Check the value and set the background color accordingly
-    if (value < 0***REMOVED*** {
+    if (value < 0) {
         cell.style.backgroundColor = 'lightblue';
-    ***REMOVED*** else if (value > 0***REMOVED*** {
+    } else if (value > 0) {
         cell.style.backgroundColor = 'lightpink';
-    ***REMOVED*** else {
+    } else {
         cell.style.backgroundColor = 'white';
-    ***REMOVED***
-    ***REMOVED******REMOVED***;
+    }
+    });
 
     percentileCells.forEach(cell => {
     // Get the value of the cell
-    const percValue = cell.textContent.trim(***REMOVED***;
+    const percValue = cell.textContent.trim();
 
     // Check the value and set the background color accordingly
-    if ((percValue == "5th Percentile"***REMOVED******REMOVED*** {
+    if ((percValue == "5th Percentile")) {
         cell.style.backgroundColor = 'lightpink';
-    ***REMOVED*** 
-    else if (percValue == "10th Percentile"***REMOVED*** {
-        cell.style.backgroundColor = 'hsl(60, 100%, 70%***REMOVED***';
-    ***REMOVED*** 
-    else if (percValue == "25th Percentile"***REMOVED*** {
+    } 
+    else if (percValue == "10th Percentile") {
+        cell.style.backgroundColor = 'hsl(60, 100%, 70%)';
+    } 
+    else if (percValue == "25th Percentile") {
         cell.style.backgroundColor = 'lightgreen';
-    ***REMOVED***
+    }
     else{
         cell.style.backgroundColor = 'lightblue';
-    ***REMOVED***
-    ***REMOVED******REMOVED***;
+    }
+    });
 </script>
 
 
 <style>
     .left-column {
         background-color: lightblue;
-    ***REMOVED***
+    }
     
     .right-column {
         background-color: lightpink;
-    ***REMOVED***
+    }
 
 </style>
 

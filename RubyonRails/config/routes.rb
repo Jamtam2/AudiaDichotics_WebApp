@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
   
-  devise_for :users, controllers: { registrations: 'registrations', sessions: 'users/sessions', passwords: 'users/passwords' ***REMOVED***
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'users/sessions', passwords: 'users/passwords' }
 
   get 'pages/home'
   devise_scope :user do
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   end
 
-  root to: redirect('/home'***REMOVED***
+  root to: redirect('/home')
   get 'home', to: 'pages#home', as: 'home'
   get 'about', to: 'pages#about', as: 'about'
   
@@ -114,5 +114,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  # Adding a route for the speech api
+  get 'speech_api', to: 'speech_api#index'
 
 end

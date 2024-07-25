@@ -18,8 +18,8 @@
       </ol>
     </div>
     <div class="qr-code-container">
-      <% qr_code = RQRCode::QRCode.new(current_user.generate_qr_code***REMOVED*** %>
-      <%= raw qr_code.as_svg(module_size: 5***REMOVED*** %>
+      <% qr_code = RQRCode::QRCode.new(current_user.generate_qr_code) %>
+      <%= raw qr_code.as_svg(module_size: 5) %>
     </div>
   <% else %>
     <p class="pt-3 d-flex justify-content-center text-align: center", style= ' font-size:30px;'>Enter the code from the Google Authenticator App.</p>

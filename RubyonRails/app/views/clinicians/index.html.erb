@@ -17,7 +17,7 @@
     <% @clinicians.each do |clinician| %>
       <tr>
       <td>
-        <%= link_to edit_clinician_path(clinician***REMOVED*** do %>
+        <%= link_to edit_clinician_path(clinician) do %>
           <%= image_tag 'edit_icon.png', alt: 'Edit',width: 20 %>
         <% end %>
       </td>
@@ -26,7 +26,7 @@
         <td><%= clinician.email %></td>
         <td><%= clinician.phone1 %></td>
         <td>
-          <%= link_to clinician_path(clinician***REMOVED***, method: :delete, data: { confirm: 'Are you sure?' ***REMOVED*** do %>
+          <%= link_to clinician_path(clinician), method: :delete, data: { confirm: 'Are you sure?' } do %>
             <%= image_tag 'delete_icon.png', alt: 'Delete', width: 20 %>
           <% end %>
         </td>

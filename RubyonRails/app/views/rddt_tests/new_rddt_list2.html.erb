@@ -20,11 +20,11 @@
         position: -webkit-sticky; /* Safari */
         position: sticky;
         top: 0;
-    ***REMOVED***
+    }
   </style>
 
   <div class="container">
-    <%= form_with model: [@client, @rddt_test], local: true, html: { multipart: true ***REMOVED*** do |f| %>
+    <%= form_with model: [@client, @rddt_test], local: true, html: { multipart: true } do |f| %>
     <div class="row">
       <div class="form-group row">
         <div class="col-sm">
@@ -60,23 +60,23 @@
             <style>
               .left-column {
                 background-color: lightblue;
-              ***REMOVED***
+              }
               
               .right-column {
                 background-color: lightpink;
-              ***REMOVED***
+              }
               
               .ear-advantage {
                 background-color: white;
-              ***REMOVED***
+              }
               
               .ear-advantage.positive {
                 background-color: lightblue;
-              ***REMOVED***
+              }
               
               .ear-advantage.negative {
                 background-color: lightpink;
-              ***REMOVED***
+              }
             </style>
             
 
@@ -146,14 +146,14 @@
             justify-content: center;
             align-items: center;
             height: 100%;
-          ***REMOVED***
+          }
 
           /* Make the font larger */
           .btn.btn-outline-primary {
             font-size: 16px; /* Adjust the font size as needed */
             margin: 5px; /* Add some margin to separate the buttons */
             min-width: 40px; /* Adjust the minimum width as needed */
-          ***REMOVED***
+          }
         </style>
 
       
@@ -234,7 +234,7 @@
                       <div class="btn-group-toggle" data="buttons">
                         <% group_size = nums[i][0].length %>
                         <% nums[i][0].each_with_index do |num, index| %>
-                          <% button_class = "column1Group#{group_size***REMOVED***-button" %>
+                          <% button_class = "column1Group#{group_size}-button" %>
                           <label class="btn btn-outline-primary <%= button_class %>">
                             <input type="checkbox" name="column1[<%= i %>][]" value="<%= num %>">
                             <%= num %>
@@ -247,7 +247,7 @@
                       <div class="btn-group-toggle" data="buttons">
                         <% group_size = nums[i][1].length %>
                         <% nums[i][1].each_with_index do |num, index| %>
-                          <% button_class = "column2Group#{group_size***REMOVED***-button" %>
+                          <% button_class = "column2Group#{group_size}-button" %>
                           <label class="btn btn-outline-primary <%= button_class %>">
                             <input type="checkbox" name="column2[<%= i %>][]" value="<%= num %>">
                             <%= num %>
@@ -288,7 +288,7 @@
 
           
 
-          <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "populateHiddenFields(***REMOVED***" %>
+          <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "populateHiddenFields()" %>
         <% end %>
 
 
@@ -333,65 +333,65 @@
 
 
       //function for keeping the buttons blue after being clicked
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]'***REMOVED***;
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-        checkboxes.forEach(function(checkbox***REMOVED*** {
-          checkbox.addEventListener('change', function(***REMOVED*** {
-            const label = this.closest('label'***REMOVED***;
-            if (this.checked***REMOVED*** {
-              label.classList.add('active'***REMOVED***;
-            ***REMOVED*** else {
-              label.classList.remove('active'***REMOVED***;
-            ***REMOVED***
-          ***REMOVED******REMOVED***;
-        ***REMOVED******REMOVED***;
+        checkboxes.forEach(function(checkbox) {
+          checkbox.addEventListener('change', function() {
+            const label = this.closest('label');
+            if (this.checked) {
+              label.classList.add('active');
+            } else {
+              label.classList.remove('active');
+            }
+          });
+        });
 
         //script completes all logic for calculating diagnosis and ear advantage values, It updates the percentages and lists the ear diag and advantage
         // Get the toggle buttons and count elements
-        const column1ButtonsGroup1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']"***REMOVED***;
-        const column1ButtonsGroup2 = document.querySelectorAll(".column1Group2-button input[type='checkbox']"***REMOVED***;
-        const column1ButtonsGroup3 = document.querySelectorAll(".column1Group3-button input[type='checkbox']"***REMOVED***;
-        const column2ButtonsGroup1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']"***REMOVED***;
-        const column2ButtonsGroup2 = document.querySelectorAll(".column2Group2-button input[type='checkbox']"***REMOVED***;
-        const column2ButtonsGroup3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']"***REMOVED***;
+        const column1ButtonsGroup1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']");
+        const column1ButtonsGroup2 = document.querySelectorAll(".column1Group2-button input[type='checkbox']");
+        const column1ButtonsGroup3 = document.querySelectorAll(".column1Group3-button input[type='checkbox']");
+        const column2ButtonsGroup1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']");
+        const column2ButtonsGroup2 = document.querySelectorAll(".column2Group2-button input[type='checkbox']");
+        const column2ButtonsGroup3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']");
 
-        const allButtons = document.querySelectorAll(".column1Group1-button input[type='checkbox'], .column1Group2-button input[type='checkbox'], .column1Group3-button input[type='checkbox'], .column2Group1-button input[type='checkbox'], .column2Group2-button input[type='checkbox'], .column2Group3-button input[type='checkbox']"***REMOVED***;
+        const allButtons = document.querySelectorAll(".column1Group1-button input[type='checkbox'], .column1Group2-button input[type='checkbox'], .column1Group3-button input[type='checkbox'], .column2Group1-button input[type='checkbox'], .column2Group2-button input[type='checkbox'], .column2Group3-button input[type='checkbox']");
         
-        const column1Count = document.getElementById("column1-count"***REMOVED***;
-        const column2Count = document.getElementById("column2-count"***REMOVED***;
+        const column1Count = document.getElementById("column1-count");
+        const column2Count = document.getElementById("column2-count");
         
-        const column1Group1Percent = document.getElementById("column1Group1-percent"***REMOVED***;
-        const column1Group2Percent = document.getElementById("column1Group2-percent"***REMOVED***;
-        const column1Group3Percent = document.getElementById("column1Group3-percent"***REMOVED***;
-        const column2Group1Percent = document.getElementById("column2Group1-percent"***REMOVED***;
-        const column2Group2Percent = document.getElementById("column2Group2-percent"***REMOVED***;
-        const column2Group3Percent = document.getElementById("column2Group3-percent"***REMOVED***;
+        const column1Group1Percent = document.getElementById("column1Group1-percent");
+        const column1Group2Percent = document.getElementById("column1Group2-percent");
+        const column1Group3Percent = document.getElementById("column1Group3-percent");
+        const column2Group1Percent = document.getElementById("column2Group1-percent");
+        const column2Group2Percent = document.getElementById("column2Group2-percent");
+        const column2Group3Percent = document.getElementById("column2Group3-percent");
 
-        const advantageDiffGroup1 = document.getElementById("Group1advantage-Diff"***REMOVED***;
-        const advantageDiffGroup2 = document.getElementById("Group2advantage-Diff"***REMOVED***;
-        const advantageDiffGroup3 = document.getElementById("Group3advantage-Diff"***REMOVED***;
+        const advantageDiffGroup1 = document.getElementById("Group1advantage-Diff");
+        const advantageDiffGroup2 = document.getElementById("Group2advantage-Diff");
+        const advantageDiffGroup3 = document.getElementById("Group3advantage-Diff");
 
-        const leftEarPercentile = document.getElementById("left-percentile"***REMOVED***;
-        const rightEarPercentile = document.getElementById("right-percentile"***REMOVED***;
-        const advantagePercentile = document.getElementById("advantage-percentile"***REMOVED***;
+        const leftEarPercentile = document.getElementById("left-percentile");
+        const rightEarPercentile = document.getElementById("right-percentile");
+        const advantagePercentile = document.getElementById("advantage-percentile");
 
-        const advantageName = document.getElementById("advantage-Name"***REMOVED***;
-        const testDiagnosis = document.getElementById("Diagnosis"***REMOVED***;
-        const readOnly = document.getElementById("read-Only"***REMOVED***;
-        const readOnlyDiag = document.getElementById("read-Only-diag"***REMOVED***;
+        const advantageName = document.getElementById("advantage-Name");
+        const testDiagnosis = document.getElementById("Diagnosis");
+        const readOnly = document.getElementById("read-Only");
+        const readOnlyDiag = document.getElementById("read-Only-diag");
         
 
 
         // Update the counts when a button is clicked
         
-        allButtons.forEach(function(button***REMOVED*** {
-          button.addEventListener("click", function(***REMOVED*** {
-          const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked"***REMOVED***.length;
-          const checkedCount1Group2 = document.querySelectorAll(".column1Group2-button input[type='checkbox']:checked"***REMOVED***.length;
-          const checkedCount1Group3 = document.querySelectorAll(".column1Group3-button input[type='checkbox']:checked"***REMOVED***.length;
-          const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked"***REMOVED***.length;
-          const checkedCount2Group2 = document.querySelectorAll(".column2Group2-button input[type='checkbox']:checked"***REMOVED***.length;
-          const checkedCount2Group3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']:checked"***REMOVED***.length;
+        allButtons.forEach(function(button) {
+          button.addEventListener("click", function() {
+          const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
+          const checkedCount1Group2 = document.querySelectorAll(".column1Group2-button input[type='checkbox']:checked").length;
+          const checkedCount1Group3 = document.querySelectorAll(".column1Group3-button input[type='checkbox']:checked").length;
+          const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked").length;
+          const checkedCount2Group2 = document.querySelectorAll(".column2Group2-button input[type='checkbox']:checked").length;
+          const checkedCount2Group3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']:checked").length;
 
           const totalCountColumn1Group1 = column1ButtonsGroup1.length;
           const totalCountColumn1Group2 = column1ButtonsGroup2.length;
@@ -401,34 +401,34 @@
           const totalCountColumn2Group3 = column2ButtonsGroup3.length;
 
 
-          const percentColumn1Group1 = ((checkedCount1Group1 / totalCountColumn1Group1***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
-          const percentColumn1Group2 = ((checkedCount1Group2 / totalCountColumn1Group2***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
-          const percentColumn1Group3 = ((checkedCount1Group3 / totalCountColumn1Group3***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
-          const percentColumn2Group1 = ((checkedCount2Group1 / totalCountColumn2Group1***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
-          const percentColumn2Group2 = ((checkedCount2Group2 / totalCountColumn2Group2***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
-          const percentColumn2Group3 = ((checkedCount2Group3 / totalCountColumn2Group3***REMOVED*** * 100***REMOVED***.toFixed(2***REMOVED***;
+          const percentColumn1Group1 = ((checkedCount1Group1 / totalCountColumn1Group1) * 100).toFixed(2);
+          const percentColumn1Group2 = ((checkedCount1Group2 / totalCountColumn1Group2) * 100).toFixed(2);
+          const percentColumn1Group3 = ((checkedCount1Group3 / totalCountColumn1Group3) * 100).toFixed(2);
+          const percentColumn2Group1 = ((checkedCount2Group1 / totalCountColumn2Group1) * 100).toFixed(2);
+          const percentColumn2Group2 = ((checkedCount2Group2 / totalCountColumn2Group2) * 100).toFixed(2);
+          const percentColumn2Group3 = ((checkedCount2Group3 / totalCountColumn2Group3) * 100).toFixed(2);
 
-          const group1Advantage = (percentColumn2Group1 - percentColumn1Group1***REMOVED***.toFixed(2***REMOVED***;
-          const group2Advantage = (percentColumn2Group2 - percentColumn1Group2***REMOVED***.toFixed(2***REMOVED***;
-          const group3Advantage = (percentColumn2Group3 - percentColumn1Group3***REMOVED***.toFixed(2***REMOVED***;
-
-
+          const group1Advantage = (percentColumn2Group1 - percentColumn1Group1).toFixed(2);
+          const group2Advantage = (percentColumn2Group2 - percentColumn1Group2).toFixed(2);
+          const group3Advantage = (percentColumn2Group3 - percentColumn1Group3).toFixed(2);
 
 
 
-          //calcs advantage side using average of all of them (ideal but not what client wants***REMOVED***
+
+
+          //calcs advantage side using average of all of them (ideal but not what client wants)
 
           /*
-          const sumAdvantage = parseFloat(group1Advantage***REMOVED*** + parseFloat(group2Advantage***REMOVED*** + parseFloat(group3Advantage***REMOVED***;
+          const sumAdvantage = parseFloat(group1Advantage) + parseFloat(group2Advantage) + parseFloat(group3Advantage);
           const threshold = 0.01; // Define the threshold value for neutrality
 
-          if (Math.abs(sumAdvantage***REMOVED*** <= threshold***REMOVED*** {
+          if (Math.abs(sumAdvantage) <= threshold) {
             direction = "Neutral";
-          ***REMOVED*** else if (sumAdvantage > 0***REMOVED*** {
+          } else if (sumAdvantage > 0) {
             direction = "Left";
-          ***REMOVED*** else {
+          } else {
             direction = "Right";
-          ***REMOVED***
+          }
           */
 
 
@@ -450,20 +450,20 @@
           let nondominant_10th = null;
           let nondominant_5th = null;
 
-          if (group2Advantage < 0***REMOVED*** {
+          if (group2Advantage < 0) {
             direction = "Left";
             dom = percentColumn1Group2;
             nondom = percentColumn2Group2;
-          ***REMOVED*** else if (group2Advantage > 0***REMOVED*** {
+          } else if (group2Advantage > 0) {
             direction = "Right";
             dom = percentColumn2Group2;
             nondom = percentColumn1Group2;
-          ***REMOVED*** else {
+          } else {
             direction = "Neutral";
             dom = percentColumn2Group2;
             nondom = percentColumn1Group2;
-          ***REMOVED***
-          if (age == 5 || age == 6***REMOVED***{
+          }
+          if (age == 5 || age == 6){
             advantage_25th = 39;
             advantage_10th = 54;
             advantage_5th = 71;
@@ -473,8 +473,8 @@
             nondominant_25th = 33;
             nondominant_10th = 28;
             nondominant_5th = 18;
-          ***REMOVED***
-          if (age >= 7 && age <= 9***REMOVED***{
+          }
+          if (age >= 7 && age <= 9){
             advantage_25th = 28;
             advantage_10th = 43;
             advantage_5th = 50;
@@ -484,8 +484,8 @@
             nondominant_25th = 56;
             nondominant_10th = 44;
             nondominant_5th = 31;
-          ***REMOVED***
-          if (age >= 10 && age <= 12***REMOVED***{
+          }
+          if (age >= 10 && age <= 12){
             advantage_25th = 14;
             advantage_10th = 27;
             advantage_5th = 34;
@@ -495,8 +495,8 @@
             nondominant_25th = 72;
             nondominant_10th = 56;
             nondominant_5th = 50;
-          ***REMOVED***
-          if (age >= 13 && age <= 15***REMOVED***{
+          }
+          if (age >= 13 && age <= 15){
             advantage_25th = 17;
             advantage_10th = 28;
             advantage_5th = 33;
@@ -506,8 +506,8 @@
             nondominant_25th = 72;
             nondominant_10th = 61;
             nondominant_5th = 50;
-          ***REMOVED***
-          if (age >= 16 && age <= 18***REMOVED***{
+          }
+          if (age >= 16 && age <= 18){
             advantage_25th = 11;
             advantage_10th = 22;
             advantage_5th = 28;
@@ -517,146 +517,146 @@
             nondominant_25th = 83;
             nondominant_10th = 67;
             nondominant_5th = 61;
-          ***REMOVED***
+          }
 
 
   // IF else logic for diagnosis based on the childs age. Still unsure if this works as intended accoring to Employer, but we believe it does
 
-          if (direction == "Neutral"***REMOVED***{
-            if (percentColumn1Group2 <= nondominant_25th***REMOVED***{
+          if (direction == "Neutral"){
+            if (percentColumn1Group2 <= nondominant_25th){
               interpretation = "Dichotic Dysaudia";
-            ***REMOVED***
-            else if (percentColumn1Group2 > nondominant_25th && percentColumn1Group2 <= dominant_25th***REMOVED***{
+            }
+            else if (percentColumn1Group2 > nondominant_25th && percentColumn1Group2 <= dominant_25th){
               interpretation = "Possible Dichotic Dysaudia";
-            ***REMOVED***
+            }
             else{
               interpretation = "Within Normal Limits";
-            ***REMOVED***
-            if (dom <= dominant_5th***REMOVED***{
+            }
+            if (dom <= dominant_5th){
               domPercent = "5th Percentile";
-            ***REMOVED***
-            else if (dom <= dominant_10th***REMOVED***{
+            }
+            else if (dom <= dominant_10th){
               domPercent = "10th Percentile";
-            ***REMOVED***
-            else if (dom <= dominant_25th***REMOVED***{
+            }
+            else if (dom <= dominant_25th){
               domPercent = "25th Percentile";
-            ***REMOVED***
+            }
             else{
               domPercent = "Within Normal Limits";
-            ***REMOVED***
-            if (nondom <= nondominant_5th***REMOVED***{
+            }
+            if (nondom <= nondominant_5th){
               nondomPercent = "5th Percentile";
-            ***REMOVED***
-            else if (nondom <= nondominant_10th***REMOVED***{
+            }
+            else if (nondom <= nondominant_10th){
               nondomPercent = "10th Percentile";
-            ***REMOVED***
-            else if (nondom <= nondominant_25th***REMOVED***{
+            }
+            else if (nondom <= nondominant_25th){
               nondomPercent = "25th Percentile";
-            ***REMOVED***
+            }
             else{
               nondomPercent = "Within Normal Limits";
-            ***REMOVED***
+            }
             adv_percent = "Within Normal Limits";
-          ***REMOVED***
+          }
           else{
-            if (((dom <= dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && ((group2Advantage <= -advantage_25th***REMOVED*** || (group2Advantage >= advantage_25th***REMOVED******REMOVED******REMOVED***{
+            if (((dom <= dominant_25th) && (nondom <= nondominant_25th)) && ((group2Advantage <= -advantage_25th) || (group2Advantage >= advantage_25th))){
               interpretation = "Amblyaudia + Dichotic Dysaudia";
-            ***REMOVED***
-            else if (((dom <= dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** || (((dom <= dominant_25th***REMOVED*** && (nondom > nondominant_25th***REMOVED******REMOVED*** && (((group2Advantage > -advantage_25th***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED*** || ((group2Advantage < advantage_25th***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED******REMOVED******REMOVED*** {
+            }
+            else if (((dom <= dominant_25th) && (nondom <= nondominant_25th)) || (((dom <= dominant_25th) && (nondom > nondominant_25th)) && (((group2Advantage > -advantage_25th) && (group2Advantage < 0)) || ((group2Advantage < advantage_25th) && (group2Advantage > 0))))) {
               interpretation = "Dichotic Dysaudia";
-            ***REMOVED***
-            else if (((dom > dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && ((group2Advantage > -advantage_25th***REMOVED*** && (group2Advantage < 0***REMOVED******REMOVED******REMOVED***{
+            }
+            else if (((dom > dominant_25th) && (nondom <= nondominant_25th)) && ((group2Advantage > -advantage_25th) && (group2Advantage < 0))){
               interpretation = "Possible Ambylaudia Left Ear Dominant";
-            ***REMOVED***
-            else if (((dom > dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && ((group2Advantage < advantage_25th***REMOVED*** && (group2Advantage > 0***REMOVED******REMOVED******REMOVED***{
+            }
+            else if (((dom > dominant_25th) && (nondom <= nondominant_25th)) && ((group2Advantage < advantage_25th) && (group2Advantage > 0))){
               interpretation = "Possible Ambylaudia Right Ear Dominant";
-            ***REMOVED***
-            else if (((dom > dominant_25th***REMOVED*** && (nondom > nondominant_25th***REMOVED******REMOVED*** && (group2Advantage <= -advantage_25th***REMOVED******REMOVED***{
+            }
+            else if (((dom > dominant_25th) && (nondom > nondominant_25th)) && (group2Advantage <= -advantage_25th)){
               interpretation = "Possible Ambylaudia Left Ear Dominant";
-            ***REMOVED***
-            else if (((dom > dominant_25th***REMOVED*** && (nondom > nondominant_25th***REMOVED******REMOVED*** && (group2Advantage >= advantage_25th***REMOVED******REMOVED***{
+            }
+            else if (((dom > dominant_25th) && (nondom > nondominant_25th)) && (group2Advantage >= advantage_25th)){
               interpretation = "Possible Ambylaudia Right Ear Dominant";
-            ***REMOVED***
-            else if (((dom > dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && (group2Advantage <= -advantage_25th***REMOVED******REMOVED***{
+            }
+            else if (((dom > dominant_25th) && (nondom <= nondominant_25th)) && (group2Advantage <= -advantage_25th)){
               interpretation = "Ambylaudia Left Ear Dominant";
-            ***REMOVED***
-            else if (((dom > dominant_25th***REMOVED*** && (nondom <= nondominant_25th***REMOVED******REMOVED*** && (group2Advantage >= advantage_25th***REMOVED******REMOVED***{
+            }
+            else if (((dom > dominant_25th) && (nondom <= nondominant_25th)) && (group2Advantage >= advantage_25th)){
               interpretation = "Ambylaudia Right Ear Dominant";
-            ***REMOVED***
+            }
             else{
               interpretation = "Within Normal Limits";
-            ***REMOVED***
-            if (dom <= dominant_5th***REMOVED***{
+            }
+            if (dom <= dominant_5th){
               domPercent = "5th Percentile";
-            ***REMOVED***
-            else if (dom <= dominant_10th***REMOVED***{
+            }
+            else if (dom <= dominant_10th){
               domPercent = "10th Percentile";
-            ***REMOVED***
-            else if (dom <= dominant_25th***REMOVED***{
+            }
+            else if (dom <= dominant_25th){
               domPercent = "25th Percentile";
-            ***REMOVED***
+            }
             else{
               domPercent = "Within Normal Limits";
-            ***REMOVED***
-            if (nondom <= nondominant_5th***REMOVED***{
+            }
+            if (nondom <= nondominant_5th){
               nondomPercent = "5th Percentile";
-            ***REMOVED***
-            else if (nondom <= nondominant_10th***REMOVED***{
+            }
+            else if (nondom <= nondominant_10th){
               nondomPercent = "10th Percentile";
-            ***REMOVED***
-            else if (nondom <= nondominant_25th***REMOVED***{
+            }
+            else if (nondom <= nondominant_25th){
               nondomPercent = "25th Percentile";
-            ***REMOVED***
+            }
             else{
               nondomPercent = "Within Normal Limits";
-            ***REMOVED***
-            if ((group2Advantage >= advantage_5th***REMOVED*** || (group2Advantage <= -advantage_5th***REMOVED******REMOVED***{
+            }
+            if ((group2Advantage >= advantage_5th) || (group2Advantage <= -advantage_5th)){
               adv_percent = "5th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= advantage_10th***REMOVED*** || (group2Advantage <= -advantage_10th***REMOVED******REMOVED***{
+            }
+            else if ((group2Advantage >= advantage_10th) || (group2Advantage <= -advantage_10th)){
               adv_percent = "10th Percentile";
-            ***REMOVED***
-            else if ((group2Advantage >= advantage_25th***REMOVED*** || (group2Advantage <= -advantage_25th***REMOVED******REMOVED***{
+            }
+            else if ((group2Advantage >= advantage_25th) || (group2Advantage <= -advantage_25th)){
               adv_percent = "25th Percentile";
-            ***REMOVED***
+            }
             else{
               adv_percent = "Within Normal Limits";
-            ***REMOVED***  
-          ***REMOVED***
+            }  
+          }
           
           
           // Passes values to strings so they can be pushed to the html above
 
 
-          column1Group1Percent.innerText = percentColumn1Group1.toString(***REMOVED***;
-          column1Group2Percent.innerText = percentColumn1Group2.toString(***REMOVED***;
-          column1Group3Percent.innerText = percentColumn1Group3.toString(***REMOVED***;
+          column1Group1Percent.innerText = percentColumn1Group1.toString();
+          column1Group2Percent.innerText = percentColumn1Group2.toString();
+          column1Group3Percent.innerText = percentColumn1Group3.toString();
 
-          column2Group1Percent.innerText = percentColumn2Group1.toString(***REMOVED***;
-          column2Group2Percent.innerText = percentColumn2Group2.toString(***REMOVED***;
-          column2Group3Percent.innerText = percentColumn2Group3.toString(***REMOVED***;
+          column2Group1Percent.innerText = percentColumn2Group1.toString();
+          column2Group2Percent.innerText = percentColumn2Group2.toString();
+          column2Group3Percent.innerText = percentColumn2Group3.toString();
 
 
 
-          advantageDiffGroup1.innerText = group1Advantage.toString(***REMOVED***;
-          advantageDiffGroup2.innerText = group2Advantage.toString(***REMOVED***;
-          advantageDiffGroup3.innerText = group3Advantage.toString(***REMOVED***;
+          advantageDiffGroup1.innerText = group1Advantage.toString();
+          advantageDiffGroup2.innerText = group2Advantage.toString();
+          advantageDiffGroup3.innerText = group3Advantage.toString();
 
-          if (direction == "Right"***REMOVED***{
-            leftEarPercentile.innerText = nondomPercent.toString(***REMOVED***;
-            rightEarPercentile.innerText = domPercent.toString(***REMOVED***;
-          ***REMOVED***
-          else if (direction == "Left"***REMOVED***{
-            leftEarPercentile.innerText = domPercent.toString(***REMOVED***;
-            rightEarPercentile.innerText = nondomPercent.toString(***REMOVED***;
-          ***REMOVED***
+          if (direction == "Right"){
+            leftEarPercentile.innerText = nondomPercent.toString();
+            rightEarPercentile.innerText = domPercent.toString();
+          }
+          else if (direction == "Left"){
+            leftEarPercentile.innerText = domPercent.toString();
+            rightEarPercentile.innerText = nondomPercent.toString();
+          }
           else{
-            leftEarPercentile.innerText = nondomPercent.toString(***REMOVED***;
-            rightEarPercentile.innerText = domPercent.toString(***REMOVED***;
-          ***REMOVED***
+            leftEarPercentile.innerText = nondomPercent.toString();
+            rightEarPercentile.innerText = domPercent.toString();
+          }
 
 
-          advantagePercentile.innerText = adv_percent.toString(***REMOVED***;
+          advantagePercentile.innerText = adv_percent.toString();
           advantageName.innerText = direction;
           readOnly.value = advantageName.innerText;
 
@@ -664,64 +664,64 @@
           testDiagnosis.innerText = interpretation;
           readOnlyDiag.value = testDiagnosis.innerText;
 
-          const earAdvantageCells = document.querySelectorAll('.ear-advantage'***REMOVED***;
-          const percentileCells = document.querySelectorAll('.percentile'***REMOVED***;
+          const earAdvantageCells = document.querySelectorAll('.ear-advantage');
+          const percentileCells = document.querySelectorAll('.percentile');
           // Loop through each ear advantage cell
           earAdvantageCells.forEach(cell => {
             // Get the value of the cell
-            const value = parseFloat(cell.textContent***REMOVED***;
+            const value = parseFloat(cell.textContent);
 
             // Check the value and set the background color accordingly
-            if (value < 0***REMOVED*** {
+            if (value < 0) {
               cell.style.backgroundColor = 'lightblue';
-            ***REMOVED*** else if (value > 0***REMOVED*** {
+            } else if (value > 0) {
               cell.style.backgroundColor = 'lightpink';
-            ***REMOVED*** else {
+            } else {
               cell.style.backgroundColor = 'white';
-            ***REMOVED***
-          ***REMOVED******REMOVED***;
+            }
+          });
           percentileCells.forEach(cell => {
             // Get the value of the cell
-            const percValue = cell.textContent.trim(***REMOVED***;
+            const percValue = cell.textContent.trim();
 
             // Check the value and set the background color accordingly
-            if (percValue == "5th Percentile"***REMOVED*** {
+            if (percValue == "5th Percentile") {
               cell.style.backgroundColor = 'lightpink';
-            ***REMOVED*** 
-            else if (percValue == "10th Percentile"***REMOVED*** {
-              cell.style.backgroundColor = 'hsl(60, 100%, 70%***REMOVED***';
-            ***REMOVED*** 
-            else if (percValue == "25th Percentile"***REMOVED*** {
+            } 
+            else if (percValue == "10th Percentile") {
+              cell.style.backgroundColor = 'hsl(60, 100%, 70%)';
+            } 
+            else if (percValue == "25th Percentile") {
               cell.style.backgroundColor = 'lightgreen';
-            ***REMOVED***
+            }
             else{
               cell.style.backgroundColor = 'lightblue';
-            ***REMOVED***
-          ***REMOVED******REMOVED***;
-          ***REMOVED******REMOVED***
-        ***REMOVED******REMOVED***
+            }
+          });
+          })
+        })
       // gets the elements from hidden field submit above and populates them from the results in the script 
-      function populateHiddenFields(***REMOVED*** {
-        document.getElementById("left_score"***REMOVED***.value = column1Group2Percent.innerText;
-        document.getElementById("right_score"***REMOVED***.value = column2Group2Percent.innerText;
-        document.getElementById("ear_advantage"***REMOVED***.value = advantageName.innerText;
-        document.getElementById("ear_advantage_score"***REMOVED***.value = advantageDiffGroup2.innerText;
+      function populateHiddenFields() {
+        document.getElementById("left_score").value = column1Group2Percent.innerText;
+        document.getElementById("right_score").value = column2Group2Percent.innerText;
+        document.getElementById("ear_advantage").value = advantageName.innerText;
+        document.getElementById("ear_advantage_score").value = advantageDiffGroup2.innerText;
 
 
-        document.getElementById("col1G1"***REMOVED***.value = column1Group1Percent.innerText;
-        document.getElementById("col2G1"***REMOVED***.value = column2Group1Percent.innerText;
-        document.getElementById("col1G3"***REMOVED***.value = column1Group3Percent.innerText;
-        document.getElementById("col2G3"***REMOVED***.value = column2Group3Percent.innerText;
+        document.getElementById("col1G1").value = column1Group1Percent.innerText;
+        document.getElementById("col2G1").value = column2Group1Percent.innerText;
+        document.getElementById("col1G3").value = column1Group3Percent.innerText;
+        document.getElementById("col2G3").value = column2Group3Percent.innerText;
 
-        document.getElementById("G1adv"***REMOVED***.value = advantageDiffGroup1.innerText;
-        document.getElementById("G3adv"***REMOVED***.value = advantageDiffGroup3.innerText;
+        document.getElementById("G1adv").value = advantageDiffGroup1.innerText;
+        document.getElementById("G3adv").value = advantageDiffGroup3.innerText;
 
-        document.getElementById("interpretation"***REMOVED***.value = testDiagnosis.innerText;
-        document.getElementById("left_percentile"***REMOVED***.value = leftEarPercentile.innerText;
-        document.getElementById("right_percentile"***REMOVED***.value = rightEarPercentile.innerText;
-        document.getElementById("advantage_percentile"***REMOVED***.value = advantagePercentile.innerText;
+        document.getElementById("interpretation").value = testDiagnosis.innerText;
+        document.getElementById("left_percentile").value = leftEarPercentile.innerText;
+        document.getElementById("right_percentile").value = rightEarPercentile.innerText;
+        document.getElementById("advantage_percentile").value = advantagePercentile.innerText;
 
-      ***REMOVED***
+      }
 
         
       </script>

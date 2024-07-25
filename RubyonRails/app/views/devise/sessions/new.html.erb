@@ -3,7 +3,7 @@
 
 <h2 class= "display-1", style= 'padding-bottom:20px' ><strong>Log in</strong></h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name***REMOVED******REMOVED*** do |f| %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field", style= 'padding-bottom:20px'>
     <%= f.label :email, class: 'display-6' %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "form-control form-control-lg", style: ' padding:10px;' %>

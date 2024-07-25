@@ -13,9 +13,9 @@
 
                     </div>
                     <div class="content">
-                      <p class="heading">Standard Plan (1 year***REMOVED*** - $4500 </p>
+                      <p class="heading">Standard Plan (1 year) - $4500 </p>
                       <p>
-                        - Unlimited audia training (DWT, DNW, RDDT***REMOVED***<br>
+                        - Unlimited audia training (DWT, DNW, RDDT)<br>
                         - Unlimited new users <br>
                         - Unlimited clients<br>
                         - Access to analytical test data
@@ -26,47 +26,47 @@
                   <br>
                                     <!-- Add a button to initiate checkout -->
                   <%# <button id="checkout-button">Pay $4500</button> %>
-                  <%= button_to 'Start Your Standard Plan', stripe_checkout_path, method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] ***REMOVED*** %>
+                  <%= button_to 'Start Your Standard Plan', stripe_checkout_path, method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST']} %>
                   <!-- Include Stripe.js -->
                   <script src="https://js.stripe.com/v3/"></script>
 
                   <script>
                     // First, find the button by its ID
-                    let checkoutButton = document.getElementById('checkout-button'***REMOVED***;
+                    let checkoutButton = document.getElementById('checkout-button');
 
                     // Then, retrieve the public key from the data attribute of the button
-                    var publicKeyTest = checkoutButton.getAttribute('data-stripe-public-key'***REMOVED***;
+                    var publicKeyTest = checkoutButton.getAttribute('data-stripe-public-key');
 
                     // Initialize Stripe with the public key
-                    var stripe = Stripe(publicKeyTest***REMOVED***;
+                    var stripe = Stripe(publicKeyTest);
 
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]'***REMOVED***.getAttribute('content'***REMOVED***;
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                     
-                    checkoutButton.addEventListener('click', function (***REMOVED*** {
+                    checkoutButton.addEventListener('click', function () {
                       fetch('/stripe_checkout', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
                           'X-CSRF-Token': csrfToken // Include the CSRF token in the request header
-                        ***REMOVED***,
-                        credentials: 'same-origin' // Ensure cookies (including CSRF token***REMOVED*** are sent with the request
-                      ***REMOVED******REMOVED***
-                      .then(function (response***REMOVED*** {
-                        return response.json(***REMOVED***;
-                      ***REMOVED******REMOVED***
-                      .then(function (session***REMOVED*** {
-                        return stripe.redirectToCheckout({ sessionId: session.id ***REMOVED******REMOVED***;
-                      ***REMOVED******REMOVED***
-                      .catch(function (error***REMOVED*** {
-                        console.error('Error:', error***REMOVED***;
-                      ***REMOVED******REMOVED***;
-                    ***REMOVED******REMOVED***;
+            },
+                        credentials: 'same-origin' // Ensure cookies (including CSRF token) are sent with the request
+                      })
+                      .then(function (response) {
+                        return response.json();
+                      })
+                      .then(function (session) {
+                        return stripe.redirectToCheckout({ sessionId: session.id });
+                      })
+                      .catch(function (error) {
+                        console.error('Error:', error);
+                      });
+                    });
                   </script>
             </div>
 
 <div class="card bg-secondary border-0">
   <%= image_tag 'discount.png', class: 'd-block m-auto pt-2', style: 'max-width: 12rem;' %>
-  <%= form_with(model: Inquiry.new, url: inquiries_path, local: true***REMOVED*** do |form| %>
+  <%= form_with(model: Inquiry.new, url: inquiries_path, local: true) do |form| %>
     <%= form.hidden_field :inquiry_type, value: 'discount_inquiry' %>
 
     <div class="form-group pl-2 pr-2">

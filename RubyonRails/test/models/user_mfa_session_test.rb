@@ -4,7 +4,6 @@
 #
 #  id             :bigint           not null, primary key
 #  activated      :boolean
-#  email_2fa_code :string
 #  email_verified :boolean
 #  secret_key     :string
 #  created_at     :datetime         not null
@@ -13,11 +12,11 @@
 #
 # Indexes
 #
-#  index_user_mfa_sessions_on_user_id  (user_id***REMOVED***
+#  index_user_mfa_sessions_on_user_id  (user_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (user_id => users.id***REMOVED***
+#  fk_rails_...  (user_id => users.id)
 #
 require "test_helper"
 

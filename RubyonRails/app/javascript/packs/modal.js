@@ -1,6 +1,6 @@
-$('#myModal'***REMOVED***.on('hide.bs.modal', function (***REMOVED*** { //Change #myModal with your modal id
-    $('audio'***REMOVED***.each(function(***REMOVED***{
-      this.pause(***REMOVED***; // Stop playing
-      this.currentTime = 0; // Reset time
-    ***REMOVED******REMOVED***; 
-***REMOVED******REMOVED***
+$('#myModal').on('hide.bs.modal', function () { //Change #myModal with your modal id
+  $('audio').each(function(){
+    this.pause(); // Stop playing
+    this.currentTime = 0; // Reset time
+  }); 
+})

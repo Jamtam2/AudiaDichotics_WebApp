@@ -1,6 +1,6 @@
 <body id="defBG" class="bg-white center">
   <div class="container p-5 my-3 w-100 bg-white border-0">
-   <%= link_to 'Download CSV', clients_path(format: "csv"***REMOVED***, class: 'btn btn-secondary mb-3', style:"float: right;" %>
+   <%= link_to 'Download CSV', clients_path(format: "csv"), class: 'btn btn-secondary mb-3', style:"float: right;" %>
     <!-- Heading for clients page -->
     <h1 class="display-2" style='padding-bottom:20px'><strong>Clients</strong></h1>
 
@@ -37,7 +37,7 @@
                     <label for="from_date">From Date:</label>
                   </div>
                   <div class="col-md-8">
-                    <%= f.date_field :created_at_gteq, { class: 'form-control sort-select'***REMOVED*** %>
+                    <%= f.date_field :created_at_gteq, { class: 'form-control sort-select'} %>
                   </div>
                 </div>
                 <!--Filter button for age-->
@@ -56,10 +56,10 @@
                   </div>
                   <div class="col-md-8">
                     <%= select_tag :gender_search_term,
-                                   options_for_select([['None', nil], ['Male', 'Male'], ['Female', 'Female']], params[:gender_search_term]***REMOVED***,
+                                   options_for_select([['None', nil], ['Male', 'Male'], ['Female', 'Female']], params[:gender_search_term]),
                                    include_blank: true,
                                    class: 'form-control sort-select',
-                                   data: { button_id: 'filterButtonClient' ***REMOVED*** %>
+                                   data: { button_id: 'filterButtonClient' } %>
 
                   </div>
                 </div>
@@ -72,7 +72,7 @@
                     <%= text_field_tag :name_search_term, params[:name_search_term],
                                    include_blank: true,
                                    class: 'form-control sort-select', placeholder: 'Filter by Name: e.g: Ella',
-                                   data: { button_id: 'filterButtonClient' ***REMOVED*** %>
+                                   data: { button_id: 'filterButtonClient' } %>
                   </div>
                 </div>
                 <!--Filter button for date of birth-->
@@ -84,7 +84,7 @@
                     <%= text_field_tag :date_of_birth_search_term, params[:date_of_birth_search_term],
                                        include_blank: true,
                                        class: 'form-control sort-select', placeholder: 'Filter by DoB: e.g: 2015-08-28',
-                                       data: { button_id: 'filterButtonClient' ***REMOVED*** %>
+                                       data: { button_id: 'filterButtonClient' } %>
                   </div>
                 </div>
                 <!--Filter button for country-->
@@ -132,12 +132,12 @@
                                             ['China', 'CN'],
                                             ['Colombia', 'CO'],
                                             ['Comoros', 'KM'],
-                                            ['Congo (Congo-Brazzaville***REMOVED***', 'CG'],
+                                            ['Congo (Congo-Brazzaville)', 'CG'],
                                             ['Costa Rica', 'CR'],
                                             ['Croatia', 'HR'],
                                             ['Cuba', 'CU'],
                                             ['Cyprus', 'CY'],
-                                            ['Czechia (Czech Republic***REMOVED***', 'CZ'],
+                                            ['Czechia (Czech Republic)', 'CZ'],
                                             ['Democratic Republic of the Congo', 'CD'],
                                             ['Denmark', 'DK'],
                                             ['Djibouti', 'DJ'],
@@ -149,7 +149,7 @@
                                             ['Equatorial Guinea', 'GQ'],
                                             ['Eritrea', 'ER'],
                                             ['Estonia', 'EE'],
-                                            ['Eswatini (fmr. "Swaziland"***REMOVED***', 'SZ'],
+                                            ['Eswatini (fmr. "Swaziland")', 'SZ'],
                                             ['Ethiopia', 'ET'],
                                             ['Fiji', 'FJ'],
                                             ['Finland', 'FI'],
@@ -212,7 +212,7 @@
                                             ['Montenegro', 'ME'],
                                             ['Morocco', 'MA'],
                                             ['Mozambique', 'MZ'],
-                                            ['Myanmar (formerly Burma***REMOVED***', 'MM'],
+                                            ['Myanmar (formerly Burma)', 'MM'],
                                             ['Namibia', 'NA'],
                                             ['Nauru', 'NR'],
                                             ['Nepal', 'NP'],
@@ -289,11 +289,11 @@
                                             ['Yemen', 'YE'],
                                             ['Zambia', 'ZM'],
                                             ['Zimbabwe', 'ZW']],
-                                   params[:country_search_term]***REMOVED***,
+                                   params[:country_search_term]),
                                    include_blank: true,
                                    class: 'form-control sort-select',
                                    placeholder: 'Filter by DoB: e.g: SA',
-                                   data: { button_id: 'filterButtonClient' ***REMOVED*** %>
+                                   data: { button_id: 'filterButtonClient' } %>
                   </div>
                 </div>
                 <!--Filter button for state-->
@@ -352,11 +352,11 @@
                                             ['Washington', 'WA'],
                                             ['West Virginia', 'WV'],
                                             ['Wisconsin', 'WI'],
-                                            ['Wyoming', 'WY']], params[:state_search_term]***REMOVED***,
+                                            ['Wyoming', 'WY']], params[:state_search_term]),
                                    include_blank: true,
                                    class: 'form-control sort-select',
                                    placeholder: 'Filter by DoB: e.g: TN',
-                                   data: { button_id: 'filterButtonClient' ***REMOVED*** %>
+                                   data: { button_id: 'filterButtonClient' } %>
                   </div>
                 </div>
             </div>
@@ -403,7 +403,7 @@
             <% @clients.each do |client| %>
               <tr>
                 <td>
-                  <%= link_to edit_client_path(client***REMOVED*** do %>
+                  <%= link_to edit_client_path(client) do %>
                     <%= image_tag 'edit_icon.png' , alt: 'Edit' ,width: 20 %>
                       <% end %>
                 </td>
@@ -426,7 +426,7 @@
                   <%= client.zip %>
                 </td>
                 <td>
-                  <%= link_to client_path(client***REMOVED***, method: :delete, data: { confirm: 'Are you sure?' ***REMOVED*** do %>
+                  <%= link_to client_path(client), method: :delete, data: { confirm: 'Are you sure?' } do %>
                     <%= image_tag 'delete_icon.png' , alt: 'Delete' , width: 20 %>
                       <% end %>
                 </td>

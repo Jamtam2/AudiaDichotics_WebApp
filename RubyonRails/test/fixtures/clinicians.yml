@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_clinicians_on_tenant_id  (tenant_id***REMOVED***
+#  index_clinicians_on_tenant_id  (tenant_id)
 #
 
 one:

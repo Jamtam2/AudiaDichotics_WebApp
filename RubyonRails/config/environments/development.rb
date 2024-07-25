@@ -16,21 +16,21 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt'***REMOVED***.exist?
+  if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i***REMOVED***"
-    ***REMOVED***
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+    }
   else
     config.action_controller.perform_caching = false
 
     config.cache_store = :null_store
   end
 
-  # Store uploaded files on the local file system (see config/storage.yml for options***REMOVED***.
+  # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
@@ -84,7 +84,7 @@ Rails.application.configure do
     password: 'sqcngtxqyrjdbncm', # It's recommended to use credentials from environment variables or encrypted secrets
     authentication: 'plain',
     enable_starttls_auto: true
-  ***REMOVED***
+  }
 
   # config.action_mailer.delivery_method = :smtp
   # config.action_mailer.smtp_settings = {
@@ -96,7 +96,7 @@ Rails.application.configure do
   #   authentication:  'plain',
   #   enable_starttls: true,
   #   open_timeout:    5,
-  #   read_timeout:    5 ***REMOVED***
+  #   read_timeout:    5 }
 
 
 end

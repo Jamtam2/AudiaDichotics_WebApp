@@ -1,21 +1,21 @@
 // Controls functionality behind modal
 
-$(document***REMOVED***.ready(function (***REMOVED*** {
-    $("#filterButton"***REMOVED***.click(function (***REMOVED*** {
-        $("#filterModal"***REMOVED***.modal('show'***REMOVED***;
-    ***REMOVED******REMOVED***;
+$(document).ready(function () {
+    $("#filterButton").click(function () {
+        $("#filterModal").modal('show');
+    });
 
     // Update filter button text when select field value changes
-    $(".sort-select"***REMOVED***.on("change", function (***REMOVED*** {
-        var selectField = $(this***REMOVED***;
-        var selectedOption = selectField.find("option:selected"***REMOVED***.text(***REMOVED***;
-        var targetButton = $("#" + selectField.data("button-id"***REMOVED******REMOVED***;
-        targetButton.text("Filter Options (" + selectedOption + "***REMOVED***"***REMOVED***;
-    ***REMOVED******REMOVED***;
-***REMOVED******REMOVED***;
+    $(".sort-select").on("change", function () {
+        var selectField = $(this);
+        var selectedOption = selectField.find("option:selected").text();
+        var targetButton = $("#" + selectField.data("button-id"));
+        targetButton.text("Filter Options (" + selectedOption + ")");
+    });
+});
 
 // Reset all filter options
-$("#resetFiltersButton"***REMOVED***.on("click", function (***REMOVED*** {
-    $(".sort-select"***REMOVED***.val(""***REMOVED***; // Clear selected options
-    $("#filterButton"***REMOVED***.text("Filter Options"***REMOVED***; // Reset button text
-***REMOVED******REMOVED***;
+$("#resetFiltersButton").on("click", function () {
+    $(".sort-select").val(""); // Clear selected options
+    $("#filterButton").text("Filter Options"); // Reset button text
+});

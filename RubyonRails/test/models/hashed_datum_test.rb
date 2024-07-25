@@ -26,7 +26,7 @@
 #
 # Indexes
 #
-#  index_hashed_data_on_hashable  (hashable_type,hashable_id***REMOVED***
+#  index_hashed_data_on_hashable  (hashable_type,hashable_id)
 #
 require "test_helper"
 

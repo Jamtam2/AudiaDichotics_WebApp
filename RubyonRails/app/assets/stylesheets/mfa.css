@@ -4,30 +4,25 @@
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1***REMOVED***;
-  ***REMOVED***
-  
-  label.required:before {
-    content: "* ";
-    color: red;
-  ***REMOVED***
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
   
   .qr-code-container {
     background-color: white;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05***REMOVED***;
-  ***REMOVED***
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
   
   .form-group {
     margin-bottom: 1rem;
-  ***REMOVED***
+  }
   
   .form-label {
     margin-bottom: 0.5rem;
     color: #333;
     font-weight: bold;
-  ***REMOVED***
+  }
   
   .form-control {
     display: block;
@@ -41,21 +36,21 @@
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  ***REMOVED***
+  }
   
   .form-control:focus {
     color: #495057;
     background-color: #fff;
     border-color: #80bdff;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25***REMOVED***;
-  ***REMOVED***
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
   
   .btn-primary {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
-  ***REMOVED***
+  }
   
   .btn-primary:hover {
     color: #fff;
@@ -65,7 +60,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-  ***REMOVED***
+  }
   
   .instructions {
     margin-bottom: 20px;
@@ -77,11 +72,11 @@
     p, ol {
       margin: 0;
       padding: 0;
-    ***REMOVED***
+    }
   
     ol {
       margin-left: 20px;
-    ***REMOVED***
+    }
   
     a {
       color: #007bff;
@@ -89,7 +84,7 @@
   
       &:hover {
         text-decoration: underline;
-      ***REMOVED***
-    ***REMOVED***
-  ***REMOVED***
+      }
+    }
+  }
   

@@ -28,7 +28,7 @@ Notes about the isse:
 
 1. install audio dichotic software
 2. put in key generated when purchased
-3. (does key work?***REMOVED*** (is the issue the key that is generated when purchasing the software?***REMOVED***
+3. (does key work?) (is the issue the key that is generated when purchasing the software?)
 
 4. Keys being generated after purchase do not work. 
 This is due to the code signing certificate being out of date.

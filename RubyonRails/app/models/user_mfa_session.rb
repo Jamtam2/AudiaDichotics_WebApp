@@ -13,11 +13,11 @@
 #
 # Indexes
 #
-#  index_user_mfa_sessions_on_user_id  (user_id***REMOVED***
+#  index_user_mfa_sessions_on_user_id  (user_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (user_id => users.id***REMOVED***
+#  fk_rails_...  (user_id => users.id)
 #
 class UserMfaSession < ApplicationRecord
 end

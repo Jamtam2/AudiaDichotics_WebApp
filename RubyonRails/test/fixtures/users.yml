@@ -3,10 +3,10 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  email                  :string           default(""***REMOVED***, not null
+#  email                  :string           default(""), not null
 #  email_2fa_code         :string
 #  email_2fa_code_sent_at :datetime
-#  encrypted_password     :string           default(""***REMOVED***, not null
+#  encrypted_password     :string           default(""), not null
 #  fname                  :string
 #  google_secret          :string
 #  lname                  :string
@@ -31,16 +31,15 @@
 #  index_users_on_tenant_id             (tenant_id***REMOVED***
 #
 # Foreign Keys
-#
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
+#  fk_rails_...  (tenant_id => tenants.id)
 #
 
 # This model initially had no columns defined. If you add columns to the
-# model remove the '{***REMOVED***' from the fixture names and add the columns immediately
+# model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {***REMOVED***
+one: {}
 # column: value
 #
-two: {***REMOVED***
+two: {}
 # column: value

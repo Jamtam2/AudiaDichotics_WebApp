@@ -16,8 +16,8 @@ def create
       user.google_secret = secret_key
       user.save!
       
-      if user.google_authentic?(params[:mfa_code]***REMOVED***
-        user.user_mfa_sessions.first.update(activated: true***REMOVED***
+      if user.google_authentic?(params[:mfa_code])
+        user.user_mfa_sessions.first.update(activated: true)
         redirect_to root_path, notice: "MFA setup successful"
         return
       end
@@ -25,8 +25,8 @@ def create
   
     # If neither condition is met, it's an invalid code
     attempted_time = Time.now
-    server_code = ROTP::TOTP.new(user.user_mfa_sessions.first.secret_key***REMOVED***.at(attempted_time***REMOVED*** if user.user_mfa_sessions.first.present?
-    flash.now[:alert] = "Invalid code. Attempted Code: #{params[:mfa_code] || params[:email_2fa_code]***REMOVED***, Server Code: #{server_code***REMOVED***, Time: #{attempted_time***REMOVED***"
+    server_code = ROTP::TOTP.new(user.user_mfa_sessions.first.secret_key).at(attempted_time) if user.user_mfa_sessions.first.present?
+    flash.now[:alert] = "Invalid code. Attempted Code: #{params[:mfa_code] || params[:email_2fa_code]}, Server Code: #{server_code}, Time: #{attempted_time}"
     render :new
   end
 
@@ -34,7 +34,7 @@ def create
   def reset_qr_code
     user = current_user
     user.reset_google_authenticator!
-    UserMailer.send_2fa_code(user, user.email_2fa_code***REMOVED***.deliver_now
+    UserMailer.send_2fa_code(user, user.email_2fa_code).deliver_now
     redirect_to enter_email_code_user_mfa_sessions_path, notice: 'A verification code has been sent to your email. Please enter the code; Your QR code will be reset on next login.'
   end
   
@@ -47,9 +47,9 @@ def create
     # Assuming you already have logic for QR code generation
 
 
-    @user_mfa_session = current_user.user_mfa_sessions.first_or_create(secret_key: ROTP::Base32.random_base32***REMOVED***
+    @user_mfa_session = current_user.user_mfa_sessions.first_or_create(secret_key: ROTP::Base32.random_base32)
 
-    # @qr_code = RQRCode::QRCode.new(current_user.generate_qr_code***REMOVED***
+    # @qr_code = RQRCode::QRCode.new(current_user.generate_qr_code)
   end
 
   def setup_email_auth
@@ -57,13 +57,13 @@ def create
     Rails.logger.debug "IN HERE AT LEAST, EMAIL"
     Rails.logger.debug "-----------------------------------------------"
 
-    @user_mfa_session = current_user.user_mfa_sessions.first_or_create(secret_key: ROTP::Base32.random_base32, ***REMOVED***
+    @user_mfa_session = current_user.user_mfa_sessions.first_or_create(secret_key: ROTP::Base32.random_base32, )
 
     user = current_user
-    user.email_2fa_code = SecureRandom.hex(4***REMOVED***
+    user.email_2fa_code = SecureRandom.hex(4)
     user.save!
     Rails.logger.debug "Sending 2FA code via email"
-    UserMailer.send_2fa_code(user, user.email_2fa_code***REMOVED***.deliver_now
+    UserMailer.send_2fa_code(user, user.email_2fa_code).deliver_now
     Rails.logger.debug "2FA code sent via email"
 
     redirect_to enter_email_code_user_mfa_sessions_path
@@ -83,10 +83,10 @@ def create
     if user.email_2fa_code == params[:email_2fa_code]
       # The code matches, handle successful verification
       user_mfa_session = user.user_mfa_sessions.first
-      user_mfa_session.update(email_verified: true***REMOVED***  # Clear the code and set email_verified to true
-      user.update(email_2fa_code: nil***REMOVED***  # Clear the code after successful verification
-      puts "#{user_mfa_session.inspect***REMOVED***"
-      puts "#{user.inspect***REMOVED***"
+      user_mfa_session.update(email_verified: true)  # Clear the code and set email_verified to true
+      user.update(email_2fa_code: nil)  # Clear the code after successful verification
+      puts "#{user_mfa_session.inspect}"
+      puts "#{user.inspect}"
 
       redirect_to root_path, notice: "Email verification successful"
     else
@@ -100,7 +100,7 @@ def create
 
   private
 
-  def specific_error_message(user, mfa_code***REMOVED***
+  def specific_error_message(user, mfa_code)
     if mfa_code.blank?
       "MFA code cannot be blank."
     elsif !user.google_secret.present?

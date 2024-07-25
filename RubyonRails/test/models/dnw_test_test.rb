@@ -14,7 +14,7 @@
 #  left_percentile          :string
 #  left_score               :float
 #  notes                    :text
-#  price                    :decimal(10, 2***REMOVED***
+#  price                    :decimal(10, 2)
 #  right_percentile         :string
 #  right_score              :float
 #  test_type                :string
@@ -35,6 +35,39 @@
 #  fk_rails_...  (client_id => clients.id***REMOVED***
 #  fk_rails_...  (tenant_id => tenants.id***REMOVED***
 #  fk_rails_...  (user_id => users.id***REMOVED***
+=======
+#  index_dnw_tests_on_client_id  (client_id)
+#  index_dnw_tests_on_tenant_id  (tenant_id)
+#  index_dnw_tests_on_user_id    (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (client_id => clients.id)
+#  fk_rails_...  (tenant_id => tenants.id)
+#  fk_rails_...  (user_id => users.id)
+#
+#  price                    :decimal(10, 2)
+#  right_percentile         :string
+#  right_score              :float
+#  test_type                :string
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  client_id                :bigint           not null
+#  tenant_id                :bigint
+#  user_id                  :bigint           not null
+#
+# Indexes
+#
+#  index_dnw_tests_on_client_id  (client_id)
+#  index_dnw_tests_on_tenant_id  (tenant_id)
+#  index_dnw_tests_on_user_id    (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (client_id => clients.id)
+#  fk_rails_...  (tenant_id => tenants.id)
+#  fk_rails_...  (user_id => users.id)
+>>>>>>> fork1-branch
 #
 require "test_helper"
 

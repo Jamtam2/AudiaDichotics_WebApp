@@ -3,7 +3,7 @@
 # Table name: payments
 #
 #  id                    :bigint           not null, primary key
-#  amount                :decimal(10, 2***REMOVED***
+#  amount                :decimal(10, 2)
 #  currency              :string
 #  description           :text
 #  status                :string
@@ -15,12 +15,12 @@
 #
 # Indexes
 #
-#  index_payments_on_user_id  (user_id***REMOVED***
+#  index_payments_on_user_id  (user_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
-#  fk_rails_...  (user_id => users.id***REMOVED***
+#  fk_rails_...  (tenant_id => tenants.id)
+#  fk_rails_...  (user_id => users.id)
 #
 
 one:

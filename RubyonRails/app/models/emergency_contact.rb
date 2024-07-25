@@ -24,16 +24,16 @@
 #
 # Indexes
 #
-#  index_emergency_contacts_on_client_id  (client_id***REMOVED***
-#  index_emergency_contacts_on_tenant_id  (tenant_id***REMOVED***
+#  index_emergency_contacts_on_client_id  (client_id)
+#  index_emergency_contacts_on_tenant_id  (tenant_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (client_id => clients.id***REMOVED***
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
+#  fk_rails_...  (client_id => clients.id)
+#  fk_rails_...  (tenant_id => tenants.id)
 #
 class EmergencyContact < ApplicationRecord
-  acts_as_tenant(:tenant***REMOVED***
+  acts_as_tenant(:tenant)
 
   belongs_to :client
   attr_encrypted :email, :address, :city, :first_name, :last_name, :phone_number, :state, key: ENV['ENCRYPTION_KEY']
@@ -46,7 +46,7 @@ class EmergencyContact < ApplicationRecord
 
   def phone_or_email_required
     if phone_number.blank? && email.blank?
-      errors.add(:base, 'Either phone number or email must be present'***REMOVED***
+      errors.add(:base, 'Either phone number or email must be present')
     end
   end
 end

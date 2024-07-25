@@ -15,29 +15,29 @@ class FetchKeys
   private
 
   def self.fetch_keys
-    response = get("/license", query: { apiKey: 'ears_lobo_audia_dichotic_capstone_winter23' ***REMOVED******REMOVED***
+    response = get("/license", query: { apiKey: 'ears_lobo_audia_dichotic_capstone_winter23' })
     if response.success?
       response.parsed_response.each do |data|
-        create_key(data***REMOVED*** if data['expiration'] && Time.parse(data['expiration']***REMOVED*** > Time.now
+        create_key(data) if data['expiration'] && Time.parse(data['expiration']) > Time.now
       end
     else
-      Rails.logger.error("FetchKeys: Error fetching license data - #{response.message***REMOVED***"***REMOVED***
+      Rails.logger.error("FetchKeys: Error fetching license data - #{response.message}")
     end
   end
 
   def self.fetch_customers
-    response = get("/customer", query: { apiKey: 'ears_lobo_audia_dichotic_capstone_winter23' ***REMOVED******REMOVED***
+    response = get("/customer", query: { apiKey: '[REDACTED]' })
     if response.success?
       response.parsed_response.each do |data|
-        update_key_email(data***REMOVED***
+        update_key_email(data)
       end
     else
-      Rails.logger.error("FetchKeys: Error fetching customer data - #{response.message***REMOVED***"***REMOVED***
+      Rails.logger.error("FetchKeys: Error fetching customer data - #{response.message}")
     end
   end
 
-  def self.create_key(data***REMOVED***
-    key = Key.find_or_initialize_by(license_id: data['licenseID']***REMOVED***
+  def self.create_key(data)
+    key = Key.find_or_initialize_by(license_id: data['licenseID'])
     key.assign_attributes(
       activation_code: data['activationCode'],
       license_type: data['licenseType'],
@@ -45,12 +45,12 @@ class FetchKeys
       product_id: data['productID'],
       customer_id: data['customerID'],
       subscription_id: data['subscriptiontID']
-    ***REMOVED***
+    )
     key.save if key.new_record? || key.changed?
   end
 
-  def self.update_key_email(customer_data***REMOVED***
-    key = Key.find_by(customer_id: customer_data['customerID']***REMOVED***
-    key.update(email: customer_data['email']***REMOVED*** if key
+  def self.update_key_email(customer_data)
+    key = Key.find_by(customer_id: customer_data['customerID'])
+    key.update(email: customer_data['email']) if key
   end
 end

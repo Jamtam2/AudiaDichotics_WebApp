@@ -4,7 +4,7 @@ class CliniciansController < ApplicationController
       end
     
     def create
-        @clinician = Clinician.new(clinician_params***REMOVED***
+        @clinician = Clinician.new(clinician_params)
         if @clinician.save
             flash[:success] = "Client successfully added!"
             redirect_to clinicians_path, notice: "Client created successfully."
@@ -18,7 +18,7 @@ class CliniciansController < ApplicationController
       if params[:search].blank?
         @clients = Client.all
       else
-        @clients = Client.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]***REMOVED***%", "%#{params[:search]***REMOVED***%"***REMOVED***
+        @clients = Client.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
       end
     end
     

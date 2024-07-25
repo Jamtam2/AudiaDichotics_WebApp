@@ -1,17 +1,17 @@
-document.addEventListener('DOMContentLoaded', (***REMOVED*** => {
-  const tabs = document.querySelectorAll('.tab'***REMOVED***;
-  const contents = document.querySelectorAll('.tab-content'***REMOVED***;
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.tab-content');
 
   tabs.forEach(tab => {
-    tab.addEventListener('click', (***REMOVED*** => {
+    tab.addEventListener('click', () => {
       // Remove 'active' class from all tabs and contents
-      tabs.forEach(t => t.classList.remove('active'***REMOVED******REMOVED***;
-      contents.forEach(c => c.classList.remove('active'***REMOVED******REMOVED***;
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
 
       // Add 'active' class to the clicked tab and its corresponding content
-      tab.classList.add('active'***REMOVED***;
-      const contentId = tab.id.replace('-tab', '-content'***REMOVED***;
-      document.getElementById(contentId***REMOVED***.classList.add('active'***REMOVED***;
-    ***REMOVED******REMOVED***;
-  ***REMOVED******REMOVED***;
-***REMOVED******REMOVED***;
+      tab.classList.add('active');
+      const contentId = tab.id.replace('-tab', '-content');
+      document.getElementById(contentId).classList.add('active');
+    });
+  });
+});

@@ -1,6 +1,6 @@
-import { Application ***REMOVED*** from "stimulus"
-import { definitionsFromContext ***REMOVED*** from "stimulus/webpack-helpers"
+import { Application } from "stimulus"
+import { definitionsFromContext } from "stimulus/webpack-helpers"
 
-const application = Application.start(***REMOVED***
-const context = require.context(".", true, /\.js$/***REMOVED***
-application.load(definitionsFromContext(context***REMOVED******REMOVED***
+const application = Application.start()
+const context = require.context(".", true, /\.js$/)
+application.load(definitionsFromContext(context))

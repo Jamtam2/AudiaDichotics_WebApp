@@ -71,7 +71,7 @@ class Client < ApplicationRecord
       created_at: created_at,
       updated_at: updated_at
     # You might need to set hashable_id and hashable_type here, depending on your setup
-      ***REMOVED***
+      )
 
     # Map each client attribute to its respective hashed_data attribute
     attribute_map = {
@@ -90,21 +90,21 @@ class Client < ApplicationRecord
       'state' => 'hashed_state',
       'country' => 'hashed_country',
       'tenant_id' => 'hashed_tenant_id'
-    ***REMOVED***
+    }
 
     # Loop over every client attribute, hash the value, and store it in the correct hashed_data attribute
     attribute_map.each do |client_attr, hashed_attr|
-      value = self.send(client_attr***REMOVED***
+      value = self.send(client_attr)
 
       # Convert value to string if its not already
-      stringified_value = value.is_a?(String***REMOVED*** ? value : value.to_s
+      stringified_value = value.is_a?(String) ? value : value.to_s
 
       # Hash the string
-      hashed_value = Digest::SHA256.hexdigest(stringified_value***REMOVED***
+      hashed_value = Digest::SHA256.hexdigest(stringified_value)
       #   hashed_value = stringified_value
 
       # Store the hashed value in the hashed_datum
-      hashed_datum.send("#{hashed_attr***REMOVED***=", hashed_value***REMOVED***
+      hashed_datum.send("#{hashed_attr}=", hashed_value)
     end
 
     # Save the new hashed_datum record
@@ -113,19 +113,19 @@ class Client < ApplicationRecord
   end
 
 
-  # def self.decrypt_client_names_for_tenant(tenant_id***REMOVED***
-  #   clients = where(tenant_id: tenant_id***REMOVED***
+  # def self.decrypt_client_names_for_tenant(tenant_id)
+  #   clients = where(tenant_id: tenant_id)
   #
   #   clients.map do |client|
   #     {
   #       client_id: client.id,
   #       decrypted_client_name: client.first_name  # This will automatically decrypt the name
-  #     ***REMOVED***
+  #     }
   #   end
   # end
 
 
-  def date_of_birth=(date***REMOVED***
+  def date_of_birth=(date)
       self.dob_string = date.to_s
     end
     # The setter for the raw_date_of_birth, used internally
@@ -133,13 +133,13 @@ class Client < ApplicationRecord
 
     def date_of_birth
       return if dob_string.nil?
-      Date.parse(dob_string***REMOVED***
+      Date.parse(dob_string)
     end
     
   
 
     def full_name
-      "#{first_name***REMOVED***#{last_name***REMOVED***"
+      "#{first_name}#{last_name}"
     end
 #age in years method that calculates a clients age based on DOB then passes it to the script test page
     def age_in_years
@@ -153,44 +153,44 @@ class Client < ApplicationRecord
 
 
     def anonymized
-      self.attributes.except('address1', 'email', 'phone1', 'phone2'***REMOVED***
+      self.attributes.except('address1', 'email', 'phone1', 'phone2')
         .merge({
-          'address1' => Digest::SHA256.hexdigest(self.address1***REMOVED***,
-          'email' => Digest::SHA256.hexdigest(self.email***REMOVED***,
-          'phone1' => Digest::SHA256.hexdigest(self.phone1***REMOVED***,
-          'phone2' => Digest::SHA256.hexdigest(self.phone2***REMOVED***
-        ***REMOVED******REMOVED***
+          'address1' => Digest::SHA256.hexdigest(self.address1),
+          'email' => Digest::SHA256.hexdigest(self.email),
+          'phone1' => Digest::SHA256.hexdigest(self.phone1),
+          'phone2' => Digest::SHA256.hexdigest(self.phone2)
+        })
     end
   # Validations for various client attributes
-  validates :first_name, :last_name, :zip, :gender, :date_of_birth, presence: true
+  validates :first_name, :last_name, :email, :address1, :country, :state, :city, :zip, :phone1, :date_of_birth, presence: true
 
-  # validates :email, format: { with: URI::MailTo::EMAIL_REGEXP ***REMOVED***
-  # validates :phone1, numericality: { only_integer: true ***REMOVED***
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :phone1, numericality: { only_integer: true }
 
   # Allow these attributes to be searched through Ransack
-  def self.ransackable_attributes(auth_object = nil***REMOVED***
-    %w(address1 city country date_of_birth email first_name gender last_name mgmt_ref phone1 phone2 race state zip created_at updated_at age_in_years age ***REMOVED*** + _ransackers.keys
+  def self.ransackable_attributes(auth_object = nil)
+    %w(address1 city country date_of_birth email first_name gender last_name mgmt_ref phone1 phone2 race state zip created_at updated_at age_in_years age ) + _ransackers.keys
   end
   
   # Allow these associations to be searched through Ransack. Can use attributes from different models.
-  def self.ransackable_associations(auth_object = nil***REMOVED***
-    %w(dwt_tests hashed_data***REMOVED*** # Allows the use of this model in the Client model now.
+  def self.ransackable_associations(auth_object = nil)
+    %w(dwt_tests hashed_data) # Allows the use of this model in the Client model now.
   end
 
   # Controls the functionality behind thw advanced searching for this attribute of id
   ransacker :id do
-    Arel.sql('id'***REMOVED***
+    Arel.sql('id')
   end
 
   # Method Allows for the Age_in_years method to be used in sorting for age
-  def self.sort_by_age_in_years(direction = 'asc'***REMOVED***
-    direction = %w[asc desc].include?(direction***REMOVED*** ? direction : 'asc'
-    order(Arel.sql("EXTRACT(YEAR FROM age(date_of_birth***REMOVED******REMOVED*** #{direction***REMOVED***"***REMOVED******REMOVED***
+  def self.sort_by_age_in_years(direction = 'asc')
+    direction = %w[asc desc].include?(direction) ? direction : 'asc'
+    order(Arel.sql("EXTRACT(YEAR FROM age(date_of_birth)) #{direction}"))
   end
 
   # Allows attribute to be used as a search parameter
   ransacker :age_in_years do
-    Arel.sql("EXTRACT(YEAR FROM age(date_of_birth***REMOVED******REMOVED***"***REMOVED***
+    Arel.sql("EXTRACT(YEAR FROM age(date_of_birth))")
   end
   
 

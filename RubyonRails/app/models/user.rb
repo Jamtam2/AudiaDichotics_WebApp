@@ -3,10 +3,10 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  email                  :string           default(""***REMOVED***, not null
+#  email                  :string           default(""), not null
 #  email_2fa_code         :string
 #  email_2fa_code_sent_at :datetime
-#  encrypted_password     :string           default(""***REMOVED***, not null
+#  encrypted_password     :string           default(""), not null
 #  fname                  :string
 #  google_secret          :string
 #  lname                  :string
@@ -25,14 +25,14 @@
 #
 # Indexes
 #
-#  index_users_on_email                 (email***REMOVED*** UNIQUE
-#  index_users_on_moderator_code        (moderator_code***REMOVED***
-#  index_users_on_reset_password_token  (reset_password_token***REMOVED*** UNIQUE
-#  index_users_on_tenant_id             (tenant_id***REMOVED***
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_moderator_code        (moderator_code)
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_tenant_id             (tenant_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
+#  fk_rails_...  (tenant_id => tenants.id)
 #
 class User < ApplicationRecord
 
@@ -42,18 +42,18 @@ class User < ApplicationRecord
   # Callback to generate a unique code for local moderators
   before_create :generate_unique_code, if: :local_moderator?
 
-  acts_as_tenant(:tenant***REMOVED***
+  acts_as_tenant(:tenant)
   
   acts_as_google_authenticated google_secret: :google_secret, mfa_secret: :mfa_secret
 
   belongs_to :tenant
-  enum role: { regular_user: 0, local_moderator: 1, global_moderator: 2, owner: 3 ***REMOVED***
+  enum role: { regular_user: 0, local_moderator: 1, global_moderator: 2, owner: 3 }
 
-  scope :local_moderators, -> { where(role: roles[:local_moderator]***REMOVED*** ***REMOVED***
+  scope :local_moderators, -> { where(role: roles[:local_moderator]) }
 
   attr_accessor :registration_key
 
-  before_validation :validate_verification_key, on: :create, if: -> { local_moderator? || verification_key.present? ***REMOVED***  
+  before_validation :validate_verification_key, on: :create, if: -> { local_moderator? || verification_key.present? }  
 
 
   # Will validate the verification key only for the owner.
@@ -94,28 +94,28 @@ class User < ApplicationRecord
   end
 
   def generate_qr_code
-    totp = ROTP::TOTP.new(self.user_mfa_sessions.first.secret_key***REMOVED***
-    label = "#{self.email***REMOVED***"
-    totp.provisioning_uri(label***REMOVED***
+    totp = ROTP::TOTP.new(self.user_mfa_sessions.first.secret_key)
+    label = "#{self.email}"
+    totp.provisioning_uri(label)
   end
   
-  def google_authentic?(provided_code***REMOVED***
-    totp = ROTP::TOTP.new(google_secret***REMOVED***
+  def google_authentic?(provided_code)
+    totp = ROTP::TOTP.new(google_secret)
     # Allow 30 seconds drift behind and ahead
     drift_behind = 30
     drift_ahead = 30
-    totp.verify(provided_code, at: Time.now, drift_behind: drift_behind, drift_ahead: drift_ahead***REMOVED***
+    totp.verify(provided_code, at: Time.now, drift_behind: drift_behind, drift_ahead: drift_ahead)
   end
   
 
   def reset_google_authenticator!
     # Generate a new secret key and clear existing 2FA setup
     new_secret = ROTP::Base32.random_base32
-    self.update!(google_secret: new_secret, email_2fa_code: SecureRandom.hex(4***REMOVED******REMOVED***
+    self.update!(google_secret: new_secret, email_2fa_code: SecureRandom.hex(4))
 
     # You might also want to reset the user_mfa_sessions here
     self.user_mfa_sessions.destroy_all
-    self.user_mfa_sessions.create!(secret_key: new_secret, activated: false, email_verified: false***REMOVED***
+    self.user_mfa_sessions.create!(secret_key: new_secret, activated: false, email_verified: false)
 
   end
   
@@ -128,13 +128,13 @@ class User < ApplicationRecord
   def validate_verification_key
     return false if verification_key.blank?
 
-    key = Key.find_by(activation_code: verification_key***REMOVED***
+    key = Key.find_by(activation_code: verification_key)
 
     if key.present? && !key.used
-      puts "Valid registration key found: #{key.inspect***REMOVED***"
+      puts "Valid registration key found: #{key.inspect}"
       return true
     else
-      errors.add(:registration_key, "is invalid."***REMOVED***
+      errors.add(:registration_key, "is invalid.")
       return false
     end
   end
@@ -145,19 +145,19 @@ class User < ApplicationRecord
   def generate_unique_code
     # Ensure the generated code is unique across all users
     loop do
-      self.moderator_code = SecureRandom.hex(10***REMOVED***
-      break unless User.exists?(moderator_code: self.moderator_code***REMOVED***
+      self.moderator_code = SecureRandom.hex(10)
+      break unless User.exists?(moderator_code: self.moderator_code)
     end
   end
 
   def create_mfa_session
-    self.user_mfa_sessions.create(secret_key: ROTP::Base32.random_base32, activated: false***REMOVED*** # Activates later when the user sets up MFA***REMOVED***
+    self.user_mfa_sessions.create(secret_key: ROTP::Base32.random_base32, activated: false) # Activates later when the user sets up MFA)
   end
 
   public
 
   def license_key
-    Key.find_by(email: email***REMOVED***
+    Key.find_by(email: email)
   end
 
 end

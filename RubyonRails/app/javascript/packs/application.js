@@ -8,42 +8,42 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-Rails.start(***REMOVED***
-Turbolinks.start(***REMOVED***
-ActiveStorage.start(***REMOVED***
+Rails.start()
+Turbolinks.start()
+ActiveStorage.start()
 
 import 'bootstrap'
 import autosize from 'autosize'
 
-document.addEventListener("turbolinks:load", (***REMOVED*** => {
-  $('[data-toggle="tooltip"]'***REMOVED***.tooltip(***REMOVED***;
-  $('[data-toggle="popover"]'***REMOVED***.popover(***REMOVED***;
-  autosize(document.querySelectorAll('textarea'***REMOVED******REMOVED***;
-***REMOVED******REMOVED***
+document.addEventListener("turbolinks:load", () => {
+  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="popover"]').popover();
+  autosize(document.querySelectorAll('textarea'));
+})
 
-function hideInput(***REMOVED*** {
-  var colDiv = document.getElementById("normalCol"***REMOVED***;
+function hideInput() {
+  var colDiv = document.getElementById("normalCol");
   colDiv.style.display === "block" ? colDiv.style.display = 'none' : colDiv.style.display = 'block';
-***REMOVED***
+}
 
 
 
 
 
-document.addEventListener("turbolinks:load", function(***REMOVED*** {
+document.addEventListener("turbolinks:load", function() {
   // reset the active tab when the page is loaded
-  $(".tab-content.active"***REMOVED***.removeClass("active"***REMOVED***;
-  $(".tab.active"***REMOVED***.removeClass("active"***REMOVED***;
+  $(".tab-content.active").removeClass("active");
+  $(".tab.active").removeClass("active");
 
   // set the active tab based on the URL anchor
-  var tabAnchor = window.location.hash.substring(1***REMOVED***;
-  $("#" + tabAnchor + "-content"***REMOVED***.addClass("active"***REMOVED***;
-  $("#" + tabAnchor + "-tab"***REMOVED***.addClass("active"***REMOVED***;
+  var tabAnchor = window.location.hash.substring(1);
+  $("#" + tabAnchor + "-content").addClass("active");
+  $("#" + tabAnchor + "-tab").addClass("active");
 
   // update the URL anchor when a tab is clicked
-  $(".tab"***REMOVED***.on("click", function(***REMOVED*** {
-    var tabAnchor = $(this***REMOVED***.attr("id"***REMOVED***;
+  $(".tab").on("click", function() {
+    var tabAnchor = $(this).attr("id");
     window.location.hash = tabAnchor;
-  ***REMOVED******REMOVED***;
-***REMOVED******REMOVED***;
+  });
+});
 

@@ -1,19 +1,19 @@
-module.exports = function(api***REMOVED*** {
+module.exports = function(api) {
   var validEnv = ['development', 'test', 'production']
-  var currentEnv = api.env(***REMOVED***
-  var isDevelopmentEnv = api.env('development'***REMOVED***
-  var isProductionEnv = api.env('production'***REMOVED***
-  var isTestEnv = api.env('test'***REMOVED***
+  var currentEnv = api.env()
+  var isDevelopmentEnv = api.env('development')
+  var isProductionEnv = api.env('production')
+  var isTestEnv = api.env('test')
 
-  if (!validEnv.includes(currentEnv***REMOVED******REMOVED*** {
+  if (!validEnv.includes(currentEnv)) {
     throw new Error(
       'Please specify a valid `NODE_ENV` or ' +
         '`BABEL_ENV` environment variables. Valid values are "development", ' +
         '"test", and "production". Instead, received: ' +
-        JSON.stringify(currentEnv***REMOVED*** +
+        JSON.stringify(currentEnv) +
         '.'
-    ***REMOVED***
-  ***REMOVED***
+    )
+  }
 
   return {
     presets: [
@@ -22,10 +22,10 @@ module.exports = function(api***REMOVED*** {
         {
           targets: {
             node: 'current'
-          ***REMOVED***
-        ***REMOVED***
+          }
+        }
       ],
-      (isProductionEnv || isDevelopmentEnv***REMOVED*** && [
+      (isProductionEnv || isDevelopmentEnv) && [
         '@babel/preset-env',
         {
           forceAllTransforms: true,
@@ -33,9 +33,9 @@ module.exports = function(api***REMOVED*** {
           corejs: 3,
           modules: false,
           exclude: ['transform-typeof-symbol']
-        ***REMOVED***
+        }
       ]
-    ].filter(Boolean***REMOVED***,
+    ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
       '@babel/plugin-syntax-dynamic-import',
@@ -45,39 +45,39 @@ module.exports = function(api***REMOVED*** {
         '@babel/plugin-proposal-class-properties',
         {
           loose: true
-        ***REMOVED***
+        }
       ],
 
       [
         '@babel/plugin-proposal-private-methods',
         {
           loose: true
-        ***REMOVED***
+        }
       ],
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
           useBuiltIns: true
-        ***REMOVED***
+        }
       ],
       [
         '@babel/plugin-transform-runtime',
         {
           helpers: false
-        ***REMOVED***
+        }
       ],
       [
         '@babel/plugin-transform-regenerator',
         {
           async: false
-        ***REMOVED***
+        }
       ],
       [
         '@babel/plugin-proposal-private-property-in-object',
         {
           loose: true
-        ***REMOVED***
+        }
       ]
-    ].filter(Boolean***REMOVED***
-  ***REMOVED***
-***REMOVED***
+    ].filter(Boolean)
+  }
+}

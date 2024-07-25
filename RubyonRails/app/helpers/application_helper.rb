@@ -1,5 +1,5 @@
 module ApplicationHelper
-    def flash_message(flash_type***REMOVED***
+    def flash_message(flash_type)
         case flash_type
         when 'notice' then 'success'
         when 'alert'  then 'danger'
@@ -7,7 +7,7 @@ module ApplicationHelper
         end
     end
 
-    def active_class(path***REMOVED***
+    def active_class(path)
         if request.path == path
             return 'active'
         else

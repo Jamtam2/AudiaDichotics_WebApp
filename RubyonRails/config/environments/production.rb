@@ -17,7 +17,7 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
-  # or in config/master.key. This key is used to decrypt credentials (and other encrypted files***REMOVED***.
+  # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
 
   # Disable serving static files from the `/public` folder by default since
@@ -33,12 +33,12 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = 'http://assets.example.com'
   config.assets.enabled = true
-  config.assets.paths << Rails.root.join('/app/assets/fonts'***REMOVED***
+  config.assets.paths << Rails.root.join('/app/assets/fonts')
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
-  # Store uploaded files on the local file system (see config/storage.yml for options***REMOVED***.
+  # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
   # Mount Action Cable outside main process or domain.
@@ -65,12 +65,12 @@ Rails.application.configure do
 
   # Sidekiq server configuration
   Sidekiq.configure_server do |config|
-    config.redis = { url: ENV['STACKHERO_REDIS_URL_TLS'], network_timeout: 5 ***REMOVED***
+    config.redis = { url: ENV['STACKHERO_REDIS_URL_TLS'], network_timeout: 5 }
   end
 
   # Sidekiq client configuration
   Sidekiq.configure_client do |config|
-    config.redis = { url: ENV['STACKHERO_REDIS_URL_TLS'], network_timeout: 5 ***REMOVED***
+    config.redis = { url: ENV['STACKHERO_REDIS_URL_TLS'], network_timeout: 5 }
   end
 
   config.action_mailer.perform_caching = false
@@ -80,7 +80,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found***REMOVED***.
+  # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
   # Send deprecation notices to registered listeners.
@@ -97,12 +97,12 @@ Rails.application.configure do
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
-  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name'***REMOVED***
+  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT***REMOVED***
+    logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger***REMOVED***
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
@@ -125,7 +125,7 @@ Rails.application.configure do
   # DatabaseSelector middleware is designed as such you can define your own
   # strategy for connection switching and pass that into the middleware through
   # these configuration options.
-  # config.active_record.database_selector = { delay: 2.seconds ***REMOVED***
+  # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
   config.action_mailer.delivery_method = :smtp

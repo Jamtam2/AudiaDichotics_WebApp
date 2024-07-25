@@ -26,13 +26,13 @@
 #
 # Indexes
 #
-#  index_hashed_data_on_hashable  (hashable_type,hashable_id***REMOVED***
+#  index_hashed_data_on_hashable  (hashable_type,hashable_id)
 #
 class HashedDatum < ApplicationRecord
     belongs_to :hashable, polymorphic: true
 
     # Allow these attributes to be searched through Ransack
-  def self.ransackable_attributes(auth_object = nil***REMOVED***
+  def self.ransackable_attributes(auth_object = nil)
     attributes = %w(
   record_id
   hashable_type
@@ -54,11 +54,11 @@ class HashedDatum < ApplicationRecord
   created_at
   updated_at
   hashed_tenant_id
-***REMOVED*** + _ransackers.keys
+) + _ransackers.keys
   end
 
   # Allow these associations to be searched through Ransack. Can use attributes from different models.
-  def self.ransackable_associations(auth_object = nil***REMOVED***
+  def self.ransackable_associations(auth_object = nil)
   end
 
 end
