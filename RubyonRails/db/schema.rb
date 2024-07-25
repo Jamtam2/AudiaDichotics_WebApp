@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 2024_03_16_170553) do
     t.string "encrypted_zip_iv"
     t.string "encrypted_dob_string"
     t.string "encrypted_dob_string_iv"
+    t.integer "right_ear_decibel"
+    t.integer "left_ear_decibel"
     t.index ["tenant_id"], name: "index_clients_on_tenant_id"
   end
 
@@ -290,6 +292,19 @@ ActiveRecord::Schema.define(version: 2024_03_16_170553) do
     t.boolean "email_verified"
     t.index ["user_id"], name: "index_user_mfa_sessions_on_user_id"
   end
+  
+  create_table "trainings", force: :cascade do |t|
+    t.integer "week"
+    t.string "client_name"
+    t.string "ear_advantage"
+    t.string "ear_advanatage_score"
+    t.string "left_score"
+    t.string "right_score"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "client_id"
+    t.index ["client_id"], name: "index_trainings_on_client_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "fname"
@@ -311,10 +326,96 @@ ActiveRecord::Schema.define(version: 2024_03_16_170553) do
     t.string "stripe_customer_id"
     t.boolean "outstanding_balance"
     t.datetime "email_2fa_code_sent_at"
+    t.integer "right_ear_decibel"
+    t.integer "left_ear_decibel"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["moderator_code"], name: "index_users_on_moderator_code"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["tenant_id"], name: "index_users_on_tenant_id"
+  end
+
+  create_table "week_fours", force: :cascade do |t|
+    t.string "test_type"
+    t.string "client_name"
+    t.text "notes"
+    t.string "ear_advantage"
+    t.float "left_score"
+    t.float "right_score"
+    t.float "ear_advantage_score"
+    t.integer "left_ear_decibel"
+    t.integer "right_ear_decibel"
+    t.integer "counter"
+    t.bigint "client_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "tenant_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_id"], name: "index_week_fours_on_client_id"
+    t.index ["tenant_id"], name: "index_week_fours_on_tenant_id"
+    t.index ["user_id"], name: "index_week_fours_on_user_id"
+  end
+
+  create_table "week_ones", force: :cascade do |t|
+    t.string "test_type"
+    t.string "client_name"
+    t.text "notes"
+    t.string "ear_advantage"
+    t.float "left_score"
+    t.float "right_score"
+    t.float "ear_advantage_score"
+    t.bigint "client_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.bigint "tenant_id"
+    t.integer "counter"
+    t.integer "right_ear_decibel"
+    t.integer "left_ear_decibel"
+    t.index ["client_id"], name: "index_week_ones_on_client_id"
+    t.index ["tenant_id"], name: "index_week_ones_on_tenant_id"
+    t.index ["user_id"], name: "index_week_ones_on_user_id"
+  end
+
+  create_table "week_threes", force: :cascade do |t|
+    t.string "test_type"
+    t.string "client_name"
+    t.text "notes"
+    t.string "ear_advantage"
+    t.float "left_score"
+    t.float "right_score"
+    t.float "ear_advantage_score"
+    t.bigint "client_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "tenant_id"
+    t.bigint "user_id", null: false
+    t.integer "counter"
+    t.integer "left_ear_decibel"
+    t.integer "right_ear_decibel"
+    t.index ["client_id"], name: "index_week_threes_on_client_id"
+    t.index ["tenant_id"], name: "index_week_threes_on_tenant_id"
+    t.index ["user_id"], name: "index_week_threes_on_user_id"
+  end
+
+  create_table "week_twos", force: :cascade do |t|
+    t.string "client_name"
+    t.string "ear_advantage"
+    t.float "ear_advantage_score"
+    t.float "left_ear_decibel"
+    t.float "left_score"
+    t.text "notes"
+    t.float "right_ear_decibel"
+    t.float "right_score"
+    t.string "test_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "counter"
+    t.bigint "tenant_id"
+    t.bigint "user_id", null: false
+    t.bigint "client_id", null: false
+    t.index ["client_id"], name: "index_week_twos_on_client_id"
+    t.index ["tenant_id"], name: "index_week_twos_on_tenant_id"
+    t.index ["user_id"], name: "index_week_twos_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -337,5 +438,18 @@ ActiveRecord::Schema.define(version: 2024_03_16_170553) do
   add_foreign_key "tests", "tenants"
   add_foreign_key "tests", "users"
   add_foreign_key "user_mfa_sessions", "users"
+  add_foreign_key "trainings", "clients"
   add_foreign_key "users", "tenants"
+  add_foreign_key "week_fours", "clients"
+  add_foreign_key "week_fours", "tenants"
+  add_foreign_key "week_fours", "users"
+  add_foreign_key "week_ones", "clients"
+  add_foreign_key "week_ones", "tenants"
+  add_foreign_key "week_ones", "users"
+  add_foreign_key "week_threes", "clients"
+  add_foreign_key "week_threes", "tenants"
+  add_foreign_key "week_threes", "users"
+  add_foreign_key "week_twos", "clients"
+  add_foreign_key "week_twos", "tenants"
+  add_foreign_key "week_twos", "users"
 end

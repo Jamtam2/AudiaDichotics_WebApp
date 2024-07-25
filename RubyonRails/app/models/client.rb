@@ -27,7 +27,9 @@
 #  encrypted_race_iv          :string
 #  encrypted_zip              :string
 #  encrypted_zip_iv           :string
+#  left_ear_decibel           :integer
 #  mgmt_ref                   :string
+#  right_ear_decibel          :integer
 #  state                      :string
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
@@ -56,6 +58,43 @@ class Client < ApplicationRecord
     has_many :hashed_data, as: :hashable, dependent: :destroy
 
     after_save :store_hashed_data
+   
+    has_many(
+      :week_ones,
+      class_name: 'WeekOne',
+      foreign_key: 'client_id',
+      inverse_of: :client,
+      dependent: :destroy
+      )
+      has_many(
+        :week_twos,
+        class_name: 'WeekTwo',
+        foreign_key: 'client_id',
+        inverse_of: :client,
+        dependent: :destroy
+        )
+   
+    has_many(
+      :week_threes,
+      class_name: 'WeekThree',
+      foreign_key: 'client_id',
+      inverse_of: :client,
+      dependent: :destroy
+    )
+    has_many(
+      :week_fours,
+      class_name: 'WeekFour',
+      foreign_key: 'client_id',
+      inverse_of: :client,
+      dependent: :destroy
+    )
+    has_many(
+      :trainings,
+      class_name: 'Training',
+      foreign_key: 'client_id',
+      inverse_of: :client,
+     dependent: :destroy
+     )
   # Associations with emergency contacts and tests, with dependent destroy option
 
 

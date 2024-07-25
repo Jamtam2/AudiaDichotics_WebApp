@@ -96,8 +96,7 @@
             $('#myBtn'***REMOVED***.on('click', function(***REMOVED*** { $('#myForm'***REMOVED***.submit(***REMOVED***; ***REMOVED******REMOVED***;
                 ***REMOVED******REMOVED***;
            </script>
-
-
+          
           </div>
 
 
@@ -268,18 +267,31 @@
             <td><%= rddt_test.ear_advantage_score %></td>
           </tr>
         <% end %>
+        
       </tbody>
     </table>
   </div>
-
-
-
-  <div class="col">
-  <h2 class="display-5 pt-5" style="padding-bottom:20px"><strong>Training</strong></h2>
-    <div class="card border-primary border-1">
-    <%= image_tag 'comingSoon.png', class: ' d-block m-auto' , style: ' max-width: 40rem;'%>
-    </div>
+<% @client.dwt_tests.each do |dwt_test, index| %>
+  <div class="collapse" id="collapseExample<%index.to_s%>">
+   <%= dwt_test.user.fname %>
   </div>
+<% end %>
+<% @client.dnw_tests.each do |dnw_test, index| %>
+  <div class="collapse" id="collapseExample<%index.to_s%>">
+   <%= dnw_test.user.fname %>
+  </div>
+<% end %>
+<% @client.rddt_tests.each do |rddt_test, index| %>
+  <div class="collapse" id="collapseExample<%index.to_s%>">
+   <%= rddt_test.user.fname %>
+  </div>
+<% end %>
+<div >
+   <%= link_to 'Training Protocol', client_trainings_path(@client), class: 'btn btn-secondary' %>
+    </div>
+    </table>
+  </div>
+  
 
 
   
