@@ -1,6 +1,3 @@
-# README
-
-=======
 # Ears Project
 ## Overview
 The goal of this project was to rebuild an old application into a new web application using Ruby on Rails. The original software had licensing issues and needed to be replaced with a scalable web app.
