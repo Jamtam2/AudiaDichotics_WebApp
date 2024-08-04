@@ -7,7 +7,7 @@ Audia Dichotics aims to provide a scalable web application using Ruby on Rails t
 
 ### Website
 
-The application is live and can be accessed at [www.audiadichotics.com](http://www.audiadichotics.com/).
+The application is live and can be accessed at [audiadichotics.com](http://www.audiadichotics.com/).
 
 ### Work In Progress
 
@@ -26,7 +26,10 @@ The application is live and can be accessed at [www.audiadichotics.com](http://w
 - **Hosting:** Heroku
 - **Testing:** RSpec, Capybara
 
-### Official Website Excerpt
+
+## What is Amblyaudia?
+
+Amblyaudia is an auditory processing deficit due to weaknesses in binaural integration. It can be assessed through dichotic listening tests and treated with ARIA training programs.
 
 **Tools designed to aid listening and learning**
 
@@ -36,14 +39,6 @@ Dichotics Inc provides tools to assess and rehabilitate individuals with amblyau
 - **Interpret and report test results.**
 - **Backed by research evidence.**
 
-  ### What is Amblyaudia?
-
-Amblyaudia is an auditory processing deficit due to weaknesses in binaural integration. It can be assessed through dichotic listening tests and treated with ARIA training programs.
-
----
-
-### Software
-
 Our software integrates sound files for the DWT and RDDT, scores patient responses, and generates detailed reports.
 
-For more details, visit [[www.audiadichotics.com](https://www.dichoticsinc.com](https://www.dichoticsinc.com).
+For more details, visit [dichoticsinc.com](https://www.dichoticsinc.com).
