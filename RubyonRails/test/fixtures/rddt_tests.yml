@@ -19,7 +19,6 @@
 #  left_score3              :float
 #  notes                    :text
 #  price                    :decimal(10, 2)
-#  right_percentile         :string
 #  right_score1             :float
 #  right_score2             :float
 #  right_score3             :float

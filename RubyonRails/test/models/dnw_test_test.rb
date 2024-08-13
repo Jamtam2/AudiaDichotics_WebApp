@@ -26,15 +26,16 @@
 #
 # Indexes
 #
-#  index_dnw_tests_on_client_id  (client_id***REMOVED***
-#  index_dnw_tests_on_tenant_id  (tenant_id***REMOVED***
-#  index_dnw_tests_on_user_id    (user_id***REMOVED***
+#  index_dnw_tests_on_client_id  (client_id)
+#  index_dnw_tests_on_tenant_id  (tenant_id)
+#  index_dnw_tests_on_user_id    (user_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (client_id => clients.id***REMOVED***
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
-#  fk_rails_...  (user_id => users.id***REMOVED***
+#  fk_rails_...  (client_id => clients.id)
+#  fk_rails_...  (tenant_id => tenants.id)
+#  fk_rails_...  (user_id => users.id)
+#
 =======
 #  index_dnw_tests_on_client_id  (client_id)
 #  index_dnw_tests_on_tenant_id  (tenant_id)

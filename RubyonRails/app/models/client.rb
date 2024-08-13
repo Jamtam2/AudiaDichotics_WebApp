@@ -37,20 +37,20 @@
 #
 # Indexes
 #
-#  index_clients_on_tenant_id  (tenant_id***REMOVED***
+#  index_clients_on_tenant_id  (tenant_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (tenant_id => tenants.id***REMOVED***
+#  fk_rails_...  (tenant_id => tenants.id)
 #
 class Client < ApplicationRecord
-  acts_as_tenant(:tenant***REMOVED***
-  
+  acts_as_tenant(:tenant)
+
   attr_encrypted :email, :address1, :date_of_birth, :first_name, :last_name, :phone1, :phone2, :gender, :race, :zip, key: ENV['ENCRYPTION_KEY']
   attr_encrypted :dob_string, key: ENV['ENCRYPTION_KEY']
   belongs_to :tenant
 
-  
+
     has_many :emergency_contacts,dependent: :destroy
     has_many :dwt_tests,dependent: :destroy
     has_many :dnw_tests,dependent: :destroy
@@ -58,7 +58,7 @@ class Client < ApplicationRecord
     has_many :hashed_data, as: :hashable, dependent: :destroy
 
     after_save :store_hashed_data
-   
+
     has_many(
       :week_ones,
       class_name: 'WeekOne',
@@ -73,7 +73,7 @@ class Client < ApplicationRecord
         inverse_of: :client,
         dependent: :destroy
         )
-   
+
     has_many(
       :week_threes,
       class_name: 'WeekThree',
@@ -168,14 +168,14 @@ class Client < ApplicationRecord
       self.dob_string = date.to_s
     end
     # The setter for the raw_date_of_birth, used internally
-   
+
 
     def date_of_birth
       return if dob_string.nil?
       Date.parse(dob_string)
     end
-    
-  
+
+
 
     def full_name
       "#{first_name}#{last_name}"
@@ -184,7 +184,7 @@ class Client < ApplicationRecord
     def age_in_years
       now = Time.now.utc.to_date
       dob = date_of_birth
-      
+
       age = now.year - dob.year
       age -= 1 if now < dob + age.years # for days before birthday
       age
@@ -210,7 +210,7 @@ class Client < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     %w(address1 city country date_of_birth email first_name gender last_name mgmt_ref phone1 phone2 race state zip created_at updated_at age_in_years age ) + _ransackers.keys
   end
-  
+
   # Allow these associations to be searched through Ransack. Can use attributes from different models.
   def self.ransackable_associations(auth_object = nil)
     %w(dwt_tests hashed_data) # Allows the use of this model in the Client model now.
@@ -231,9 +231,6 @@ class Client < ApplicationRecord
   ransacker :age_in_years do
     Arel.sql("EXTRACT(YEAR FROM age(date_of_birth))")
   end
-  
+
 
 end
-  
-
-

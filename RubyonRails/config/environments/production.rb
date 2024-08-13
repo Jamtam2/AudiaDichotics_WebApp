@@ -50,7 +50,7 @@ Rails.application.configure do
   config.force_ssl = true
 
   # Include generic and useful information about system operation, but avoid logging too much
-  # information to avoid inadvertent exposure of personally identifiable information (PII***REMOVED***.
+  # information to avoid inadvertent exposure of personally identifiable information (PII).
   config.log_level = :info
 
   # Prepend all log lines with the following tags.
@@ -59,7 +59,7 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  # Use a real queuing backend for Active Job (and separate queues per environment***REMOVED***.
+  # Use a real queuing backend for Active Job (and separate queues per environment).
   config.active_job.queue_adapter = :sidekiq
   config.active_job.queue_name_prefix = "rails_demos_n_deets_2021_app_production"
 

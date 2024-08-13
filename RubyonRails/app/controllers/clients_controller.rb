@@ -1,12 +1,12 @@
 class ClientsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   require 'csv'
-   
+
      def new
        @client = Client.new
        @client.emergency_contacts.build
      end
- 
+
      def update_registration_key
        Rails.logger.info("---------------------------------")
        Rails.logger.info("---------------------------------")
@@ -15,14 +15,14 @@ class ClientsController < ApplicationController
        Rails.logger.info("---------------------------------")
        Rails.logger.info("---------------------------------")
        Rails.logger.info("---------------------------------")
- 
-       
+
+
        user = current_user
        curr_key = user.license_key
        verification_key = params[:registration_key]
        key = Key.find_by(activation_code: verification_key)
-       
- 
+
+
        Rails.logger.info("---------------------------------")
        Rails.logger.info("---------------------------------")
        Rails.logger.info("---------------------------------")
@@ -30,24 +30,24 @@ class ClientsController < ApplicationController
        Rails.logger.info("---------------------------------")
        Rails.logger.info("---------------------------------")
        Rails.logger.info("---------------------------------")
- 
- 
+
+
        if key.present? && !key.used
- 
+
          puts "Valid registration key found: #{key.inspect}"
          user.update(verification_key: verification_key)
          curr_key.update(email:  "OLDKEYSFOR#{user.email}")
          key.update(used: true, email: user.email)
          redirect_to home_path
- 
+
        else
          redirect_to expired_license_path, alert: 'Invalid registration key.'
        end
      end
-   
+
      def create
        @client = Client.new(client_params)
-   
+
        if @client.save
          flash[:success] = "Client successfully created!"
          redirect_to clients_path
@@ -56,8 +56,8 @@ class ClientsController < ApplicationController
          render :new
        end
      end
- 
-     
+
+
      def edit
          @client = Client.find(params[:id])
          #is this way of doing id correct? or should it be split up into 3 lines?
@@ -68,55 +68,55 @@ class ClientsController < ApplicationController
          @dnw_test = @client.dnw_tests.find_by(params[id: dnw_id])
          @rddt_test = @client.rddt_tests.find_by(params[id: rddt_id])
        end
- 
- 
+
+
      def update
          @client = Client.find(params[:id])
- 
+
          if @client.update(client_params)
              redirect_to clients_path, notice: "client updated successfully."
          else
              redirect_to edit_client_path(@client), notice: "client was not updated."
          end
      end
-     
+
      def destroy
        @client = Client.find(params[:id])
        @client.destroy
-   
+
        redirect_to clients_url, notice: "client was successfully deleted."
      end
-   
+
      def index
        #Shows all clients for global mods; global dataset
        if current_user.global_moderator?
          client_scope = Client.unscoped.all
-       
+
        else
          # Else, shows only local clients of the same tenant
          client_scope = Client.where(tenant_id: current_user.tenant_id)
        end
- 
+
        # Initialize instance variable to be used in clients > index.html.erb
        @clients = client_scope
- 
+
        # Instance variable to be used to use scope from HashedData model for filtering
        hashed_datum_scope = HashedDatum.unscoped.all
        @active_hashed_data = hashed_datum_scope
- 
- 
+
+
        # Calling method that enables Ransack functionality
        sort_and_filter_clients(client_scope)
- 
+
        process_hashed_search_parameters
- 
+
        respond_to do |format|
          format.html
          format.csv { send_data generate_csv(@clients), filename: "client_data-#{Date.today}.csv" }
        end
- 
+
      end
- 
+
      # Controller for global_moderator_index page functionality
      def global_moderator_index
        client_scope = nil
@@ -128,42 +128,42 @@ class ClientsController < ApplicationController
                client.dnw_tests.unscoped.load
                client.rddt_tests.unscoped.load
              end
- 
+
          end
          # @q = @clients.ransack(params[:q]***REMOVED***
      # Include associated tests to avoid N+1 query problems
          @clients = client_scope
          # @clients = client_scope.includes(:dwt_tests, :dnw_tests, :rddt_tests***REMOVED***
- 
+
      else
        # If the user is not a global moderator, redirect them
        redirect_to root_path, alert: 'You do not have access to this page.'
        end
-   
+
          # Initialize instance variable to be used in clients > index.html.erb
          # @clients = client_scope
- 
+
          # Calling method that enables Ransack functionality
          # sort_and_filter_clients(client_scope)
- 
+
        process_hashed_search_parameters
- 
+
          respond_to do |format|
            format.html
            format.csv { send_data generate_csv(@clients), filename: "global_moderator_data-#{Date.today}.csv" }
          end
        end
- 
-     
+
+
  # Method that contains functionality for ransack advanced search
  private def sort_and_filter_clients(client_scope)
-   
+
    # Initialize Ransack search object with the given scope
    @q = client_scope.ransack(params[:q], sort: params[:s])
-   
+
    # Controls search functionality for regular user
    if current_user.regular_user?
- 
+
      # Dictionary of sorting options for a regular user
      sorting_options_regular = {
        age: params[:q]&.dig(:sort_by_age),
@@ -174,16 +174,16 @@ class ClientsController < ApplicationController
        country: params[:q]&.dig(:country_eq),
        state: params[:q]&.dig(:state_eq),
      }
- 
+
      # Choose which filter to use
      sorting_options_regular.each do |key, value|
        @q.sorts = value if value
      end
    end
- 
+
    # Controls search functionality for global moderator
    if current_user.global_moderator?
-     
+
      # Set the selected sorting option based on params
      sorting_options_global = {
        client: params[:q]&.dig(:sort_by_client),
@@ -197,23 +197,23 @@ class ClientsController < ApplicationController
        ear_advantage_score: params[:q]&.dig(:dwt_tests_ear_advantage_score),
        test_type: params[:q]&.dig(:dwt_tests_test_type_eq)
      }
-     
+
      # Choose which filter to use
      sorting_options_global.each do |key, value|
        @q.sorts = value if value
      end
    end
-   
+
    # Will update the two search bars for name and location, and other possible filters
    @clients = @q.result
  end
- 
- 
- 
+
+
+
  def process_hashed_search_parameters
    @q = Client.ransack(params[:q], sort: params[:s])
    # @clients = @q.result
- 
+
    # Store the search terms with the following model attributes with the hashed data
    dict_of_search_terms = {
      :age_search_term => [:hashed_age, Digest::SHA256.hexdigest(params[:age_search_term].to_s)],
@@ -230,7 +230,7 @@ class ClientsController < ApplicationController
        # @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
      end
    end
- 
+
    # Code below if we want to add a field that will accept input from any of the attributes below as a search parameter
    # if params[:all_data_search_term].present?
    #   hashed_search_term = Digest::SHA256.hexdigest(params[:all_data_search_term].to_s)
@@ -252,16 +252,16 @@ class ClientsController < ApplicationController
    #   @clients = @clients.where(id: hashed_records.pluck(:hashable_id)) if hashed_records.exists?
    # end
  end
- 
-       
+
+
      def show
        @client = Client.find(params[:id])
        @dwt_tests = @client.dwt_tests
        @dnw_tests = @client.dnw_tests
        @rddt_tests = @client.rddt_tests
        end
- 
- 
+
+
      def search
        if params[:search].blank?
          @clients = Client.all
@@ -269,20 +269,20 @@ class ClientsController < ApplicationController
          @clients = Client.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
        end
      end
-    
+
      def expired_license
      end
-    
-     
-     
-     
-     
+
+
+
+
+
  # Method generates a CSV that can be downloaded
  def generate_csv(clients)
    if current_user.global_moderator?
      return CSV.generate(headers: true) do |csv|
        csv << ["Test_Type", "Gender", "Age", "City", "Country", "State", "Race", "Ear Advantage", "Ear Advantage Score", "Left Score", "Right Score"]
- 
+
        clients.each do |client|
          client.dwt_tests.each do |dwt_test|
            csv << ["DWT", client.gender, client.age_in_years, client.city, client.country, client.state, client.race, dwt_test.ear_advantage, dwt_test.ear_advantage_score, dwt_test.left_score, dwt_test.right_score]
@@ -295,21 +295,21 @@ class ClientsController < ApplicationController
          end
        end
      end
- 
+
    else
      return CSV.generate(headers: true) do |csv|
        csv << ["First Name", "Last Name", "Gender", "Email", "Date of Birth", "Phone", "Address", "tenant_id"]
- 
+
        clients.each do |client|
          csv << [client.first_name, client.last_name, client.gender, client.email, client.date_of_birth, client.phone1, client.address1, client.tenant_id]
        end
      end
    end
  end
- 
- 
+
+
      private
-     
+
      def client_params
          params.require(:client).permit(:first_name, :last_name, :email, :date_of_birth, :gender, :address1, :country, :state, :city, :zip, :phone1,:mgmt_ref,:phone2, emergency_contacts_attributes: [
             :first_name, :last_name, :phone_number, :address,
@@ -317,4 +317,4 @@ class ClientsController < ApplicationController
          ]
    )
        end
- 
+      end
