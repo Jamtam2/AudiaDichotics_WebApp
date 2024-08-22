@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_13_175633) do
+ActiveRecord::Schema.define(version: 2024_08_22_191330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,6 +263,7 @@ ActiveRecord::Schema.define(version: 2024_08_13_175633) do
     t.float "ear_advantage_score1"
     t.string "left_percentile"
     t.float "ear_advantage_score3"
+    t.string "right_percentile"
     t.index ["client_id"], name: "index_rddt_tests_on_client_id"
     t.index ["tenant_id"], name: "index_rddt_tests_on_tenant_id"
     t.index ["user_id"], name: "index_rddt_tests_on_user_id"
