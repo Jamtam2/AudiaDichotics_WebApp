@@ -622,60 +622,121 @@
     document.addEventListener('DOMContentLoaded', function() {
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
+        
         const ws = new WebSocket('ws://localhost:8080');
+        console.log(`Initialized web socket: ${ws}`);
         let mediaRecorder;
+
 
         startBtn.onclick = async () => {
             // Request permissions and get stream
+            
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
+            console.log('Getting stream + perms...!');
+            // const ws = new WebSocket('ws://localhost:8080');
+            // console.log(`Initialized web socket: ${ws}`);
 
-            mediaRecorder.onstart = () => {
+            try {
+              const response = await fetch ('/recordings/start', {
+
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                }
+              });
+
+              const result = await response.json();
+              console.log(`Result: ${result}`);
+
+              if (result.status === 'recording started'){
                 startBtn.disabled = true;
                 stopBtn.disabled = false;
-                console.log('Recording started');
-            };
+              }
 
-            mediaRecorder.onstop = () => {
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-                console.log('Recording stopped');
-            };
+              ws.onmessage = function(event) {
+                  console.log('ws.onmessage.....triggered!');
 
-            // Handle data as it becomes available
-            mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0 && ws.readyState === WebSocket.OPEN) {
-                    ws.send(event.data);
-                    console.log('Sending audio chunk to server');
-                }
-            };
+                  const transcript = JSON.parse(event.data);
+                  // Instead of appending to #transcript, match and check answers
+                  checkAnswer(transcript.text.replace(/\./, ''));
+                  
+                  console.log(transcript);
+              };
 
-            mediaRecorder.start();
-        };
+              // Handle WebSocket connection errors or closures
+              ws.onerror = (error) => {
+                  console.log(`WebSocket error: ${error}`);
+                  console.log('websocket error.....fuck!');
 
-        stopBtn.onclick = () => {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
+              };
+
+              ws.onclose = (event) => {
+                  console.log('WebSocket connection closed');
+                  console.log(`websocket closed.....what! event reason: ${event}`);
+                  console.log(`event reason: ${event}`);
+                  
+              };
+
+
+              mediaRecorder.ondataavailable = (event) => {
+                  if (event.data.size > 0 && ws.readyState === WebSocket.OPEN) {
+                      ws.send(event.data);
+                      console.log('Sending audio chunk to server');
+                  }
+                  else{
+                      console.log('No audio data to send or websocket not open');
+                  }
+              };
+  
+              mediaRecorder.start();
+              console.log(`Started listening in`);
+
+            } catch (error) {
+              console.error(`Error starting recording: `, error);
             }
         };
 
-        ws.onmessage = function(event) {
-            const transcript = JSON.parse(event.data);
-            // Instead of appending to #transcript, match and check answers
-            checkAnswer(transcript.text.replace(/\./, ''));
-            console.log(transcript);
+        stopBtn.onclick = async () => {
+            // Request permissions and get stream
+            console.log('Starting Stopping Process...!');
+            // closeWebSocketServer()
+            try {
+              const response = await fetch ('/recordings/stop', {
+
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                }
+              });
+
+              const result = await response.json();
+              console.log(`Result: ${result}`);
+
+              if (result.status === 'recording stopped'){
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+              }
+
+
+            } catch (error) {
+              console.error(`Error stopping recording: `, error);
+            }
         };
 
-        // Handle WebSocket connection errors or closures
-        ws.onerror = (error) => {
-            console.log(`WebSocket error: ${error}`);
-        };
 
-        ws.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
+
+
+        setInterval(() => {
+            console.log(`WebSocket readyState: ${ws.readyState}`);
+        }, 5000); // Log WebSocket state every 5 seconds
+
 
         function checkAnswer(transcribedText) {
+            console.log('checking answer.....start!');
+
             let answer = transcribedText 
             let allLabels = document.querySelectorAll('label');
             allLabels.forEach(label => {
@@ -692,6 +753,7 @@
                 }
             });
         }
+
     });
     </script>
 

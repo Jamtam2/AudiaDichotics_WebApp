@@ -19,7 +19,8 @@
     "recorder-js": "^1.0.7",
     "stimulus": "^3.2.1",
     "stream": "^0.0.2",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "ws": "^8.18.0"
   },
   "version": "0.1.0",
   "devDependencies": {

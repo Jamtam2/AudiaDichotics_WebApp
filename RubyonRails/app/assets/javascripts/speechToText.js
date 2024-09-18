@@ -2,10 +2,10 @@ const { Readable } = require('stream');
 const { AssemblyAI } = require('assemblyai');
 const recorder = require('node-record-lpcm16');
 const express = require('express');
+const app = express();
 const WebSocket = require('ws');
 const server = require('http').createServer(app);
 
-const app = express();
 const wss = new WebSocket.Server({ server });
 
 const run = async () => {
@@ -47,6 +47,15 @@ const run = async () => {
 
   // Event handler for WebSocket connection
   wss.on('connection', (ws) => {
+
+    console.log('WebSocket connection established');
+    
+    // Listen for incoming audio data from the client
+    ws.on('message', (message) => {
+        console.log('Received audio data from client:', message);
+        // Here, you can send the data to AssemblyAI if needed
+    });
+
     transcriber.on('transcript', (transcript) => {
       if (transcript.message_type === 'FinalTranscript') {
         // Serialize and send the transcript data
