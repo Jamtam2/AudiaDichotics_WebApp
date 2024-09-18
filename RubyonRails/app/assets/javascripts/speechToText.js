@@ -2,11 +2,15 @@ const { Readable } = require('stream');
 const { AssemblyAI } = require('assemblyai');
 const recorder = require('node-record-lpcm16');
 const express = require('express');
-const app = express();
 const WebSocket = require('ws');
+const app = express();
 const server = require('http').createServer(app);
 
 const wss = new WebSocket.Server({ server });
+wss.onopen = () => console.log('WebSocket connection established');
+wss.onerror = (error) => console.error('WebSocket error:', error);
+wss.onclose = (event) => console.log('WebSocket connection closed:', event.reason);
+
 
 const run = async () => {
   const client = new AssemblyAI({
@@ -39,7 +43,7 @@ const run = async () => {
     }
 
     if (transcript.message_type === 'PartialTranscript') {
-      // console.log('Partial:', transcript.text);
+      console.log('Partial:', transcript.text);
     } else {
       console.log('Final:', transcript.text);
     }
@@ -52,7 +56,7 @@ const run = async () => {
     
     // Listen for incoming audio data from the client
     ws.on('message', (message) => {
-        console.log('Received audio data from client:', message);
+        // console.log('Received audio data from client:', message);
         // Here, you can send the data to AssemblyAI if needed
     });
 
@@ -74,6 +78,7 @@ const run = async () => {
       sampleRate: 16000,
       audioType: 'wav' // Linear PCM
     });
+    console.log('Past this recording?');
 
     Readable.toWeb(recording.stream()).pipeTo(transcriber.stream());
 
@@ -85,16 +90,18 @@ const run = async () => {
 
       console.log('Closing real-time transcript connection');
       await transcriber.close();
+      console.log('Closing recording');
 
       process.exit();
     });
   } catch (error) {
     console.error(error);
+    console.log('We got an error in the try');
   }
 };
 
 run();
 
-server.listen(8080, () => {
-  console.log('Server started on port 8080');
+server.listen(5000, '0.0.0.0', () => {
+  console.log('Server started on port 5000');
 });

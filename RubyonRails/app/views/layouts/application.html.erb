@@ -139,7 +139,9 @@
           <%# references audio file for the calibraion %>
         <div class="modal-body text-center d-block">
           <audio controls id="audio" class="center", style= 'w-100'>
-            <source src="assets/Track 02 Dichotic Words Test Track 1.mp3" type="audio/mpeg">
+            <%# <source src="assets/Track 02 Dichotic Words Test Track 1.mp3" type="audio/mpeg"> %>
+            <source src="<%= asset_path('Track 02 Dichotic Words Test Track 1.mp3') %>" type="audio/mpeg">
+
           </audio>
         </div>
         

@@ -2,19 +2,49 @@ document.addEventListener('turbolinks:load', function () {
     let localModeratorRadioButton = document.getElementById('localModerator');
     let regularUserRadioButton = document.getElementById('regularUser');
 
-    localModeratorRadioButton.addEventListener('change', toggleFields);
-    regularUserRadioButton.addEventListener('change', toggleFields);
+    // localModeratorRadioButton.addEventListener('change', toggleFields);
+    // regularUserRadioButton.addEventListener('change', toggleFields);
+    if (localModeratorRadioButton) {
+        localModeratorRadioButton.addEventListener('change', toggleFields);
+    }
+
+    if (regularUserRadioButton) {
+        regularUserRadioButton.addEventListener('change', toggleFields);
+    }
+
+
 
     toggleFields(); // Initialize the form with the correct fields visible
 });
 
+// function toggleFields() {
+//     let localModerator = document.getElementById('localModerator').checked;
+//     let regularUser = document.getElementById('regularUser').checked;
+
+//     let registrationKeyField = document.getElementById('registrationKeyField');
+//     let signUpCodeField = document.getElementById('signUpCodeField');
+
+//     registrationKeyField.style.display = localModerator || regularUser ? 'block' : 'none';
+//     signUpCodeField.style.display = regularUser ? 'block' : 'none';
+// }
 function toggleFields() {
-    let localModerator = document.getElementById('localModerator').checked;
-    let regularUser = document.getElementById('regularUser').checked;
+    let localModeratorRadioButton = document.getElementById('localModerator');
+    let regularUserRadioButton = document.getElementById('regularUser');
 
-    let registrationKeyField = document.getElementById('registrationKeyField');
-    let signUpCodeField = document.getElementById('signUpCodeField');
+    // Ensure both radio buttons exist before accessing their checked state
+    if (localModeratorRadioButton && regularUserRadioButton) {
+        let localModerator = localModeratorRadioButton.checked;
+        let regularUser = regularUserRadioButton.checked;
 
-    registrationKeyField.style.display = localModerator || regularUser ? 'block' : 'none';
-    signUpCodeField.style.display = regularUser ? 'block' : 'none';
+        let registrationKeyField = document.getElementById('registrationKeyField');
+        let signUpCodeField = document.getElementById('signUpCodeField');
+
+        if (registrationKeyField) {
+            registrationKeyField.style.display = localModerator  ? 'block' : 'none';
+        }
+
+        if (signUpCodeField) {
+            signUpCodeField.style.display = regularUser ? 'block' : 'none';
+        }
+    }
 }

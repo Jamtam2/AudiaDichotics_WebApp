@@ -623,14 +623,14 @@
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
         
-        const ws = new WebSocket('ws://localhost:8080');
-        console.log(`Initialized web socket: ${ws}`);
         let mediaRecorder;
-
+        let ws; 
 
         startBtn.onclick = async () => {
             // Request permissions and get stream
-            
+            ws = new WebSocket('ws://localhost:5000');
+            console.log(`Initialized web socket: ${ws}`);
+
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
             console.log('Getting stream + perms...!');
@@ -690,7 +690,7 @@
                   }
               };
   
-              mediaRecorder.start();
+              mediaRecorder.start(1000);
               console.log(`Started listening in`);
 
             } catch (error) {
