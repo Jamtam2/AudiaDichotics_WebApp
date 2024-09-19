@@ -619,12 +619,21 @@
 
     <!--script for recording audio and sending it to the server for transcription-->
     <script>
+
     document.addEventListener('DOMContentLoaded', function() {
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
-        
+        let audioContext;
+        let audioProcessor;
+        let microphone;
+        let silenceThreshold = 0.001; // Adjust threshold to detect speech
+        let silenceTimeout = 300; // Time to consider silence (in ms)
+        let silenceDetected = false;
+    
         let mediaRecorder;
         let ws; 
+
+
 
         startBtn.onclick = async () => {
             // Request permissions and get stream
@@ -632,8 +641,59 @@
             console.log(`Initialized web socket: ${ws}`);
 
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            console.log('Getting stream + perms...!');
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            microphone = audioContext.createMediaStreamSource(stream);
+            audioProcessor = audioContext.createScriptProcessor(2048, 1, 1); // Buffer size, input channels, output channels
+
+            // Process the audio data in real-time
+            audioProcessor.onaudioprocess = (event) => {
+                const inputData = event.inputBuffer.getChannelData(0);
+                let total = 0;
+
+                // Sum the squares of the samples to get volume
+                for (let i = 0; i < inputData.length; i++) {
+                    total += inputData[i] * inputData[i];
+                }
+
+                const rms = Math.sqrt(total / inputData.length); // Root Mean Square (RMS) to measure volume
+
+                if (rms > silenceThreshold) {
+                    if (!silenceDetected) {
+                        console.log('Speech detected');
+                        silenceDetected = true;
+
+                        // Start recording and send audio chunks
+                        const options = { mimeType: 'audio/webm' }; // You can replace 'audio/webm' with any supported type
+                        mediaRecorder = new MediaRecorder(stream, options);
+                        console.log(`Recording format: ${mediaRecorder.mimeType}`);
+
+                        mediaRecorder.ondataavailable = (event) => {
+                            if (event.data.size > 0 && ws.readyState === WebSocket.OPEN) {
+                                ws.send(event.data);
+                                console.log('Sending audio chunk to server');
+                            }
+                        };
+                        mediaRecorder.start(1000);
+                    }
+                    // clearTimeout(silenceTimeout)
+                } else {
+                    if (silenceDetected) {
+                        // Stop recording when silence is detected for some time
+                        clearTimeout(silenceTimeout);
+                        silenceTimeout = setTimeout(() => {
+                            console.log('Silence detected');
+                            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                                mediaRecorder.stop();
+                            }
+                            silenceDetected = false;
+                        }, 300); // Adjust this time to control how long silence should be before stopping recording
+                    }
+                }
+            };
+
+            // Connect the microphone to the audio processor
+            microphone.connect(audioProcessor);
+            audioProcessor.connect(audioContext.destination);
             // const ws = new WebSocket('ws://localhost:8080');
             // console.log(`Initialized web socket: ${ws}`);
 
@@ -659,10 +719,13 @@
                   console.log('ws.onmessage.....triggered!');
 
                   const transcript = JSON.parse(event.data);
+                  console.log('Received from server:', transcript);
+                  console.log('Sending to checkanswer');
+
                   // Instead of appending to #transcript, match and check answers
                   checkAnswer(transcript.text.replace(/\./, ''));
                   
-                  console.log(transcript);
+                  // console.log(transcript);
               };
 
               // Handle WebSocket connection errors or closures
@@ -679,18 +742,6 @@
                   
               };
 
-
-              mediaRecorder.ondataavailable = (event) => {
-                  if (event.data.size > 0 && ws.readyState === WebSocket.OPEN) {
-                      ws.send(event.data);
-                      console.log('Sending audio chunk to server');
-                  }
-                  else{
-                      console.log('No audio data to send or websocket not open');
-                  }
-              };
-  
-              mediaRecorder.start(1000);
               console.log(`Started listening in`);
 
             } catch (error) {
@@ -718,6 +769,23 @@
               if (result.status === 'recording stopped'){
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
+
+              if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                }
+
+              if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.close(1000, 'Recording stopped'); // Close WebSocket connection
+                }
+
+                // Disconnect the microphone and audio processor
+              if (microphone) {
+                    microphone.disconnect();
+                }
+              if (audioProcessor) {
+                    audioProcessor.disconnect();
+                }
+
               }
 
 
@@ -753,6 +821,17 @@
                 }
             });
         }
+        function sendAudioInChunks(ws, audioBuffer) {
+          const chunkSize = 64 * 1024; // 64KB per chunk
+          let offset = 0;
+
+          while (offset < audioBuffer.length) {
+            const chunk = audioBuffer.slice(offset, offset + chunkSize);
+            ws.send(chunk);
+            offset += chunkSize;
+          }
+        }
+
 
     });
     </script>

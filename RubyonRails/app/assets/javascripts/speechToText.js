@@ -1,3 +1,5 @@
+const ffmpeg = require('fluent-ffmpeg');
+const fs = require('fs');
 const { Readable } = require('stream');
 const { AssemblyAI } = require('assemblyai');
 const recorder = require('node-record-lpcm16');
@@ -6,7 +8,10 @@ const WebSocket = require('ws');
 const app = express();
 const server = require('http').createServer(app);
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ 
+  server,
+  maxPayload: 256 * 1024 // Increase max payload size to 256KB
+});
 wss.onopen = () => console.log('WebSocket connection established');
 wss.onerror = (error) => console.error('WebSocket error:', error);
 wss.onclose = (event) => console.log('WebSocket connection closed:', event.reason);
@@ -36,69 +41,72 @@ const run = async () => {
     console.log('Session closed:', code, reason)
   );
 
-  // Event handler for receiving transcripts
-  transcriber.on('transcript', (transcript) => {
-    if (!transcript.text) {
-      return;
-    }
+  // // Event handler for receiving transcripts
+  // transcriber.on('transcript', (transcript) => {
+  //   if (!transcript.text) {
+  //     return;
+  //   }
 
-    if (transcript.message_type === 'PartialTranscript') {
-      console.log('Partial:', transcript.text);
-    } else {
-      console.log('Final:', transcript.text);
-    }
-  });
+  //   if (transcript.message_type === 'PartialTranscript') {
+  //     console.log('Partial:', transcript.text);
+  //   } else {
+  //     console.log('Final:', transcript.text);
+  //   }
+  // });
 
   // Event handler for WebSocket connection
-  wss.on('connection', (ws) => {
+    wss.on('connection', (ws) => {
+      console.log('WebSocket connection established');
 
-    console.log('WebSocket connection established');
-    
-    // Listen for incoming audio data from the client
-    ws.on('message', (message) => {
-        // console.log('Received audio data from client:', message);
-        // Here, you can send the data to AssemblyAI if needed
-    });
+      // Create a file to store the WebM data
+      const webmFile = fs.createWriteStream('audio.webm');
 
+      ws.on('message', async (message) => {
+        console.log('Received audio data from client:', message);
+
+        // Write the WebM data to a file
+        webmFile.write(message);
+
+        webmFile.end();
+          // Convert WebM to WAV
+          ffmpeg('audio.webm')
+            .toFormat('wav')
+            .on('end', async () => {
+              console.log('Conversion finished, sending to AssemblyAI.');
+
+              const audioData = fs.readFileSync('audio.wav');
+              transcriber.sendAudio(audioData);
+              console.log('Sent WAV audio chunk to AssemblyAI!');
+            })
+            .on('error', (err) => {
+              console.error('Error during conversion:', err);
+            })
+            .save('audio.wav'); // Save the output file as WAV
+        });
+      });
+    ;
     transcriber.on('transcript', (transcript) => {
-      if (transcript.message_type === 'FinalTranscript') {
-        // Serialize and send the transcript data
-        ws.send(JSON.stringify(transcript));
-      }
-    });
+      // Serialize and send the transcript data
+      console.log('In transcript:', JSON.stringify(transcript));
+      ws.send(JSON.stringify(transcript));
+    
   });
 
-  try {
-    console.log('Connecting to real-time transcript service');
-    await transcriber.connect();
+    try {
+      console.log('Connecting to real-time transcript service');
+      await transcriber.connect();
 
-    console.log('Starting recording');
-    const recording = recorder.record({
-      channels: 1,
-      sampleRate: 16000,
-      audioType: 'wav' // Linear PCM
-    });
-    console.log('Past this recording?');
+      process.on('SIGINT', async function () {
+        console.log('Stopping transcription');
+        await transcriber.close();
+        console.log('Transcription service stopped');
+        process.exit();
+      });
+    } catch (error) {
+      console.error('Error during setup:', error);
+    }
+  };
 
-    Readable.toWeb(recording.stream()).pipeTo(transcriber.stream());
-
-    // Stop recording and close connection using Ctrl-C.
-    process.on('SIGINT', async function () {
-      console.log();
-      console.log('Stopping recording');
-      recording.stop();
-
-      console.log('Closing real-time transcript connection');
-      await transcriber.close();
-      console.log('Closing recording');
-
-      process.exit();
-    });
-  } catch (error) {
-    console.error(error);
-    console.log('We got an error in the try');
-  }
-};
 
 run();
 
