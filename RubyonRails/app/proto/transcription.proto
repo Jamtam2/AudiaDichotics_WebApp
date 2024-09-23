@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package transcription;
+
+service TranscriptionService {
+  rpc Transcribe (AudioChunk) returns (stream TranscriptionResult);
+}
+
+message AudioChunk {
+  bytes audio_data = 1;
+}
+
+message TranscriptionResult {
+  string transcript = 1;
+}
