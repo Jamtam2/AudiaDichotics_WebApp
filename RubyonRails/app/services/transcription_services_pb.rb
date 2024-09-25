@@ -2,7 +2,8 @@
 # Source: transcription.proto for package 'transcription'
 
 require 'grpc'
-require 'transcription_pb.rb'
+require 'transcription_pb'
+
 module Transcription
   module TranscriptionService
     class Service
@@ -13,7 +14,7 @@ module Transcription
       self.unmarshal_class_method = :decode
       self.service_name = 'transcription.TranscriptionService'
 
-      rpc :Transcribe, stream(::Transcription::AudioChunk), stream(::Transcription::TranscriptionResult)
+      rpc :Transcribe, ::Transcription::AudioChunk, ::Transcription::TranscriptionResult
     end
 
     Stub = Service.rpc_stub_class

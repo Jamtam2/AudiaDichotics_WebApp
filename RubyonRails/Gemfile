@@ -113,4 +113,7 @@ gem 'assemblyai', '~> 1.1'
 gem 'grpc'
 
 gem 'google-protobuf'
+
 gem 'grpc-tools'
+
+gem 'streamio-ffmpeg'

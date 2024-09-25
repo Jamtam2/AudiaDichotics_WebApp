@@ -616,7 +616,10 @@
     }
 
     </script>
+<%= javascript_pack_tag 'transcription' %>
+<%# <button id="downloadBtn">Download WebM</button> %>
 
+<%# 
     <!--script for recording audio and sending it to the server for transcription-->
    <script>
 // Import statements at the top of your script
@@ -670,7 +673,7 @@ document.addEventListener('DOMContentLoaded', function () {
         reader.onloadend = () => {
           const audioChunk = new AudioChunk();
           audioChunk.setAudioData(new Uint8Array(reader.result));
-
+          console.log('Audio chunk captured: ', audioChunk);
           // Send the audio chunk to the server
           call.send(audioChunk);
         };
@@ -723,7 +726,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
-</script>
+</script> %>
 
 
   </div>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'grpc/start_server'
   get 'inquiries/new'
   get 'inquiries/create'
   get 'users/index'
@@ -9,7 +10,11 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'users/sessions', passwords: 'users/passwords' }
 
+  post 'grpc/start', to: 'grpc#start_server'
+  post 'grpc/stop', to: 'grpc#stop_server'
+
   get 'pages/home'
+
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
     get 'users/password/verify_2fa_code', to: 'users/passwords#new_verify_2fa_code', as: :new_verify_2fa_code

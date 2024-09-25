@@ -82,7 +82,7 @@ proto.transcription.TranscriptionServicePromiseClient =
  */
 const methodDescriptor_TranscriptionService_Transcribe = new grpc.web.MethodDescriptor(
   '/transcription.TranscriptionService/Transcribe',
-  grpc.web.MethodType.SERVER_STREAMING,
+  grpc.web.MethodType.UNARY,
   proto.transcription.AudioChunk,
   proto.transcription.TranscriptionResult,
   /**
@@ -97,32 +97,37 @@ const methodDescriptor_TranscriptionService_Transcribe = new grpc.web.MethodDesc
 
 
 /**
- * @param {!proto.transcription.AudioChunk} request The request proto
- * @param {?Object<string, string>=} metadata User defined
+ * @param {!proto.transcription.AudioChunk} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.transcription.TranscriptionResult>}
+ * @param {function(?grpc.web.RpcError, ?proto.transcription.TranscriptionResult)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.transcription.TranscriptionResult>|undefined}
  *     The XHR Node Readable Stream
  */
 proto.transcription.TranscriptionServiceClient.prototype.transcribe =
-    function(request, metadata) {
-  return this.client_.serverStreaming(this.hostname_ +
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
       '/transcription.TranscriptionService/Transcribe',
       request,
       metadata || {},
-      methodDescriptor_TranscriptionService_Transcribe);
+      methodDescriptor_TranscriptionService_Transcribe,
+      callback);
 };
 
 
 /**
- * @param {!proto.transcription.AudioChunk} request The request proto
+ * @param {!proto.transcription.AudioChunk} request The
+ *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.transcription.TranscriptionResult>}
- *     The XHR Node Readable Stream
+ * @return {!Promise<!proto.transcription.TranscriptionResult>}
+ *     Promise that resolves to the response
  */
 proto.transcription.TranscriptionServicePromiseClient.prototype.transcribe =
     function(request, metadata) {
-  return this.client_.serverStreaming(this.hostname_ +
+  return this.client_.unaryCall(this.hostname_ +
       '/transcription.TranscriptionService/Transcribe',
       request,
       metadata || {},

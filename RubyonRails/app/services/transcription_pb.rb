@@ -3,11 +3,9 @@
 # source: transcription.proto
 
 require 'google/protobuf'
-require 'grpc'
-# require 'app/services/transcription_services_pb.rb'
 
 
-descriptor_data = "\n\x13transcription.proto\x12\rtranscription\" \n\nAudioChunk\x12\x12\n\naudio_data\x18\x01 \x01(\x0c\")\n\x13TranscriptionResult\x12\x12\n\ntranscript\x18\x01 \x01(\t2g\n\x14TranscriptionService\x12O\n\nTranscribe\x12\x19.transcription.AudioChunk\x1a\".transcription.TranscriptionResult(\x01\x30\x01\x62\x06proto3"
+descriptor_data = "\n\x13transcription.proto\x12\rtranscription\" \n\nAudioChunk\x12\x12\n\naudio_data\x18\x01 \x01(\x0c\")\n\x13TranscriptionResult\x12\x12\n\ntranscript\x18\x01 \x01(\t2c\n\x14TranscriptionService\x12K\n\nTranscribe\x12\x19.transcription.AudioChunk\x1a\".transcription.TranscriptionResultb\x06proto3"
 
 pool = Google::Protobuf::DescriptorPool.generated_pool
 pool.add_serialized_file(descriptor_data)
