@@ -35,10 +35,10 @@ class TranscriptionService < Transcription::TranscriptionService::Service
     wav_file.write(audio_data)
     wav_file.rewind
 
-    # Optionally, save a copy of the WAV file for testing
-    test_wav_path = Rails.root.join("public", "test_audio.wav")
-    FileUtils.cp(wav_file.path, test_wav_path)
-    puts "\n Saved test WAV file to #{test_wav_path} \n"
+    # # Optionally, save a copy of the WAV file for testing
+    # test_wav_path = Rails.root.join("public", "test_audio.wav")
+    # FileUtils.cp(wav_file.path, test_wav_path)
+    # puts "\n Saved test WAV file to #{test_wav_path} \n"
 
     # Send WAV data to AssemblyAI
     transcript = send_to_assemblyai(audio_data)
