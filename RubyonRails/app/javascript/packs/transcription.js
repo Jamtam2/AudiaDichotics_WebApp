@@ -1,102 +1,101 @@
-// Import necessary modules
-import { TranscriptionServiceClient } from './proto/transcription_grpc_web_pb.js';
-import { AudioChunk } from './proto/transcription_pb.js';
-import { grpc } from '@improbable-eng/grpc-web';
-import Recorder from 'recorder-js';
 import { encode } from 'base64-arraybuffer';
+import consumer from '../channels/consumer'; // Adjust the import path as needed
 
 document.addEventListener('DOMContentLoaded', function () {
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
-    let audioContext;
-    let recorder;
-    let client = null;
-
-    // Silence detection variables
-    let silenceTimeout;
-    let scriptProcessor;
     let isSpeaking = false;
-    const silenceDuration = 1000; // 1 second in milliseconds
+    let silenceTimeout;
+    let audioContext;
+    let scriptProcessor;
+    let stream;
+    let subscription;
+
+    const silenceDuration = 2000; // Increased to 2 seconds
     const silenceThreshold = 0.01; // Adjust this threshold as needed
 
     startBtn.onclick = async () => {
-        // Start the gRPC server
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const response = await fetch('/grpc/start', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': csrfToken
-            },
-        });
-        if (!response.ok) {
-            console.error(`Server error: ${response.status} ${response.statusText}`);
-            return;
-        }
-        const result = await response.json();
-        console.log(result.message); // Should print "gRPC server started"
-
         // Request microphone access
-        let stream;
         try {
             stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            console.log('Stream obtained:', stream);
+            console.log('Stream obtained');
         } catch (err) {
             console.error('Error accessing microphone:', err);
             return;
         }
+        // Initialize Audio Context and ScriptProcessor
+        audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+        console.log('AudioContext initialized with sample rate:', audioContext.sampleRate);
 
-        // Initialize the gRPC-Web client
-        client = new TranscriptionServiceClient('http://localhost:8080'); // Adjust the URL and port as needed
-
-        // Initialize Recorder.js
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        recorder = new Recorder(audioContext, { numChannels: 1 });
-        await recorder.init(stream);
-
-        // Set up the audio analyzer for silence detection
         const source = audioContext.createMediaStreamSource(stream);
         scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
         source.connect(scriptProcessor);
         scriptProcessor.connect(audioContext.destination);
 
+        // Initialize WebSocket connection using Action Cable consumer
+        subscription = consumer.subscriptions.create('TranscriptionChannel', {
+            connected() {
+                console.log('WebSocket connection established via Action Cable');
+            },
+            disconnected() {
+                console.log('WebSocket connection closed');
+            },
+            received(data) {
+                if (data.type === 'transcript') {
+                    const transcript = data.message;
+                    if (transcript.trim() !== '') {
+                        console.log('Received transcript:', transcript);
+                        checkAnswer(transcript);
+                    } else {
+                        console.log('Received empty transcript, ignoring.');
+                    }
+                } else if (data.type === 'partial_transcript') {
+                    const transcript = data.message;
+                    if (transcript.trim() !== '') {
+                        console.log('Received partial transcript:', transcript);
+                        // Optionally display partial transcript to the user
+                    } else {
+                        console.log('Received empty partial transcript, ignoring.');
+                    }
+                }
+            },
+            receive_audio(data) {
+                this.perform('receive_audio', data);
+            }
+        });
+
         scriptProcessor.onaudioprocess = function (event) {
             const inputData = event.inputBuffer.getChannelData(0);
             let total = 0;
 
-            // Calculate the average amplitude
+            // Calculate the average amplitude for silence detection
             for (let i = 0; i < inputData.length; i++) {
                 total += Math.abs(inputData[i]);
             }
             const average = total / inputData.length;
 
-            // Check if the average amplitude is above the silence threshold
             if (average > silenceThreshold) {
                 // Audio is above the threshold; reset the silence timer
                 if (silenceTimeout) {
                     clearTimeout(silenceTimeout);
                     silenceTimeout = null;
                 }
+
                 if (!isSpeaking) {
                     console.log('Started speaking');
                     isSpeaking = true;
-                    // Start recording when the user starts speaking
-                    recorder.start();
                 }
+                // Send audio data when speaking
+                sendAudioData(inputData);
             } else {
                 // Audio is below the threshold
                 if (!silenceTimeout && isSpeaking) {
                     silenceTimeout = setTimeout(() => {
-                        // Silence has been detected for the specified duration
                         console.log('Stopped speaking');
                         isSpeaking = false;
-                        // Stop recording and send the audio data
-                        recorder.stop().then(({ blob }) => {
-                            sendAudioData(client, blob);
-                            // Clear the recorder to avoid accumulating old data
-                            // recorder.clear();
-                        });
                         silenceTimeout = null;
+                        subscription.perform('terminate');
+                        console.log('Terminated');
                     }, silenceDuration);
                 }
             }
@@ -107,74 +106,47 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     stopBtn.onclick = async () => {
-        // Stop recording
-        if (recorder && isSpeaking) {
-            const { blob } = await recorder.stop();
-            if (blob && blob.size > 0) {
-                sendAudioData(client, blob);
-                recorder.stop();
-            }
+        // Unsubscribe from the channel
+        if (subscription) {
+            subscription.unsubscribe();
+            console.log('Unsubscribed from TranscriptionChannel');
         }
 
         // Disconnect audio nodes
         if (scriptProcessor) {
             scriptProcessor.disconnect();
+            console.log('Disconnected script processor');
         }
-
-        // Stop the gRPC server
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const response = await fetch('/grpc/stop', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-Token': csrfToken
-            },
-        });
-
-        if (!response.ok) {
-            console.error(`Server error: ${response.status} ${response.statusText}`);
-            return;
+        if (audioContext) {
+            audioContext.close();
+            console.log('Closed AudioContext');
         }
-
-        const result = await response.json();
-        console.log(result.message); // Should print "gRPC server stopped"
 
         startBtn.disabled = false;
         stopBtn.disabled = true;
         console.log('Recording stopped');
     };
 
-    function sendAudioData(client, blob) {
-        if (!blob || blob.size === 0) {
-            console.log('No audio data to send.');
-            return;
+    // Modify sendAudioData to use subscription
+    function sendAudioData(inputData) {
+        // Convert Float32Array to Int16Array (PCM 16-bit)
+        let pcmData = new Int16Array(inputData.length);
+        for (let i = 0; i < inputData.length; i++) {
+            let s = Math.max(-1, Math.min(1, inputData[i]));
+            pcmData[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
         }
-        console.log(`Blob size: `,blob.size)
 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const arrayBuffer = reader.result;
-            // Encode the audio data to Base64
-            const base64String = encode(arrayBuffer);
+        // Convert Int16Array to ArrayBuffer
+        let buffer = pcmData.buffer;
 
-            const audioChunk = new AudioChunk();
-            audioChunk.setAudioData(base64String);
+        // Encode to Base64
+        const base64String = encode(buffer);
 
-            // Unary gRPC call (single request, single response)
-            client.transcribe(audioChunk, {}, (err, response) => {
-                if (err) {
-                    console.error('Error:', err);
-                } else {
-                    const transcript = response.getTranscript();
-                    console.log('Received transcript:', transcript);
-                    checkAnswer(transcript);
-                }
-            });
-        };
-        reader.readAsArrayBuffer(blob);
+        // Send audio data to server
+        subscription.perform('receive_audio', { audio_data: base64String });
+        console.log('Sending audio data to server');
     }
 
-    // The checkAnswer function remains the same
     function checkAnswer(transcribedText) {
         console.log('Checking answer...');
 

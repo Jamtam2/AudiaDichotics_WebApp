@@ -1,92 +1,91 @@
-const grpc = require('@grpc/grpc-js');
-const protoLoader = require('@grpc/proto-loader');
-const AssemblyAI = require('assemblyai');
-const ffmpeg = require('fluent-ffmpeg');
-const { PassThrough } = require('stream');
+const { Readable } = require('stream');
+const { AssemblyAI } = require('assemblyai');
+const recorder = require('node-record-lpcm16');
+const express = require('express');
+const WebSocket = require('ws');
+const server = require('http').createServer(app);
 
-// Load protobuf definitions
-const PROTO_PATH = __dirname + '/app/proto/transcription.proto';
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {});
-const transcriptionProto = grpc.loadPackageDefinition(packageDefinition).TranscriptionService;
+const app = express();
+const wss = new WebSocket.Server({ server });
 
-// Initialize AssemblyAI client
-const client = new AssemblyAI({ apiKey: 'your_api_key' });
-
-// Create the gRPC server
-const server = new grpc.Server();
-
-// Function to convert WebM to WAV in-memory
-const convertWebMToWav = (webmData) => {
-  return new Promise((resolve, reject) => {
-    const wavStream = new PassThrough(); // In-memory stream for WAV
-    const webmStream = new PassThrough(); // In-memory stream for WebM input
-
-    // Feed the incoming WebM data to the WebM stream
-    webmStream.end(webmData);
-
-    // Use FFmpeg to convert WebM to WAV without saving the file
-    ffmpeg(webmStream)
-      .inputFormat('webm')
-      .audioCodec('pcm_s16le')
-      .format('wav')
-      .on('error', (err) => {
-        console.error('Error converting WebM to WAV:', err);
-        reject(err);
-      })
-      .on('end', () => {
-        console.log('Conversion to WAV finished');
-      })
-      .pipe(wavStream); // Output the WAV audio to an in-memory stream
-
-    // Collect WAV data from the stream
-    const chunks = [];
-    wavStream.on('data', (chunk) => chunks.push(chunk));
-    wavStream.on('end', () => resolve(Buffer.concat(chunks)));
+const run = async () => {
+  const client = new AssemblyAI({
+    apiKey: '8323e4c46ab24be5822b111c7fd30635'
   });
-};
 
-// gRPC service implementation
-server.addService(transcriptionProto.TranscriptionService.service, {
-  Transcribe: async (call) => {
-    let accumulatedAudioBuffer = [];
+  const transcriber = client.realtime.transcriber({
+    sampleRate: 16000
+  });
 
-    call.on('data', async (audioChunk) => {
-      // Collect incoming WebM audio chunks
-      accumulatedAudioBuffer.push(audioChunk.audio_data);
+  // Event handler for when the connection is opened
+  transcriber.on('open', ({ sessionId }) => {
+    console.log(`Session opened with ID: ${sessionId}`);
+  });
 
-      try {
-        // Convert accumulated WebM data to WAV in-memory
-        const webmData = Buffer.concat(accumulatedAudioBuffer);
-        const wavData = await convertWebMToWav(webmData);
+  // Event handler for errors
+  transcriber.on('error', (error) => {
+    console.error('Error:', error);
+  });
 
-        // Send the WAV data to AssemblyAI
-        const transcriber = client.realtime.transcriber({ sampleRate: 16000 });
-        transcriber.sendAudio(wavData);
+  // Event handler for when the connection is closed
+  transcriber.on('close', (code, reason) =>
+    console.log('Session closed:', code, reason)
+  );
 
-        transcriber.on('transcript', (transcript) => {
-          // Send the transcript back to the client
-          call.write({ transcript: transcript.text });
-        });
-        
-        transcriber.on('close', () => {
-          console.log('Transcription session closed');
-          call.end();
-        });
+  // Event handler for receiving transcripts
+  transcriber.on('transcript', (transcript) => {
+    if (!transcript.text) {
+      return;
+    }
 
-      } catch (error) {
-        console.error('Error processing audio data:', error);
-        call.end();
+    if (transcript.message_type === 'PartialTranscript') {
+      // console.log('Partial:', transcript.text);
+    } else {
+      console.log('Final:', transcript.text);
+    }
+  });
+
+  // Event handler for WebSocket connection
+  wss.on('connection', (ws) => {
+    transcriber.on('transcript', (transcript) => {
+      if (transcript.message_type === 'FinalTranscript') {
+        // Serialize and send the transcript data
+        ws.send(JSON.stringify(transcript));
       }
     });
+  });
 
-    call.on('end', () => {
-      console.log('Client stopped sending audio');
+  try {
+    console.log('Connecting to real-time transcript service');
+    await transcriber.connect();
+
+    console.log('Starting recording');
+    const recording = recorder.record({
+      channels: 1,
+      sampleRate: 16000,
+      audioType: 'wav' // Linear PCM
     });
-  }
-});
 
-// Start the gRPC server
-server.bindAsync('0.0.0.0:50052', grpc.ServerCredentials.createInsecure(), () => {
-  console.log('gRPC server running at http://0.0.0.0:50052');
-  server.start();
+    Readable.toWeb(recording.stream()).pipeTo(transcriber.stream());
+
+    // Stop recording and close connection using Ctrl-C.
+    process.on('SIGINT', async function () {
+      console.log();
+      console.log('Stopping recording');
+      recording.stop();
+
+      console.log('Closing real-time transcript connection');
+      await transcriber.close();
+
+      process.exit();
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+run();
+
+server.listen(8080, () => {
+  console.log('Server started on port 8080');
 });

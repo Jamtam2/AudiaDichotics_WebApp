@@ -14,6 +14,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+        <!-- Add meta tags to include user details -->
+    <% if current_user %>
+      <meta name="current-user-id" content="<%= current_user.id %>">
+      <meta name="current-tenant-id" content="<%= current_user.tenant_id %>">
+    <% end %>
+
     <%# the below tags allow for the javascript and jquery commands refereneced in the code to work DON'T DELETE %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>

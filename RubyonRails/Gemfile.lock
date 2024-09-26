@@ -141,6 +141,7 @@ GEM
       railties (>= 6.1)
     encryptor (3.0.0)
     erubi (1.12.0)
+    event_emitter (0.2.6)
     faker (3.3.0)
       i18n (>= 1.8.11, < 2)
     faraday (2.12.0)
@@ -384,6 +385,9 @@ GEM
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
     websocket (1.2.10)
+    websocket-client-simple (0.8.0)
+      event_emitter
+      websocket
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -443,6 +447,7 @@ DEPENDENCIES
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
+  websocket-client-simple
   whenever
 
 RUBY VERSION
