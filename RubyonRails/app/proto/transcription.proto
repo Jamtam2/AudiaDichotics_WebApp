@@ -9,7 +9,7 @@ service TranscriptionService {
 
 
 message AudioChunk {
-  bytes audio_data = 1;
+  string audio_data = 1; // Base64 encoded audio data
 }
 
 message TranscriptionResult {

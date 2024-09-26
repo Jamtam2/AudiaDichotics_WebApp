@@ -1,22 +1,18 @@
 # app/services/transcription_service.rb
 require 'grpc'
 require 'tempfile'
-require 'streamio-ffmpeg'
 require 'net/http'
 require 'json'
-require 'open3'
-require 'fileutils'  # Add this at the top of your file
+require 'fileutils'
+require 'base64'
 
 unless defined?(Transcription::TranscriptionService)
   require_relative 'transcription_pb.rb'
   require_relative 'transcription_services_pb.rb'
 end
 
-
-# Check if transcription_pb.rb exists
 class TranscriptionService < Transcription::TranscriptionService::Service
   def transcribe(audio_chunk, _call)
-
     if audio_chunk.audio_data.nil? || audio_chunk.audio_data.empty?
       puts 'Received empty audio data.'
       return Transcription::TranscriptionResult.new(transcript: '')
@@ -27,76 +23,35 @@ class TranscriptionService < Transcription::TranscriptionService::Service
     Transcription::TranscriptionResult.new(transcript: transcript)
   end
 
-
   private
 
-  def process_audio(audio_data)
+  def process_audio(audio_data_base64)
+    # Decode Base64 string into binary data
+    audio_data = Base64.decode64(audio_data_base64)
 
-    puts "#{audio_data.unpack('H*').first}"  # Hexadecimal representation of the raw data
-    # hex_data = audio_data[0..100].unpack('H*').first # Limit to first 100 bytes for readability
-    # puts "Raw audio data (first 100 bytes): #{hex_data}"
-
-    # Write the audio data to a temporary WebM file
-    webm_file = Tempfile.new(['audio', '.webm'])
-    webm_file.binmode
-    webm_file.write(audio_data)
-    webm_file.rewind
-
-
-    # Save a copy of the WebM file for testing
-    test_webm_path = Rails.root.join("public", "test_audio.webm") # This will save it to the public folder
-    FileUtils.cp(webm_file.path, test_webm_path)
-
-    puts "---------------------------------"
-    puts "--------SAVING?-------------------------"
-    File.open("test_audio.webm", "wb") do |file|
-      file.write(audio_data)
-    end
-
-    puts "\n Saved test WebM file to #{test_webm_path} \n"
-    puts "--------SAVED-------------------------"
-
-    puts "WebM fileS size: #{File.size(webm_file.path)} bytes"
-      # Create a temporary WAV file
+    # Write the audio data to a temporary WAV file
     wav_file = Tempfile.new(['audio', '.wav'])
     wav_file.binmode
-
-    # Convert WebM to WAV using ffmpeg
-    success = convert_webm_to_wav(webm_file.path, wav_file.path)
-
-    unless success
-      puts 'FFmpeg conversion failed.'
-      return ''
-    end
-
-    # Read the WAV data
+    wav_file.write(audio_data)
     wav_file.rewind
-    wav_data = wav_file.read
+
+    # Optionally, save a copy of the WAV file for testing
+    test_wav_path = Rails.root.join("public", "test_audio.wav")
+    FileUtils.cp(wav_file.path, test_wav_path)
+    puts "\n Saved test WAV file to #{test_wav_path} \n"
 
     # Send WAV data to AssemblyAI
-    transcript = send_to_assemblyai(wav_data)
+    transcript = send_to_assemblyai(audio_data)
 
     # Clean up temporary files
-    webm_file.close
-    webm_file.unlink
     wav_file.close
     wav_file.unlink
 
     transcript
   end
 
-  def convert_webm_to_wav(input_path, output_path)
-    command = "ffmpeg -i #{input_path} -ac 1 -ar 16000 #{output_path} -y"
-    stdout_and_stderr, status = Open3.capture2e(command)
-    unless status.success?
-      puts "FFmpeg conversion failed with error:\n#{stdout_and_stderr}"
-      return false
-    end
-    true
-  end
-
   def send_to_assemblyai(wav_data)
-    api_key = '8323e4c46ab24be5822b111c7fd30635'  # Replace with your AssemblyAI API key
+    api_key = ENV['ASSEMBLY_API']
 
     # Step 1: Upload the WAV data to AssemblyAI
     upload_url = upload_to_assemblyai(wav_data, api_key)
@@ -176,6 +131,4 @@ class TranscriptionService < Transcription::TranscriptionService::Service
       end
     end
   end
-
-
 end

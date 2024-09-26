@@ -88,7 +88,7 @@ proto.transcription.AudioChunk.prototype.toObject = function(opt_includeInstance
  */
 proto.transcription.AudioChunk.toObject = function(includeInstance, msg) {
   var f, obj = {
-    audioData: msg.getAudioData_asB64()
+    audioData: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -126,7 +126,7 @@ proto.transcription.AudioChunk.deserializeBinaryFromReader = function(msg, reade
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAudioData(value);
       break;
     default:
@@ -158,9 +158,9 @@ proto.transcription.AudioChunk.prototype.serializeBinary = function() {
  */
 proto.transcription.AudioChunk.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getAudioData_asU8();
+  f = message.getAudioData();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -169,7 +169,7 @@ proto.transcription.AudioChunk.serializeBinaryToWriter = function(message, write
 
 
 /**
- * optional bytes audio_data = 1;
+ * optional string audio_data = 1;
  * @return {string}
  */
 proto.transcription.AudioChunk.prototype.getAudioData = function() {
@@ -178,35 +178,11 @@ proto.transcription.AudioChunk.prototype.getAudioData = function() {
 
 
 /**
- * optional bytes audio_data = 1;
- * This is a type-conversion wrapper around `getAudioData()`
- * @return {string}
- */
-proto.transcription.AudioChunk.prototype.getAudioData_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getAudioData()));
-};
-
-
-/**
- * optional bytes audio_data = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getAudioData()`
- * @return {!Uint8Array}
- */
-proto.transcription.AudioChunk.prototype.getAudioData_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getAudioData()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.transcription.AudioChunk} returns this
  */
 proto.transcription.AudioChunk.prototype.setAudioData = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
