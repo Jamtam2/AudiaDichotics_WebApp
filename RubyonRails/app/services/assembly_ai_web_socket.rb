@@ -32,17 +32,16 @@ class AssemblyAiWebSocket
 
     unless @closed
       # message = { audio_data: audio_data_base64 }.to_json
-      chunk_size = 130000
+      # chunk_size = 130000
       audio_data = Base64.decode64(audio_data_base64).force_encoding('ASCII-8BIT')
 
       # Split audio_data into chunks
-      chunks = audio_data.bytes.each_slice(chunk_size).map { |chunk| chunk.pack('C*') }
+      # chunks = audio_data.bytes.each_slice(chunk_size).map { |chunk| chunk.pack('C*') }
       # Enqueue each chunk
-      chunks.each do |chunk|
-        @message_queue << chunk
-      end
-      # @message_queue << audio_data
-      Rails.logger.info "Added audio data to chunks, then put in message queue for user #{@user_id}"
+      # chunks.each do |chunk|
+        # @message_queue << chunk
+      @message_queue << audio_data
+      Rails.logger.info "Sent audio to assembly ai.. for user #{@user_id}"
     else
       Rails.logger.warn "Cannot send audio, WebSocket is closed for user #{@user_id}"
     end

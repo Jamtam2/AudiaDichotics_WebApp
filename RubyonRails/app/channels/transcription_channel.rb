@@ -22,22 +22,53 @@ class TranscriptionChannel < ApplicationCable::Channel
   def handle_audio_data(audio_data_base64)
     Rails.logger.info "In handle_audio_data()"
 
-    @mutex.synchronize do
-      if @assemblyai_ws.nil?
-        Rails.logger.info "handle_audio_data() --> new AssemblyAiWebSocket()"
+    # Decode the Base64 audio data
+    audio_data = Base64.decode64(audio_data_base64)
 
-        @assemblyai_ws = AssemblyAiWebSocket.new(current_user.id, self, @sample_rate)
-        Rails.logger.info "Started new AssemblyAI session for user #{current_user.id}"
-      else
-        Rails.logger.debug "Using existing AssemblyAI session for user #{current_user.id}"
-      end
+    # Save the audio to a temporary file
+    raw_file_path = Rails.root.join('tmp', "user_#{current_user.id}_raw_audio.wav")
+    File.open(raw_file_path, 'wb') do |file|
+      file.write(audio_data)
     end
-    Rails.logger.info "Sending audio data: leaving handle_audio_data() -- > send_audio()"
 
-    @assemblyai_ws.send_audio(audio_data_base64)
-    Rails.logger.info "Sent audio data to AssemblyAI for user #{current_user.id}"
+    Rails.logger.info "Saved raw audio file to #{raw_file_path}"
+
+    # Convert the audio to 16kHz mono using FFmpeg
+    converted_file_path = Rails.root.join('tmp', "user_#{current_user.id}_audio_converted.wav")
+    ffmpeg_command = "ffmpeg -i #{raw_file_path} -ar 16000 -ac 1 #{converted_file_path} -y"
+
+    # Execute the FFmpeg command
+    Rails.logger.info "Converting audio file with FFmpeg..."
+    system(ffmpeg_command)
+
+    if File.exist?(converted_file_path)
+      Rails.logger.info "Converted audio file saved to #{converted_file_path}"
+
+      # Read the converted audio data and send it to the transcription service
+      converted_audio_data = File.read(converted_file_path)
+
+      @mutex.synchronize do
+        if @assemblyai_ws.nil?
+          Rails.logger.info "handle_audio_data() --> new AssemblyAiWebSocket()"
+          @assemblyai_ws = AssemblyAiWebSocket.new(current_user.id, self, @sample_rate)
+          Rails.logger.info "Started new AssemblyAI session for user #{current_user.id}"
+        else
+          Rails.logger.debug "Using existing AssemblyAI session for user #{current_user.id}"
+        end
+      end
+
+      # Send the converted audio data (Base64-encoded) to AssemblyAI or your transcription service
+      @assemblyai_ws.send_audio(Base64.encode64(converted_audio_data))
+      Rails.logger.info "Sent converted audio data to AssemblyAI for user #{current_user.id}"
+      File.delete(raw_file_path) if File.exist?(raw_file_path)
+      File.delete(converted_file_path) if File.exist?(converted_file_path)
+
+    else
+      Rails.logger.error "Failed to convert audio file for user #{current_user.id}"
+    end
   rescue => e
-    Rails.logger.error "Error handling audio data: #{e.message}"
+    Rails.logger.error "Error handling audio data"
+    # Rails.logger.error "Error handling audio data: #{e.message}"
   end
 
   def terminate_session
