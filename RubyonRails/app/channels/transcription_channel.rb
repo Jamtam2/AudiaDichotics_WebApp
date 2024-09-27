@@ -4,48 +4,63 @@ class TranscriptionChannel < ApplicationCable::Channel
     sample_rate = params[:sample_rate] || 16000
     stream_from "transcription_channel_#{current_user.id}"
     @sample_rate = sample_rate
-    @mutex = Mutex.new  # Initialize a mutex for thread safety
+    @mutex = Mutex.new
     @assemblyai_ws = nil
+    Rails.logger.info "User #{current_user.id} subscribed to TranscriptionChannel"
   end
 
-  def receive_audio(data)
+  def receive(data)
     if data['audio_data']
-      @mutex.synchronize do
-        if @assemblyai_ws.nil?
-          @assemblyai_ws = AssemblyAiWebSocket.new(current_user.id, self, @sample_rate)
-          puts "Started new AssemblyAI session"
-        else
-          puts "Using existing AssemblyAI session"
-        end
-      end
-      @assemblyai_ws.send_audio(data['audio_data'])
-      puts "Sent audio data to AssemblyAI"
+      Rails.logger.info "Received data from user #{current_user.id}"
+      Rails.logger.info "leaving receive() -- > handle_audio_data()"
+      handle_audio_data(data['audio_data'])
+    elsif data['terminate']
+      terminate_session
     end
   end
 
-  def terminate
+  def handle_audio_data(audio_data_base64)
+    Rails.logger.info "In handle_audio_data()"
+
+    @mutex.synchronize do
+      if @assemblyai_ws.nil?
+        Rails.logger.info "handle_audio_data() --> new AssemblyAiWebSocket()"
+
+        @assemblyai_ws = AssemblyAiWebSocket.new(current_user.id, self, @sample_rate)
+        Rails.logger.info "Started new AssemblyAI session for user #{current_user.id}"
+      else
+        Rails.logger.debug "Using existing AssemblyAI session for user #{current_user.id}"
+      end
+    end
+    Rails.logger.info "Sending audio data: leaving handle_audio_data() -- > send_audio()"
+
+    @assemblyai_ws.send_audio(audio_data_base64)
+    Rails.logger.info "Sent audio data to AssemblyAI for user #{current_user.id}"
+  rescue => e
+    Rails.logger.error "Error handling audio data: #{e.message}"
+  end
+
+  def terminate_session
     if @assemblyai_ws
       @assemblyai_ws.send_terminate
-      puts "Sent terminate signal to AssemblyAI"
+      Rails.logger.info "Sent terminate signal to AssemblyAI for user #{current_user.id}"
       @mutex.synchronize do
-        @assemblyai_ws = nil  # Reset the instance after termination
+        @assemblyai_ws = nil
       end
     else
-      puts "No AssemblyAI session to terminate"
+      Rails.logger.warn "No AssemblyAI session to terminate for user #{current_user.id}"
     end
   end
 
   def unsubscribed
-    # Cleanup when channel is unsubscribed
     if @assemblyai_ws
       @assemblyai_ws.close
       @assemblyai_ws = nil
-      puts "Closed AssemblyAI WebSocket on unsubscribe"
+      Rails.logger.info "Closed AssemblyAI WebSocket on unsubscribe for user #{current_user.id}"
     end
   end
 
   def send_transcript(transcript)
-    # Send transcription result back to the client
     ActionCable.server.broadcast("transcription_channel_#{current_user.id}", { type: 'transcript', message: transcript })
   end
 

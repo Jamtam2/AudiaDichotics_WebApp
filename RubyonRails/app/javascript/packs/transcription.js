@@ -1,101 +1,103 @@
-import { encode } from 'base64-arraybuffer';
-import consumer from '../channels/consumer'; // Adjust the import path as needed
+// app/javascript/packs/transcription.js
+
+// Import necessary modules
+import consumer from "../channels/consumer" // Import the ActionCable consumer
+import Recorder from 'recorder-js';
 
 document.addEventListener('DOMContentLoaded', function () {
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
-    let isSpeaking = false;
-    let silenceTimeout;
     let audioContext;
-    let scriptProcessor;
-    let stream;
-    let subscription;
+    let recorder;
+    let transcriptionChannel = null;
 
-    const silenceDuration = 2000; // Increased to 2 seconds
+    // Silence detection variables
+    let silenceTimeout;
+    let scriptProcessor;
+    let isSpeaking = false;
+    const silenceDuration = 1000; // 1 second in milliseconds
     const silenceThreshold = 0.01; // Adjust this threshold as needed
 
     startBtn.onclick = async () => {
         // Request microphone access
+        let stream;
         try {
             stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            console.log('Stream obtained');
+            console.log('Stream obtained:', stream);
         } catch (err) {
             console.error('Error accessing microphone:', err);
             return;
         }
-        // Initialize Audio Context and ScriptProcessor
-        audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
-        console.log('AudioContext initialized with sample rate:', audioContext.sampleRate);
 
+        // Initialize Recorder.js
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        recorder = new Recorder(audioContext, { numChannels: 1 });
+        await recorder.init(stream);
+
+        // Set up the audio analyzer for silence detection
         const source = audioContext.createMediaStreamSource(stream);
         scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
         source.connect(scriptProcessor);
         scriptProcessor.connect(audioContext.destination);
 
-        // Initialize WebSocket connection using Action Cable consumer
-        subscription = consumer.subscriptions.create('TranscriptionChannel', {
-            connected() {
-                console.log('WebSocket connection established via Action Cable');
-            },
-            disconnected() {
-                console.log('WebSocket connection closed');
-            },
-            received(data) {
-                if (data.type === 'transcript') {
-                    const transcript = data.message;
-                    if (transcript.trim() !== '') {
-                        console.log('Received transcript:', transcript);
-                        checkAnswer(transcript);
-                    } else {
-                        console.log('Received empty transcript, ignoring.');
-                    }
-                } else if (data.type === 'partial_transcript') {
-                    const transcript = data.message;
-                    if (transcript.trim() !== '') {
-                        console.log('Received partial transcript:', transcript);
-                        // Optionally display partial transcript to the user
-                    } else {
-                        console.log('Received empty partial transcript, ignoring.');
+        // Initialize ActionCable channel
+        transcriptionChannel = consumer.subscriptions.create(
+            { channel: "TranscriptionChannel", sample_rate: 16000 },
+            {
+                connected() {
+                    console.log("Connected to TranscriptionChannel");
+                },
+                disconnected() {
+                    console.log("Disconnected from TranscriptionChannel");
+                },
+                received(data) {
+                    if (data.type === 'partial_transcript') {
+                        console.log('Partial:', data.message);
+                        // Optionally, display partial transcript in the UI
+                    } else if (data.type === 'transcript') {
+                        console.log('Final:', data.message);
+                        checkAnswer(data.message);
                     }
                 }
-            },
-            receive_audio(data) {
-                this.perform('receive_audio', data);
             }
-        });
+        );
 
         scriptProcessor.onaudioprocess = function (event) {
             const inputData = event.inputBuffer.getChannelData(0);
             let total = 0;
 
-            // Calculate the average amplitude for silence detection
+            // Calculate the average amplitude
             for (let i = 0; i < inputData.length; i++) {
                 total += Math.abs(inputData[i]);
             }
             const average = total / inputData.length;
 
+            // Check if the average amplitude is above the silence threshold
             if (average > silenceThreshold) {
                 // Audio is above the threshold; reset the silence timer
                 if (silenceTimeout) {
                     clearTimeout(silenceTimeout);
                     silenceTimeout = null;
                 }
-
                 if (!isSpeaking) {
                     console.log('Started speaking');
                     isSpeaking = true;
+                    // Start recording when the user starts speaking
+                    recorder.start();
                 }
-                // Send audio data when speaking
-                sendAudioData(inputData);
             } else {
                 // Audio is below the threshold
                 if (!silenceTimeout && isSpeaking) {
                     silenceTimeout = setTimeout(() => {
+                        // Silence has been detected for the specified duration
                         console.log('Stopped speaking');
                         isSpeaking = false;
+                        // Stop recording and send the audio data
+                        recorder.stop().then(({ blob }) => {
+                            sendAudioData(blob);
+                            // recorder.clear(); // Uncomment if you want to clear the recorder
+                        });
                         silenceTimeout = null;
-                        subscription.perform('terminate');
-                        console.log('Terminated');
                     }, silenceDuration);
                 }
             }
@@ -106,20 +108,26 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     stopBtn.onclick = async () => {
-        // Unsubscribe from the channel
-        if (subscription) {
-            subscription.unsubscribe();
-            console.log('Unsubscribed from TranscriptionChannel');
+        // Stop recording
+        if (recorder && isSpeaking) {
+            const { blob } = await recorder.stop();
+            if (blob && blob.size > 0) {
+                sendAudioData(blob);
+                recorder.stop();
+            }
         }
 
         // Disconnect audio nodes
         if (scriptProcessor) {
             scriptProcessor.disconnect();
-            console.log('Disconnected script processor');
         }
-        if (audioContext) {
-            audioContext.close();
-            console.log('Closed AudioContext');
+
+        // Terminate the ActionCable connection
+        if (transcriptionChannel) {
+            transcriptionChannel.perform('terminate');
+            transcriptionChannel.unsubscribe();
+            transcriptionChannel = null;
+            console.log("Terminated TranscriptionChannel");
         }
 
         startBtn.disabled = false;
@@ -127,26 +135,45 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Recording stopped');
     };
 
-    // Modify sendAudioData to use subscription
-    function sendAudioData(inputData) {
-        // Convert Float32Array to Int16Array (PCM 16-bit)
-        let pcmData = new Int16Array(inputData.length);
-        for (let i = 0; i < inputData.length; i++) {
-            let s = Math.max(-1, Math.min(1, inputData[i]));
-            pcmData[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    function sendAudioData(blob) {
+        if (!blob || blob.size === 0) {
+            console.log('No audio data to send.');
+            return;
         }
+        console.log(`Blob size: `, blob.size);
 
-        // Convert Int16Array to ArrayBuffer
-        let buffer = pcmData.buffer;
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const arrayBuffer = reader.result;
 
-        // Encode to Base64
-        const base64String = encode(buffer);
+            // Convert ArrayBuffer to Base64 without using spread operator
+            const base64String = arrayBufferToBase64(arrayBuffer);
 
-        // Send audio data to server
-        subscription.perform('receive_audio', { audio_data: base64String });
-        console.log('Sending audio data to server');
+            // Send the audio data via ActionCable
+            if (transcriptionChannel) {
+                transcriptionChannel.send({ audio_data: base64String });
+                console.log("Sent audio data to TranscriptionChannel");
+            }
+        };
+        reader.readAsArrayBuffer(blob);
     }
 
+    // Helper function to convert ArrayBuffer to Base64
+    function arrayBufferToBase64(buffer) {
+        let binary = '';
+        const bytes = new Uint8Array(buffer);
+        const len = bytes.byteLength;
+        const chunkSize = 0x8000; // 32768
+
+        for (let i = 0; i < len; i += chunkSize) {
+            const chunk = bytes.subarray(i, i + chunkSize);
+            binary += String.fromCharCode.apply(null, chunk);
+        }
+
+        return btoa(binary);
+    }
+
+    // The checkAnswer function remains the same
     function checkAnswer(transcribedText) {
         console.log('Checking answer...');
 
