@@ -156,6 +156,11 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     stopBtn.onclick = async () => {
+        fetch('/stop_speech_script')  
+        .then(response => response.text())
+        .then(data => console.log("Speech-to-text script ended:", data))
+        .catch(error => console.error("Error starting script:", error));
+  
         // Stop recording
         if (recorder && isSpeaking) {
             const { blob } = await recorder.stop();
@@ -287,14 +292,42 @@ document.addEventListener('DOMContentLoaded', function () {
             else if (word.toLowerCase() === 'toe') {
                 return 'Tow';
             }
+            else if (word.toLowerCase() === 'to') {
+                return 'Tow';
+            }
             else if (word.toLowerCase() === 'broom') {
                 return 'Room';
             }
             else if (word.toLowerCase() === 'blip') {
                 return 'Lip';
             }
-
-            
+            else if (word.toLowerCase() === 'ball') {
+                return 'Fall';
+            }
+            else if (word.toLowerCase() === 'po') {
+                return 'Tow';
+            }
+            else if (word.toLowerCase() === 'whack') {
+                return 'Quack';
+            }
+            else if (word.toLowerCase() === 'she') {
+                return 'Sheep';
+            }
+            else if (word.toLowerCase() === 'take') {
+                return 'Cake';
+            }
+            else if (word.toLowerCase() === 'black') {
+                return 'Quack';
+            }
+            else if (word.toLowerCase() === 'blast') {
+                return 'Glass';
+            }
+            else if (word.toLowerCase() === 'piece') {
+                return 'Teeth';
+            }
+            else if (word.toLowerCase() === 'li') {
+                return 'Why';
+            }
             return word; // Keep the word unchanged if no match
         });
         // console.log('Vocab mapped...');

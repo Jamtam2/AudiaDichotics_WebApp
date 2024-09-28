@@ -10,6 +10,11 @@ const fs = require('fs'); // File system module to save the WAV file
 
 // Define the maximum chunk size
 const MAX_CHUNK_SIZE = 131072; // slightly less than the buffer limit
+const KEEP_ALIVE_INTERVAL = 30000; // 30 seconds
+const SILENT_DURATION_SEC = 0.1; // Duration of silence in seconds
+const BYTES_PER_SECOND = 16000 * 1 * 2; // SampleRate * Channels * BytesPerSample
+const SILENT_BUFFER_SIZE = Math.floor(SILENT_DURATION_SEC * BYTES_PER_SECOND); // 3,200 bytes
+const SILENT_BUFFER = Buffer.alloc(SILENT_BUFFER_SIZE, 0); // Fill buffer with zeros (silence)
 
 // Custom words to give more probability
 const CUSTOM_GRAMMAR = [
@@ -48,8 +53,26 @@ const run = async () => {
       { phrases: CUSTOM_GRAMMAR }
     ]
   });
+
+  // Inside your `run` function, after establishing the transcriber connection
+  // Variable to track the connection state
+  let isTranscriberOpen = false;
+
+  // Keep-alive interval, just sends a ping every KEEP_ALIVE_INTERVAL to ensure that the websocket doesn't close if a person idles
+  // Keep-alive interval
+  const keepAlive = setInterval(() => {
+    if (isTranscriberOpen) {
+      transcriber.sendAudio(SILENT_BUFFER); // Send silent audio to keep the connection alive
+      console.log('Sent keep-alive silent buffer');
+    } else {
+      console.warn('Transcriber is not open. Skipping keep-alive.');
+    }
+  }, KEEP_ALIVE_INTERVAL);
+
+
   // Event handler for when the connection is opened
   transcriber.on('open', ({ sessionId }) => {
+    isTranscriberOpen = true;
     console.log(`Session opened with ID: ${sessionId}`);
   });
 
@@ -59,8 +82,11 @@ const run = async () => {
   });
 
   // Event handler for when the connection is closed
-  transcriber.on('close', (code, reason) =>
+  transcriber.on('close', (code, reason) =>{
+    isTranscriberOpen = false;
     console.log('Session closed:', code, reason)
+
+  }
   );
 
   // Event handler for receiving transcripts
@@ -126,6 +152,8 @@ const run = async () => {
 
     // Stop recording and close connection using Ctrl-C.
     process.on('SIGINT', async function () {
+      clearInterval(keepAlive);
+
       console.log();
       console.log('Stopping recording');
       recording.stop();
@@ -137,6 +165,8 @@ const run = async () => {
     });
   } catch (error) {
     console.error(error);
+    clearInterval(keepAlive);
+
   }
 };
 
