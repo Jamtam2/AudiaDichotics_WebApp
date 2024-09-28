@@ -66,6 +66,7 @@ const run = async () => {
       console.log('Sent keep-alive silent buffer');
     } else {
       console.warn('Transcriber is not open. Skipping keep-alive.');
+      run();
     }
   }, KEEP_ALIVE_INTERVAL);
 

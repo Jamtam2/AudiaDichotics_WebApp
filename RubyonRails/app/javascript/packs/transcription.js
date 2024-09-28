@@ -328,6 +328,26 @@ document.addEventListener('DOMContentLoaded', function () {
             else if (word.toLowerCase() === 'li') {
                 return 'Why';
             }
+            else if (word.toLowerCase() === 'fawn') {
+                return 'Fun';
+            }
+            else if (word.toLowerCase() === 'ground') {
+                return 'Round';
+            }
+            else if (word.toLowerCase() === 'both') {
+                return 'Booth';
+            }
+            else if (word.toLowerCase() === 'ten') {
+                return 'Pen';
+            }
+            else if (word.toLowerCase() === 'ohm') {
+                return 'Comb';
+            }
+            else if (word.toLowerCase() === 'bets') {
+                return 'Bet';
+            }
+
+            
             return word; // Keep the word unchanged if no match
         });
         // console.log('Vocab mapped...');
