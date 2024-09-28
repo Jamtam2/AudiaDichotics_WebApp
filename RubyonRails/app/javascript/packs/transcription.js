@@ -4,9 +4,20 @@
 import consumer from "../channels/consumer" // Import the ActionCable consumer
 import Recorder from 'recorder-js';
 
+// import { SoxRecording } from './sox.js'; // Import SoxRecording
+
 document.addEventListener('DOMContentLoaded', function () {
+    // Start the Node.js script when the page loads
+    fetch('/start_speech_script')  
+      .then(response => response.text())
+      .then(data => console.log("Speech-to-text script started:", data))
+      .catch(error => console.error("Error starting script:", error));
+
+
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
+    const ws = new WebSocket('ws://localhost:8080');
+
     let audioContext;
     let recorder;
     let transcriptionChannel = null;
@@ -18,6 +29,27 @@ document.addEventListener('DOMContentLoaded', function () {
     const silenceDuration = 1000; // 1 second in milliseconds
     const silenceThreshold = 0.01; // Adjust this threshold as needed
 
+    ws.onopen = () => {
+        console.log('WebSocket connection established');
+      };
+  
+      ws.onmessage = function(event) {
+        const transcript = JSON.parse(event.data);
+        if (transcript.text) {
+          checkAnswer(transcript.text.replace(/\./, ''));
+          console.log('Transcript received:', transcript.text);
+        }
+      };
+  
+      ws.onerror = (error) => {
+        console.error(`WebSocket error: ${error}`);
+      };
+  
+      ws.onclose = () => {
+        console.log('WebSocket connection closed');
+      };
+  
+
     startBtn.onclick = async () => {
         // Request microphone access
         let stream;
@@ -28,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error accessing microphone:', err);
             return;
         }
+        
 
         // Initialize Recorder.js
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -41,26 +74,26 @@ document.addEventListener('DOMContentLoaded', function () {
         scriptProcessor.connect(audioContext.destination);
 
         // Initialize ActionCable channel
-        transcriptionChannel = consumer.subscriptions.create(
-            { channel: "TranscriptionChannel", sample_rate: 16000 },
-            {
-                connected() {
-                    console.log("Connected to TranscriptionChannel");
-                },
-                disconnected() {
-                    console.log("Disconnected from TranscriptionChannel");
-                },
-                received(data) {
-                    if (data.type === 'partial_transcript') {
-                        console.log('Partial:', data.message);
-                        // Optionally, display partial transcript in the UI
-                    } else if (data.type === 'transcript') {
-                        console.log('Final:', data.message);
-                        checkAnswer(data.message);
-                    }
-                }
-            }
-        );
+        // transcriptionChannel = consumer.subscriptions.create(
+        //     { channel: "TranscriptionChannel", sample_rate: 16000 },
+        //     {
+        //         connected() {
+        //             console.log("Connected to TranscriptionChannel");
+        //         },
+        //         disconnected() {
+        //             console.log("Disconnected from TranscriptionChannel");
+        //         },
+        //         received(data) {
+        //             if (data.type === 'partial_transcript') {
+        //                 console.log('Partial:', data.message);
+        //                 // Optionally, display partial transcript in the UI
+        //             } else if (data.type === 'transcript') {
+        //                 console.log('Final:', data.message);
+        //                 checkAnswer(data.message);
+        //             }
+        //         }
+        //     }
+        // );
 
         scriptProcessor.onaudioprocess = function (event) {
             const inputData = event.inputBuffer.getChannelData(0);
@@ -94,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         isSpeaking = false;
                         // Stop recording and send the audio data
                         recorder.stop().then(({ blob }) => {
+                            console.log('Sending audio data')
                             sendAudioData(blob);
                             // recorder.clear(); // Uncomment if you want to clear the recorder
                         });
@@ -136,28 +170,68 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function sendAudioData(blob) {
+        // console.log('In audio data');
+    
         if (!blob || blob.size === 0) {
             console.log('No audio data to send.');
             return;
         }
         console.log(`Blob size: `, blob.size);
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const arrayBuffer = reader.result;
-
-            // Convert ArrayBuffer to Base64 without using spread operator
-            const base64String = arrayBufferToBase64(arrayBuffer);
-
-            // Send the audio data via ActionCable
-            if (transcriptionChannel) {
-                transcriptionChannel.send({ audio_data: base64String });
-                console.log("Sent audio data to TranscriptionChannel");
+    
+        // Send the audio Blob to your server for saving and conversion
+        // console.log('Starting to save and convert audio data....');
+        const formData = new FormData();
+        formData.append('audio', blob, 'audio.wav');
+    
+        fetch('/save_audio', {  // Ensure this matches your route
+            method: 'POST',
+            body: formData
+            // If you implemented API key authentication, include headers here
+            // headers: {
+            //     'Authorization': 'your_api_key_here'
+            // }
+        })
+        .then(response => {
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                return response.text().then(text => { throw new Error(text) });
             }
-        };
-        reader.readAsArrayBuffer(blob);
+        })
+        .then(data => {
+            if (data.audio_data) {
+                // console.log('Audio saved and converted successfully:', data);
+    
+                // Decode the Base64 audio data
+                const decodedAudio = base64ToArrayBuffer(data.audio_data);
+    
+                // Log the size of the converted audio data
+                // console.log('Converted audio size (bytes):', decodedAudio.byteLength);
+    
+                // Send the converted audio data via WebSocket
+                // console.log('Sending converted audio to WebSocket...');
+                ws.send(decodedAudio);
+            } else {
+                console.log('Audio saved successfully:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error saving audio:', error);
+        });
     }
-
+    
+    // Helper function to convert Base64 to ArrayBuffer
+    function base64ToArrayBuffer(base64) {
+        const binaryString = window.atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+    
     // Helper function to convert ArrayBuffer to Base64
     function arrayBufferToBase64(buffer) {
         let binary = '';
@@ -197,4 +271,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+        // Stop the Node.js script when the user leaves the page
+        window.addEventListener('beforeunload', function() {
+            navigator.sendBeacon('/stop_speech_script');
+            console.log("Speech-to-text script stopped");
+          });
+      
 });

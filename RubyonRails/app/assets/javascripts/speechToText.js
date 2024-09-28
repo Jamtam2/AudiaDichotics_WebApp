@@ -3,9 +3,12 @@ const { AssemblyAI } = require('assemblyai');
 const recorder = require('node-record-lpcm16');
 const express = require('express');
 const WebSocket = require('ws');
-const server = require('http').createServer(app);
-
 const app = express();
+const server = require('http').createServer(app);
+const ffmpeg = require('fluent-ffmpeg');
+const fs = require('fs'); // File system module to save the WAV file
+
+
 const wss = new WebSocket.Server({ server });
 
 const run = async () => {
@@ -47,8 +50,25 @@ const run = async () => {
 
   // Event handler for WebSocket connection
   wss.on('connection', (ws) => {
+    console.log('WebSocket connection established');
+
+    ws.on('message', (message) => {
+      console.log('Received audio data from WebSocket:', message);
+
+      const audioBuffer = Buffer.from(message); // Convert WebSocket message to Buffer
+      console.log('Buffer length:', audioBuffer.length);
+      console.log('Buffer first bytes:', audioBuffer.slice(0, 20)); // Log first 20 bytes for inspection
+
+      console.log('Got buffer, in websocket:', message);
+
+      console.log('Sendfing audio to assembly ai.....:');
+
+      transcriber.sendAudio(message);
+        });
+  
+    
     transcriber.on('transcript', (transcript) => {
-      if (transcript.message_type === 'FinalTranscript') {
+      if (transcript.message_type === 'FinalTranscript' | transcript.message_type === 'PartialTranscript') {
         // Serialize and send the transcript data
         ws.send(JSON.stringify(transcript));
       }

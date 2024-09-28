@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   get 'inquiries/new'
   get 'inquiries/create'
   get 'users/index'
+  get 'start_speech_script', to: 'speech#start_script'
+  get 'stop_speech_script', to: 'speech#stop_script'
+  post 'save_audio', to: 'speech#save_audio'
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
