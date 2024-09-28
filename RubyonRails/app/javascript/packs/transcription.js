@@ -6,7 +6,21 @@ import Recorder from 'recorder-js';
 
 // import { SoxRecording } from './sox.js'; // Import SoxRecording
 
+    // Create a dictionary of labels and checkboxes
+    let labelCheckboxMap = {};
+    document.querySelectorAll('label').forEach((label) => {
+        let checkbox = label.querySelector('input[type="checkbox"]');
+        if (checkbox) {
+            labelCheckboxMap[label.textContent.trim().toLowerCase()] = {
+                checkbox: checkbox,
+                label: label
+            };
+        }
+    });
+    console.log('created the label checkbox map: ', labelCheckboxMap)
 document.addEventListener('DOMContentLoaded', function () {
+
+    
     // Start the Node.js script when the page loads
     fetch('/start_speech_script')  
       .then(response => response.text())
@@ -17,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
     const ws = new WebSocket('ws://localhost:8080');
-
+    const audioPlayer = document.getElementById('audioPlayer');
     let audioContext;
     let recorder;
     let transcriptionChannel = null;
@@ -176,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('No audio data to send.');
             return;
         }
-        console.log(`Blob size: `, blob.size);
     
         // Send the audio Blob to your server for saving and conversion
         // console.log('Starting to save and convert audio data....');
@@ -205,7 +218,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
                 // Decode the Base64 audio data
                 const decodedAudio = base64ToArrayBuffer(data.audio_data);
-    
+                console.log(`Blob size: `, decodedAudio.byteLength);
+
                 // Log the size of the converted audio data
                 // console.log('Converted audio size (bytes):', decodedAudio.byteLength);
     
@@ -250,27 +264,63 @@ document.addEventListener('DOMContentLoaded', function () {
     // The checkAnswer function remains the same
     function checkAnswer(transcribedText) {
         console.log('Checking answer...');
+        console.log('Current audio file time: ', audioPlayer.currentTime)
+        // let wordList = transcribedText.replace(/[^\w\s]|_/g, '').trim().split(/\s+/);
+        let wordList = transcribedText.replace(/\./, '').trim().split(/\s+/); // Clean up the transcript
+        console.log('Mapping vocab...');
+        
+        wordList = wordList.map(word => {
+            if (word.toLowerCase() === 'y') {
+                return 'Why';
+            } else if (word.toLowerCase() === 'four') {
+                return 'For';
+            }
+            else if (word.toLowerCase() === 'pick') {
+                return 'Pig';
+            }
+            else if (word.toLowerCase() === 'rome') {
+                return 'Room';
+            }
+            else if (word.toLowerCase() === 'around') {
+                return 'Round';
+            }
+            else if (word.toLowerCase() === 'toe') {
+                return 'Tow';
+            }
+            else if (word.toLowerCase() === 'broom') {
+                return 'Room';
+            }
+            else if (word.toLowerCase() === 'blip') {
+                return 'Lip';
+            }
 
-        let answer = transcribedText.replace(/\./, '').trim(); // Clean up the transcript
+            
+            return word; // Keep the word unchanged if no match
+        });
+        // console.log('Vocab mapped...');
+        
+        console.log('List of answers..? ', wordList);
         let allLabels = document.querySelectorAll('label');
 
-        allLabels.forEach((label) => {
-            if (label.textContent.trim().toLowerCase() === answer.toLowerCase()) {
-                let checkbox = label.querySelector('input[type="checkbox"]');
-                if (checkbox && !checkbox.checked) {
-                    // Check if not already checked
-                    checkbox.checked = true;
-                    checkbox.dispatchEvent(
-                        new Event('change', {
-                            bubbles: true,
-                            cancelable: true,
-                        })
-                    );
-                    label.classList.add('active'); // Provide visual feedback
-                }
+    // Loop through each word in the wordList and check if it exists in the dictionary
+    wordList.forEach((word) => {
+        let key = word.toLowerCase();
+        if (labelCheckboxMap[key]) {
+            let { checkbox, label } = labelCheckboxMap[key];
+            if (!checkbox.checked) {
+                checkbox.checked = true;
+                checkbox.dispatchEvent(
+                    new Event('change', {
+                        bubbles: true,
+                        cancelable: true,
+                    })
+                );
+                label.classList.add('active'); // Provide visual feedback
             }
-        });
-    }
+        }
+    });
+}
+
         // Stop the Node.js script when the user leaves the page
         window.addEventListener('beforeunload', function() {
             navigator.sendBeacon('/stop_speech_script');

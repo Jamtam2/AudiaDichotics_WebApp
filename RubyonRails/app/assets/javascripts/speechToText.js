@@ -8,6 +8,32 @@ const server = require('http').createServer(app);
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs'); // File system module to save the WAV file
 
+// Define the maximum chunk size
+const MAX_CHUNK_SIZE = 131072; // slightly less than the buffer limit
+
+// Custom words to give more probability
+const CUSTOM_GRAMMAR = [
+  "Fun", "Pig", "Vine", "Sheep", "Cake", "Buy", "Round", "Storm", "Say", "Tan",
+  "Yes", "Fast", "Pen", "Most", "Bet", "One", "Green", "Booth", "Store", "Glass", 
+  "Soap", "Teeth", "Bring", "Share", "Rug", "Book", "Want", "Soft", "Tow", "Kite", 
+  "Why", "Quack", "Comb", "For", "That", "Love", "Bug", "Wet", "Quiz", "Juice", 
+  "Camp", "Light", "Hand", "Goose", "Lip", "Dad", "Fall", "Room", "Old", "Chef", 
+  "Bell", "Farm", "Same", "Cast", "Child", "Bowl", "How", "Plug", "Lick", "Top", 
+  "Watch", "Horse", "Ham", "Day", "When", "Truck", "Drink", "Rhyme", "Sleep", "Yard",
+  "Greek", "Stop", "Den", "Red", "Song", "Math", "Dog", "More", "Spoon", "North", 
+  "But", "Chip", "Year", "Nice", "Cloud", "Make", "Tag", "Heart", "Pot", "Ball", 
+  "Door", "Set", "Cup", "Pat", "Close", "Shine", "Ring", "Test", "Rough", "Corn", 
+  "Post", "Rim", "Two", "Look", "Cook", "Bite", "Car", "Lamp", "Skip", "Kiss", 
+  "Dream", "Floor", "Phone", "Damp", "Sit", "Gold", "Bear", "Sun", "Knife", "Bath", 
+  "Leg", "Milk", "Young", "Brush", "See", "Law", "Cat", "Hug", "Grass", "Square", 
+  "Weird", "Globe", "Bird", "Fork", "Bus", "Swing", "Snow", "Race", "Moon", "Wall", 
+  "Heel", "Five", "Mud", "Sheet", "Mat", "Nail", "Gum", "Pie", "Pill", "Key",
+  "Bar", "Head", "Box", "Shelf", "Will", "Pan", "Work", "Dive", "Knit", "Where", 
+  "Down", "Vase", "Food", "Judge", "Gas", "Sand", "Van", "Game", "Joke", "Need", 
+  "New", "Late", "Plate", "Rope", "Jar", "Fish", "First", "Black", "Voice", "Rose", 
+  "Bed", "Catch", "Couch", "Best", "Type", "Big", "Rain", "Mouse", "Cow", "Her", 
+  "Neat", "Rock", "Sing", "Plain", "Learn", "Dark", "Yell", "White", "Help", "Knee"
+];
 
 const wss = new WebSocket.Server({ server });
 
@@ -17,9 +43,11 @@ const run = async () => {
   });
 
   const transcriber = client.realtime.transcriber({
-    sampleRate: 16000
+    sampleRate: 16000,
+    custom_vocabularies: [
+      { phrases: CUSTOM_GRAMMAR }
+    ]
   });
-
   // Event handler for when the connection is opened
   transcriber.on('open', ({ sessionId }) => {
     console.log(`Session opened with ID: ${sessionId}`);
@@ -37,6 +65,7 @@ const run = async () => {
 
   // Event handler for receiving transcripts
   transcriber.on('transcript', (transcript) => {
+    console.log(`Got answer back from AssemblyAI`);
     if (!transcript.text) {
       return;
     }
@@ -62,14 +91,21 @@ const run = async () => {
       console.log('Got buffer, in websocket:', message);
 
       console.log('Sendfing audio to assembly ai.....:');
-
-      transcriber.sendAudio(message);
+         // Split the buffer into chunks if it exceeds the maximum chunk size
+    for (let i = 0; i < audioBuffer.length; i += MAX_CHUNK_SIZE) {
+      let chunk = audioBuffer.slice(i, i + MAX_CHUNK_SIZE);
+      console.log('Sending chunk of size:', chunk.length);
+      transcriber.sendAudio(chunk);
+    }
+      // transcriber.sendAudio(message);
         });
   
     
     transcriber.on('transcript', (transcript) => {
-      if (transcript.message_type === 'FinalTranscript' | transcript.message_type === 'PartialTranscript') {
+      // if (transcript.message_type === 'FinalTranscript') {
+        if (transcript.message_type === 'FinalTranscript' | transcript.message_type === 'PartialTranscript') {
         // Serialize and send the transcript data
+        console.log(`Sending data back...`);
         ws.send(JSON.stringify(transcript));
       }
     });

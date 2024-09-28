@@ -617,6 +617,21 @@
 
     </script>
 <%= javascript_pack_tag 'transcription' %>
+
+
+
+<%# <script>
+  // Get the audio player element
+  const audioPlayer = document.getElementById('audioPlayer');
+
+  // Add event listener to track the current time of the audio in the background
+  audioPlayer.addEventListener('timeupdate', () => {
+    const currentTime = audioPlayer.currentTime;
+    console.log('Current Time:', currentTime); // Log it or use the value in your logic
+    // You can handle the currentTime variable here without displaying it on the front end
+  });
+</script> %>
+
 <%# <button id="downloadBtn">Download WebM</button> %>
 
 <%# 

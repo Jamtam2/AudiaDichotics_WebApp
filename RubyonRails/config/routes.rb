@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'users/index'
   get 'start_speech_script', to: 'speech#start_script'
   get 'stop_speech_script', to: 'speech#stop_script'
+  get '/api_key', to: 'api_keys#show'
   post 'save_audio', to: 'speech#save_audio'
 
   require 'sidekiq/web'
