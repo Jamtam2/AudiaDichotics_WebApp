@@ -292,8 +292,8 @@ document.addEventListener('DOMContentLoaded', function () {
             else if (word.toLowerCase() === 'toe') {
                 return 'Tow';
             }
-            else if (word.toLowerCase() === 'to') {
-                return 'Tow';
+            else if (word.toLowerCase() === 'anten') {
+                return 'Tan';
             }
             else if (word.toLowerCase() === 'broom') {
                 return 'Room';
@@ -301,9 +301,9 @@ document.addEventListener('DOMContentLoaded', function () {
             else if (word.toLowerCase() === 'blip') {
                 return 'Lip';
             }
-            else if (word.toLowerCase() === 'ball') {
-                return 'Fall';
-            }
+            // else if (word.toLowerCase() === 'ball') {
+            //     return 'Fall';
+            // }
             else if (word.toLowerCase() === 'po') {
                 return 'Tow';
             }
@@ -346,6 +346,24 @@ document.addEventListener('DOMContentLoaded', function () {
             else if (word.toLowerCase() === 'bets') {
                 return 'Bet';
             }
+            //Start of dwt_list2
+            else if (word.toLowerCase() === 'form') {
+                return 'Farm';
+            }
+            else if (word.toLowerCase() === 'hoarse') {
+                return 'Horse';
+            }
+            else if (word.toLowerCase() === 'butt') {
+                return 'But';
+            }
+            else if (word.toLowerCase() === 'cag') {
+                return 'Tag';
+            }
+            // else if (word.toLowerCase() === 'fall') {
+            //     return 'Ball';
+            // }
+
+
 
             
             return word; // Keep the word unchanged if no match
