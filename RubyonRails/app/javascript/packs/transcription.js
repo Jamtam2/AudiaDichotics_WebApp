@@ -3,7 +3,8 @@
 // Import necessary modules
 import consumer from "../channels/consumer" // Import the ActionCable consumer
 import Recorder from 'recorder-js';
-
+const listType = document.body.getAttribute('data-list-type')
+console.log('In page: ', listType)
 // import { SoxRecording } from './sox.js'; // Import SoxRecording
 
     // Create a dictionary of labels and checkboxes
@@ -270,99 +271,105 @@ document.addEventListener('DOMContentLoaded', function () {
     function checkAnswer(transcribedText) {
         console.log('Checking answer...');
         console.log('Current audio file time: ', audioPlayer.currentTime)
+        console.log('On file: ', listType)
         // let wordList = transcribedText.replace(/[^\w\s]|_/g, '').trim().split(/\s+/);
         let wordList = transcribedText.replace(/\./, '').trim().split(/\s+/); // Clean up the transcript
         console.log('Mapping vocab...');
         
         wordList = wordList.map(word => {
-            if (word.toLowerCase() === 'y') {
-                return 'Why';
-            } else if (word.toLowerCase() === 'four') {
-                return 'For';
-            }
-            else if (word.toLowerCase() === 'pick') {
-                return 'Pig';
-            }
-            else if (word.toLowerCase() === 'rome') {
-                return 'Room';
-            }
-            else if (word.toLowerCase() === 'around') {
-                return 'Round';
-            }
-            else if (word.toLowerCase() === 'toe') {
-                return 'Tow';
-            }
-            else if (word.toLowerCase() === 'anten') {
-                return 'Tan';
-            }
-            else if (word.toLowerCase() === 'broom') {
-                return 'Room';
-            }
-            else if (word.toLowerCase() === 'blip') {
-                return 'Lip';
-            }
-            // else if (word.toLowerCase() === 'ball') {
-            //     return 'Fall';
-            // }
-            else if (word.toLowerCase() === 'po') {
-                return 'Tow';
-            }
-            else if (word.toLowerCase() === 'whack') {
-                return 'Quack';
-            }
-            else if (word.toLowerCase() === 'she') {
-                return 'Sheep';
-            }
-            else if (word.toLowerCase() === 'take') {
-                return 'Cake';
-            }
-            else if (word.toLowerCase() === 'black') {
-                return 'Quack';
-            }
-            else if (word.toLowerCase() === 'blast') {
-                return 'Glass';
-            }
-            else if (word.toLowerCase() === 'piece') {
-                return 'Teeth';
-            }
-            else if (word.toLowerCase() === 'li') {
-                return 'Why';
-            }
-            else if (word.toLowerCase() === 'fawn') {
-                return 'Fun';
-            }
-            else if (word.toLowerCase() === 'ground') {
-                return 'Round';
-            }
-            else if (word.toLowerCase() === 'both') {
-                return 'Booth';
-            }
-            else if (word.toLowerCase() === 'ten') {
-                return 'Pen';
-            }
-            else if (word.toLowerCase() === 'ohm') {
-                return 'Comb';
-            }
-            else if (word.toLowerCase() === 'bets') {
-                return 'Bet';
-            }
-            //Start of dwt_list2
-            else if (word.toLowerCase() === 'form') {
-                return 'Farm';
-            }
-            else if (word.toLowerCase() === 'hoarse') {
-                return 'Horse';
-            }
-            else if (word.toLowerCase() === 'butt') {
-                return 'But';
-            }
-            else if (word.toLowerCase() === 'cag') {
-                return 'Tag';
-            }
-            // else if (word.toLowerCase() === 'fall') {
-            //     return 'Ball';
-            // }
+            if (listType === 'dwt_list1'){
+                if (word.toLowerCase() === 'y') {
+                    return 'Why';
+                } else if (word.toLowerCase() === 'four') {
+                    return 'For';
+                }
+                else if (word.toLowerCase() === 'pick') {
+                    return 'Pig';
+                }
+                else if (word.toLowerCase() === 'rome') {
+                    return 'Room';
+                }
+                else if (word.toLowerCase() === 'around') {
+                    return 'Round';
+                }
+                else if (word.toLowerCase() === 'toe') {
+                    return 'Tow';
+                }
+                else if (word.toLowerCase() === 'anten') {
+                    return 'Tan';
+                }
+                else if (word.toLowerCase() === 'broom') {
+                    return 'Room';
+                }
+                else if (word.toLowerCase() === 'blip') {
+                    return 'Lip';
+                }
+                else if (word.toLowerCase() === 'ball') {
+                    return 'Fall';
+                }
+                else if (word.toLowerCase() === 'po') {
+                    return 'Tow';
+                }
+                else if (word.toLowerCase() === 'whack') {
+                    return 'Quack';
+                }
+                else if (word.toLowerCase() === 'she') {
+                    return 'Sheep';
+                }
+                else if (word.toLowerCase() === 'take') {
+                    return 'Cake';
+                }
+                else if (word.toLowerCase() === 'black') {
+                    return 'Quack';
+                }
+                else if (word.toLowerCase() === 'blast') {
+                    return 'Glass';
+                }
+                else if (word.toLowerCase() === 'piece') {
+                    return 'Teeth';
+                }
+                else if (word.toLowerCase() === 'li') {
+                    return 'Why';
+                }
+                else if (word.toLowerCase() === 'fawn') {
+                    return 'Fun';
+                }
+                else if (word.toLowerCase() === 'ground') {
+                    return 'Round';
+                }
+                else if (word.toLowerCase() === 'both') {
+                    return 'Booth';
+                }
+                else if (word.toLowerCase() === 'ten') {
+                    return 'Pen';
+                }
+                else if (word.toLowerCase() === 'ohm') {
+                    return 'Comb';
+                }
+                else if (word.toLowerCase() === 'bets') {
+                    return 'Bet';
+                }
 
+            }
+            if (listType === 'dwt_list2'){
+
+                //Start of dwt_list2
+                if (word.toLowerCase() === 'form') {
+                    return 'Farm';
+                }
+                else if (word.toLowerCase() === 'hoarse') {
+                    return 'Horse';
+                }
+                else if (word.toLowerCase() === 'butt') {
+                    return 'But';
+                }
+                else if (word.toLowerCase() === 'cag') {
+                    return 'Tag';
+                }
+                else if (word.toLowerCase() === 'fall') {
+                    return 'Ball';
+                }
+        }
 
 
             
