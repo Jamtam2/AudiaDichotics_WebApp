@@ -9,7 +9,7 @@ class RecordingsController < ApplicationController
     puts "Started"
     puts "------------------------------------------------"
 
-    pid = spawn("node #{Rails.root.join('app/assets/javascripts/speechToText.js')}")
+    pid = spawn({'ASSEMBLY_API' => ENV['ASSEMBLY_API']}, "node #{Rails.root.join('app/assets/javascripts/speechToText.js')}")
 
     Process.detach(pid)
 

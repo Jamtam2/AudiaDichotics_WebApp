@@ -88,28 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
         source.connect(scriptProcessor);
         scriptProcessor.connect(audioContext.destination);
 
-        // Initialize ActionCable channel
-        // transcriptionChannel = consumer.subscriptions.create(
-        //     { channel: "TranscriptionChannel", sample_rate: 16000 },
-        //     {
-        //         connected() {
-        //             console.log("Connected to TranscriptionChannel");
-        //         },
-        //         disconnected() {
-        //             console.log("Disconnected from TranscriptionChannel");
-        //         },
-        //         received(data) {
-        //             if (data.type === 'partial_transcript') {
-        //                 console.log('Partial:', data.message);
-        //                 // Optionally, display partial transcript in the UI
-        //             } else if (data.type === 'transcript') {
-        //                 console.log('Final:', data.message);
-        //                 checkAnswer(data.message);
-        //             }
-        //         }
-        //     }
-        // );
-
         scriptProcessor.onaudioprocess = function (event) {
             const inputData = event.inputBuffer.getChannelData(0);
             let total = 0;
@@ -176,13 +154,6 @@ document.addEventListener('DOMContentLoaded', function () {
             scriptProcessor.disconnect();
         }
 
-        // Terminate the ActionCable connection
-        if (transcriptionChannel) {
-            transcriptionChannel.perform('terminate');
-            transcriptionChannel.unsubscribe();
-            transcriptionChannel = null;
-            console.log("Terminated TranscriptionChannel");
-        }
 
         startBtn.disabled = false;
         stopBtn.disabled = true;
@@ -368,6 +339,91 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 else if (word.toLowerCase() === 'fall') {
                     return 'Ball';
+                }
+                else if (word.toLowerCase() === 'ow') {
+                    return 'How';
+                }
+                else if (word.toLowerCase() === 'freak') {
+                    return 'Greek';
+                }
+                else if (word.toLowerCase() === 'moon') {
+                    return 'Spoon';
+                }
+                else if (word.toLowerCase() === 'coin') {
+                    return 'Corn';
+                }
+                else if (word.toLowerCase() === 'horn') {
+                    return 'Corn';
+                }
+                else if (word.toLowerCase() === 'born') {
+                    return 'Corn';
+                }
+                else if (word.toLowerCase() === 'corn') {
+                    return 'Corn';
+                }
+                else if (word.toLowerCase() === 'po') {
+                    return 'Corn';
+                }
+                else if (word.toLowerCase() === 'gear') {
+                    return 'Year';
+                }
+                else if (word.toLowerCase() === 'hat') {
+                    return 'Pat';
+                }
+                else if (word.toLowerCase() === 'corrupt') {
+                    return 'Rough';
+                }
+                else if (word.toLowerCase() === 'then') {
+                    return 'Den';
+                }
+                else if (word.toLowerCase() === 'all') {
+                    return 'Ball';
+                }
+                else if (word.toLowerCase() === 'hot') {
+                    return 'Pot';
+                }
+                else if (word.toLowerCase() === 'clothes') {
+                    return 'Close';
+                }
+                else if (word.toLowerCase() === 'sop') {
+                    return 'Stop';
+                }
+                else if (word.toLowerCase() === 'rink') {
+                    return 'Ring';
+                }
+                else if (word.toLowerCase() === 'house') {
+                    return 'How';
+                }
+                else if (word.toLowerCase() === 'am') {
+                    return 'Ham';
+                }
+                else if (word.toLowerCase() === 'l') {
+                    return 'Bell';
+                }
+
+                else if (word.toLowerCase() === 'fame') {
+                    return 'Same';
+                }
+                else if (word.toLowerCase() === 'read') {
+                    return 'Red';
+                }
+                else if (word.toLowerCase() === 'night') {
+                    return 'Nice';
+                }
+                else if (word.toLowerCase() === 'mice') {
+                    return 'Nice';
+                }
+                else if (word.toLowerCase() === 'rank') {
+                    return 'Ring';
+                }
+                else if (word.toLowerCase() === 'force') {
+                    return 'Horse';
+                }
+                else if (word.toLowerCase() === 'they') {
+                    return 'Day';
+                }
+                else if (word.toLowerCase() === 'they') {
+                    return 'Day';
                 }
         }
 

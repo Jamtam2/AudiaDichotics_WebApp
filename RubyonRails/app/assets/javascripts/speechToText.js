@@ -43,8 +43,10 @@ const CUSTOM_GRAMMAR = [
 const wss = new WebSocket.Server({ server });
 
 const run = async () => {
+  const assemblyapiKey = process.env.ASSEMBLY_API;
+
   const client = new AssemblyAI({
-    apiKey: '8323e4c46ab24be5822b111c7fd30635'
+    apiKey: assemblyapiKey
   });
 
   const transcriber = client.realtime.transcriber({
