@@ -5,6 +5,101 @@ import consumer from "../channels/consumer" // Import the ActionCable consumer
 import Recorder from 'recorder-js';
 const listType = document.body.getAttribute('data-list-type')
 console.log('In page: ', listType)
+
+
+
+// Define lookup objects for each list
+const dwtList1 = {
+    'y': 'Why',
+    'four': 'For',
+    'pick': 'Pig',
+    'rome': 'Room',
+    'around': 'Round',
+    'toe': 'Tow',
+    'anten': 'Tan',
+    'broom': 'Room',
+    'blip': 'Lip',
+    'ball': 'Fall',
+    'po': 'Tow',
+    'whack': 'Quack',
+    'she': 'Sheep',
+    'take': 'Cake',
+    'black': 'Quack',
+    'blast': 'Glass',
+    'piece': 'Teeth',
+    'li': 'Why',
+    'fawn': 'Fun',
+    'ground': 'Round',
+    'both': 'Booth',
+    'ten': 'Pen',
+    'ohm': 'Comb',
+    'bets': 'Bet'
+};
+
+const dwtList2 = {
+    'form': 'Farm',
+    'hoarse': 'Horse',
+    'butt': 'But',
+    'cag': 'Tag',
+    'fall': 'Ball',
+    'ow': 'How',
+    'freak': 'Greek',
+    'moon': 'Spoon',
+    'coin': 'Corn',
+    'horn': 'Corn',
+    'born': 'Corn',
+    'corn': 'Corn',
+    'po': 'Corn',
+    'gear': 'Year',
+    'hat': 'Pat',
+    'corrupt': 'Rough',
+    'then': 'Den',
+    'all': 'Ball',
+    'hot': 'Pot',
+    'clothes': 'Close',
+    'sop': 'Stop',
+    'rink': 'Ring',
+    'house': 'How',
+    'am': 'Ham',
+    'l': 'Bell',
+    'fame': 'Same',
+    'read': 'Red',
+    'night': 'Nice',
+    'mice': 'Nice',
+    'rank': 'Ring',
+    'force': 'Horse',
+    'they': 'Day'
+};
+
+const dwtList3 = {
+    'rem': 'Rim',
+    'c': 'See',
+    'to': 'Two',
+    'too': 'Two',
+    'pillant': 'Pill',
+    'heal': 'Heel',
+    'third': 'Bird'
+};
+
+const dwtList4 = {
+    'wear': 'Where',
+    'knead': 'Need',
+    'lane': 'Plain',
+    'plane': 'Plain',
+    'reign': 'Rain',
+    'blaine': 'Plain',
+    'eat': 'Neat',
+    'lane?': 'Plain'
+};
+
+// Create a map for easy lookup based on listType
+const lookupTable = {
+    'dwt_list1': dwtList1,
+    'dwt_list2': dwtList2,
+    'dwt_list3': dwtList3,
+    'dwt_list4': dwtList4
+};
+
 // import { SoxRecording } from './sox.js'; // Import SoxRecording
 
     // Create a dictionary of labels and checkboxes
@@ -248,244 +343,12 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Mapping vocab...');
         
         wordList = wordList.map(word => {
-            if (listType === 'dwt_list1'){
-                console.log('Checking in dwt list1 btw')
+            const list = lookupTable[listType];
+            const lowerCaseWord = word.toLowerCase();
 
-                if (word.toLowerCase() === 'y') {
-                    return 'Why';
-                } else if (word.toLowerCase() === 'four') {
-                    return 'For';
-                }
-                else if (word.toLowerCase() === 'pick') {
-                    return 'Pig';
-                }
-                else if (word.toLowerCase() === 'rome') {
-                    return 'Room';
-                }
-                else if (word.toLowerCase() === 'around') {
-                    return 'Round';
-                }
-                else if (word.toLowerCase() === 'toe') {
-                    return 'Tow';
-                }
-                else if (word.toLowerCase() === 'anten') {
-                    return 'Tan';
-                }
-                else if (word.toLowerCase() === 'broom') {
-                    return 'Room';
-                }
-                else if (word.toLowerCase() === 'blip') {
-                    return 'Lip';
-                }
-                else if (word.toLowerCase() === 'ball') {
-                    return 'Fall';
-                }
-                else if (word.toLowerCase() === 'po') {
-                    return 'Tow';
-                }
-                else if (word.toLowerCase() === 'whack') {
-                    return 'Quack';
-                }
-                else if (word.toLowerCase() === 'she') {
-                    return 'Sheep';
-                }
-                else if (word.toLowerCase() === 'take') {
-                    return 'Cake';
-                }
-                else if (word.toLowerCase() === 'black') {
-                    return 'Quack';
-                }
-                else if (word.toLowerCase() === 'blast') {
-                    return 'Glass';
-                }
-                else if (word.toLowerCase() === 'piece') {
-                    return 'Teeth';
-                }
-                else if (word.toLowerCase() === 'li') {
-                    return 'Why';
-                }
-                else if (word.toLowerCase() === 'fawn') {
-                    return 'Fun';
-                }
-                else if (word.toLowerCase() === 'ground') {
-                    return 'Round';
-                }
-                else if (word.toLowerCase() === 'both') {
-                    return 'Booth';
-                }
-                else if (word.toLowerCase() === 'ten') {
-                    return 'Pen';
-                }
-                else if (word.toLowerCase() === 'ohm') {
-                    return 'Comb';
-                }
-                else if (word.toLowerCase() === 'bets') {
-                    return 'Bet';
-                }
-
+            if (list && lowerCaseWord in list){
+                return list[lowerCaseWord];
             }
-            else if (listType === 'dwt_list2'){
-                console.log('Checking in dwt list2 btw')
-                //Start of dwt_list2
-                if (word.toLowerCase() === 'form') {
-                    return 'Farm';
-                }
-                else if (word.toLowerCase() === 'hoarse') {
-                    return 'Horse';
-                }
-                else if (word.toLowerCase() === 'butt') {
-                    return 'But';
-                }
-                else if (word.toLowerCase() === 'cag') {
-                    return 'Tag';
-                }
-                else if (word.toLowerCase() === 'fall') {
-                    return 'Ball';
-                }
-                else if (word.toLowerCase() === 'ow') {
-                    return 'How';
-                }
-                else if (word.toLowerCase() === 'freak') {
-                    return 'Greek';
-                }
-                else if (word.toLowerCase() === 'moon') {
-                    return 'Spoon';
-                }
-                else if (word.toLowerCase() === 'coin') {
-                    return 'Corn';
-                }
-                else if (word.toLowerCase() === 'horn') {
-                    return 'Corn';
-                }
-                else if (word.toLowerCase() === 'born') {
-                    return 'Corn';
-                }
-                else if (word.toLowerCase() === 'corn') {
-                    return 'Corn';
-                }
-                else if (word.toLowerCase() === 'po') {
-                    return 'Corn';
-                }
-                else if (word.toLowerCase() === 'gear') {
-                    return 'Year';
-                }
-                else if (word.toLowerCase() === 'hat') {
-                    return 'Pat';
-                }
-                else if (word.toLowerCase() === 'corrupt') {
-                    return 'Rough';
-                }
-                else if (word.toLowerCase() === 'then') {
-                    return 'Den';
-                }
-                else if (word.toLowerCase() === 'all') {
-                    return 'Ball';
-                }
-                else if (word.toLowerCase() === 'hot') {
-                    return 'Pot';
-                }
-                else if (word.toLowerCase() === 'clothes') {
-                    return 'Close';
-                }
-                else if (word.toLowerCase() === 'sop') {
-                    return 'Stop';
-                }
-                else if (word.toLowerCase() === 'rink') {
-                    return 'Ring';
-                }
-                else if (word.toLowerCase() === 'house') {
-                    return 'How';
-                }
-                else if (word.toLowerCase() === 'am') {
-                    return 'Ham';
-                }
-                else if (word.toLowerCase() === 'l') {
-                    return 'Bell';
-                }
-
-                else if (word.toLowerCase() === 'fame') {
-                    return 'Same';
-                }
-                else if (word.toLowerCase() === 'read') {
-                    return 'Red';
-                }
-                else if (word.toLowerCase() === 'night') {
-                    return 'Nice';
-                }
-                else if (word.toLowerCase() === 'mice') {
-                    return 'Nice';
-                }
-                else if (word.toLowerCase() === 'rank') {
-                    return 'Ring';
-                }
-                else if (word.toLowerCase() === 'force') {
-                    return 'Horse';
-                }
-                else if (word.toLowerCase() === 'they') {
-                    return 'Day';
-                }
-                else if (word.toLowerCase() === 'they') {
-                    return 'Day';
-                }
-            }
-            if (listType === 'dwt_list3'){
-                console.log('Checking in dwt list3 btw')
-
-                if (word.toLowerCase() === 'rem') {
-                    return 'Rim';
-                }
-                else if (word.toLowerCase() === 'c') {
-                    return 'See';
-                }
-
-                else if (word.toLowerCase() === 'to') {
-                    return 'Two';
-                }
-                else if (word.toLowerCase() === 'too') {
-                    return 'Two';
-                }
-                else if (word.toLowerCase() === 'pillant') {
-                    return 'Pill';
-                }
-                else if (word.toLowerCase() === 'heal') {
-                    return 'Heel';
-                }
-                else if (word.toLowerCase() === 'third') {
-                    return 'Bird';
-                }
-            }
-            if (listType === 'dwt_list4'){
-                console.log('Checking in dwt list4 btw')
-                
-                if (word.toLowerCase() === 'wear') {
-                    return 'Where';
-                }
-                else if (word.toLowerCase() === 'knead') {
-                    return 'Need';
-                }
-                else if (word.toLowerCase() === 'lane') {
-                    return 'Plain';
-                }
-                else if (word.toLowerCase() === 'plane') {
-                    return 'Plain';
-                }
-                else if (word.toLowerCase() === 'reign') {
-                    return 'Rain';
-                }
-                else if (word.toLowerCase() === 'blaine') {
-                    return 'Plain';
-                }
-                else if (word.toLowerCase() === 'Lane?') {
-                    return 'Plain';
-                }
-            
-            }
-
-
-        
-
-
-            
             return word; // Keep the word unchanged if no match
         });
         // console.log('Vocab mapped...');
