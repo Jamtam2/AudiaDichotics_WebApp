@@ -249,6 +249,8 @@ document.addEventListener('DOMContentLoaded', function () {
         
         wordList = wordList.map(word => {
             if (listType === 'dwt_list1'){
+                console.log('Checking in dwt list1 btw')
+
                 if (word.toLowerCase() === 'y') {
                     return 'Why';
                 } else if (word.toLowerCase() === 'four') {
@@ -322,8 +324,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
             }
-            if (listType === 'dwt_list2'){
-
+            else if (listType === 'dwt_list2'){
+                console.log('Checking in dwt list2 btw')
                 //Start of dwt_list2
                 if (word.toLowerCase() === 'form') {
                     return 'Farm';
@@ -425,7 +427,62 @@ document.addEventListener('DOMContentLoaded', function () {
                 else if (word.toLowerCase() === 'they') {
                     return 'Day';
                 }
-        }
+            }
+            if (listType === 'dwt_list3'){
+                console.log('Checking in dwt list3 btw')
+
+                if (word.toLowerCase() === 'rem') {
+                    return 'Rim';
+                }
+                else if (word.toLowerCase() === 'c') {
+                    return 'See';
+                }
+
+                else if (word.toLowerCase() === 'to') {
+                    return 'Two';
+                }
+                else if (word.toLowerCase() === 'too') {
+                    return 'Two';
+                }
+                else if (word.toLowerCase() === 'pillant') {
+                    return 'Pill';
+                }
+                else if (word.toLowerCase() === 'heal') {
+                    return 'Heel';
+                }
+                else if (word.toLowerCase() === 'third') {
+                    return 'Bird';
+                }
+            }
+            if (listType === 'dwt_list4'){
+                console.log('Checking in dwt list4 btw')
+                
+                if (word.toLowerCase() === 'wear') {
+                    return 'Where';
+                }
+                else if (word.toLowerCase() === 'knead') {
+                    return 'Need';
+                }
+                else if (word.toLowerCase() === 'lane') {
+                    return 'Plain';
+                }
+                else if (word.toLowerCase() === 'plane') {
+                    return 'Plain';
+                }
+                else if (word.toLowerCase() === 'reign') {
+                    return 'Rain';
+                }
+                else if (word.toLowerCase() === 'blaine') {
+                    return 'Plain';
+                }
+                else if (word.toLowerCase() === 'Lane?') {
+                    return 'Plain';
+                }
+            
+            }
+
+
+        
 
 
             
