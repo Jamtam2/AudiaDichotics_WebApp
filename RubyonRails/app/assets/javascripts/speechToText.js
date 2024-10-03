@@ -132,7 +132,7 @@ const run = async () => {
     
     transcriber.on('transcript', (transcript) => {
       // if (transcript.message_type === 'FinalTranscript') {
-        if (transcript.message_type === 'FinalTranscript' | transcript.message_type === 'PartialTranscript') {
+        if (transcript.message_type === 'FinalTranscript' {
         // Serialize and send the transcript data
         console.log(`Sending data back...`);
         ws.send(JSON.stringify(transcript));
