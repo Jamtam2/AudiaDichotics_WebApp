@@ -137,4 +137,5 @@ Rails.application.configure do
     password: ENV["PASSWORD_TWO"], # It's recommended to use credentials from environment variables or encrypted secrets
     authentication: 'plain',
     enable_starttls_auto: true
+  }
 end
