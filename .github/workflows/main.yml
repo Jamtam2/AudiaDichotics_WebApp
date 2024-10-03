@@ -34,3 +34,5 @@ jobs:
           git add .
           git commit -m "Move RubyonRails contents to root of master branch" || echo "No changes to commit."
           git push --force origin HEAD:master  # Force push to overwrite the master branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token to authenticate the push
