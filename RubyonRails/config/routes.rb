@@ -1,15 +1,25 @@
 Rails.application.routes.draw do
 
+  get 'grpc/start_server'
   get 'inquiries/new'
   get 'inquiries/create'
   get 'users/index'
+  get 'start_speech_script', to: 'speech#start_script'
+  get 'stop_speech_script', to: 'speech#stop_script'
+  get '/api_key', to: 'api_keys#show'
+  post 'save_audio', to: 'speech#save_audio'
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
-  
+  mount ActionCable.server => '/cable'
+
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'users/sessions', passwords: 'users/passwords' }
 
+  post 'grpc/start', to: 'grpc#start_server'
+  post 'grpc/stop', to: 'grpc#stop_server'
+
   get 'pages/home'
+
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
     get 'users/password/verify_2fa_code', to: 'users/passwords#new_verify_2fa_code', as: :new_verify_2fa_code
@@ -17,10 +27,13 @@ Rails.application.routes.draw do
 
   end
 
+  post 'recordings/start', to: 'recordings#start'
+  post 'recordings/stop', to: 'recordings#stop'
+
   root to: redirect('/home')
   get 'home', to: 'pages#home', as: 'home'
   get 'about', to: 'pages#about', as: 'about'
-  
+
   get "/clients/new", to: "clients#new"
   get 'clients', to: 'clients#index'
   get 'clients/:id/edit', to: 'clients#edit', as: 'edit_client'
@@ -30,7 +43,7 @@ Rails.application.routes.draw do
   post 'user_mfa_sessions/reset_qr_code', to: 'user_mfa_sessions#reset_qr_code', as: :reset_qr_code_user_mfa_sessions
 
 
-  
+
   get 'users', to:'users#index'
   get 'combined', to: 'clients#combined'
 
@@ -88,7 +101,7 @@ Rails.application.routes.draw do
         member do
           post 'apply_discount'
         end
-  
+
       end
     resources :dnw_tests do
       collection do
@@ -112,7 +125,7 @@ Rails.application.routes.draw do
       member do
         post 'apply_discount'
       end
-    end 
+    end
     resources :week_ones do
       post 'submit_with_counter', on: :member
       collection do
@@ -122,13 +135,13 @@ Rails.application.routes.draw do
         get 'rddt_week_one_test2', to: 'week_ones#rddt_week_one_test2', as: 'week_one_test_two'
         get 'dwt_week_one_test3', to: 'week_ones#dwt_week_one_test3', as: 'week_one_test_three'
         get 'dwt_week_one_test4', to: 'week_ones#dwt_week_one_test4', as: 'week_one_test_four'
-        get 'dnw_week_one_test7', to: 'week_ones#dnw_week_one_test7', as: 'week_one_test_seven' 
+        get 'dnw_week_one_test7', to: 'week_ones#dnw_week_one_test7', as: 'week_one_test_seven'
         get 'dwt_week_one_test8', to: 'week_ones#dwt_week_one_test8', as: 'week_one_test_eight'
         get 'rddt_week_one_test9', to: 'week_ones#rddt_week_one_test9', as: 'week_one_test_nine'
         get 'week_ones/:id', to: 'week_ones#show', as: 'show'
       end
     end
-    
+
     resources :week_fours do
       post 'submit_with_counter', on: :member
       collection do
@@ -182,7 +195,7 @@ Rails.application.routes.draw do
 
   #ALLEARS Addition: Trying to fix audio path issues for Week_Ones
   get '/audio_files/:file_name', to: 'audio_files#show', as: :audio_file
-    
+
   # Adding a route for the speech api
   get 'speech_api', to: 'speech_api#index'
 

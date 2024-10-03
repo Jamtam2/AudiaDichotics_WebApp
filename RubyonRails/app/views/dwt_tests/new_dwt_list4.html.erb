@@ -1,7 +1,8 @@
 <body id= "defBG">
 <div class="container p-5 my-3 w-100 border rounded bg-white ">
 
-
+<body data-list-type="dwt_list4">
+</body>
 <!--
 <%= javascript_include_tag 'application', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' %>
 -->
@@ -49,10 +50,17 @@
         <%= f.text_area :notes, class: 'form-control', rows: '3' %>
         <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-        <audio controls>
+        <audio id="audioPlayer" controls >
           <source src="<%= asset_path('Track 05 Dichotic Words Test Track 4.mp3') %>" type="audio/mpeg">
         </audio>
         <hr/>
+
+        <button id="startBtn" type="button" class="btn btn-info">Start Recording</button>
+        <button id="stopBtn" type="button" class="btn btn-info" disabled>Stop Recording</button>
+
+        <hr/>
+
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!--Table for ear advantage percentage that is calculated in the script-->
         <style>
@@ -567,6 +575,7 @@
 
     </script>
     
+<%= javascript_pack_tag 'transcription' %>
 
 
 

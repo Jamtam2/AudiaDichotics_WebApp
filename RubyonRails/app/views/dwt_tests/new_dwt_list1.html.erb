@@ -10,7 +10,8 @@
 <!--
 <%= javascript_include_tag 'application', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' %>
 -->
-
+<body data-list-type="dwt_list1">
+</body>
 
 
 <h1 class= "display-5", style= 'padding-bottom:20px' ><strong><%= "Testing " + @client.first_name + " " + @client.last_name%></strong></h1>
@@ -616,84 +617,8 @@
     }
 
     </script>
+<%= javascript_pack_tag 'transcription' %>
 
-    <!--script for recording audio and sending it to the server for transcription-->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const startBtn = document.getElementById('startBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const ws = new WebSocket('ws://localhost:8080');
-        let mediaRecorder;
-
-        startBtn.onclick = async () => {
-            // Request permissions and get stream
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-
-            mediaRecorder.onstart = () => {
-                startBtn.disabled = true;
-                stopBtn.disabled = false;
-                console.log('Recording started');
-            };
-
-            mediaRecorder.onstop = () => {
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-                console.log('Recording stopped');
-            };
-
-            // Handle data as it becomes available
-            mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0 && ws.readyState === WebSocket.OPEN) {
-                    ws.send(event.data);
-                    console.log('Sending audio chunk to server');
-                }
-            };
-
-            mediaRecorder.start();
-        };
-
-        stopBtn.onclick = () => {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-            }
-        };
-
-        ws.onmessage = function(event) {
-            const transcript = JSON.parse(event.data);
-            // Instead of appending to #transcript, match and check answers
-            checkAnswer(transcript.text.replace(/\./, ''));
-            console.log(transcript);
-        };
-
-        // Handle WebSocket connection errors or closures
-        ws.onerror = (error) => {
-            console.log(`WebSocket error: ${error}`);
-        };
-
-        ws.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
-
-        function checkAnswer(transcribedText) {
-            let answer = transcribedText 
-            let allLabels = document.querySelectorAll('label');
-            allLabels.forEach(label => {
-                if (label.textContent.trim() === answer) {
-                    let checkbox = label.querySelector('input[type="checkbox"]');
-                    if (checkbox && !checkbox.checked) { // Check if not already checked
-                        checkbox.checked = true;
-                        checkbox.dispatchEvent(new Event('change', {
-                            'bubbles': true,
-                            'cancelable': true
-                        }));
-                        label.classList.add('active'); // Visual feedback
-                    }
-                }
-            });
-        }
-    });
-    </script>
 
   </div>
 </div>

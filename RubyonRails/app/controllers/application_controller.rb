@@ -5,27 +5,27 @@ class ApplicationController < ActionController::Base
   before_action :check_mfa
   before_action :authenticate_user_with_redirect!, unless: :mfa_process?
 
-  
+
   def set_current_tenant
     ActsAsTenant.current_tenant = current_user.tenant if current_user
     puts "Current User: #{current_user.inspect}"
     puts "Current Tenant: #{ActsAsTenant.current_tenant.inspect}"
-  
+
   end
 
 
-  
+
   def root_directory
     if !user_signed_in?
-      
+
       requested_path = request.fullpath
 
       allowed_paths = ["/users/sign_in", "/users/sign_up", "/users", "/stripe_checkout","/webhooks/stripe", "/users/password/new", "/users/password", "/users/password/edit", "/inquiries"] + mfa_setup_paths
       is_allowed_path = allowed_paths.any? { |path| requested_path.start_with?(path)}
 
       return if is_allowed_path
-      
-      redirect_to new_user_session_path 
+
+      redirect_to new_user_session_path
     end
   end
   private
@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     if Rails.env.development?
       return
     end
-    
+
     # TODO: Remove this when moving to production
     # if Rails.env.development?
     #   return
@@ -45,27 +45,27 @@ class ApplicationController < ActionController::Base
 
     # Bypass MFA check if the current path is one of the MFA setup paths
     return if mfa_setup_paths.include?(request.path)
-  
+
     user_mfa_session = current_user.user_mfa_sessions.first
-  
+
     if user_mfa_session.nil? || (!user_mfa_session.activated && !user_mfa_session.email_verified)
       redirect_to new_user_mfa_session_path and return
-    
+
     else
       authenticate_user_with_redirect!
-      
+
     end
-  
+
     # Additional logic if needed...
   end
   protected
 
   def authenticate_user_with_redirect!
-    if request.path == "/users/sign_out" 
+    if request.path == "/users/sign_out"
       sign_out(current_user)
       redirect_to new_user_session_path and return
     end
-    
+
     if mfa_setup_paths.include?(request.path)
       Rails.logger.info("DEBUG:THIS IS THE PATH: #{request.path}")
       return
@@ -119,6 +119,11 @@ class ApplicationController < ActionController::Base
       "/stripe_checkout/success",
     ]
   end
+  # def current_user
+  #   @current_user ||= User.find(session[:user_id])
+  # end
+  # helper_method :current_user
+
 
 
   protected

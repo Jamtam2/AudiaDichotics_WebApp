@@ -7,6 +7,9 @@
     <%= stylesheet_link_tag 'tabs', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'tabs', 'data-turbolinks-track': 'reload' %>
   
+    <%# <script type="text/javascript">
+      window.assemblyApiKey = "<%= ENV['ASSEMBLY_API'] %>";
+    <%# </script> %>
 
 
 
@@ -14,6 +17,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+        <!-- Add meta tags to include user details -->
+    <% if current_user %>
+      <meta name="current-user-id" content="<%= current_user.id %>">
+      <meta name="current-tenant-id" content="<%= current_user.tenant_id %>">
+    <% end %>
+
     <%# the below tags allow for the javascript and jquery commands refereneced in the code to work DON'T DELETE %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -139,7 +148,9 @@
           <%# references audio file for the calibraion %>
         <div class="modal-body text-center d-block">
           <audio controls id="audio" class="center", style= 'w-100'>
-            <source src="assets/Track 02 Dichotic Words Test Track 1.mp3" type="audio/mpeg">
+            <%# <source src="assets/Track 02 Dichotic Words Test Track 1.mp3" type="audio/mpeg"> %>
+            <source src="<%= asset_path('Track 02 Dichotic Words Test Track 1.mp3') %>" type="audio/mpeg">
+
           </audio>
         </div>
         
