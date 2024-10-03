@@ -4,7 +4,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
- 
+
 
 <!-- Header section with client name and button to add new test -->
 <body id="defBG">
@@ -12,7 +12,7 @@
     var = index;
     </script> %>
 
-    
+
 
     <!-- Form for editing and saving client information -->
 
@@ -32,11 +32,11 @@
        <div class= "parent-container d-flex justify-content-center">
     <div class="container rounded p-5 my-3 w-100 border  bg-white border-primary">
 
-      
-      
+
+
     <div class= "row">
     <div class ="col">
- 
+
       <%= bootstrap_form_with model: @client, id:"myForm" do |f| %>
       <h2 class="display-6" style="padding-bottom:20px"><strong>Details</strong></h2>
         <div class="row gx-5">
@@ -44,7 +44,7 @@
 
           <div class="col-md-6">
             <!-- Personal information fields -->
-            
+
             <div class="form-group">
               <%= f.text_field :first_name, class: "form-control" %>
             </div>
@@ -64,7 +64,7 @@
               <%= f.select :gender, ['Male', 'Female', 'Other'], {}, class: "form-control" %>
             </div>
           </div>
-          
+
           <div class="col-md-6">
             <!-- Address and phone number fields -->
             <div class="form-group">
@@ -97,17 +97,18 @@
                 });
            </script>
 
+
           </div>
 
 
 
 
-           
+
           <div class="col-md-12">
             <!-- Emergency contact information and buttons -->
-           
+
             <h2 class="display-5 pt-4" style="padding-bottom:20px"><strong>Emergency Contact Info</strong></h2>
-            
+
             <%= link_to "Add Emergency Contact", new_client_emergency_contact_path(@client), class: "btn btn-primary rounded-pill btn-lg btn-block" %><br>
             <!-- Table of existing emergency contacts -->
             <div class="tableWrap">
@@ -140,8 +141,8 @@
                 <td><%= contact.address.present? ? contact.address : "&nbsp;".html_safe %></td>
                 <td><%= contact.city.present? ? contact.city : "&nbsp;".html_safe %></td>
                 <td><%= contact.state.present? ? contact.state : "&nbsp;".html_safe %></td>
-                
-                
+
+
               </tr>
             <% end %>
           </tbody>
@@ -154,14 +155,14 @@
     </div>
   </div>
   </div>
-  
-  
+
+
 
 
 
 
 <!-- Tests section with button to add new test and table of existing tests -->
- 
+
     <div class="container rounded border bg-white p-5 my-3 w-100 border-primary">
      <div class ="col">
       <div class="col-md-12">
@@ -178,7 +179,7 @@
                 <a class="dropdown-item" href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
                 <a class="dropdown-item" href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
                 <a class="dropdown-item" href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
-              
+
                </div>
               </div>
               <div class="col-sm-4">
@@ -187,7 +188,7 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
-                  <a class="dropdown-item" href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>         
+                  <a class="dropdown-item" href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
                 </div>
               </div>
 
@@ -200,7 +201,7 @@
                   <a class="dropdown-item" href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
                   <a class="dropdown-item" href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
                   <a class="dropdown-item" href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
-         
+
                 </div>
           </div>
         </div>
@@ -214,7 +215,7 @@
       <thead>
         <tr>
           <th>ID</th>
-          
+
           <th>Price</th>
           <th>Test Giver</th>
           <th>Test Type</th>
@@ -231,7 +232,7 @@
           <tr>
             <td class="btn btn-link">
             <%= link_to dwt_test.id, client_dwt_test_path(@client, dwt_test) %></td>
-            
+
             <td><%= dwt_test.price %> </td>
             <td><%= dwt_test.user.fname %> <%= dwt_test.user.lname %></td>
             <td><%= dwt_test.test_type %></td>
@@ -267,34 +268,21 @@
             <td><%= rddt_test.ear_advantage_score %></td>
           </tr>
         <% end %>
-        
       </tbody>
     </table>
   </div>
-<% @client.dwt_tests.each do |dwt_test, index| %>
-  <div class="collapse" id="collapseExample<%index.to_s%>">
-   <%= dwt_test.user.fname %>
-  </div>
-<% end %>
-<% @client.dnw_tests.each do |dnw_test, index| %>
-  <div class="collapse" id="collapseExample<%index.to_s%>">
-   <%= dnw_test.user.fname %>
-  </div>
-<% end %>
-<% @client.rddt_tests.each do |rddt_test, index| %>
-  <div class="collapse" id="collapseExample<%index.to_s%>">
-   <%= rddt_test.user.fname %>
-  </div>
-<% end %>
-<div >
-   <%= link_to 'Training Protocol', client_trainings_path(@client), class: 'btn btn-secondary' %>
+
+
+
+  <div class="col">
+  <h2 class="display-5 pt-5" style="padding-bottom:20px"><strong>Training</strong></h2>
+    <div class="card border-primary border-1">
+    <%= image_tag 'comingSoon.png', class: ' d-block m-auto' , style: ' max-width: 40rem;'%>
     </div>
-    </table>
   </div>
-  
 
 
-  
+
 </div>
 </div>
 </div>

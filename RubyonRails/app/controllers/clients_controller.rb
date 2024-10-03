@@ -52,7 +52,7 @@ class ClientsController < ApplicationController
          flash[:success] = "Client successfully created!"
          redirect_to clients_path
        else
-         flash.now[:error] = "client creation failed"
+         flash.now[:error] = "Client creation failed"
          render :new
        end
      end
@@ -74,7 +74,7 @@ class ClientsController < ApplicationController
          @client = Client.find(params[:id])
 
          if @client.update(client_params)
-             redirect_to clients_path, notice: "client updated successfully."
+             redirect_to clients_path, notice: "Client updated successfully."
          else
              redirect_to edit_client_path(@client), notice: "client was not updated."
          end
@@ -84,18 +84,13 @@ class ClientsController < ApplicationController
        @client = Client.find(params[:id])
        @client.destroy
 
-       redirect_to clients_url, notice: "client was successfully deleted."
+       redirect_to clients_url, notice: "Client was successfully deleted."
      end
 
      def index
        #Shows all clients for global mods; global dataset
-       if current_user.global_moderator?
-         client_scope = Client.unscoped.all
-
-       else
          # Else, shows only local clients of the same tenant
-         client_scope = Client.where(tenant_id: current_user.tenant_id)
-       end
+        client_scope = Client.where(tenant_id: current_user.tenant_id)
 
        # Initialize instance variable to be used in clients > index.html.erb
        @clients = client_scope
@@ -130,10 +125,10 @@ class ClientsController < ApplicationController
              end
 
          end
-         # @q = @clients.ransack(params[:q]***REMOVED***
+         # @q = @clients.ransack(params[:q])
      # Include associated tests to avoid N+1 query problems
          @clients = client_scope
-         # @clients = client_scope.includes(:dwt_tests, :dnw_tests, :rddt_tests***REMOVED***
+         # @clients = client_scope.includes(:dwt_tests, :dnw_tests, :rddt_tests)
 
      else
        # If the user is not a global moderator, redirect them
@@ -227,7 +222,7 @@ class ClientsController < ApplicationController
    dict_of_search_terms.each do |search_term, (hashed_attribute, hashed_value)|
      if params[search_term].present?
        hashed_records = HashedDatum.where(hashed_attribute => hashed_value)
-       # @clients = @clients.where(id: hashed_records.pluck(:hashable_id***REMOVED******REMOVED*** if hashed_records.exists?
+       # @clients = @clients.where(id: hashed_records.pluck(:hashable_id)) if hashed_records.exists?
      end
    end
 

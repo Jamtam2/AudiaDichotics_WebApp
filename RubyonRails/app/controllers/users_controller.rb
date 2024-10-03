@@ -2,22 +2,28 @@ class UsersController < ApplicationController
   before_action :check_permission, only: [:new, :create]
 
   def index
-    local_users = User.where(tenant_id: current_user.tenant_id)
+    if current_user.global_moderator?
+      local_users = User.unscoped { User.all }
+      # @users = User.unscoped { User.all }
+    else
+      local_users = User.where(tenant_id: current_user.tenant_id)
+    end
 
     if params[:query]
       split_query = params[:query].split(' ')
       if split_query.length > 1
         # Case when both first name and last name are typed
-        @users = local_users.where('lower(fname) LIKE :first AND lower(lname) LIKE :last', 
-                            first: "#{split_query.first.downcase}%", 
+        @users = local_users.where('lower(fname) LIKE :first AND lower(lname) LIKE :last',
+                            first: "#{split_query.first.downcase}%",
                             last: "#{split_query.last.downcase}%")
       else
         # Case when either first name, last name, or email is typed
-        @users = local_users.where('lower(fname) LIKE :query OR lower(lname) LIKE :query OR lower(email) LIKE :query', 
+        @users = local_users.where('lower(fname) LIKE :query OR lower(lname) LIKE :query OR lower(email) LIKE :query',
                             query: "%#{params[:query].downcase}%")
       end
     else
-      @users = User.where(tenant_id: current_user.tenant_id)
+      @users =local_users
+      #@users = User.where(tenant_id: current_user.tenant_id)
     end
   end
 
@@ -28,25 +34,25 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     key = Key.find_by(activation_code: params[:registration_key])
-  
+
     # Rails.logger("DEBUG: User: #{@user.inspect}")
     # Rails.logger("DEBUG: key: #{key.inspect}")
-  
+
     if valid_registration_key?(key)
       # Rails.logger("DEBUG: KEY IS VALID!!!")
-  
+
       tenant = Tenant.create!
       # Rails.logger("DEBUG: Created tenant #{tenant.inspect}")
       @user.tenant_id = tenant.id
       @user.role = 'local_moderator'
-  
+
       # Rails.logger("DEBUG: tenant_id: #{@user.tenant_id.inspect}")
       # Rails.logger("DEBUG: user role: #{@user.role.inspect}")
-  
+
       if @user.save
         # Rails.logger("DEBUG: Saving user: #{@user.inspect}")
-  
-  
+
+
         # key.update(used: true)
         # User, tenant, and key update successful
         puts "New user (local moderator) was saved with Tenant ID: #{tenant.id}"

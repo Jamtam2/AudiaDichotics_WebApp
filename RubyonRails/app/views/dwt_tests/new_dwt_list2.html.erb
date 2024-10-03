@@ -68,19 +68,19 @@
             .left-column {
               background-color: lightblue;
             }
-            
+
             .right-column {
               background-color: lightpink;
             }
-            
+
             .ear-advantage {
               background-color: white;
             }
-            
+
             .ear-advantage.positive {
               background-color: lightblue;
             }
-            
+
             .ear-advantage.negative {
               background-color: lightpink;
             }
@@ -106,13 +106,13 @@
                 <th scope="row">2</th>
               </tr>
               <tr>
-                <th scope="row">3</th>           
+                <th scope="row">3</th>
               </tr>
             </tbody>
           </thead>
         </table>
       </div>
-      
+
       <!--Table for ear advantage that is calculated in the script and ear diagnosis/interpretation-->
       <label for="read-Only">Ear Advantage</label>
       <input class="form-control" type="text" id="read-Only" value="" readonly>
@@ -156,9 +156,9 @@
         /* Remove margin and min-width properties */
       }
     </style>
-    
+
     <div class="col-sm">
-      
+
         <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
           <thead class="thead-dark">
             <tr>
@@ -218,7 +218,7 @@
           </tbody>
           <!--Hidden table for submition items-->
         </table>
-      
+
         <%= f.hidden_field :client_name, value: "Example user" %>
         <%= f.hidden_field :test_type, value: "DWT" %>
         <%= f.hidden_field :left_score, id: "left_score" %>
@@ -230,9 +230,9 @@
         <%= f.hidden_field :right_percentile, id: "right_percentile" %>
         <%= f.hidden_field :advantage_percentile, id: "advantage_percentile" %>
 
-    
+
         <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "populateHiddenFields()" %>
-      
+
       <% end %>
 
     <div>
@@ -245,11 +245,11 @@
       <p><span id="right-percentile"></span></p>
       <p><span id="advantage-percentile"></span></p>
     </div>
-    
 
 
 
-    
+
+
 
 
     <script>
@@ -287,11 +287,11 @@
       const testDiagnosis = document.getElementById("Diagnosis");
       const readOnly = document.getElementById("read-Only");
       const readOnlyDiag = document.getElementById("read-Only-diag");
-      
+
 
 
       // Update the counts when a button is clicked
-      
+
       allButtons.forEach(function(button) {
         button.addEventListener("click", function() {
         const checkedCount1 = document.querySelectorAll(".column1-button input[type='checkbox']:checked").length;
@@ -401,29 +401,32 @@
           else{
             interpretation = "Within Normal Limits";
           }
-          if (dom <= dominant_5th){
-            domPercent = "5th Percentile";
-          }
-          else if (dom <= dominant_10th){
-            domPercent = "10th Percentile";
-          }
-          else if (dom <= dominant_25th){
-            domPercent = "25th Percentile";
-          }
-          else{
+            //then find percentile based on scores for left, right, ear advntage, WE have to do this twice for neutral and otherwise to avoid incorrect interpretations
+          if (dom >= dominant_25th){
             domPercent = "Within Normal Limits";
           }
-          if (nondom <= nondominant_5th){
-            nondomPercent = "5th Percentile";
+          else if (dom >= dominant_10th){
+            domPercent = "25th Percentile";
           }
-          else if (nondom <= nondominant_10th){
-            nondomPercent = "10th Percentile";
-          }
-          else if (nondom <= nondominant_25th){
-            nondomPercent = "25th Percentile";
+          else if (dom >= dominant_5th){
+            domPercent = "10th Percentile";
           }
           else{
+            domPercent = "5th Percentile";
+          }
+
+
+          if (nondom >= nondominant_25th){
             nondomPercent = "Within Normal Limits";
+          }
+          else if (nondom >= nondominant_10th){
+            nondomPercent = "25th Percentile";
+          }
+          else if (nondom >= nondominant_5th){
+            nondomPercent = "10th Percentile";
+          }
+          else{
+            nondomPercent = "5th Percentile";
           }
           adv_percent = "Within Normal Limits";
         }
@@ -455,45 +458,48 @@
           else{
             interpretation = "Within Normal Limits";
           }
-          if (dom <= dominant_5th){
-            domPercent = "5th Percentile";
-          }
-          else if (dom <= dominant_10th){
-            domPercent = "10th Percentile";
-          }
-          else if (dom <= dominant_25th){
-            domPercent = "25th Percentile";
-          }
-          else{
+          //conditional for determining what percentile the dominant ear falls into
+          if (dom >= dominant_25th){
             domPercent = "Within Normal Limits";
           }
-          if (nondom <= nondominant_5th){
-            nondomPercent = "5th Percentile";
+          else if (dom >= dominant_10th){
+            domPercent = "25th Percentile";
           }
-          else if (nondom <= nondominant_10th){
-            nondomPercent = "10th Percentile";
-          }
-          else if (nondom <= nondominant_25th){
-            nondomPercent = "25th Percentile";
+          else if (dom >= dominant_5th){
+            domPercent = "10th Percentile";
           }
           else{
+            domPercent = "5th Percentile";
+          }
+          //conditional for determining what percentile the nondominant ear falls into
+          if (nondom >= nondominant_25th){
             nondomPercent = "Within Normal Limits";
           }
-          if ((advantage >= advantage_5th) || (advantage <= -advantage_5th)){
-            adv_percent = "5th Percentile";
+          else if (nondom >= nondominant_10th){
+            nondomPercent = "25th Percentile";
           }
-          else if ((advantage >= advantage_10th) || (advantage <= -advantage_10th)){
-            adv_percent = "10th Percentile";
-          }
-          else if ((advantage >= advantage_25th) || (advantage <= -advantage_25th)){
-            adv_percent = "25th Percentile";
+          else if (nondom >= nondominant_5th){
+            nondomPercent = "10th Percentile";
           }
           else{
+            nondomPercent = "5th Percentile";
+          }
+          //conditional for determining what percentile the ear advantage falls into, for both negative ear advantage and positive
+          if (Math.abs(advantage) >= advantage_25th){
             adv_percent = "Within Normal Limits";
-          }  
-        }     
-      
-        
+          }
+          else if (Math.abs(advantage) >= advantage_10th){
+            adv_percent = "25th Percentile";
+          }
+          else if (Math.abs(advantage) >= advantage_5th){
+            adv_percent = "10th Percentile";
+          }
+          else{
+            adv_percent = "5th Percentile";
+          }
+        }
+
+
         // Passes values to strings so they can be pushed to the html above
         column1Count.innerText = checkedCount1.toString();
         column1Percent.innerText = percent1.toString();
@@ -546,10 +552,10 @@
             // Check the value and set the background color accordingly
             if ((percValue == "5th Percentile")) {
               cell.style.backgroundColor = 'lightpink';
-            } 
+            }
             else if (percValue == "10th Percentile") {
               cell.style.backgroundColor = 'hsl(60, 100%, 70%)';
-            } 
+            }
             else if (percValue == "25th Percentile") {
               cell.style.backgroundColor = 'lightgreen';
             }
@@ -560,8 +566,8 @@
 
         })
       })
-      
-     // gets the elements from hidden field submit above and populates them from the results in the script 
+
+     // gets the elements from hidden field submit above and populates them from the results in the script
     function populateHiddenFields() {
       document.getElementById("left_score").value = column1Percent.innerText;
       document.getElementById("right_score").value = column2Percent.innerText;
@@ -576,7 +582,7 @@
 
     </script>
 <%= javascript_pack_tag 'transcription' %>
-    
+
 
 
 

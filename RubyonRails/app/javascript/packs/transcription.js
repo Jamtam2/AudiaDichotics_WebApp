@@ -17,22 +17,41 @@ const dwtList1 = {
     'around': 'Round',
     'toe': 'Tow',
     'anten': 'Tan',
+    'can': 'Tan',
     'broom': 'Room',
+    'thor': 'Store',
     'blip': 'Lip',
     'ball': 'Fall',
+    'line': 'Vine',
     'po': 'Tow',
     'whack': 'Quack',
+    'hoop': 'Soap',
+    'by': 'Buy',
     'she': 'Sheep',
+    'mine': 'Vine',
     'take': 'Cake',
     'black': 'Quack',
     'blast': 'Glass',
+    'collapse': 'Glass',
     'piece': 'Teeth',
     'li': 'Why',
     'fawn': 'Fun',
+    'dog': 'Dad',
     'ground': 'Round',
+    'haroo': 'Room',
     'both': 'Booth',
     'ten': 'Pen',
     'ohm': 'Comb',
+    'com': 'Comb',
+    'bold': 'Old',
+    'and': 'Hand',
+    'amp': 'Camp',
+    'font': 'Want',
+    'full': 'Fall',
+    'fine': 'Vine',
+    'og': 'Old',
+    'brown': 'Round',
+    'mime': 'Vine',
     'bets': 'Bet'
 };
 
@@ -77,6 +96,13 @@ const dwtList3 = {
     'c': 'See',
     'to': 'Two',
     'too': 'Two',
+    'orc': 'Fork',
+    'life': 'Knife',
+    'son': 'Sun',
+    'keen': 'Key',
+    'bass': 'Bath',
+    'bare': 'Bear',
+    'bone': 'Phone',
     'pillant': 'Pill',
     'heal': 'Heel',
     'third': 'Bird'
@@ -222,7 +248,7 @@ let words;
             ["Help", "Knee"]
             ]
     }
-  console.log('Words array:', words);
+//   console.log('Words array:', words);
 
 
 
@@ -239,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         }
     });
-    console.log('created the label checkbox map: ', labelCheckboxMap)
+    // console.log('created the label checkbox map: ', labelCheckboxMap)
     
       // Create wordTimeWindows
   let wordTimeWindows = words.map(function (pair, index) {
@@ -251,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
       endTime: endTime,
     };
   });
-  console.log('wordTimeWindows:', wordTimeWindows);
+//   console.log('wordTimeWindows:', wordTimeWindows);
 
 
     // Start the Node.js script when the page loads
@@ -427,7 +453,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
                 // Decode the Base64 audio data
                 const decodedAudio = base64ToArrayBuffer(data.audio_data);
-                console.log(`Blob size: `, decodedAudio.byteLength);
+                // console.log(`Blob size: `, decodedAudio.byteLength);
 
                 // Log the size of the converted audio data
                 // console.log('Converted audio size (bytes):', decodedAudio.byteLength);
@@ -473,9 +499,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // The checkAnswer function remains the same
     function checkAnswer(transcribedText) {
         let currentTime = audioPlayer.currentTime
-        console.log('Checking answer...');
-        console.log('Current audio file time: ', audioPlayer.currentTime)
-        console.log('On file: ', listType)
+        // console.log('Checking answer...');
+        // console.log('Current audio file time: ', audioPlayer.currentTime)
+        // console.log('On file: ', listType)
 
         let validWords = [];
 
@@ -487,11 +513,13 @@ document.addEventListener('DOMContentLoaded', function () {
             validWords = validWords.concat(item.words);
           }
         });
-        console.log('Valid words for current time: ', validWords);
+        // console.log('Valid words for current time: ', validWords);
 
         // let wordList = transcribedText.replace(/[^\w\s]|_/g, '').trim().split(/\s+/);
-        let wordList = transcribedText.replace(/\./, '').trim().split(/\s+/); // Clean up the transcript
-        console.log('Mapping vocab...');
+        // let wordList = transcribedText.replace(/\./, '').trim().split(/\s+/); // Clean up the transcript
+        let wordList = transcribedText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim().split(/\s+/);
+
+        // console.log('Mapping vocab...');
         
         wordList = wordList.map(word => {
             const list = lookupTable[listType];
@@ -504,7 +532,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         // console.log('Vocab mapped...');
         
-        console.log('List of answers..? ', wordList);
+        console.log('Filled out:', wordList);
         let allLabels = document.querySelectorAll('label');
 
     // Loop through each word in the wordList and check if it exists in the dictionary

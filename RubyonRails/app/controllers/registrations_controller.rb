@@ -31,17 +31,16 @@ class RegistrationsController < Devise::RegistrationsController
     user.role = :regular_user
     local_moderator = User.find_by(role: User.roles[:local_moderator], moderator_code: params[:user][:moderator_code])
     # Validate the registration key for security purposes.
-    key = Key.find_by(activation_code: user.registration_key)
+    # key = Key.find_by(activation_code: user.registration_key)
 
-    if local_moderator.present? && valid_registration_key?(key)
+    if local_moderator.present?
       # The user is associated with the tenant of the local moderator whose code was entered.
       user.tenant_id = local_moderator.tenant_id
 
       # Check if user record was saved before proceeding.
       if user.save
-
-        key.update(used: true)
-        flash[:notice] = 'Regular user was successfully created.'
+        # key.update(used: true)
+         flash[:notice] = 'Regular user was successfully created.'
         sign_in(:user, user)
         redirect_to root_path, notice: 'User was successfully created set up 2FA auth.'
       else
@@ -70,7 +69,7 @@ class RegistrationsController < Devise::RegistrationsController
         if user.save
           # Handler for successful save actions
           key.update(used: true, email: user.email)
-          user.update(stripe_customer_id: key.customer_id,verification_key: key.activation_code)
+          user.verification_key = key.activation_code
           secret_key = ROTP::Base32.random_base32
           user.user_mfa_sessions.create!(secret_key: secret_key, activated: false)
           sign_in(:user, user)
