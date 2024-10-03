@@ -19,13 +19,16 @@ const dwtList1 = {
     'anten': 'Tan',
     'can': 'Tan',
     'broom': 'Room',
+    'thor': 'Store',
     'blip': 'Lip',
     'ball': 'Fall',
     'line': 'Vine',
     'po': 'Tow',
     'whack': 'Quack',
     'hoop': 'Soap',
+    'by': 'Buy',
     'she': 'Sheep',
+    'mine': 'Vine',
     'take': 'Cake',
     'black': 'Quack',
     'blast': 'Glass',
@@ -39,7 +42,9 @@ const dwtList1 = {
     'both': 'Booth',
     'ten': 'Pen',
     'ohm': 'Comb',
+    'com': 'Comb',
     'bold': 'Old',
+    'and': 'Hand',
     'amp': 'Camp',
     'font': 'Want',
     'full': 'Fall',
@@ -511,7 +516,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // console.log('Valid words for current time: ', validWords);
 
         // let wordList = transcribedText.replace(/[^\w\s]|_/g, '').trim().split(/\s+/);
-        let wordList = transcribedText.replace(/\./, '').trim().split(/\s+/); // Clean up the transcript
+        // let wordList = transcribedText.replace(/\./, '').trim().split(/\s+/); // Clean up the transcript
+        let wordList = transcribedText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim().split(/\s+/);
+
         // console.log('Mapping vocab...');
         
         wordList = wordList.map(word => {
