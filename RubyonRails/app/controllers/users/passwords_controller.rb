@@ -16,22 +16,22 @@ class Users::PasswordsController < Devise::PasswordsController
     super
   end
 
-  
+
 
   def create
     Rails.logger.info("DEBUG: USER TRIGGERED THIS")
 
     self.resource = resource_class.find_by_email(resource_params[:email])
-  
+
     if resource
       resource.email_2fa_code = SecureRandom.hex(4)
       resource.email_2fa_code_sent_at = Time.current
       Rails.logger.info("DEBUG: THIS IS THE CODE #{resource.email_2fa_code}")
       Rails.logger.info("DEBUG: THIS IS THE TIME #{resource.email_2fa_code_sent_at}")
-  
+
       # Save the user after setting the 2FA code and timestamp
       if resource.save
-        UserMailer.send_2fa_code(resource, resource.email_2fa_code).deliver_later
+        UserMailer.send_2fa_code(resource, resource.email_2fa_code).deliver_now
         redirect_to new_verify_2fa_code_path, notice: '2FA code sent to your email. Please enter the code to continue resetting your password.'
       else
         # Handle save error
@@ -42,7 +42,7 @@ class Users::PasswordsController < Devise::PasswordsController
       respond_with(resource, alert: 'Email not found.')
     end
   end
-  
+
 
   # PUT /resource/password
   def update
@@ -63,7 +63,7 @@ class Users::PasswordsController < Devise::PasswordsController
     user = User.find_by_email_2fa_code(params[:email_2fa_code])
     Rails.logger.info("DEBUG: THIS IS THE USER IN VERIFY_2FA #{user}")
 
-  
+
     if user && user.email_2fa_code_sent_at > 10.minutes.ago
       # Generate reset password token
       Rails.logger.info("DEBUG: GOT IN HERE #{user}")
@@ -73,7 +73,7 @@ class Users::PasswordsController < Devise::PasswordsController
         reset_password_token: hashed,
         reset_password_sent_at: Time.now.utc
       )
-  
+
       # Redirect to the password reset edit page with the raw token
       redirect_to edit_user_password_path(reset_password_token: raw)
     elsif user
@@ -84,7 +84,7 @@ class Users::PasswordsController < Devise::PasswordsController
       redirect_to new_user_password_path, alert: 'Invalid code, please try again.'
     end
   end
-    
+
 
   # def verify_2fa_code
   #   user = User.find_by(email_2fa_code: params[:email_2fa_code])

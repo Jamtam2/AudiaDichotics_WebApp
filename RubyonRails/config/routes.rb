@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'grpc/start_server'
   get 'inquiries/new'
   get 'inquiries/create'
   get 'users/index'
@@ -11,7 +10,6 @@ Rails.application.routes.draw do
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
-  mount ActionCable.server => '/cable'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'users/sessions', passwords: 'users/passwords' }
 
