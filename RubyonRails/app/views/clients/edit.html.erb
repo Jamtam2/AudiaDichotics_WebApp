@@ -170,72 +170,65 @@
       <!-- Buttons and dropdowns to add new tests -->
       <div class="container">
         <div class="row">
-          <!-- DWT Test Button -->
-          <div class="col-sm-4">
-            <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    <%= 'disabled' unless current_user.can_take_test? %>
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="<%= 'You cannot take more tests.' unless current_user.can_take_test? %>">
-              Add DWT Test
-            </button>
-            <% if current_user.can_take_test? %>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
-                <a class="dropdown-item" href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
-                <a class="dropdown-item" href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
-                <a class="dropdown-item" href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
-              </div>
-            <% end %>
-          </div>
+<!-- DWT Test Button -->
+<div class="col-sm-4">
+  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
+          type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          <%= 'disabled' unless current_user.can_take_test? %>>
+    Add DWT Test
+  </button>
+  <% if current_user.can_take_test? %>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
+      <a class="dropdown-item" href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
+      <a class="dropdown-item" href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
+      <a class="dropdown-item" href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
+    </div>
+  <% end %>
+</div>
 
-          <!-- RDDT Test Button -->
-          <div class="col-sm-4">
-            <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    <%= 'disabled' unless current_user.can_take_test? %>
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="<%= 'You cannot take more tests.' unless current_user.can_take_test? %>">
-              Add RDDT Test
-            </button>
-            <% if current_user.can_take_test? %>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
-                <a class="dropdown-item" href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
-              </div>
-            <% end %>
-          </div>
+<!-- RDDT Test Button -->
+<div class="col-sm-4">
+  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
+          type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          <%= 'disabled' unless current_user.can_take_test? %>>
+    Add RDDT Test
+  </button>
+  <% if current_user.can_take_test? %>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
+      <a class="dropdown-item" href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
+    </div>
+  <% end %>
+</div>
 
-          <!-- DNW Test Button -->
-          <div class="col-sm-4">
-            <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    <%= 'disabled' unless current_user.can_take_test? %>
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="<%= 'You cannot take more tests.' unless current_user.can_take_test? %>">
-              Add DNW Test
-            </button>
-            <% if current_user.can_take_test? %>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
-                <a class="dropdown-item" href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
-                <a class="dropdown-item" href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
-                <a class="dropdown-item" href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
-              </div>
-            <% end %>
-          </div>
+<!-- DNW Test Button -->
+<div class="col-sm-4">
+  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
+          type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          <%= 'disabled' unless current_user.can_take_test? %>>
+    Add DNW Test
+  </button>
+  <% if current_user.can_take_test? %>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
+      <a class="dropdown-item" href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
+      <a class="dropdown-item" href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
+      <a class="dropdown-item" href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
+    </div>
+  <% end %>
+</div>
+
+
         </div>
       </div>
 
