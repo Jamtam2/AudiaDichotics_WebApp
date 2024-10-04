@@ -32,7 +32,7 @@
         <label>Select Account Type:</label><br />
         <input type="radio" name="account_type" value="local_moderator" id="localModerator"> Create a Local Moderator<br />
         <input type="radio" name="account_type" value="regular_user" id="regularUser"> I Have a Sign-Up Code<br />
-<!--        <input type="radio" name="account_type" value="location_moderator" id="locationModerator"> Have a Moderator Code?-->
+        <input type="radio" name="account_type" value="bootcamp_user" id="bootcampUser"> I Have a Bootcamp Code<br />
       </div>
 
       <!-- Registration Key Field -->
@@ -46,6 +46,13 @@
         <%= f.label :moderator_code, "Enter Local Moderator Code" %>
         <%= f.text_field :moderator_code, class: "form-control form-control-lg", style: 'padding:10px;' %>
       </div>
+
+      <!-- Bootcamp Code Field -->
+      <div class="form-group" id="bootcampCodeField" style="display:none;">
+        <%= f.label :bootcamp_code, "Enter Bootcamp Code" %>
+        <%= f.text_field :bootcamp_code, class: "form-control form-control-lg", style: 'padding:10px;' %>
+      </div>
+
 
       <div class="actions">
         <%= f.submit "Sign up", class: 'btn btn-primary btn-lg btn-block' %>
