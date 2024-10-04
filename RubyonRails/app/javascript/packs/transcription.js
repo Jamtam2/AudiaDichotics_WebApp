@@ -5,7 +5,7 @@ import consumer from "../channels/consumer" // Import the ActionCable consumer
 import Recorder from 'recorder-js';
 const listType = document.body.getAttribute('data-list-type')
 console.log('In page: ', listType)
-
+let ws; 
 
 
 // Define lookup objects for each list
@@ -23,7 +23,13 @@ const dwtList1 = {
     'blip': 'Lip',
     'ball': 'Fall',
     'line': 'Vine',
+    'net': 'Bet',
+    'flip': 'Lip',
     'po': 'Tow',
+    'hake': 'Cake',
+    'bake': 'Cake',
+    'bat': 'That',
+    'home': 'Comb',
     'whack': 'Quack',
     'hoop': 'Soap',
     'by': 'Buy',
@@ -31,6 +37,7 @@ const dwtList1 = {
     'mine': 'Vine',
     'take': 'Cake',
     'black': 'Quack',
+    'qhiz': 'Quiz',
     'blast': 'Glass',
     'collapse': 'Glass',
     'piece': 'Teeth',
@@ -59,6 +66,7 @@ const dwtList2 = {
     'form': 'Farm',
     'ben': 'Den',
     'hoarse': 'Horse',
+    'moreth': 'North',
     'butt': 'But',
     'cag': 'Tag',
     'fall': 'Ball',
@@ -67,13 +75,19 @@ const dwtList2 = {
     'moon': 'Spoon',
     'coin': 'Corn',
     'horn': 'Corn',
+    'boon': 'Spoon',
     'born': 'Corn',
-    'corn': 'Corn',
+    'beer': 'Year',
+    'bread': 'Red',
+    'bred': 'Red',
     'po': 'Corn',
     'gear': 'Year',
+    'ear': 'Year',
+    'blick': 'Lick',
     'hat': 'Pat',
     'corrupt': 'Rough',
     'then': 'Den',
+    'art': 'Heart',
     'all': 'Ball',
     'hot': 'Pot',
     'clothes': 'Close',
@@ -99,6 +113,15 @@ const dwtList3 = {
     'orc': 'Fork',
     'life': 'Knife',
     'son': 'Sun',
+    'bit': 'Bite',
+    'byte': 'Bite',
+    'host': 'Post',
+    'hook': 'Cook',
+    'par': 'Car',
+    'bat': 'Bath',
+    'pug': 'Hug',
+    'at': 'Mat',
+    'tie': 'Pie',
     'keen': 'Key',
     'bass': 'Bath',
     'bare': 'Bear',
@@ -111,6 +134,12 @@ const dwtList3 = {
 const dwtList4 = {
     'wear': 'Where',
     'knead': 'Need',
+    'our': 'Bar',
+    'ban': 'Van',
+    'ed': 'Bed',
+    'pipe': 'Type',
+    'brain': 'Rain',
+    'how': 'Cow',
     'lane': 'Plain',
     'plane': 'Plain',
     'reign': 'Rain',
@@ -289,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
-    const ws = new WebSocket('ws://localhost:8080');
+    // const ws = new WebSocket('wss://www.audiadichotics.com');
     const audioPlayer = document.getElementById('audioPlayer');
     let audioContext;
     let recorder;
@@ -301,27 +330,35 @@ document.addEventListener('DOMContentLoaded', function () {
     let isSpeaking = false;
     const silenceDuration = 1000; // 1 second in milliseconds
     const silenceThreshold = 0.01; // Adjust this threshold as needed
+    function connectWebSocket() {
+        ws = new WebSocket('wss://speechtotextserver-be5e42377a32.herokuapp.com');
+        
+        ws.onopen = () => {
+          console.log('WebSocket connection established');
+        };
+      
+        ws.onmessage = function(event) {
+          const transcript = JSON.parse(event.data);
+          if (transcript.text) {
+            checkAnswer(transcript.text.replace(/\./, ''));
+            console.log('Transcript received:', transcript.text);
+          }
+        };
+      
+        ws.onerror = (error) => {
+          console.error(`WebSocket error: ${error}`);
+        };
+      
+        ws.onclose = () => {
+          console.log('WebSocket connection closed. Reconnecting...');
+          setTimeout(connectWebSocket, 5000); // Attempt reconnection after 5 seconds
+        };
+      }
+      
+      
+    // Initial connection
+    connectWebSocket();
 
-    ws.onopen = () => {
-        console.log('WebSocket connection established');
-      };
-  
-      ws.onmessage = function(event) {
-        const transcript = JSON.parse(event.data);
-        if (transcript.text) {
-          checkAnswer(transcript.text.replace(/\./, ''));
-          console.log('Transcript received:', transcript.text);
-        }
-      };
-  
-      ws.onerror = (error) => {
-        console.error(`WebSocket error: ${error}`);
-      };
-  
-      ws.onclose = () => {
-        console.log('WebSocket connection closed');
-      };
-  
 
     startBtn.onclick = async () => {
         // Request microphone access
