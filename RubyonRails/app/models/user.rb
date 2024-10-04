@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  bootcamp_code          :string
 #  email                  :string           default(""), not null
 #  email_2fa_code         :string
 #  email_2fa_code_sent_at :datetime
@@ -11,6 +12,7 @@
 #  google_secret          :string
 #  left_ear_decibel       :integer
 #  lname                  :string
+#  membership_expiration  :datetime
 #  mfa_secret             :integer
 #  moderator_code         :string
 #  outstanding_balance    :boolean
@@ -19,6 +21,7 @@
 #  reset_password_token   :string
 #  right_ear_decibel      :integer
 #  role                   :integer
+#  test_limit             :integer
 #  verification_key       :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -45,17 +48,17 @@ class User < ApplicationRecord
   before_create :generate_unique_code, if: :local_moderator?
 
   acts_as_tenant(:tenant)
-  
+
   acts_as_google_authenticated google_secret: :google_secret, mfa_secret: :mfa_secret
 
   belongs_to :tenant
-  enum role: { regular_user: 0, local_moderator: 1, global_moderator: 2, owner: 3 }
+  enum role: { regular_user: 0, local_moderator: 1, global_moderator: 2, owner: 3, bootcamp: 4 }
 
   scope :local_moderators, -> { where(role: roles[:local_moderator]) }
 
   attr_accessor :registration_key
 
-  before_validation :validate_verification_key, on: :create, if: -> { local_moderator? || verification_key.present? }  
+  before_validation :validate_verification_key, on: :create, if: -> { local_moderator? || verification_key.present? }
 
 
   # Will validate the verification key only for the owner.
@@ -92,6 +95,9 @@ class User < ApplicationRecord
   def owner?
     role == 'owner'
   end
+  def bootcamp?
+    role == 'bootcamp'
+  end
 
   def regular_user?
     role == 'regular_user'
@@ -102,7 +108,7 @@ class User < ApplicationRecord
     label = "#{self.email}"
     totp.provisioning_uri(label)
   end
-  
+
   def google_authentic?(provided_code)
     totp = ROTP::TOTP.new(google_secret)
     # Allow 30 seconds drift behind and ahead
@@ -110,7 +116,7 @@ class User < ApplicationRecord
     drift_ahead = 30
     totp.verify(provided_code, at: Time.now, drift_behind: drift_behind, drift_ahead: drift_ahead)
   end
-  
+
 
   def reset_google_authenticator!
     # Generate a new secret key and clear existing 2FA setup
@@ -122,11 +128,10 @@ class User < ApplicationRecord
     self.user_mfa_sessions.create!(secret_key: new_secret, activated: false, email_verified: false)
 
   end
-  
-  # functions finds the code for the registration key and checks to see if the key has been used or not. 
+
+  # functions finds the code for the registration key and checks to see if the key has been used or not.
   # This determines if the key for registration has been used or not.
 
-  private
 
   # Also move this method back to the User model
   def validate_verification_key
@@ -143,6 +148,31 @@ class User < ApplicationRecord
     end
   end
 
+  def can_take_test?
+    return true unless bootcamp? # Allow if not a bootcamp user
+    # puts "can you take the test? #{test_limit}"
+    test_limit > 0 && !membership_expired?
+  end
+
+  def membership_expired?
+    return false unless bootcamp? # Not expired for non-bootcamp users
+    membership_expiration < Time.current
+  end
+
+  # Call this method to reduce the test count
+  def use_test!
+    if can_take_test?
+      if bootcamp?
+        self.test_limit -= 1
+        save!
+      end
+      true
+    else
+      errors.add(:base, "You have no remaining tests or your membership has expired.")
+      false
+    end
+  end
+
   private
 
   # Generate a unique code only for local moderators
@@ -155,8 +185,9 @@ class User < ApplicationRecord
   end
 
   def create_mfa_session
-    self.user_mfa_sessions.create(secret_key: ROTP::Base32.random_base32, activated: false) # Activates later when the user sets up MFA)
+    self.user_mfa_sessions.create(secret_key: ROTP::Base32.random_base32, activated: false) # Activates later when the user sets up MFA
   end
+
 
   public
 

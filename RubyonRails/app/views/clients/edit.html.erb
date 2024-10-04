@@ -161,51 +161,99 @@
 
 
 
-<!-- Tests section with button to add new test and table of existing tests -->
+<!-- Tests section with buttons to add new tests and table of existing tests -->
+<div class="container rounded border bg-white p-5 my-3 w-100 border-primary">
+  <div class="col">
+    <div class="col-md-12">
+      <h2 class="display-5" style="padding-bottom:20px"><strong>Tests</strong></h2>
 
-    <div class="container rounded border bg-white p-5 my-3 w-100 border-primary">
-     <div class ="col">
-      <div class="col-md-12">
-        <h2 class="display-5" style="padding-bottom:20px"><strong>Tests</strong></h2>
-        <!-- Buttons and dropdowns to add new tests  -->
-        <div class="container">
-          <div class="row">
+      <!-- Buttons and dropdowns to add new tests -->
+      <div class="container">
+        <div class="row">
+          <!-- DWT Test Button -->
           <div class="col-sm-4">
-              <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
-                Add DWT Test
-                </button>
+            <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    <%= 'disabled' unless current_user.can_take_test? %>
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="<%= 'You cannot take more tests.' unless current_user.can_take_test? %>">
+              Add DWT Test
+            </button>
+            <% if current_user.can_take_test? %>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
                 <a class="dropdown-item" href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
                 <a class="dropdown-item" href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
                 <a class="dropdown-item" href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
-
-               </div>
               </div>
-              <div class="col-sm-4">
-                <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle" type="button" id="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Add RDDT Test
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
-                  <a class="dropdown-item" href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
-                </div>
+            <% end %>
+          </div>
+
+          <!-- RDDT Test Button -->
+          <div class="col-sm-4">
+            <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    <%= 'disabled' unless current_user.can_take_test? %>
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="<%= 'You cannot take more tests.' unless current_user.can_take_test? %>">
+              Add RDDT Test
+            </button>
+            <% if current_user.can_take_test? %>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
+                <a class="dropdown-item" href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
               </div>
+            <% end %>
+          </div>
 
-              <div class="col-sm-4">
-                <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle" type="button" id="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Add DNW Test
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                  <a class="dropdown-item" href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
-                  <a class="dropdown-item" href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
-                  <a class="dropdown-item" href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
-                  <a class="dropdown-item" href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
-
-                </div>
+          <!-- DNW Test Button -->
+          <div class="col-sm-4">
+            <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    <%= 'disabled' unless current_user.can_take_test? %>
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="<%= 'You cannot take more tests.' unless current_user.can_take_test? %>">
+              Add DNW Test
+            </button>
+            <% if current_user.can_take_test? %>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
+                <a class="dropdown-item" href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
+                <a class="dropdown-item" href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
+                <a class="dropdown-item" href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
+
+      <!-- Alert Message when user cannot take tests -->
+      <% unless current_user.can_take_test? %>
+        <div class="alert alert-warning mt-4">
+          <strong>Notice:</strong>
+          <% if current_user.membership_expired? %>
+            Your membership has expired. Please contact support to renew your membership.
+          <% elsif current_user.test_limit.to_i.zero? %>
+            You have used all your allocated tests.
+          <% else %>
+            You cannot take more tests at this time.
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Spacer -->
 
       <br>
     <!-- Table of existing tests -->

@@ -33,6 +33,25 @@
         </div>
       <% end %>
     </div>
+<div class="container mt-4 mb-5">
+  <div class="card shadow-sm p-4 bg-light">
+    <div class="card-body">
+      <h2 class="card-title mb-4 text-primary">Welcome, <%= current_user.fname %>!</h2>
+      <% if current_user.bootcamp? %>
+        <p class="card-text lead">
+          You have <strong class="text-info"><%= current_user.test_limit %></strong> tests remaining.
+        </p>
+        <p class="card-text">
+          Your membership expires on <strong class="text-danger"><%= current_user.membership_expiration.strftime('%B %d, %Y') %></strong>.
+        </p>
+      <% else %>
+        <p class="card-text">Thank you for being a part of our group!</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+      <!-- Display local moderator unique generated code. -->
+
 
     <% if @users.any? %>
       <h2>Users</h2>
