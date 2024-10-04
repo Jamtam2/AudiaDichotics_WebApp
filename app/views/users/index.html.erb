@@ -1,0 +1,81 @@
+<body id="defBG" class="bg-white center">
+  <div id="whiteGrad" class="container p-5 my-3 w-100 bg-white border-0">
+    <!-- Heading for clients page -->
+    <h1 class="display-4" style='padding-bottom:20px'><strong>Your Group</strong></h1>
+
+    <div  class="row mb-3">
+      <!-- Search bar -->
+      <div class="col-md-6">
+        <%= form_with url: users_path, method: :get, local: true, class: 'form-inline' do %>
+          <%= text_field_tag :query, params[:query], class: 'form-control mr-sm-2 rounded-pill', placeholder: 'Search users' %>
+          <%= submit_tag "Search", class: "btn rounded-pill btn-outline-info my-2 my-sm-0" %>
+        <% end %>
+      </div>
+
+      <!-- Display local moderator unique generated code. -->
+      <% if current_user.local_moderator? %>
+        <div class="col-md-6 text-right">
+          <div class="clipboard-container-moderator">
+            <label for="copy-target"></label><input
+              type="text"
+              class="moderator-code-input"
+              id="copy-target"
+              value="<%= current_user.moderator_code %>"
+              readonly />
+
+            <button
+              id="copy-button"
+              type="button"
+              class="copy-button-moderator">
+              Copy
+            </button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+<div class="container mt-4 mb-5">
+  <div class="card shadow-sm p-4 bg-light">
+    <div class="card-body">
+      <h2 class="card-title mb-4 text-primary">Welcome, <%= current_user.fname %>!</h2>
+      <% if current_user.bootcamp? %>
+        <p class="card-text lead">
+          You have <strong class="text-info"><%= current_user.test_limit %></strong> tests remaining.
+        </p>
+        <p class="card-text">
+          Your membership expires on <strong class="text-danger"><%= current_user.membership_expiration.strftime('%B %d, %Y') %></strong>.
+        </p>
+      <% else %>
+        <p class="card-text">Thank you for being a part of our group!</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+      <!-- Display local moderator unique generated code. -->
+
+
+    <% if @users.any? %>
+      <h2>Users</h2>
+      <table>
+        <thead>
+        <tr>
+          <th>Role</th>
+          <th>Email</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @users.each do |user| %>
+            <tr>
+<!--              Change the displayed role, location can be found here helpers/sign_up_helper.rb -->
+              <td><%= display_role(user.role) %></td>
+              <td><%= user.email %></td>
+              <td><%= user.fname %></td>
+              <td><%= user.lname %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</body>
