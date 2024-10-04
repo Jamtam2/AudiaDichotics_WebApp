@@ -150,7 +150,7 @@ class User < ApplicationRecord
 
   def can_take_test?
     return true unless bootcamp? # Allow if not a bootcamp user
-    puts "can you take the test? #{test_limit}"
+    # puts "can you take the test? #{test_limit}"
     test_limit > 0 && !membership_expired?
   end
 

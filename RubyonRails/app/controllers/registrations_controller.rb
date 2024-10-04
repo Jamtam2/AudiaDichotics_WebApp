@@ -100,7 +100,7 @@ class RegistrationsController < Devise::RegistrationsController
         Rails.logger.info("DEBUG: VALID BOOTCAMP CODE #{user}")
 
         # Initialize test limit and membership expiration
-        user.test_limit = 2
+        user.test_limit = 25
         user.membership_expiration = 6.months.from_now
 
         if user.save
