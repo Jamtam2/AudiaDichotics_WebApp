@@ -415,7 +415,7 @@ DEPENDENCIES
   attr_encrypted
   bootsnap (>= 1.4.4)
   bootstrap_form (~> 4.0)
-  bootswatch
+  bootswatch (~> 4.3.1)
   byebug
   capybara (>= 3.26)
   carrierwave (~> 0.11.2)
