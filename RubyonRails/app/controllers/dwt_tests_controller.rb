@@ -70,15 +70,8 @@ def new_dwt_list1
       @dwt_test.client = @client
 
       if @dwt_test.save
-        puts "------------------------------------------------"
-        puts "GONNA SUBTRACT!!"
-        puts "------------------------------------------------"
 
         current_user.use_test!
-
-        puts "------------------------------------------------"
-        puts "SUBTRACTED!!"
-        puts "------------------------------------------------"
 
         redirect_to edit_client_path(@client)
       else

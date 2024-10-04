@@ -33,6 +33,14 @@
         </div>
       <% end %>
     </div>
+      <div class="container mt-4">
+    <h2>Welcome, <%= current_user.fname %>!</h2>
+    <% if current_user.bootcamp? %>
+      <p>You have <strong><%= current_user.test_limit %></strong> tests remaining.</p>
+      <p>Your membership expires on <strong><%= current_user.membership_expiration.strftime('%B %d, %Y') %></strong>.</p>
+    <% end %>
+  </div>
+
 
     <% if @users.any? %>
       <h2>Users</h2>
