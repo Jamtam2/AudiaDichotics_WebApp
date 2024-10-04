@@ -19,7 +19,7 @@
     "axios": "^1.6.8",
     "babel-loader": "^8.2.3",
     "base64-arraybuffer": "^1.0.2",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "5.3.2",
     "bootswatch": "4.3.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
