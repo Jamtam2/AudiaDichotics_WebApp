@@ -1,6 +1,10 @@
-name: Structure ROR for Heroku 
+name: Deploy RubyonRails 
 
 on:
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
 
 jobs:
