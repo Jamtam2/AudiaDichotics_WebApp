@@ -1,6 +1,10 @@
 name: Deploy RubyonRails 
 
 on:
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
 
 jobs:
@@ -18,7 +22,6 @@ jobs:
         run: |
           # Creating backups of directories isn't necessary if overwriting the master branch is acceptable
           echo "Preparing for moving RubyonRails contents to the root..."
-
       - name: Move RubyonRails contents
         run: |
           # Move contents from RubyonRails to a temporary location to clear the working directory
@@ -26,7 +29,6 @@ jobs:
           rm -rf * .github  # Remove all other contents; be cautious with this to not delete CI/CD workflows unintentionally
           mv ../rubyonrails_temp/* .  # Move RubyonRails contents back to root
           rm -rf ../rubyonrails_temp  # Clean up
-
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
