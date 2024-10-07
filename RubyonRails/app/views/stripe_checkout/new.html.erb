@@ -3,30 +3,73 @@
   <div class="card mb-3 border-0", style="padding-top:25px">
   <h1 class="display-3 pl-4", style= 'padding-top:30px'><strong>Start Your Plan</strong></h1>
         <hr>
-        <div class="card-deck pl-5 pr-5 pb-5">
-            <div class="card border-0">
-                <div class="plan-card-container">
-                    <div class="plan-card">
-                    <div class="front-content">
-                     <%= image_tag 'standardPlan.png', class: ' d-block m-auto pt-2' , style: ' max-width: 20rem;'%>
-                      <p class="inline-block ">Standard Plan</p>
+<div class="card-deck pl-5 pr-5 pb-5">
+  <!-- Plan 1: 1 year, 15 tests -->
+  <div class="card border-0">
+    <div class="plan-card-container">
+      <div class="plan-card">
+        <div class="front-content">
+          <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 20rem;' %>
+          <p class="inline-block">15 Tests Plan</p>
+        </div>
+        <div class="content">
+          <p class="heading">1 year, 15 tests - $999</p>
+          <p>
+            - Unlimited dichotic assessment<br>
+            - Unlimited new users<br>
+            - Access to analytical test data
+          </p>
+        </div>
+      </div>
+    </div>
+    <br>
+    <%= button_to 'Start 15 Tests Plan', stripe_checkout_path(price_id: 'price_1PnPrIEdjXO5pqxuNdkTP0dQ'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+  </div>
 
-                    </div>
-                    <div class="content">
-                      <p class="heading">Standard Plan (1 year) - $999 </p>
-                      <p>
-                        - Unlimited dichotic assessment (DWT, DNW, RDDT)<br>
-                        - Unlimited new users <br>
-                        - Unlimited clients<br>
-                        - Access to analytical test data
-                      </p>
-                    </div>
-                  </div>
-                  </div>
-                  <br>
-                                    <!-- Add a button to initiate checkout -->
-                  <%# <button id="checkout-button">Pay $125</button> %>
-                  <%= button_to 'Start Your Standard Plan', stripe_checkout_path, method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
+  <!-- Plan 2: 1 year, 45 tests -->
+  <div class="card border-0">
+    <div class="plan-card-container">
+      <div class="plan-card">
+        <div class="front-content">
+          <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 20rem;' %>
+          <p class="inline-block">45 Tests Plan</p>
+        </div>
+        <div class="content">
+          <p class="heading">1 year, 45 tests - $1,499</p>
+          <p>
+            - Unlimited dichotic assessment<br>
+            - Unlimited new users<br>
+            - Access to analytical test data
+          </p>
+        </div>
+      </div>
+    </div>
+    <br>
+    <%= button_to 'Start 45 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7OvhEdjXO5pqxuEIZYAfIj'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+  </div>
+
+  <!-- Plan 3: 1 year, 100 tests -->
+  <div class="card border-0">
+    <div class="plan-card-container">
+      <div class="plan-card">
+        <div class="front-content">
+          <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 20rem;' %>
+          <p class="inline-block">100 Tests Plan</p>
+        </div>
+        <div class="content">
+          <p class="heading">1 year, 100 tests - $2,499</p>
+          <p>
+            - Unlimited dichotic assessment<br>
+            - Unlimited new users<br>
+            - Access to analytical test data
+          </p>
+        </div>
+      </div>
+    </div>
+    <br>
+    <%= button_to 'Start 100 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7OyVEdjXO5pqxudXq40JBI'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+  </div>
+</div>
                   <!-- Include Stripe.js -->
                   <script src="https://js.stripe.com/v3/"></script>
 
