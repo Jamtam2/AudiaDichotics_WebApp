@@ -9,6 +9,7 @@ class BillingDashboardController < ApplicationController
 
       @current_month_tests = current_tests
       @previous_tests = previous_tests
+      @expiration_date = current_user.tenant.membership_expiration
 
       @total_tests = current_user.tenant.test_limit
     end

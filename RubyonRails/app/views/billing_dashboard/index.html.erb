@@ -11,7 +11,7 @@
 
           <!-- Display remaining tests -->
       <h2 class="display-3">Tests Remaining</h2>
-      <p>You have <strong><%=  @total_tests %></strong> tests remaining.</p>
+      <p>You have <strong><%=  @total_tests %></strong> tests remaining. Your membership will expire <strong><%=  @expiration_date.strftime('%m/%d/%Y') %></strong></p>
       
         <% if @current_month_tests.present? %>
           <h2 class="display-3">Current Month's Tests</h2>

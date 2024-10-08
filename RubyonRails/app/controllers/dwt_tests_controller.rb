@@ -71,7 +71,7 @@ def new_dwt_list1
 
       if @dwt_test.save
 
-        current_user.use_test!
+        current_user.tenant.use_test!
 
         redirect_to edit_client_path(@client)
       else
@@ -116,7 +116,7 @@ def new_dwt_list1
         puts "IN CHECK_TEST_LIMIT"
         puts "------------------------------------------------"
 
-        unless current_user.can_take_test?
+        unless current_user.tenant.can_take_test?
           puts "------------------------------------------------"
           puts "IN CHECK_TEST_LIMIT CONDITIONAL"
           puts "------------------------------------------------"

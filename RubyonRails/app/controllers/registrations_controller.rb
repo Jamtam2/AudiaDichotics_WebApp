@@ -70,17 +70,19 @@ class RegistrationsController < Devise::RegistrationsController
           # Handler for successful save actions
           key.update(used: true, email: user.email)
           Rails.logger.info("DEBUG: KEY: #{key.license_type}")
+          tenant.membership_expiration = 12.months.from_now
 
           case key.license_type
           when 'tests_15'
-            tenant.update(test_limit: 15)
+            tenant.update(test_limit: 15, membership_expiration:12.months.from_now)
+
             Rails.logger.info("DEBUG: MADE 15 KEY TENANT: #{tenant}")
 
           when 'tests_45'
-            tenant.update(test_limit: 45)
+            tenant.update(test_limit: 45, membership_expiration:12.months.from_now)
             Rails.logger.info("DEBUG: MADE 45 KEY TENANT: #{tenant}")
           when 'tests_100'
-            tenant.update(test_limit: 100)
+            tenant.update(test_limit: 100, membership_expiration:12.months.from_now)
             Rails.logger.info("DEBUG: MADE 100 KEY TENANT: #{tenant}")
           end
 
