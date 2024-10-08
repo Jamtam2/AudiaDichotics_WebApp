@@ -239,7 +239,7 @@
           <% if current_user.tenant.membership_expired? %>
             Your membership has expired. Please contact support to renew your membership.
           <% elsif current_user.tenant.test_limit.to_i.zero? %>
-            You have used all your allocated tests.
+            You have used all your allocated tests. Please contact an administrator to get more.
           <% else %>
             You cannot take more tests at this time.
           <% end %>
