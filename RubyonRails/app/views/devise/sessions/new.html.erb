@@ -1,39 +1,136 @@
+<body id="defBG">
+  <div class="container p-5 my-3 border rounded bg-white">
+    <div class="row">
+      
+      <!-- Left side: Stripe checkout -->
+      <div class="col-md-6">
+        <div class="card mb-3 border-0" style="padding-top: 25px">
+          <h1 class="display-3 pl-4" style="padding-top: 30px"><strong>Start Your Plan</strong></h1>
+          <hr>
+          <div class="d-flex flex-column">
+            <div class="d-flex flex-wrap justify-content-between">
+              <!-- Plan 1: 1 year, 15 tests -->
+              <div class="card border-0 mb-4" style="width: 16rem;">
+                <div class="plan-card-container">
+                  <div class="plan-card">
+                    <div class="front-content">
+                      <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 100%;' %>
+                      <p class="inline-block">15 Tests Plan</p>
+                    </div>
+                    <div class="content">
+                      <p class="heading">1 year, 15 tests - $999</p>
+                      <p>- Unlimited dichotic assessment<br>- Unlimited new users<br>- Access to analytical test data</p>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <%= button_to 'Start 15 Tests Plan', stripe_checkout_path(price_id: 'price_1PnPrIEdjXO5pqxuNdkTP0dQ'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+              </div>
 
+              <!-- Plan 2: 1 year, 45 tests -->
+              <div class="card border-0 mb-4" style="width: 16rem;">
+                <div class="plan-card-container">
+                  <div class="plan-card">
+                    <div class="front-content">
+                      <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 100%;' %>
+                      <p class="inline-block">45 Tests Plan</p>
+                    </div>
+                    <div class="content">
+                      <p class="heading">1 year, 45 tests - $1,499</p>
+                      <p>- Unlimited dichotic assessment<br>- Unlimited new users<br>- Access to analytical test data</p>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <%= button_to 'Start 45 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7OvhEdjXO5pqxuEIZYAfIj'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+              </div>
 
-<body id= "defBG">
-<div class="container p-5 my-3 w-50 border rounded bg-white">
+              <!-- Plan 3: 1 year, 100 tests -->
+              <div class="card border-0 mb-4" style="width: 16rem;">
+                <div class="plan-card-container">
+                  <div class="plan-card">
+                    <div class="front-content">
+                      <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 100%;' %>
+                      <p class="inline-block">100 Tests Plan</p>
+                    </div>
+                    <div class="content">
+                      <p class="heading">1 year, 100 tests - $2,499</p>
+                      <p>- Unlimited dichotic assessment<br>- Unlimited new users<br>- Access to analytical test data</p>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <%= button_to 'Start 100 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7OyVEdjXO5pqxudXq40JBI'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+              </div>
+            </div>
+          </div>
 
-<h2 class= "display-1", style= 'padding-bottom:20px' ><strong>Log in</strong></h2>
+          <!-- Include Stripe.js -->
+          <script src="https://js.stripe.com/v3/"></script>
+          <script>
+            let checkoutButton = document.getElementById('checkout-button');
+            var publicKeyTest = checkoutButton.getAttribute('data-stripe-public-key');
+            var stripe = Stripe(publicKeyTest);
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field", style= 'padding-bottom:20px'>
-    <%= f.label :email, class: 'display-6' %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "form-control form-control-lg", style: ' padding:10px;' %>
-  </div>
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-  <div class="field">
-    <%= f.label :password, class:'display-6' %><br />
-    <%= f.password_field :password, autocomplete: "current-password",class: "form-control form-control-lg", style: ' padding:10px;' %>
-  </div>
+            checkoutButton.addEventListener('click', function () {
+              fetch('/stripe_checkout', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-Token': csrfToken
+                },
+                credentials: 'same-origin'
+              })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (session) {
+                return stripe.redirectToCheckout({ sessionId: session.id });
+              })
+              .catch(function (error) {
+                console.error('Error:', error);
+              });
+            });
+          </script>
+        </div>
+      </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      <!-- Right side: Devise login form -->
+      <div class="col-md-6">
+        <div class="container p-5 my-3 w-100 border rounded bg-white">
+          <h2 class="display-1" style="padding-bottom: 20px"><strong>Log in</strong></h2>
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <div class="field" style="padding-bottom: 20px">
+              <%= f.label :email, class: 'display-6' %><br />
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg", style: 'padding:10px;' %>
+            </div>
+
+            <div class="field">
+              <%= f.label :password, class:'display-6' %><br />
+              <%= f.password_field :password, autocomplete: "current-password", class: "form-control form-control-lg", style: 'padding:10px;' %>
+            </div>
+
+            <% if devise_mapping.rememberable? %>
+              <div class="field">
+                <%= f.check_box :remember_me %>
+                <%= f.label :remember_me %>
+              </div>
+            <% end %>
+
+            <div class="actions" style="padding-bottom: 20px">
+              <%= f.submit "Log in", class: 'btn btn-primary btn-lg btn-block' %>
+            </div>
+          <% end %>
+
+          <%= render "devise/shared/links" %>
+          <br>
+          <label class="pt-2">Don't have a license? Start your plan today</label><br />
+          <%= link_to 'Find Your Plan', stripe_checkout_path, class: 'btn btn-success btn-lg btn-block mt-3' %>
+        </div>
+      </div>
+
     </div>
-  <% end %>
-
-  <div class="actions" style= 'padding-bottom:20px'>
-    <%= f.submit "Log in", class: 'btn btn-primary btn-lg btn-block' %>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
-<br>
-<label class="pt-2">Don't have a license? Start your plan today</label><br />
-<%= link_to 'Find Your Plan', stripe_checkout_path, class: 'btn btn-success btn-lg btn-block mt-3' %>
-</div>
-
-
-
 </body>
