@@ -69,6 +69,22 @@ class RegistrationsController < Devise::RegistrationsController
         if user.save
           # Handler for successful save actions
           key.update(used: true, email: user.email)
+          Rails.logger.info("DEBUG: KEY: #{key.license_type}")
+
+          case key.license_type
+          when 'tests_15'
+            tenant.update(test_limit: 15)
+            Rails.logger.info("DEBUG: MADE 15 KEY TENANT: #{tenant}")
+
+          when 'tests_45'
+            tenant.update(test_limit: 45)
+            Rails.logger.info("DEBUG: MADE 45 KEY TENANT: #{tenant}")
+          when 'tests_100'
+            tenant.update(test_limit: 100)
+            Rails.logger.info("DEBUG: MADE 100 KEY TENANT: #{tenant}")
+          end
+
+
           user.verification_key = key.activation_code
           secret_key = ROTP::Base32.random_base32
           user.user_mfa_sessions.create!(secret_key: secret_key, activated: false)

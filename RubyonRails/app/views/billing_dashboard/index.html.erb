@@ -8,6 +8,11 @@
           <script src="https://js.stripe.com/v3/"></script>
         </head>
         <%= button_to 'Manage Billing', customer_portal_path, method: :post , class: "btn-lg btn-primary mfa-submit rounded-pill", style:"float: right;"%>
+
+          <!-- Display remaining tests -->
+      <h2 class="display-3">Tests Remaining</h2>
+      <p>You have <strong><%=  @total_tests %></strong> tests remaining.</p>
+      
         <% if @current_month_tests.present? %>
           <h2 class="display-3">Current Month's Tests</h2>
           <%= render 'tests_table', tests: @current_month_tests %>
