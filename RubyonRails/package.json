@@ -38,13 +38,15 @@
   "version": "0.1.0",
   "devDependencies": {
     "expand-brackets": "^4.0.0",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
     "build": "webpack --mode production"
   },
   "engines": {
-    "node": ">=18.20.4",
-    "yarn": ">=1.22.22"
+    "node": "18.20.4",
+    "yarn": "1.22.22"
   }
 }
