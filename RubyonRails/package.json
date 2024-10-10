@@ -29,6 +29,7 @@
     "grpc-web": "^1.5.0",
     "jquery": "^3.5.1",
     "node-record-lpcm16": "^1.0.1",
+    "popper.js": "^1.16.1",
     "recorder-js": "^1.0.7",
     "stimulus": "^3.2.1",
     "stream": "^0.0.2",
@@ -37,10 +38,11 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@webpack-cli/generators": "^3.0.7",
     "expand-brackets": "^4.0.0",
-    "webpack": "^5.95.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^3.11.2"
+    "webpack": "^4.46.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3"
   },
   "scripts": {
     "build": "webpack --mode production"
