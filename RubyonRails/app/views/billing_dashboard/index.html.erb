@@ -25,6 +25,7 @@
         <% end %>
 
 
+        <%= button_to 'Buy more tests', stripe_checkout_path(price_id: 'price_1Q8WotEdjXO5pqxuISExBDPM'), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
 
         
       </div>

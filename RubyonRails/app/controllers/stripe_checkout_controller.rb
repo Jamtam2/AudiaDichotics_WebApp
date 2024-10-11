@@ -4,7 +4,7 @@ class StripeCheckoutController < ApplicationController
       price_id = params[:price_id]
       puts "price id: #{price_id}"
       discount_code = params[:discount_code]
-
+      mode_type = params[:mode_type]
       # Prepare the discounts array if a discount code is provided
       discounts = discount_code.present? ? [{coupon: discount_code}] : []
 
@@ -17,7 +17,8 @@ class StripeCheckoutController < ApplicationController
           price: price_id, # Replace with the actual price ID from Stripe
           quantity: 1,
         }],
-        mode: 'subscription',
+        mode: mode_type,
+        # mode: 'subscription',
         success_url: success_stripe_payment_url(host: request.base_url) + '?session_id={CHECKOUT_SESSION_ID}',
         cancel_url: failure_stripe_payment_url(host: request.base_url),
         metadata: {
@@ -70,8 +71,8 @@ class StripeCheckoutController < ApplicationController
       # Redirect or render success message
       end
     def failure
-        redirect_to sign_in, flash[:failure] = "Failed to complete transaction."
-    # Redirect or render success message
+        redirect_to('/users/sign_in')
+        # Redirect or render success message
     end
 
 end
