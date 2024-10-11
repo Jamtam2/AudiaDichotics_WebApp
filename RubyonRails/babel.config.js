@@ -47,7 +47,12 @@ module.exports = function(api) {
           loose: true
         }
       ],
-
+      [
+        '@babel/plugin-proposal-object-rest-spread',
+        {
+          useBuiltIns: true
+        }
+      ],
       [
         '@babel/plugin-proposal-private-methods',
         {
@@ -55,9 +60,9 @@ module.exports = function(api) {
         }
       ],
       [
-        '@babel/plugin-proposal-object-rest-spread',
+        '@babel/plugin-proposal-private-property-in-object',
         {
-          useBuiltIns: true
+          loose: true
         }
       ],
       [
@@ -70,12 +75,6 @@ module.exports = function(api) {
         '@babel/plugin-transform-regenerator',
         {
           async: false
-        }
-      ],
-      [
-        '@babel/plugin-proposal-private-property-in-object',
-        {
-          loose: true
         }
       ]
     ].filter(Boolean)
