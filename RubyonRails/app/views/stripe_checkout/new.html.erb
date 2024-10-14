@@ -26,7 +26,7 @@
             </div>
             <br>
             <%# <%= button_to 'Start 15 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDaEdjXO5pqxur6yiTeLu'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %> 
-            <%= button_to 'Start 15 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDaEdjXO5pqxur6yiTeLu', license_type: 'tests_15',mode_type:'subscription'), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
+            <%= button_to 'Start 15 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDaEdjXO5pqxur6yiTeLu', license_type: 'tests_15',mode_type:'subscription', test_quantity: 1), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
           
           </div>
         </div>
@@ -52,7 +52,7 @@
             </div>
             <br>
             <%# <%= button_to 'Start 45 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDlEdjXO5pqxuiqBtPJJ2'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %> 
-            <%= button_to 'Start 45 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDlEdjXO5pqxuiqBtPJJ2', license_type: 'tests_45', mode_type:'subscription'), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
+            <%= button_to 'Start 45 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDlEdjXO5pqxuiqBtPJJ2', license_type: 'tests_45', mode_type:'subscription', test_quantity: 1), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
 
           </div>
         </div>
@@ -78,7 +78,7 @@
             </div>
             <br>
             <%# <%= button_to 'Start 100 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDsEdjXO5pqxuS1fQ82YN'), method: :post, class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %> 
-            <%= button_to 'Start 100 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDsEdjXO5pqxuS1fQ82YN',license_type: 'tests_100',mode_type:'subscription'), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
+            <%= button_to 'Start 100 Tests Plan', stripe_checkout_path(price_id: 'price_1Q7mDsEdjXO5pqxuS1fQ82YN',license_type: 'tests_100',mode_type:'subscription', test_quantity: 1), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
 
           </div>
         </div>

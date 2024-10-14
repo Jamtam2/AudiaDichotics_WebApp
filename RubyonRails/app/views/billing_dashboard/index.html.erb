@@ -4,6 +4,7 @@
     <div class="card mb-3 border-0", style="padding-top:25px">
       <div class="container p-5 my-3 w-100 bg-white border-0">
         <head>
+
           <!-- Other head elements -->
           <script src="https://js.stripe.com/v3/"></script>
         </head>
@@ -25,7 +26,21 @@
         <% end %>
 
 
-        <%= button_to 'Buy more tests', stripe_checkout_path(price_id: 'price_1Q8WotEdjXO5pqxuISExBDPM'), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
+        <%# <%= button_to 'Buy more tests', stripe_checkout_path(price_id: 'price_1Q8WotEdjXO5pqxuISExBDPM', mode_type: 'payment'), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %> 
+        <!-- Display input for selecting number of tests -->
+      <h2 class="display-3">Buy More Tests</h2>
+      <p>Select the number of tests you'd like to purchase:</p>
+<%= form_with url: stripe_checkout_path, method: :post, remote: true, local: false, data: { type: 'script' } do |form| %>
+  <div class="form-group">
+    <%= form.label :test_quantity, "Number of Tests" %>
+    <%= form.number_field :test_quantity, value: 1, min: 1, class: "form-control", required: true %>
+  </div>
+  <%= hidden_field_tag :price_id, 'price_1Q8WotEdjXO5pqxuISExBDPM' %>
+  <%= hidden_field_tag :mode_type, 'payment' %>
+  <%= hidden_field_tag :test_purchase, true %> <!-- Flag this as a test purchase -->
+  <%= form.submit 'Buy more tests', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+<% end %>
+
 
         
       </div>
