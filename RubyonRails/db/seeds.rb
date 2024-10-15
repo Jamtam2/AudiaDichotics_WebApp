@@ -54,9 +54,8 @@ keybruh = Key.create!(
   email: "exp@gmail.com"
 )
 
-tenants = []
-3.times { |i| tenants << Tenant.find_or_create_by!(subdomain: "tenant#{i + 1}", test_limit: 15, membership_expiration: 12.months.from_now) }
-ActsAsTenant.with_tenant(tenants.first) do
+tenantbruh = Tenant.find_or_create_by!(subdomain: "tenantbruh", test_limit: 15, membership_expiration: 12.months.from_now)
+ActsAsTenant.with_tenant(tenantbruh) do
   user = User.create!(
     email: "global@gmail.com",
     password: "password",

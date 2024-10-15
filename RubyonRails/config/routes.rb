@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :tenants, only: [:edit, :update, :index]
   get 'inquiries/new'
   get 'inquiries/create'
   get 'users/index'
