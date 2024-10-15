@@ -26,7 +26,6 @@
         <% end %>
 
 
-        <%# <%= button_to 'Buy more tests', stripe_checkout_path(price_id: 'price_1Q8WotEdjXO5pqxuISExBDPM', mode_type: 'payment'), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %> 
         <!-- Display input for selecting number of tests -->
       <h2 class="display-3">Buy More Tests</h2>
       <p>Select the number of tests you'd like to purchase:</p>
@@ -35,7 +34,7 @@
     <%= form.label :test_quantity, "Number of Tests" %>
     <%= form.number_field :test_quantity, value: 1, min: 1, class: "form-control", required: true %>
   </div>
-  <%= hidden_field_tag :price_id, 'price_1Q8WotEdjXO5pqxuISExBDPM' %>
+  <%= hidden_field_tag :price_id, ENV['SINGLE_TEST_PRICEID'] %>
   <%= hidden_field_tag :mode_type, 'payment' %>
   <%= hidden_field_tag :test_purchase, true %> <!-- Flag this as a test purchase -->
   <%= form.submit 'Buy more tests', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
