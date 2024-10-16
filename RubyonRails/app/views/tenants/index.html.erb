@@ -19,7 +19,11 @@
           <%= tenant.first_user_email.present? ? tenant.first_user_email : "No users available" %>
         </td>
         <td><%= tenant.created_at.strftime('%m/%d/%Y') %></td>
-        <td><%= tenant.membership_expiration.strftime('%m/%d/%Y') %></td>
+          <% if tenant.membership_expiration.present? %>
+            <td><%= tenant.membership_expiration.strftime('%m/%d/%Y') %></td>
+          <% else %>
+            <td>N/A</td>
+        <% end %>
         <td><%= tenant.test_limit %></td>
         <td>
           <%= link_to 'Edit', edit_tenant_path(tenant), class: "btn btn-primary" %>

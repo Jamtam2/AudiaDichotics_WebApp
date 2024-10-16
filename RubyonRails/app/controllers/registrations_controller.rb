@@ -106,40 +106,6 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def create_bootcamp_user
-    tenant = Tenant.create! # Creates a new tenant; adjust if necessary
-
-    ActsAsTenant.with_tenant(tenant) do
-      user = User.new(sign_up_params)
-      user.role = :bootcamp
-
-      # Check if the bootcamp code is valid
-      if params[:user][:bootcamp_code] == 'BOOTCAMP24'
-        Rails.logger.info("DEBUG: VALID BOOTCAMP CODE #{user}")
-
-        # Initialize test limit and membership expiration
-        user.test_limit = 25
-        user.membership_expiration = 6.months.from_now
-
-        if user.save
-          flash[:notice] = 'Bootcamp user was successfully created.'
-          secret_key = ROTP::Base32.random_base32
-          user.user_mfa_sessions.create!(secret_key: secret_key, activated: false)
-          sign_in(:user, user)
-          redirect_to root_path
-        else
-          Rails.logger.info("DEBUG: Failed to save bootcamp user: #{user.errors.full_messages}")
-          flash.now[:alert] = user.errors.full_messages.join(', ')
-          render :new
-        end
-      else
-        flash[:alert] = 'Invalid bootcamp code.'
-        redirect_to new_user_registration_path and return
-      end
-    end
-  end
-
-
   private
 
   def valid_registration_key?(key)
