@@ -14,8 +14,6 @@ class RegistrationsController < Devise::RegistrationsController
       create_regular_user
     when 'local_moderator'
       create_local_moderator
-    when 'bootcamp_user'
-      create_bootcamp_user #new case for 2024 bootcamp
     else
       flash[:alert] = 'Invalid account type.'
       redirect_to new_user_registration_path and return
@@ -26,14 +24,20 @@ class RegistrationsController < Devise::RegistrationsController
   # local moderator code and a registration key. Associates the user with
   # a local moderator's tenant_id.
   def create_regular_user
+    Rails.logger.info("DEBUG: Got in here")
+
     # The moderator code will be used for validation but will not be be stored under regular use.
     user = User.new(sign_up_params.except(:moderator_code))
     user.role = :regular_user
     local_moderator = User.find_by(role: User.roles[:local_moderator], moderator_code: params[:user][:moderator_code])
     # Validate the registration key for security purposes.
     # key = Key.find_by(activation_code: user.registration_key)
+    Rails.logger.info("DEBUG: Set vars: User: #{user}")
+    Rails.logger.info("DEBUG: Set vars: Local_Mod: #{local_moderator}")
 
     if local_moderator.present?
+      Rails.logger.info("DEBUG: Local mod was present.")
+
       # The user is associated with the tenant of the local moderator whose code was entered.
       user.tenant_id = local_moderator.tenant_id
 
