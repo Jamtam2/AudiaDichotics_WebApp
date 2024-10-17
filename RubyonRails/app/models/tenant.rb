@@ -2,10 +2,12 @@
 #
 # Table name: tenants
 #
-#  id         :bigint           not null, primary key
-#  subdomain  :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                    :bigint           not null, primary key
+#  membership_expiration :datetime
+#  subdomain             :string
+#  test_limit            :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
 #
 class Tenant < ApplicationRecord
     has_many :users
@@ -18,4 +20,27 @@ class Tenant < ApplicationRecord
 
     # Associate payments with tenant
     has_many :payments, dependent: :destroy
+
+
+    def can_take_test?
+        # puts "can you take the test? #{test_limit}"
+        test_limit > 0 && !membership_expired?
+      end
+
+      def membership_expired?
+        membership_expiration < Time.current
+      end
+
+      # Call this method to reduce the test count
+      def use_test!
+        if can_take_test?
+            self.test_limit -= 1
+            save!
+          true
+        else
+          errors.add(:base, "You have no remaining tests or your membership has expired.")
+          false
+        end
+      end
+
 end

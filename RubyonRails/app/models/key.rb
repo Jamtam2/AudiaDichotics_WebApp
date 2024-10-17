@@ -20,9 +20,10 @@ class Key < ApplicationRecord
     before_create :set_default_used
 
     # belongs_to :user
-  
+    enum license_type: { tests_15: 0, tests_45: 1, tests_100: 2 }
+
     private
-  
+
     def set_default_used
       self.used = false if self.used.nil?
     end
@@ -36,4 +37,3 @@ class Key < ApplicationRecord
       User.find_by(email: self.email)
     end
 end
-  

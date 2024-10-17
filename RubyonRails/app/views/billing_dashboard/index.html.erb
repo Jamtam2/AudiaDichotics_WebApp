@@ -4,10 +4,16 @@
     <div class="card mb-3 border-0", style="padding-top:25px">
       <div class="container p-5 my-3 w-100 bg-white border-0">
         <head>
+
           <!-- Other head elements -->
           <script src="https://js.stripe.com/v3/"></script>
         </head>
         <%= button_to 'Manage Billing', customer_portal_path, method: :post , class: "btn-lg btn-primary mfa-submit rounded-pill", style:"float: right;"%>
+
+          <!-- Display remaining tests -->
+      <h2 class="display-3">Tests Remaining</h2>
+      <p>You have <strong><%=  @total_tests %></strong> tests remaining. Your membership will expire <strong><%=  @expiration_date.strftime('%m/%d/%Y') %></strong></p>
+      
         <% if @current_month_tests.present? %>
           <h2 class="display-3">Current Month's Tests</h2>
           <%= render 'tests_table', tests: @current_month_tests %>
@@ -19,6 +25,20 @@
           <%= render 'tests_table', tests: @previous_tests %>
         <% end %>
 
+
+        <!-- Display input for selecting number of tests -->
+      <h2 class="display-3">Buy More Tests</h2>
+      <p>Select the number of tests you'd like to purchase:</p>
+<%= form_with url: stripe_checkout_path, method: :post, remote: true, local: false, data: { type: 'script' } do |form| %>
+  <div class="form-group">
+    <%= form.label :test_quantity, "Number of Tests" %>
+    <%= form.number_field :test_quantity, value: 1, min: 1, class: "form-control", required: true %>
+  </div>
+  <%= hidden_field_tag :price_id, ENV['SINGLE_TEST_PRICEID'] %>
+  <%= hidden_field_tag :mode_type, 'payment' %>
+  <%= hidden_field_tag :test_purchase, true %> <!-- Flag this as a test purchase -->
+  <%= form.submit 'Buy more tests', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+<% end %>
 
 
         

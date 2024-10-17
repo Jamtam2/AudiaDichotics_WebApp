@@ -59,7 +59,7 @@ class DnwTestsController < ApplicationController
     @dnw_test.client = @client
 
     if @dnw_test.save
-      current_user.use_test!
+      current_user.tenant.use_test!
       redirect_to edit_client_path(@client)
     else
       render 'new'
@@ -89,7 +89,7 @@ class DnwTestsController < ApplicationController
   end
 
   def check_test_limit
-    unless current_user.can_take_test?
+    unless current_user.tenant.can_take_test?
       flash[:alert] = 'You have no remaining tests or your membership has expired.'
       redirect_to root_path
     end

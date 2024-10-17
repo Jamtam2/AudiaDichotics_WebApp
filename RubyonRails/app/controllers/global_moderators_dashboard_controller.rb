@@ -2,7 +2,7 @@ class GlobalModeratorsDashboardController < ApplicationController
     before_action :verify_global_moderator
     before_action :set_stripe_api_key
 
-  
+
     def index
       # Dashboard view
         # @keys = Key.all.order(created_at: :desc)
@@ -21,7 +21,7 @@ class GlobalModeratorsDashboardController < ApplicationController
 
       # Create a new Discount object with the merged parameters
       discount = Discount.new(discount_params_with_date)
-      
+
       if discount.save
         begin
           # Check if the Stripe coupon exists
@@ -37,7 +37,7 @@ class GlobalModeratorsDashboardController < ApplicationController
                               redeem_by: discount.expiration_date.to_time.to_i
                             })
                           end
-    
+
           # Handle promotion codes
           promotion_codes = Stripe::PromotionCode.list({coupon: discount.code})
           if promotion_codes.data.empty?
@@ -52,7 +52,7 @@ class GlobalModeratorsDashboardController < ApplicationController
               Stripe::PromotionCode.update(promo_code.id, {active: true}) unless promo_code.active
             end
           end
-    
+
           redirect_to global_moderators_dashboard_index_path, notice: 'Discount created/updated successfully.'
         rescue Stripe::StripeError => e
           # Rollback discount creation in your system if Stripe operation fails
@@ -63,13 +63,16 @@ class GlobalModeratorsDashboardController < ApplicationController
         redirect_to global_moderators_dashboard_index_path, alert: discount.errors.full_messages.to_sentence
       end
     end
-    
 
-    
-    
+    def tenant_moderation
+      @tenants = Tenant.unscoped {Tenant.all}
+
+    end
+
+
     def destroy_discount
       discount = Discount.find(params[:id])
-    
+
       begin
         # Attempt to find and deactivate the Stripe promotion code associated with the discount
         promotion_codes = Stripe::PromotionCode.list({coupon: discount.code})
@@ -89,7 +92,7 @@ class GlobalModeratorsDashboardController < ApplicationController
         redirect_to global_moderators_dashboard_index_path, alert: "Stripe error: #{e.message}"
         return  # Return early to avoid attempting to delete the discount
       end
-    
+
       # Delete the discount from your database, regardless of Stripe coupon existence
       discount.destroy
       redirect_to global_moderators_dashboard_index_path, notice: 'Discount deleted successfully.'
@@ -97,32 +100,32 @@ class GlobalModeratorsDashboardController < ApplicationController
       # Handle other errors, such as the discount not found in your database
       redirect_to global_moderators_dashboard_index_path, alert: 'Error deleting discount: #{e.message}'
     end
-        
 
-    
+
+
       def create_key
-        key = Key.new(activation_code: generate_unique_activation_code, 
-                  license_type: key_params[:license_type], 
-                  used: false, 
+        key = Key.new(activation_code: generate_unique_activation_code,
+                  license_type: key_params[:license_type],
+                  used: false,
                   expiration: Time.zone.now + 1.year,
                   created_by_id: current_user.id) # Assign the key to deborah to only show the keys she's generated.
 
-    
+
         if key.save
           redirect_to global_moderators_dashboard_index_path, notice: 'License key created successfully.'
         else
           redirect_to global_moderators_dashboard_index_path, alert: key.errors.full_messages.to_sentence
         end
       end
-    
-  
+
+
     private
 
     def discount_params
       params.require(:discount).permit(:code, :percentage_off, :redemption_quantity, :days_until_expiration)
     end
-    
-    
+
+
 
     def key_params
     params.require(:key).permit(:license_type)
@@ -135,12 +138,12 @@ class GlobalModeratorsDashboardController < ApplicationController
     end
     end
 
-  
+
     def verify_global_moderator
            # Ensure the user is a local moderator
         @user = current_user
         puts "DEBUG: USER CUSTOMER ID: #{current_user.inspect}"
-        
+
         redirect_to(root_url) unless @user.global_moderator?
       # Logic to verify if the current user is a global moderator
     end

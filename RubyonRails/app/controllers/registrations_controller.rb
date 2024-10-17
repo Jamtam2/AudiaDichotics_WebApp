@@ -14,8 +14,6 @@ class RegistrationsController < Devise::RegistrationsController
       create_regular_user
     when 'local_moderator'
       create_local_moderator
-    when 'bootcamp_user'
-      create_bootcamp_user #new case for 2024 bootcamp
     else
       flash[:alert] = 'Invalid account type.'
       redirect_to new_user_registration_path and return
@@ -26,14 +24,20 @@ class RegistrationsController < Devise::RegistrationsController
   # local moderator code and a registration key. Associates the user with
   # a local moderator's tenant_id.
   def create_regular_user
+    Rails.logger.info("DEBUG: Got in here")
+
     # The moderator code will be used for validation but will not be be stored under regular use.
     user = User.new(sign_up_params.except(:moderator_code))
     user.role = :regular_user
     local_moderator = User.find_by(role: User.roles[:local_moderator], moderator_code: params[:user][:moderator_code])
     # Validate the registration key for security purposes.
     # key = Key.find_by(activation_code: user.registration_key)
+    Rails.logger.info("DEBUG: Set vars: User: #{user}")
+    Rails.logger.info("DEBUG: Set vars: Local_Mod: #{local_moderator}")
 
     if local_moderator.present?
+      Rails.logger.info("DEBUG: Local mod was present.")
+
       # The user is associated with the tenant of the local moderator whose code was entered.
       user.tenant_id = local_moderator.tenant_id
 
@@ -69,6 +73,24 @@ class RegistrationsController < Devise::RegistrationsController
         if user.save
           # Handler for successful save actions
           key.update(used: true, email: user.email)
+          Rails.logger.info("DEBUG: KEY: #{key.license_type}")
+          tenant.membership_expiration = 12.months.from_now
+
+          case key.license_type
+          when 'tests_15'
+            tenant.update(test_limit: 15, membership_expiration:12.months.from_now)
+
+            Rails.logger.info("DEBUG: MADE 15 KEY TENANT: #{tenant}")
+
+          when 'tests_45'
+            tenant.update(test_limit: 45, membership_expiration:12.months.from_now)
+            Rails.logger.info("DEBUG: MADE 45 KEY TENANT: #{tenant}")
+          when 'tests_100'
+            tenant.update(test_limit: 100, membership_expiration:12.months.from_now)
+            Rails.logger.info("DEBUG: MADE 100 KEY TENANT: #{tenant}")
+          end
+
+
           user.verification_key = key.activation_code
           secret_key = ROTP::Base32.random_base32
           user.user_mfa_sessions.create!(secret_key: secret_key, activated: false)
@@ -87,40 +109,6 @@ class RegistrationsController < Devise::RegistrationsController
       end
     end
   end
-
-  def create_bootcamp_user
-    tenant = Tenant.create! # Creates a new tenant; adjust if necessary
-
-    ActsAsTenant.with_tenant(tenant) do
-      user = User.new(sign_up_params)
-      user.role = :bootcamp
-
-      # Check if the bootcamp code is valid
-      if params[:user][:bootcamp_code] == 'BOOTCAMP24'
-        Rails.logger.info("DEBUG: VALID BOOTCAMP CODE #{user}")
-
-        # Initialize test limit and membership expiration
-        user.test_limit = 25
-        user.membership_expiration = 6.months.from_now
-
-        if user.save
-          flash[:notice] = 'Bootcamp user was successfully created.'
-          secret_key = ROTP::Base32.random_base32
-          user.user_mfa_sessions.create!(secret_key: secret_key, activated: false)
-          sign_in(:user, user)
-          redirect_to root_path
-        else
-          Rails.logger.info("DEBUG: Failed to save bootcamp user: #{user.errors.full_messages}")
-          flash.now[:alert] = user.errors.full_messages.join(', ')
-          render :new
-        end
-      else
-        flash[:alert] = 'Invalid bootcamp code.'
-        redirect_to new_user_registration_path and return
-      end
-    end
-  end
-
 
   private
 
