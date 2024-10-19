@@ -105,8 +105,9 @@ class GlobalModeratorsDashboardController < ApplicationController
 
       def create_key
         key = Key.new(activation_code: generate_unique_activation_code,
-                  license_type: key_params[:license_type],
+                  license_type: key_params[:license_type].to_i,
                   used: false,
+                  expiration: Time.zone.now + 1.year,
                   expiration: Time.zone.now + 1.year,
                   created_by_id: current_user.id) # Assign the key to deborah to only show the keys she's generated.
 
