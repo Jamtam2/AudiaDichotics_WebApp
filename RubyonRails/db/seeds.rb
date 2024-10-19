@@ -54,7 +54,7 @@ keybruh = Key.create!(
   email: "exp@gmail.com"
 )
 
-tenantbruh = Tenant.find_or_create_by!(subdomain: "tenantbruh")
+tenantbruh = Tenant.find_or_create_by!(subdomain: "tenantbruh", test_limit: 15, membership_expiration: 12.months.from_now)
 ActsAsTenant.with_tenant(tenantbruh) do
   user = User.create!(
     email: "global@gmail.com",
@@ -132,6 +132,8 @@ ActsAsTenant.with_tenant(tenantbruh) do
       ear_advantage_score: rand(0.0..100.0),
       left_score: 8.5,
       right_score: 7.5,
+      left_percentile: "97%",
+      right_percentile: "97%",
       label: "Test#{j + 1}"
     )
     RddtTest.create(
@@ -146,6 +148,8 @@ ActsAsTenant.with_tenant(tenantbruh) do
       right_score1: rand(0.0..100.0),
       right_score2: rand(0.0..100.0),
       right_score3: rand(0.0..100.0),
+      left_percentile: "97%",
+      right_percentile: "97%",
       label: "Label#{j + 1}",
       notes: "Notes for RddtTest #{j + 1}"
     )
@@ -157,6 +161,8 @@ ActsAsTenant.with_tenant(tenantbruh) do
       ear_advantage: "Left",
       ear_advantage_score: rand(0.0..100.0),
       left_score: rand(0.0..100.0),
+      left_percentile: "97%",
+      right_percentile: "97%",
       right_score: rand(0.0..100.0),
       label: "Label#{j + 1}",
       notes: "Notes for DwtTest #{j + 1}"

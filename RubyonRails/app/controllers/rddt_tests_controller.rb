@@ -20,6 +20,9 @@ class RddtTestsController < ApplicationController
   def show
     @client = Client.find(params[:client_id])
     @rddt_test = @client.rddt_tests.find(params[:id])
+    Rails.logger.info "advantage score1:#{@rddt_test.ear_advantage_score1}"
+    Rails.logger.info "advantage score:#{@rddt_test.ear_advantage_score}"
+    Rails.logger.info "advantage score3: #{@rddt_test.ear_advantage_score3}"
   end
 
   def edit
