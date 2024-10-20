@@ -14,7 +14,7 @@ keybruh = Key.create!(
   product_id: 1,
   customer_id: 1,
   subscription_id: 1,
-  expiration: Time.zone.now + 1.year, # Set expiration to 1 year from the current time
+  expiration: Time.zone.now + 1.year, # Setexpiration to 1 year from the current time
 )
 puts "#{keybruh.inspect})..."
 puts "Fetching keys and customer data..."
@@ -54,7 +54,7 @@ keybruh = Key.create!(
   email: "exp@gmail.com"
 )
 
-tenantbruh = Tenant.find_or_create_by!(subdomain: "tenantbruh")
+tenantbruh = Tenant.find_or_create_by!(subdomain: "tenantbruh", test_limit: 15, membership_expiration: 12.months.from_now)
 ActsAsTenant.with_tenant(tenantbruh) do
   user = User.create!(
     email: "global@gmail.com",
@@ -97,6 +97,79 @@ ActsAsTenant.with_tenant(tenantbruh) do
     activated: false, # You can activate it later when the user sets up MFA
   )
 
+  10.times do |j|
+    client = Client.create!(
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email: Faker::Internet.unique.email,
+      gender: Faker::Gender.binary_type,
+      date_of_birth: Faker::Date.birthday(min_age: 6, max_age: 15),
+      address1: Faker::Address.street_address,
+      country: Faker::Address.country_code,
+      state: Faker::Address.state_abbr,
+      city: Faker::Address.city,
+      zip: Faker::Address.zip_code,
+      phone1: Faker::PhoneNumber.cell_phone_in_e164,
+      race: Faker::Demographic.race
+    )
+
+    EmergencyContact.create!(
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      phone_number: Faker::PhoneNumber.cell_phone_in_e164,
+      address: Faker::Address.street_address,
+      email: Faker::Internet.unique.email,
+      city: Faker::Address.city,
+      state: Faker::Address.state_abbr,
+      client: client
+    )
+
+    DnwTest.create(
+      client: client,
+      user: client.tenant.users.sample,
+      test_type: "DNW",
+      ear_advantage: "Left",
+      ear_advantage_score: rand(0.0..100.0),
+      left_score: 8.5,
+      right_score: 7.5,
+      left_percentile: "97%",
+      right_percentile: "97%",
+      label: "Test#{j + 1}"
+    )
+    RddtTest.create(
+      client: client,
+      user: client.tenant.users.sample,
+      test_type: "RDDT",
+      ear_advantage: "Left",
+      ear_advantage_score: rand(0.0..100.0),
+      left_score1: rand(0.0..100.0),
+      left_score2: rand(0.0..100.0),
+      left_score3: rand(0.0..100.0),
+      right_score1: rand(0.0..100.0),
+      right_score2: rand(0.0..100.0),
+      right_score3: rand(0.0..100.0),
+      left_percentile: "97%",
+      right_percentile: "97%",
+      label: "Label#{j + 1}",
+      notes: "Notes for RddtTest #{j + 1}"
+    )
+
+    DwtTest.create(
+      client: client,
+      user: client.tenant.users.sample,
+      test_type: "DWT",
+      ear_advantage: "Left",
+      ear_advantage_score: rand(0.0..100.0),
+      left_score: rand(0.0..100.0),
+      left_percentile: "97%",
+      right_percentile: "97%",
+      right_score: rand(0.0..100.0),
+      label: "Label#{j + 1}",
+      notes: "Notes for DwtTest #{j + 1}"
+    )
+
+
+  end
 end
 keybruh.update(expiration: Time.zone.now - 1.day) # Set expiration to 1 day ago
 keybruh.save
