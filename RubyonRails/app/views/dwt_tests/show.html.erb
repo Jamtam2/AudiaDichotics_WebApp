@@ -26,6 +26,37 @@
 <div>
 <!--Data stored outside of the columns with the image -->
 
+<h3>Selected Words</h3>
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Selected Word</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @dwt_test.selected_words.present? %>
+      <% @dwt_test.selected_words.each do |index, selected_values| %>
+        <% selected_values.each do |value| %>
+          <tr>
+            <td><%= index.to_i + 1 %></td>
+            <td>
+              <% if value == "1" %>
+                <%= @words_list[index.to_i][0] %> <!-- Left word -->
+              <% elsif value == "2" %>
+                <%= @words_list[index.to_i][1] %> <!-- Right word -->
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="2">No words selected</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 
 

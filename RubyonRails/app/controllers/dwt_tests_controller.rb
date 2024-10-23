@@ -35,6 +35,41 @@ def new_dwt_list1
     def show
       @client = Client.find(params[:client_id])
       @dwt_test = @client.dwt_tests.find(params[:id])
+      Rails.logger.info("-----------------------")
+      Rails.logger.info("#{@dwt_test.inspect}")
+      Rails.logger.info("-----------------------")
+        # Ensure selected_words is at least an empty hash to avoid nil errors
+      @dwt_test.selected_words ||= {}
+      # In the controller's show action:
+      @words_list = [
+        ["Fun", "Pig"],
+        ["Vine", "Sheep"],
+        ["Cake", "Buy"],
+        ["Round", "Storm"],
+        ["Say", "Tan"],
+        ["Yes", "Fast"],
+        ["Pen", "Most"],
+        ["Bet", "One"],
+        ["Green", "Booth"],
+        ["Store", "Glass"],
+        ["Soap", "Teeth"],
+        ["Bring", "Share"],
+        ["Rug", "Book"],
+        ["Want", "Soft"],
+        ["Tow", "Kite"],
+        ["Why", "Quack"],
+        ["Comb", "For"],
+        ["That", "Love"],
+        ["Bug", "Wet"],
+        ["Quiz", "Juice"],
+        ["Camp", "Light"],
+        ["Hand", "Goose"],
+        ["Lip", "Dad"],
+        ["Fall", "Room"],
+        ["Old", "Chef"]
+      ]
+
+
 
     end
 
@@ -68,6 +103,7 @@ def new_dwt_list1
       @dwt_test = @client.dwt_tests.build(dwt_test_params)
       @dwt_test.user = current_user
       @dwt_test.client = @client
+      @dwt_test.selected_words = params[:selected_words]
 
       if @dwt_test.save
 
@@ -107,7 +143,7 @@ def new_dwt_list1
       private
 
       def dwt_test_params
-        params.require(:dwt_test).permit(:label, :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :interpretation, :left_percentile, :right_percentile, :advantage_percentile,  :scan, :authenticity_token)
+        params.require(:dwt_test).permit(:label, :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :interpretation, :left_percentile, :right_percentile, :advantage_percentile,  :scan, :authenticity_token, selected_words: {})
       end
 
 
