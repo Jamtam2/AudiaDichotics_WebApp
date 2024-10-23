@@ -41,33 +41,6 @@ def new_dwt_list1
         # Ensure selected_words is at least an empty hash to avoid nil errors
       @dwt_test.selected_words ||= {}
       # In the controller's show action:
-      @words_list = [
-        ["Fun", "Pig"],
-        ["Vine", "Sheep"],
-        ["Cake", "Buy"],
-        ["Round", "Storm"],
-        ["Say", "Tan"],
-        ["Yes", "Fast"],
-        ["Pen", "Most"],
-        ["Bet", "One"],
-        ["Green", "Booth"],
-        ["Store", "Glass"],
-        ["Soap", "Teeth"],
-        ["Bring", "Share"],
-        ["Rug", "Book"],
-        ["Want", "Soft"],
-        ["Tow", "Kite"],
-        ["Why", "Quack"],
-        ["Comb", "For"],
-        ["That", "Love"],
-        ["Bug", "Wet"],
-        ["Quiz", "Juice"],
-        ["Camp", "Light"],
-        ["Hand", "Goose"],
-        ["Lip", "Dad"],
-        ["Fall", "Room"],
-        ["Old", "Chef"]
-      ]
 
 
 
