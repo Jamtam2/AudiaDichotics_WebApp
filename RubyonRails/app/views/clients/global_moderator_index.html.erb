@@ -380,6 +380,7 @@
           <table>
             <thead>
               <tr>
+                <th>Created</th>
                 <th>Test Type</th>
                 <th>Gender</th>
                 <th>Age</th>
@@ -397,6 +398,7 @@
               <% @clients.each do |client| %>
                 <% client.dwt_tests.each do |dwt_test| %>
                   <tr>
+                    <td><%= dwt_test.created_at.strftime('%m/%d/%Y') %></td>
                     <td>DWT</td>
                     <td><%= client.gender %></td>
                     <td><%= client.age_in_years %></td>
@@ -412,6 +414,7 @@
                 <% end %>
                 <% client.dnw_tests.each do |dnw_test| %>
                   <tr>
+                    <td><%= dnw_test.created_at.strftime('%m/%d/%Y') %></td>
                     <td>DNW</td>
                     <td><%= client.gender %></td>
                     <td><%= client.age_in_years %></td>
@@ -426,6 +429,7 @@
                 <% end %>
                 <% client.rddt_tests.each do |rddt_test| %>
                   <tr>
+                    <td><%= rddt_test.created_at.strftime('%m/%d/%Y') %></td>
                     <td>RDDT</td>
                     <td><%= client.gender %></td>
                     <td><%= client.age_in_years %></td>
