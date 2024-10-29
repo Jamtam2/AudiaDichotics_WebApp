@@ -618,19 +618,21 @@ div.sticky {
         nondomPercent = "5th Percentile";
       }
       //conditional for determining what percentile the ear advantage falls into, for both negative ear advantage and positive
-      if (Math.abs(group2Advantage) >= advantage_25th){
-        adv_percent = "Within Normal Limits";
-      }
-      else if (Math.abs(group2Advantage) >= advantage_10th){
-        adv_percent = "25th Percentile";
-      }
-      else if (Math.abs(group2Advantage) >= advantage_5th){
-        adv_percent = "10th Percentile";
-      }
-      else{
-        adv_percent = "5th Percentile";
-      }
-      }
+          abs_adv_percent = Math.abs(group2Advantage); 
+
+        if (abs_adv_percent <= advantage_25th){
+            adv_percent = "Within Normal Limits";
+          }
+        if (abs_adv_percent <= advantage_10th && abs_adv_percent >= advantage_25th){
+            adv_percent = "25th Percentile";
+          }
+        if (abs_adv_percent <= advantage_5th && abs_adv_percent >= advantage_10th){
+            adv_percent = "10th Percentile";
+          }
+        if (abs_adv_percent > advantage_5th){
+            adv_percent = "5th Percentile";
+          }
+          }
 
 
       // Passes values to strings so they can be pushed to the html above

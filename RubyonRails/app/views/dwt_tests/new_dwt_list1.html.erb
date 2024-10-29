@@ -331,6 +331,7 @@
         let nondomPercent = null;
         let domPercent = null;
         let adv_percent = null;
+        let abs_adv_percent = null;
         let advantage_25th = null;
         let advantage_10th = null;
         let advantage_5th = null;
@@ -526,20 +527,24 @@
             nondomPercent = "5th Percentile";
           }
           //conditional for determining what percentile the ear advantage falls into, for both negative ear advantage and positive
-          if (Math.abs(advantage) >= advantage_25th){
+        abs_adv_percent = Math.abs(advantage); 
+
+        if (abs_adv_percent <= advantage_25th){
             adv_percent = "Within Normal Limits";
           }
-          else if (Math.abs(advantage) >= advantage_10th){
+        if (abs_adv_percent <= advantage_10th && abs_adv_percent >= advantage_25th){
             adv_percent = "25th Percentile";
           }
-          else if (Math.abs(advantage) >= advantage_5th){
+        if (abs_adv_percent <= advantage_5th && abs_adv_percent >= advantage_10th){
             adv_percent = "10th Percentile";
           }
-          else{
+        if (abs_adv_percent > advantage_5th){
             adv_percent = "5th Percentile";
           }
-        }
+          }
 
+
+          
 
         // Passes values to strings so they can be pushed to the html above
         column1Count.innerText = checkedCount1.toString();

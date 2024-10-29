@@ -9,7 +9,7 @@
 
             <div class="form-submit pb-3">
                 <%= form.label :license_type, 'License Type' %>
-                <%= form.select :license_type, [1, 2], {}, { name: 'key[license_type]' } %>
+  <%= form.select :license_type, Key.license_types.keys.map { |key| [key.humanize.titleize, Key.license_types[key]] }, {}, { name: 'key[license_type]' } %>
               <%= form.submit "Create License Key", class: "btn-lg btn-primary mfa-submit rounded-pill" %>
             </div>
           <% end %>
@@ -103,6 +103,7 @@
         </div>
 
 
+<%= link_to 'View Tenants', tenants_path, class: 'btn btn-success' %>
 
 
        

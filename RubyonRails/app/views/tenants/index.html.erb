@@ -1,0 +1,34 @@
+<h1>Tenants List</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First User Email</th> <!-- New Column for the First User's Email -->
+      <th>Creation Date</th>
+      <th>Membership Expiration</th>
+      <th>Test Limit</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tenants.each do |tenant| %>
+      <tr>
+        <td><%= tenant.id %></td>
+        <td>
+          <%= tenant.first_user_email.present? ? tenant.first_user_email : "No users available" %>
+        </td>
+        <td><%= tenant.created_at.strftime('%m/%d/%Y') %></td>
+          <% if tenant.membership_expiration.present? %>
+            <td><%= tenant.membership_expiration.strftime('%m/%d/%Y') %></td>
+          <% else %>
+            <td>N/A</td>
+        <% end %>
+        <td><%= tenant.test_limit %></td>
+        <td>
+          <%= link_to 'Edit', edit_tenant_path(tenant), class: "btn btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

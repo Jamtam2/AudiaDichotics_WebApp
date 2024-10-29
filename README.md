@@ -12,7 +12,6 @@ The application is live and can be accessed at [audiadichotics.com](http://www.a
 ### Work In Progress
 
 - **Training Feature:** Exercises to correct hearing deficiencies.
-- **Voice Activation Feature:** Enables automatic testing without clinician input.
 
 ## What is Amblyaudia?
 
