@@ -51,9 +51,12 @@
         <%= f.text_area :notes, class: 'form-control', rows: '3' %>
         <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-        <audio id="audioPlayer" controls >
+        <audio id="audioPlayer">
           <source src="<%= asset_path('Track 03 Dichotic Words Test Track 2.mp3') %>" type="audio/mpeg">
         </audio>
+        <!-- AUDIO PLAYER CONTROLS -->
+        <button id="startAudioBtn" type="button" class="btn btn-info">Start Audio</button>
+        <button id="stopAudioBtn" type="button" class="btn btn-info" disabled>Stop Audio</button>
         <hr/>
 
                 <!--BUTTONS FOR RECORDING AUDIO AND SENDING TO SERVER FOR TRANSCRIPTION-->
@@ -580,6 +583,36 @@
 
     }
 
+      // # AUDIO PLAYER CONTROLS
+      const audioPlayer = document.getElementById('audioPlayer');
+      const startAudioBtn = document.getElementById('startAudioBtn');
+      const stopAudioBtn = document.getElementById('stopAudioBtn');
+
+      // starts audio file
+      startAudioBtn.addEventListener('click', function() {
+        audioPlayer.play();
+        stopAudioBtn.removeAttribute('disabled');
+        startAudioBtn.setAttribute('disabled', 'disabled');
+      });
+
+      // stops audio file.
+      // creates a popup, asking for user confirmation -
+      // if the user chooses to stop the audio file, restart the page
+      // because the test is invalidated
+      stopAudioBtn.addEventListener('click', function() {
+        const CONF_TEXT = "Stopping the audio file will invalidate the test.\nThe page will reload.\nPress \"OK\" to end test.\nPress \"CANCEL\" to continue."
+        if(window.confirm(CONF_TEXT)) {
+          window.location.reload();
+        }
+      })
+      
+      // reloads page if audio file ends before completion.
+      audioPlayer.addEventListener('pause', function() {
+        if(!audioPlayer.ended) {
+          window.alert('Paused before completion. Test invalidated.\nReloading page.');
+          window.location.reload();
+        }
+      });
     </script>
 <%= javascript_pack_tag 'transcription' %>
 
