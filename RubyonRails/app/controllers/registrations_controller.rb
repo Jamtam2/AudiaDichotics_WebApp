@@ -49,11 +49,13 @@ class RegistrationsController < Devise::RegistrationsController
         redirect_to root_path, notice: 'User was successfully created set up 2FA auth.'
       else
         # If user creation fails, render the registration form again with error messages.
-        flash.now[:alert] = user.errors.full_messages.join(', ')
-        render :new
+        self.resource = user
+        @minimum_password_length = User.password_length.min
+        flash.now[:alert] = "Registration failed because of the following reason(s):<br> #{user.errors.full_messages.join("<br>")}".html_safe
+        render:new, status: :unprocessable_entity
       end
     else
-      flash[:alert] = 'Invalid moderator code or registration key.'
+      flash[:alert] = 'Invalid moderator code.'
       redirect_to new_user_registration_path and return
     end
   end
@@ -98,9 +100,11 @@ class RegistrationsController < Devise::RegistrationsController
           redirect_to root_path, notice: 'Local moderator was successfully created set up 2FA auth.'
         else
           # Handler for save failures
-          flash[:alert] = 'An internal error occurred. Try a different email, or reinput your license key.'
+          self.resource = user
+          @minimum_password_length = User.password_length.min
+          flash.now[:alert] = "Registration failed because of the following reason(s):<br> #{user.errors.full_messages.join("<br>")}".html_safe
           Rails.logger.info("DEBUG: Failed to save user: #{user.errors.full_messages}")
-          redirect_to new_user_registration_path and return
+          render:new, status: :unprocessable_entity
         end
       else
         # Handler for save failures
