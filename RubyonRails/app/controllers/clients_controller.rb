@@ -83,7 +83,7 @@ class ClientsController < ApplicationController
      def destroy
        @client = Client.find(params[:id])
        @client.destroy
-
+       
        redirect_to clients_url, notice: "Client was successfully deleted."
      end
 
@@ -94,6 +94,18 @@ class ClientsController < ApplicationController
 
        # Initialize instance variable to be used in clients > index.html.erb
        @clients = client_scope
+      #  @client_search =  Client.search(params[:search])
+
+      #  respond_to do |format|
+      #   format.html 
+      #   format.json { render json: @client_search }
+      #  end
+
+      if params[:search]
+        @client_search =  Client.search(params[:search])
+      else
+        @client_search = Client.all
+      end
 
        # Instance variable to be used to use scope from HashedData model for filtering
        hashed_datum_scope = HashedDatum.unscoped.all
@@ -109,7 +121,6 @@ class ClientsController < ApplicationController
          format.html
          format.csv { send_data generate_csv(@clients), filename: "client_data-#{Date.today}.csv" }
        end
-
      end
 
      # Controller for global_moderator_index page functionality

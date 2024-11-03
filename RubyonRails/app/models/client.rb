@@ -232,5 +232,11 @@ class Client < ApplicationRecord
     Arel.sql("EXTRACT(YEAR FROM age(date_of_birth))")
   end
 
-
+  def self.search(search)
+    if search
+      where("first_name LIKE ?", "%#{search}%")
+    else 
+      all
+    end
+  end
 end
