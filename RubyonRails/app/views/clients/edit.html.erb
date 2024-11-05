@@ -4,6 +4,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
   function buttonClick(dropdownId) {
+    const dropdowns = document.getElementsByClassName("dropdown-content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      if (dropdowns[i].id !== dropdownId) {
+        dropdowns[i].style.display = "none";
+      }
+    }
+
     const dropdown = document.getElementById(dropdownId);
     const button = document.querySelector(".dropdown");
     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
