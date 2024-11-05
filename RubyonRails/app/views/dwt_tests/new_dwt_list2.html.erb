@@ -55,11 +55,12 @@
           <source src="<%= asset_path('Track 03 Dichotic Words Test Track 2.mp3') %>" type="audio/mpeg">
         </audio>
         <!-- AUDIO PLAYER CONTROLS -->
-        <button id="startAudioBtn" type="button" class="btn btn-info">Start Audio</button>
+        <button id="startAudioBtn" type="button" class="btn btn-info" disabled>Start Audio</button>
         <button id="stopAudioBtn" type="button" class="btn btn-info" disabled>Stop Audio</button>
+        <span id="audioTimeContainer"><i>Loading...</i></span>
         <hr/>
 
-                <!--BUTTONS FOR RECORDING AUDIO AND SENDING TO SERVER FOR TRANSCRIPTION-->
+        <!--BUTTONS FOR RECORDING AUDIO AND SENDING TO SERVER FOR TRANSCRIPTION-->
         <button id="startBtn" type="button" class="btn btn-info">Start Recording</button>
         <button id="stopBtn" type="button" class="btn btn-info" disabled>Stop Recording</button>
 
@@ -589,6 +590,12 @@
       const audioPlayer = document.getElementById('audioPlayer');
       const startAudioBtn = document.getElementById('startAudioBtn');
       const stopAudioBtn = document.getElementById('stopAudioBtn');
+      const audioTimeContainer = document.getElementById('audioTimeContainer');
+
+      // Enables the audio player button once it is loaded
+      audioPlayer.addEventListener('loadeddata', function() {
+        startAudioBtn.removeAttribute('disabled');
+      });
 
       // starts audio file
       startAudioBtn.addEventListener('click', function() {
@@ -615,6 +622,25 @@
           window.location.reload();
         }
       });
+
+      //convert time to min:sec format
+      function timeConvert(time) {
+        const minutes = Math.floor(time / 60)
+        let seconds = Math.floor(time % 60)
+        if(seconds < 10) seconds = `0${seconds}`
+        return `${minutes}:${seconds}`
+      }
+
+      // capture audio time 
+      function updateTime() {
+        let currentTime = timeConvert(audioPlayer.currentTime)
+        let duration = timeConvert(audioPlayer.duration)
+        audioTimeContainer.innerText = `${currentTime} / ${duration}`
+      }
+
+      //time needs to be updated when the audio progresses
+      audioPlayer.addEventListener('loadeddata', updateTime)
+      audioPlayer.addEventListener('timeupdate', updateTime)
     </script>
 <%= javascript_pack_tag 'transcription' %>
 

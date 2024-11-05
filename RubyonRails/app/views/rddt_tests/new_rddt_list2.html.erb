@@ -56,8 +56,9 @@ div.sticky {
           <source src="/assets/Track 07 RDDT-FreeRecall 1.mp3" type="audio/mpeg">
         </audio>
         <!-- AUDIO PLAYER CONTROLS -->
-        <button id="startAudioBtn" type="button" class="btn btn-info">Start Audio</button>
+        <button id="startAudioBtn" type="button" class="btn btn-info" disabled>Start Audio</button>
         <button id="stopAudioBtn" type="button" class="btn btn-info" disabled>Stop Audio</button>
+        <span id="audioTimeContainer"><i>Loading...</i></span>
         <hr/>
         <!--Table for ear advantage percentage that is calculated in the script-->
         <style>
@@ -737,6 +738,12 @@ div.sticky {
     const audioPlayer = document.getElementById('audioPlayer');
     const startAudioBtn = document.getElementById('startAudioBtn');
     const stopAudioBtn = document.getElementById('stopAudioBtn');
+    const audioTimeContainer = document.getElementById('audioTimeContainer');
+
+      // Enables the audio player button once it is loaded
+      audioPlayer.addEventListener('loadeddata', function() {
+        startAudioBtn.removeAttribute('disabled');
+      });
 
     // starts audio file
     startAudioBtn.addEventListener('click', function() {
@@ -763,6 +770,25 @@ div.sticky {
         window.location.reload();
       }
     });
+
+      //convert time to min:sec format
+      function timeConvert(time) {
+        const minutes = Math.floor(time / 60)
+        let seconds = Math.floor(time % 60)
+        if(seconds < 10) seconds = `0${seconds}`
+        return `${minutes}:${seconds}`
+      }
+
+      // capture audio time 
+      function updateTime() {
+        let currentTime = timeConvert(audioPlayer.currentTime)
+        let duration = timeConvert(audioPlayer.duration)
+        audioTimeContainer.innerText = `${currentTime} / ${duration}`
+      }
+
+      //time needs to be updated when the audio progresses
+      audioPlayer.addEventListener('loadeddata', updateTime)
+      audioPlayer.addEventListener('timeupdate', updateTime)
   </script>
   </div>
 </div>
