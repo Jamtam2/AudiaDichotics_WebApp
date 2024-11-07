@@ -2,7 +2,34 @@
 <%= stylesheet_link_tag "tablesScroll" %>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function buttonClick(dropdownId) {
+    const dropdowns = document.getElementsByClassName("dropdown-content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      if (dropdowns[i].id !== dropdownId) {
+        dropdowns[i].style.display = "none";
+      }
+    }
 
+    const dropdown = document.getElementById(dropdownId);
+    const button = document.querySelector(".dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    dropdown.style.width = `${button.offsetWidth}px`;
+  }
+
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropdown')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        openDropdown.style.display = "none"
+        const button = openDropdown.parentElement.querySelector(".dropdown");
+        button.classList.remove("clicked");
+      } 
+    }
+  }
+</script>
 
 
 
@@ -172,58 +199,46 @@
         <div class="row">
 <!-- DWT Test Button -->
 <div class="col-sm-4">
-  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+  <button onclick="buttonClick('dropdown1'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
+      <%= 'disabled' unless current_user.tenant.can_take_test? %>> 
     Add DWT Test
   </button>
   <% if current_user.tenant.can_take_test? %>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
-      <a class="dropdown-item" href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
-      <a class="dropdown-item" href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
-      <a class="dropdown-item" href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
+    <div id="dropdown1" class="dropdown-content">
+      <a href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
+      <a href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
+      <a href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
+      <a href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
     </div>
   <% end %>
 </div>
 
 <!-- RDDT Test Button -->
 <div class="col-sm-4">
-  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+  <button onclick="buttonClick('dropdown2'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
+      <%= 'disabled' unless current_user.tenant.can_take_test? %>>
     Add RDDT Test
   </button>
   <% if current_user.tenant.can_take_test? %>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
-      <a class="dropdown-item" href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
+    <div id="dropdown2" class="dropdown-content">
+      <a href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
+      <a href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
     </div>
   <% end %>
 </div>
 
 <!-- DNW Test Button -->
 <div class="col-sm-4">
-  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+  <button onclick="buttonClick('dropdown3'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
+      <%= 'disabled' unless current_user.tenant.can_take_test? %>>
     Add DNW Test
   </button>
   <% if current_user.can_take_test? %>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
-      <a class="dropdown-item" href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
-      <a class="dropdown-item" href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
-      <a class="dropdown-item" href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
+    <div id="dropdown3" class="dropdown-content">
+      <a href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
+      <a href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
+      <a href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
+      <a href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
     </div>
   <% end %>
 </div>
