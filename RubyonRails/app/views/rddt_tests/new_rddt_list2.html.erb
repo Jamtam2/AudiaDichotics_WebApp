@@ -740,10 +740,19 @@ div.sticky {
     const stopAudioBtn = document.getElementById('stopAudioBtn');
     const audioTimeContainer = document.getElementById('audioTimeContainer');
 
-      // Enables the audio player button once it is loaded
-      audioPlayer.addEventListener('loadeddata', function() {
-        startAudioBtn.removeAttribute('disabled');
-      });
+      // Enables the audio player button if it is loaded
+      enableCustomControls();
+
+      function enableCustomControls() {
+        if (audioPlayer.readyState >= audioPlayer.HAVE_FUTURE_DATA) {
+          startAudioBtn.removeAttribute('disabled');
+          updateTime();
+        } else {
+          setTimeout(() => {
+            enableCustomControls();
+          }, 100);
+        }
+      }
 
     // starts audio file
     startAudioBtn.addEventListener('click', function() {
@@ -787,7 +796,6 @@ div.sticky {
       }
 
       //time needs to be updated when the audio progresses
-      audioPlayer.addEventListener('loadeddata', updateTime)
       audioPlayer.addEventListener('timeupdate', updateTime)
   </script>
   </div>

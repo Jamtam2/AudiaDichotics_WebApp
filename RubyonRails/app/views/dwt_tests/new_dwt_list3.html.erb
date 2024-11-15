@@ -591,10 +591,21 @@
       const stopAudioBtn = document.getElementById('stopAudioBtn');
       const audioTimeContainer = document.getElementById('audioTimeContainer');
 
-      // Enables the audio player button once it is loaded
-      audioPlayer.addEventListener('loadeddata', function() {
-        startAudioBtn.removeAttribute('disabled');
-      });
+      // Enables the audio player button if it is loaded
+      enableCustomControls();
+
+      function enableCustomControls() {
+        if (audioPlayer.readyState >= audioPlayer.HAVE_FUTURE_DATA) {
+          console.log('success!');
+          startAudioBtn.removeAttribute('disabled');
+          updateTime();
+        } else {
+          setTimeout(() => {
+            console.log('failed. Loading again...');
+            enableCustomControls();
+          }, 1000);
+        }
+      }
 
       // starts audio file
       startAudioBtn.addEventListener('click', function() {
@@ -638,7 +649,6 @@
       }
 
       //time needs to be updated when the audio progresses
-      audioPlayer.addEventListener('loadeddata', updateTime)
       audioPlayer.addEventListener('timeupdate', updateTime)
     </script>
 
