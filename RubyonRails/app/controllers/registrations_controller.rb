@@ -113,16 +113,6 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def valid_registration_key?(key)
-    if key.present?
-      puts "key is present"
-    else
-      puts "key is not present"
-    end
-    if !key.used
-      puts "key is not used"
-    else
-      puts "key is used"
-    end
     key.present? && !key.used && (key.expiration.nil? || key.expiration > Time.current)
   end
 
