@@ -26,12 +26,17 @@ function toggleFields() {
         let registrationKeyField = document.getElementById('registrationKeyField');
         let signUpCodeField = document.getElementById('signUpCodeField');
 
+        let registrationKey = document.getElementById('registrationKey');
+        let moderatorKey = document.getElementById('moderatorKey');
+
         if (registrationKeyField) {
             registrationKeyField.style.display = localModerator ? 'block' : 'none';
+            registrationKey.required = localModerator ? true : false;
         }
 
         if (signUpCodeField) {
             signUpCodeField.style.display = regularUser ? 'block' : 'none';
+            moderatorKey.required = regularUser ? true : false;
         }
 
     }
