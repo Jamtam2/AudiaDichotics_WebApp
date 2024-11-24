@@ -61,12 +61,11 @@ class ClientsController < ApplicationController
      def edit
          @client = Client.find(params[:id])
          #is this way of doing id correct? or should it be split up into 3 lines?
-         dwt_id = params[:dwt_test_id]
-         dnw_id = params[:dnw_test_id]
-         rddt_id = params[:rddt_test_id]
-         @dwt_test = @client.dwt_tests.find_by(params[id: dwt_id])
-         @dnw_test = @client.dnw_tests.find_by(params[id: dnw_id])
-         @rddt_test = @client.rddt_tests.find_by(params[id: rddt_id])
+         @all_tests = (
+          @client.dwt_tests.to_a +
+          @client.dnw_tests.to_a +
+          @client.rddt_tests.to_a
+         ).sort_by(&:created_at).reverse
        end
 
 

@@ -6,7 +6,7 @@
 <%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
 </div>
 <div>
-  <% if current_user && current_user.user_mfa_sessions.first && !current_user.user_mfa_sessions.first.activated %>
+  <% if current_user && current_user.user_mfa_sessions.first && !current_user.google_secret %>
     <h2  class= "display-4", style= 'padding-bottom:20px' ><strong>Set up Google Authenticator</strong></h2>
     <div  class="mfa-page">
     <div class="instructions">
