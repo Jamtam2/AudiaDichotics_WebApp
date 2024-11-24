@@ -110,7 +110,8 @@ gem 'securerandom'
 # Handler for payment processing
 gem 'stripe'
 
-gem 'sidekiq'
+# gem 'sidekiq'
+gem 'sidekiq', '~> 7.2.4'
 
 gem 'assemblyai', '~> 1.1'
 
