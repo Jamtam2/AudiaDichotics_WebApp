@@ -26,7 +26,7 @@ def create
     # If neither condition is met, it's an invalid code
     attempted_time = Time.now
     server_code = ROTP::TOTP.new(user.user_mfa_sessions.first.secret_key).at(attempted_time) if user.user_mfa_sessions.first.present?
-    flash.now[:alert] = "Invalid code. Attempted Code: #{params[:mfa_code] || params[:email_2fa_code]}, Server Code: #{server_code}, Time: #{attempted_time}"
+    flash.now[:alert] = "Invalid code. Attempted Code: #{params[:mfa_code] || params[:email_2fa_code]}, Time: #{attempted_time.strftime("%H:%M %m/%d/%Y")}"
     render :new
   end
 
