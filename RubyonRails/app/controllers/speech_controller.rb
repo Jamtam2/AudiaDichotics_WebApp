@@ -25,9 +25,8 @@ class SpeechController < ApplicationController
         return
       end
 
-      secure_filename = SecureRandom.uuid
       original_filename = uploaded_file.original_filename
-      original_path = Rails.root.join('storage', 'uploads', 'audio', "original_#{original_filename}#{secure_filename}")
+      original_path = Rails.root.join('storage', 'uploads', 'audio', "original_#{original_filename}")
 
       # Ensure the uploads directory exists
       FileUtils.mkdir_p(Rails.root.join('storage', 'uploads', 'audio')) unless Dir.exist?(Rails.root.join('storage', 'uploads', 'audio'))
@@ -38,7 +37,7 @@ class SpeechController < ApplicationController
       end
 
       # Define the path for the converted file
-      converted_filename = "converted_#{original_filename}#{secure_filename}"
+      converted_filename = "converted_#{original_filename}"
       converted_path = Rails.root.join('storage', 'uploads', 'audio', converted_filename)
 
       begin
