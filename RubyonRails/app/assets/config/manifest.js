@@ -7,3 +7,5 @@
 //= link tabs.js
 //= link modalControlClientsIndex.js
 //= link modalControlGlobalModeratorIndex.js
+//= link application.css
+//= link registrationFormValidation.js
