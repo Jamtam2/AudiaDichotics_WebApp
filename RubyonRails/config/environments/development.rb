@@ -10,7 +10,7 @@ Rails.application.configure do
 
   # Do not eager load code on boot.
   config.eager_load = false
-  config.log_level = :info
+  config.log_level = :debug
   # Show full error reports.
   config.consider_all_requests_local = true
 
@@ -81,7 +81,7 @@ Rails.application.configure do
     port: 587,
     domain: 'gmail.com',
     user_name: 'dichoticdataresearch@gmail.com',
-    password: 'sqcngtxqyrjdbncm', # It's recommended to use credentials from environment variables or encrypted secrets
+    password: ENV["PASSWORD_TWO"], # It's recommended to use credentials from environment variables or encrypted secrets ENV["PASSWORD_TWO"]
     authentication: 'plain',
     enable_starttls_auto: true
   }

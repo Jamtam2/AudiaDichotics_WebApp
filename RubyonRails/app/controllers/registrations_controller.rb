@@ -14,9 +14,6 @@ class RegistrationsController < Devise::RegistrationsController
       create_regular_user
     when 'local_moderator'
       create_local_moderator
-    else
-      flash[:alert] = 'Invalid account type.'
-      redirect_to new_user_registration_path and return
     end
   end
 
@@ -37,24 +34,26 @@ class RegistrationsController < Devise::RegistrationsController
 
     if local_moderator.present?
       Rails.logger.info("DEBUG: Local mod was present.")
-
+      
       # The user is associated with the tenant of the local moderator whose code was entered.
       user.tenant_id = local_moderator.tenant_id
 
       # Check if user record was saved before proceeding.
       if user.save
         # key.update(used: true)
-         flash[:notice] = 'Regular user was successfully created.'
+        flash[:notice] = 'Regular user was successfully created.'
         sign_in(:user, user)
         redirect_to root_path, notice: 'User was successfully created set up 2FA auth.'
       else
         # If user creation fails, render the registration form again with error messages.
-        flash.now[:alert] = user.errors.full_messages.join(', ')
-        render :new
+        self.resource = user
+        display_error_messages(user)
+        render:new, status: :unprocessable_entity and return
       end
     else
-      flash[:alert] = 'Invalid moderator code or registration key.'
-      redirect_to new_user_registration_path and return
+      self.resource = user
+      flash[:alert] = 'Invalid moderator code.'
+      render:new, status: :unprocessable_entity and return
     end
   end
 
@@ -98,14 +97,15 @@ class RegistrationsController < Devise::RegistrationsController
           redirect_to root_path, notice: 'Local moderator was successfully created set up 2FA auth.'
         else
           # Handler for save failures
-          flash[:alert] = 'An internal error occurred. Try a different email, or reinput your license key.'
-          Rails.logger.info("DEBUG: Failed to save user: #{user.errors.full_messages}")
-          redirect_to new_user_registration_path and return
+          self.resource = user
+          display_error_messages(user)
+          render:new, status: :unprocessable_entity and return
         end
       else
         # Handler for save failures
+        self.resource = user
         flash[:alert] = 'Invalid registration key.'
-        redirect_to new_user_registration_path and return
+        render:new, status: :unprocessable_entity and return
       end
     end
   end
@@ -116,7 +116,11 @@ class RegistrationsController < Devise::RegistrationsController
     key.present? && !key.used && (key.expiration.nil? || key.expiration > Time.current)
   end
 
-
+  def display_error_messages(user)
+    @minimum_password_length = User.password_length.min
+    flash.now[:alert] = "Registration failed because of the following reason(s):<br> #{user.errors.full_messages.join("<br>")}".html_safe
+    Rails.logger.info("DEBUG: Failed to save user: #{user.errors.full_messages}")
+  end
 
   private
 
