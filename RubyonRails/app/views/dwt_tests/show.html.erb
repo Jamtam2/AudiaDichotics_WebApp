@@ -24,6 +24,24 @@
         </div>
     </div>
 <div>
+    <style>
+      /* Center buttons in the table cells */
+      .btn-group-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      /* Make the font larger */
+      .btn.btn-outline-primary {
+        font-size: 16px; /* Adjust the font size as needed */
+        margin: 5px; /* Add some margin to separate the buttons */
+        min-width: 40px; /* Adjust the minimum width as needed */
+      }
+    </style>
+
+
 <!--Data stored outside of the columns with the image -->
 <% if @dwt_test.selected_words.present? %>
 
