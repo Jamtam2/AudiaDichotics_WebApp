@@ -28,6 +28,7 @@
 
 <!--Data stored outside of the columns with the image -->
 <!--Data stored outside of the columns with the image -->
+<% if @dnw_test.selected_words.present? %>
 
 <h3>Selected Words</h3>
 <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
@@ -177,6 +178,11 @@
     <% end %>
   </tbody>
 </table>
+
+<% else %>
+  <p>Test was taken before test viewing was implemented, and cannot be reviewed.</p>
+<% end %>
+
 
 
 
