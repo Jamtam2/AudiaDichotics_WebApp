@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_14_051550) do
+ActiveRecord::Schema.define(version: 2024_12_14_054823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.string "left_percentile"
     t.string "right_percentile"
     t.jsonb "selected_words"
+    t.integer "category_id"
     t.index ["client_id"], name: "index_dnw_tests_on_client_id"
     t.index ["tenant_id"], name: "index_dnw_tests_on_tenant_id"
     t.index ["user_id"], name: "index_dnw_tests_on_user_id"
@@ -136,6 +137,7 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.string "left_percentile"
     t.string "right_percentile"
     t.jsonb "selected_words"
+    t.integer "category_id"
     t.index ["client_id"], name: "index_dwt_tests_on_client_id"
     t.index ["tenant_id"], name: "index_dwt_tests_on_tenant_id"
     t.index ["user_id"], name: "index_dwt_tests_on_user_id"
@@ -267,6 +269,7 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.float "ear_advantage_score3"
     t.string "right_percentile"
     t.jsonb "selected_words"
+    t.integer "category_id"
     t.index ["client_id"], name: "index_rddt_tests_on_client_id"
     t.index ["tenant_id"], name: "index_rddt_tests_on_tenant_id"
     t.index ["user_id"], name: "index_rddt_tests_on_user_id"

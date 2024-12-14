@@ -4,27 +4,33 @@ class DwtTestsController < ApplicationController
 
 def new_dwt_list1
         @client = Client.find(params[:client_id])
-        @dwt_test = @client.dwt_tests.build
+        @dwt_test = @client.dwt_tests.build(category_id: 1)
         @dob = @client.date_of_birth
+        Rails.logger.debug { "Category ID: #{@dwt_test.category_id}" }
+
     end
 
     def new_dwt_list2
         @client = Client.find(params[:client_id])
-        @dwt_test = @client.dwt_tests.build
+        @dwt_test = @client.dwt_tests.build(category_id: 2)
         @dob = @client.date_of_birth
+        Rails.logger.debug { "Category ID: #{@dwt_test.category_id}" }
+
     end
 
     def new_dwt_list3
         @client = Client.find(params[:client_id])
-        @dwt_test = @client.dwt_tests.build
+        @dwt_test = @client.dwt_tests.build(category_id: 3)
         @dob = @client.date_of_birth
     end
 
     def new_dwt_list4
         @client = Client.find(params[:client_id])
-        @dwt_test = @client.dwt_tests.build
+        @dwt_test = @client.dwt_tests.build(category_id: 4)
         @dob = @client.date_of_birth
-    end
+        Rails.logger.debug { "Category ID: #{@dwt_test.category_id}" }
+
+      end
 
 
     def index
@@ -116,7 +122,7 @@ def new_dwt_list1
       private
 
       def dwt_test_params
-        params.require(:dwt_test).permit(:label, :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :interpretation, :left_percentile, :right_percentile, :advantage_percentile,  :scan, :authenticity_token, selected_words: {})
+        params.require(:dwt_test).permit(:label, :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :interpretation, :left_percentile, :right_percentile, :advantage_percentile,  :scan, :category_id, :authenticity_token, selected_words: {})
       end
 
 
