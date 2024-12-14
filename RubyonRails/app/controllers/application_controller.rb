@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
     if user_mfa_session.nil? || (!user_mfa_session.activated && !user_mfa_session.email_verified)
       redirect_to new_user_mfa_session_path and return
 
-    else
+  else
       authenticate_user_with_redirect!
 
     end
@@ -121,6 +121,7 @@ class ApplicationController < ActionController::Base
       verify_email_2fa_user_mfa_sessions_path,
       "/stripe_checkout",
       "/stripe_checkout/success",
+      "/user_mfa_sessions/reset_qr_code"
     ]
   end
   # def current_user
