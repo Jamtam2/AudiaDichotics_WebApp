@@ -27,6 +27,68 @@
 <div>
 
 <!--Data stored outside of the columns with the image -->
+<!--Data stored outside of the columns with the image -->
+
+<h3>Selected Words</h3>
+<table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
+  <thead class="thead-dark">
+    <tr>
+      <th>Number</th>
+      <th>Left</th>
+      <th>Right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% words_list = [
+      ["Fun", "Pig"],
+      ["Vine", "Sheep"],
+      ["Cake", "Buy"],
+      ["Round", "Storm"],
+      ["Say", "Tan"],
+      ["Yes", "Fast"],
+      ["Pen", "Most"],
+      ["Bet", "One"],
+      ["Green", "Booth"],
+      ["Store", "Glass"],
+      ["Soap", "Teeth"],
+      ["Bring", "Share"],
+      ["Rug", "Book"],
+      ["Want", "Soft"],
+      ["Tow", "Kite"],
+      ["Why", "Quack"],
+      ["Comb", "For"],
+      ["That", "Love"],
+      ["Bug", "Wet"],
+      ["Quiz", "Juice"],
+      ["Camp", "Light"],
+      ["Hand", "Goose"],
+      ["Lip", "Dad"],
+      ["Fall", "Room"],
+      ["Old", "Chef"]
+    ] %>
+
+    <% 25.times do |i| %>
+      <tr>
+        <td><%= i + 1 %></td>
+        <td>
+          <div class="btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-primary column1-button <%= 'active' if @dnw_test.selected_words[i.to_s]&.include?("1") %>">
+              <%= words_list[i][0] %> <!-- Left word -->
+            </label>
+          </div>
+        </td>
+        <td>
+          <div class="btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-primary column2-button <%= 'active' if @dnw_test.selected_words[i.to_s]&.include?("2") %>">
+              <%= words_list[i][1] %> <!-- Right word -->
+            </label>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 
 
 

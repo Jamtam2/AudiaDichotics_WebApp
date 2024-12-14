@@ -235,7 +235,7 @@
                         <% nums[i][0].each_with_index do |num, index| %>
                           <% button_class = "column1Group#{group_size}-button" %>
                           <label class="btn btn-outline-primary <%= button_class %>">
-                            <input type="checkbox" name="column1[<%= i %>][]" value="<%= num %>">
+                            <input type="checkbox" name="selected_words[<%= i %>][]" value="<%= num %>">
                             <%= num %>
                           </label>
                         <% end %>
@@ -248,7 +248,7 @@
                         <% nums[i][1].each_with_index do |num, index| %>
                           <% button_class = "column2Group#{group_size}-button" %>
                           <label class="btn btn-outline-primary <%= button_class %>">
-                            <input type="checkbox" name="column2[<%= i %>][]" value="<%= num %>">
+                            <input type="checkbox" name="selected_words[<%= i %>][]" value="<%= num %>">
                             <%= num %>
                           </label>
                         <% end %>
