@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
       requested_path = request.fullpath
 
-      allowed_paths = ["/users/sign_in", "/users/sign_up", "/stripe_checkout","/webhooks/stripe", "/users/password/new", "/users/password", "/users/password/edit", "/inquiries", "/about"] + mfa_setup_paths
+      allowed_paths = ["/users/sign_in", "/users/sign_up", "/stripe_checkout","/webhooks/stripe", "/users/password/new", "/users/password", "/users/password/edit", "/inquiries", "/about", "/user_mfa_sessions/setup_google_auth"] + mfa_setup_paths
       is_allowed_path = allowed_paths.any? { |path| requested_path.start_with?(path) }
 
       if request.method == "POST" && requested_path == "/users"
@@ -36,26 +36,30 @@ class ApplicationController < ActionController::Base
 
   def check_mfa
     # Bypass MFA check in development
-    if Rails.env.development?
-      return
-    end
+    # if Rails.env.development?
+    #   return
+    # end
 
     # TODO: Remove this when moving to production
     # if Rails.env.development?
     #   return
     # end
+    Rails.logger.info("DEBUG: IN CHECK MFA")
 
     return unless user_signed_in? && "/users/sign_out" != request.path
+    Rails.logger.info("DEBUG: IN CHECK MFA 2 ")
 
     # Bypass MFA check if the current path is one of the MFA setup paths
     return if mfa_setup_paths.include?(request.path)
+    Rails.logger.info("DEBUG: IN CHECK MFA 3")
 
     user_mfa_session = current_user.user_mfa_sessions.first
 
     if user_mfa_session.nil? || (!user_mfa_session.activated && !user_mfa_session.email_verified)
       redirect_to new_user_mfa_session_path and return
 
-    else
+    Rails.logger.info("DEBUG: IN CHECK MFA 4")
+  else
       authenticate_user_with_redirect!
 
     end
@@ -121,6 +125,7 @@ class ApplicationController < ActionController::Base
       verify_email_2fa_user_mfa_sessions_path,
       "/stripe_checkout",
       "/stripe_checkout/success",
+      "/user_mfa_sessions/reset_qr_code"
     ]
   end
   # def current_user
