@@ -33,6 +33,7 @@ def create
 
   def reset_qr_code
     user = current_user
+    user.update(reset: true)
     user.reset_google_authenticator!
     UserMailer.send_2fa_code(user, user.email_2fa_code).deliver_now
     redirect_to enter_email_code_user_mfa_sessions_path, notice: 'A verification code has been sent to your email. Please enter the code; Your QR code will be reset on next login.'
@@ -87,8 +88,10 @@ def create
       user.update(email_2fa_code: nil)  # Clear the code after successful verification
       puts "#{user_mfa_session.inspect}"
       puts "#{user.inspect}"
-
-      redirect_to root_path, notice: "Email verification successful"
+      if user.reset
+        user.update(reset: false, google_secret: nil)
+      end
+        redirect_to root_path, notice: "Email verification successful"
     else
       # The code does not match, handle the failure
       flash.now[:alert] = "Invalid verification code. Please try again."

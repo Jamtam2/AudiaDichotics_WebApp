@@ -17,6 +17,7 @@
 #  moderator_code         :string
 #  outstanding_balance    :boolean
 #  remember_created_at    :datetime
+#  reset                  :boolean
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  right_ear_decibel      :integer
