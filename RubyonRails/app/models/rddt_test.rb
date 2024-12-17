@@ -23,9 +23,11 @@
 #  right_score1             :float
 #  right_score2             :float
 #  right_score3             :float
+#  selected_words           :jsonb
 #  test_type                :string
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  category_id              :integer
 #  client_id                :bigint           not null
 #  tenant_id                :bigint
 #  user_id                  :bigint           not null

@@ -27,6 +27,181 @@
 <div>
 
 <!--Data stored outside of the columns with the image -->
+<!--Data stored outside of the columns with the image -->
+    <style>
+      /* Center buttons in the table cells */
+      .btn-group-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      /* Make the font larger */
+      .btn.btn-outline-primary {
+        font-size: 16px; /* Adjust the font size as needed */
+        margin: 5px; /* Add some margin to separate the buttons */
+        min-width: 40px; /* Adjust the minimum width as needed */
+      }
+    </style>
+
+
+<% if @dnw_test.selected_words.present? %>
+
+<h3>Selected Words</h3>
+<table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
+  <thead class="thead-dark">
+    <tr>
+      <th>Number</th>
+      <th>Left</th>
+      <th>Right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% words_list = case @dnw_test.category_id
+                   when 1
+                     [
+                        ["Beeth", "Ked"],
+                        ["Dith", "Feev"],
+                        ["Thich", "Yob"],
+                        ["Yid", "Jeek"],
+                        ["Duth", "Pel"],
+                        ["Koid", "Zuth"],
+                        ["Poim", "Zug"],
+                        ["Choid", "Thooch"],
+                        ["Boap", "Rudge"],
+                        ["Looth", "Sich"],
+                        ["Veb", "Zite"],
+                        ["Jeeth", "Koom"],
+                        ["Chiv", "Feek"],
+                        ["Beev", "Zoil"],
+                        ["Meeth", "Wid"],
+                        ["Vich", "Zayg"],
+                        ["Widge", "Zuch"],
+                        ["Choog", "Zith"],
+                        ["Vum", "Waf"],
+                        ["Meech", "Zoth"],
+                        ["Futh", "Zoop"],
+                        ["Keek", "Noof"],
+                        ["Kich", "Weeth"],
+                        ["Mayp", "Tith"],
+                        ["Maych", "Veeb"]
+                     ]
+                   when 2
+                     [
+                        ["Baf", "Peth"],
+                        ["Fooz", "Roip"],
+                        ["Thooz", "Zidge"],
+                        ["Sach", "Wuv"],
+                        ["Juf", "Zoid"],
+                        ["Gatch", "Soodge"],
+                        ["Chudge", "Mog"],
+                        ["Baym", "Dus"],
+                        ["Jich", "Soik"],
+                        ["Moit", "Poodge"],
+                        ["Roodge", "Voich"],
+                        ["Goid", "Mudge"],
+                        ["Fide", "Theech"],
+                        ["Kooth", "Meed"],
+                        ["Mooz", "Voidge"],
+                        ["Bidge", "Vuch"],
+                        ["Poin", "Voodge"],
+                        ["Poith", "Wook"],
+                        ["Sudge", "Waym"],
+                        ["Gitch", "Thoon"],
+                        ["Nuch", "Thoom"],
+                        ["Ludge", "Woit"],
+                        ["Jov", "Thaun"],
+                        ["Nooch", "Ruv"],
+                        ["Roit", "Vob"]
+                     ]
+                   when 3
+                     [
+                        ["Yach", "Chuz"],
+                        ["Vib", "Zoog"],
+                        ["Nov", "Wudge"],
+                        ["Chaz", "Voot"],
+                        ["Bap", "Pum"],
+                        ["Goug", "Voch"],
+                        ["Feeg", "Vudge"],
+                        ["Roif", "Jeeb"],
+                        ["Sooch", "Tuv"],
+                        ["Fuv", "Shat"],
+                        ["Suth", "Kosh"],
+                        ["Dudge", "Jooch"],
+                        ["Chid", "Dadage"],
+                        ["Pooth", "Kef"],
+                        ["Choom", "Thit"],
+                        ["Thoodge", "Vus"],
+                        ["Voin", "Zam"],
+                        ["Boich", "Juv"],
+                        ["Jath", "Hod"],
+                        ["Joov", "Kes"],
+                        ["Bith", "Puv"],
+                        ["Voth", "Yim"],
+                        ["Toodge", "Yich"],
+                        ["Jith", "Yoip"],
+                        ["Gid", "Jayv"]
+                     ]
+                   when 4
+                     [
+                        ["Zayf", "Soob"],
+                        ["Voof", "Kun"],
+                        ["Chach", "Jit"],
+                        ["Fav", "Moidge"],
+                        ["Feg", "Suv"],
+                        ["Jach", "Sooog"],
+                        ["Nib", "Fek"],
+                        ["Ves", "Booch"],
+                        ["Sahdge", "Zoid"],
+                        ["Tooz", "Yite"],
+                        ["Chud", "Vil"],
+                        ["Golf", "Tich"],
+                        ["Luf", "Bok"],
+                        ["Moich", "Juth"],
+                        ["Gudge", "Veth"],
+                        ["Joob", "Vath"],
+                        ["Jike", "Foob"],
+                        ["Bime", "Choif"],
+                        ["Wov", "Jat"],
+                        ["Chayg", "Foich"],
+                        ["Wode", "Roiz"],
+                        ["Juch", "Faz"],
+                        ["Puz", "Douth"],
+                        ["Wolf", "Gez"],
+                        ["Joik", "Redge"]
+                     ]
+                   else
+                     []
+                   end %>
+
+    <% 25.times do |i| %>
+      <tr>
+        <td><%= i + 1 %></td>
+        <td>
+          <div class="btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-primary column1-button <%= 'active' if @dnw_test.selected_words[i.to_s]&.include?("1") %>">
+              <%= words_list[i][0] %> <!-- Left word -->
+            </label>
+          </div>
+        </td>
+        <td>
+          <div class="btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-primary column2-button <%= 'active' if @dnw_test.selected_words[i.to_s]&.include?("2") %>">
+              <%= words_list[i][1] %> <!-- Right word -->
+            </label>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% else %>
+  <p>Test was taken before test viewing was implemented, and cannot be reviewed.</p>
+<% end %>
+
+
 
 
 

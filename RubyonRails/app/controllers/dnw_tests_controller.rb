@@ -2,25 +2,25 @@ class DnwTestsController < ApplicationController
 
   def new_dnw_list1
     @client = Client.find(params[:client_id])
-    @dnw_test = @client.dnw_tests.build
+    @dnw_test = @client.dnw_tests.build(category_id: 1)
     @dob = @client.date_of_birth
   end
 
   def new_dnw_list2
     @client = Client.find(params[:client_id])
-    @dnw_test = @client.dnw_tests.build
+    @dnw_test = @client.dnw_tests.build(category_id: 2)
     @dob = @client.date_of_birth
   end
 
   def new_dnw_list3
     @client = Client.find(params[:client_id])
-    @dnw_test = @client.dnw_tests.build
+    @dnw_test = @client.dnw_tests.build(category_id: 3)
     @dob = @client.date_of_birth
   end
 
   def new_dnw_list4
     @client = Client.find(params[:client_id])
-    @dnw_test = @client.dnw_tests.build
+    @dnw_test = @client.dnw_tests.build(category_id: 4)
     @dob = @client.date_of_birth
   end
 
@@ -32,6 +32,9 @@ class DnwTestsController < ApplicationController
   def show
     @client = Client.find(params[:client_id])
     @dnw_test = @client.dnw_tests.find(params[:id])
+            # Ensure selected_words is at least an empty hash to avoid nil errors
+    @dnw_test.selected_words ||= {}
+
   end
 
   def edit
@@ -57,6 +60,8 @@ class DnwTestsController < ApplicationController
     @dnw_test = @client.dnw_tests.build(dnw_test_params)
     @dnw_test.user = current_user
     @dnw_test.client = @client
+    @dnw_test.selected_words = params[:selected_words]
+
 
     if @dnw_test.save
       current_user.tenant.use_test!
@@ -85,7 +90,7 @@ class DnwTestsController < ApplicationController
   private
 
   def dnw_test_params
-    params.require(:dnw_test).permit(:label, :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :interpretation, :scan, :authenticity_token)
+    params.require(:dnw_test).permit(:label, :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :interpretation, :scan, :category_id, :authenticity_token, selected_words: {})
   end
 
   def check_test_limit

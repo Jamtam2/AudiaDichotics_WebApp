@@ -2,13 +2,13 @@ class RddtTestsController < ApplicationController
 
   def new_rddt_list1
     @client = Client.find(params[:client_id])
-    @rddt_test = @client.rddt_tests.build
+    @rddt_test = @client.rddt_tests.build(category_id: 1)
     @dob = @client.date_of_birth
   end
 
   def new_rddt_list2
     @client = Client.find(params[:client_id])
-    @rddt_test = @client.rddt_tests.build
+    @rddt_test = @client.rddt_tests.build(category_id: 2)
     @dob = @client.date_of_birth
   end
 
@@ -23,6 +23,9 @@ class RddtTestsController < ApplicationController
     Rails.logger.info "advantage score1:#{@rddt_test.ear_advantage_score1}"
     Rails.logger.info "advantage score:#{@rddt_test.ear_advantage_score}"
     Rails.logger.info "advantage score3: #{@rddt_test.ear_advantage_score3}"
+    Rails.logger.info("#{@rddt_test.inspect}")
+
+    @rddt_test.selected_words ||= {}
   end
 
   def edit
@@ -48,6 +51,7 @@ class RddtTestsController < ApplicationController
     @rddt_test = @client.rddt_tests.build(rddt_test_params)
     @rddt_test.user = current_user
     @rddt_test.client = @client
+    @rddt_test.selected_words = params[:selected_words]
 
     if @rddt_test.save
       current_user.tenant.use_test!
@@ -76,7 +80,7 @@ class RddtTestsController < ApplicationController
   private
 
   def rddt_test_params
-    params.require(:rddt_test).permit(:label, :notes, :client_name, :test_type, :left_score1, :left_score2, :left_score3, :right_score1, :right_score2, :right_score3, :interpretation, :ear_advantage, :ear_advantage_score, :ear_advantage_score1, :ear_advantage_score3, :right_percentile, :left_percentile, :advantage_percentile, :scan, :authenticity_token)
+    params.require(:rddt_test).permit(:label, :notes, :client_name, :test_type, :left_score1, :left_score2, :left_score3, :right_score1, :right_score2, :right_score3, :interpretation, :ear_advantage, :ear_advantage_score, :ear_advantage_score1, :ear_advantage_score3, :right_percentile, :left_percentile, :advantage_percentile, :scan, :category_id, :authenticity_token, selected_words: {})
   end
 
   def check_test_limit
