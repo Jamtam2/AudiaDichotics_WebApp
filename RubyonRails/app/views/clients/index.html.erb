@@ -402,7 +402,7 @@
           <tbody>
             <% @clients.each do |client| %>
               <tr>
-                <td>
+                <td style="text-align: center; vertical-align: middle;">
                   <%= link_to edit_client_path(client) do %>
                     <%= image_tag 'edit_icon.png' , alt: 'Edit' ,width: 20 %>
                       <% end %>
@@ -425,7 +425,7 @@
                 <td>
                   <%= client.zip %>
                 </td>
-                <td>
+                <td >
                   <%= link_to client_path(client), method: :delete, data: { confirm: 'Are you sure?' } do %>
                     <%= image_tag 'delete_icon.png' , alt: 'Delete' , width: 20 %>
                       <% end %>
