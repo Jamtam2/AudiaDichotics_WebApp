@@ -4,41 +4,42 @@ class UserMfaSessionsController < ApplicationController
   def new
   end
 
-  
+
 def create
-  if Rails.env.development?
-    redirect_to root_path, "MFA bypassed in development" and return
-  end
+  # if Rails.env.development?
+  #   redirect_to root_path, "MFA bypassed in development" and return
+  # end
     user = current_user
-  
+
     if params[:mfa_code].present?
       secret_key = user.user_mfa_sessions.first.secret_key
       user.google_secret = secret_key
       user.save!
-      
+
       if user.google_authentic?(params[:mfa_code])
         user.user_mfa_sessions.first.update(activated: true)
         redirect_to root_path, notice: "MFA setup successful"
         return
       end
     end
-  
+
     # If neither condition is met, it's an invalid code
     attempted_time = Time.now
     server_code = ROTP::TOTP.new(user.user_mfa_sessions.first.secret_key).at(attempted_time) if user.user_mfa_sessions.first.present?
-    flash.now[:alert] = "Invalid code. Attempted Code: #{params[:mfa_code] || params[:email_2fa_code]}, Server Code: #{server_code}, Time: #{attempted_time}"
+    flash.now[:alert] = "Invalid code. Attempted Code: #{params[:mfa_code] || params[:email_2fa_code]}, Time: #{attempted_time.strftime("%H:%M %m/%d/%Y")}"
     render :new
   end
 
-  
+
   def reset_qr_code
     user = current_user
+    user.update(reset: true)
     user.reset_google_authenticator!
     UserMailer.send_2fa_code(user, user.email_2fa_code).deliver_now
     redirect_to enter_email_code_user_mfa_sessions_path, notice: 'A verification code has been sent to your email. Please enter the code; Your QR code will be reset on next login.'
   end
-  
-  
+
+
 
   def setup_google_auth
     Rails.logger.debug "-----------------------------------------------"
@@ -75,10 +76,10 @@ def create
 
 
 
-  
+
   def verify_email_2fa
     user = current_user
-    
+
 
     if user.email_2fa_code == params[:email_2fa_code]
       # The code matches, handle successful verification
@@ -87,8 +88,10 @@ def create
       user.update(email_2fa_code: nil)  # Clear the code after successful verification
       puts "#{user_mfa_session.inspect}"
       puts "#{user.inspect}"
-
-      redirect_to root_path, notice: "Email verification successful"
+      if user.reset
+        user.update(reset: false, google_secret: nil)
+      end
+        redirect_to root_path, notice: "Email verification successful"
     else
       # The code does not match, handle the failure
       flash.now[:alert] = "Invalid verification code. Please try again."

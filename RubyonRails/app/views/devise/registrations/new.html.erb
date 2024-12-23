@@ -2,21 +2,21 @@
   <div class="container p-5 my-3 w-50 border rounded bg-white">
     <h2 class="display-2" style='padding-bottom:20px'><strong>Sign Up</strong></h2>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {id: "registration_form"}) do |f| %>
+      <!--- <%= render "devise/shared/error_messages", resource: resource %> --->
 
       <div class="form-group">
-        <%= f.label :first_name %><br />
-        <%= f.text_field :fname, autofocus: true, class: "form-control form-control-lg", style: 'padding:10px;' %>
+        <%= f.label :first_name %>
+        <%= f.text_field :fname, autofocus: true, class: "form-control form-control-lg", style: 'padding:10px;', required: true%>
       </div>
 
       <div class="form-group">
-        <%= f.label :last_name %><br />
-        <%= f.text_field :lname, autofocus: true, class: "form-control form-control-lg", style: 'padding:10px;' %>
+        <%= f.label :last_name %>
+        <%= f.text_field :lname, autofocus: true, class: "form-control form-control-lg", style: 'padding:10px;', required: true %>
       </div>
 
       <div class="form-group">
-        <%= f.label :email %><br />
+        <%= f.label :email %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg", style: 'padding:10px;' %>
       </div>
 
@@ -24,12 +24,13 @@
         <%= f.label :password %>
         <% if @minimum_password_length %>
           <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
+        <% end %>
         <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg", style: 'padding:10px;' %>
       </div>
 
       <div class="form-group">
         <label>Select Account Type:</label><br />
+        <p id="accountTypeErrorMessage" hidden style="color: red;">Please select an account type.</p>
         <input type="radio" name="account_type" value="local_moderator" id="localModerator"> Create a Local Moderator<br />
         <input type="radio" name="account_type" value="regular_user" id="regularUser"> I Have a Sign-Up Code<br />
       </div>
@@ -37,18 +38,19 @@
       <!-- Registration Key Field -->
       <div class="form-group" id="registrationKeyField" style="display:none;">
         <%= f.label :verification_key %>
-        <%= f.text_field :verification_key, class: "form-control form-control-lg", style: 'padding:10px;' %>
+        <%= f.text_field :verification_key, class: "form-control form-control-lg", style: 'padding:10px;', id:"registrationKey"%>
       </div>
 
       <!-- Local Moderator Code Field -->
       <div class="form-group" id="signUpCodeField" style="display:none;">
         <%= f.label :moderator_code, "Enter Local Moderator Code" %>
-        <%= f.text_field :moderator_code, class: "form-control form-control-lg", style: 'padding:10px;' %>
+        <%= f.text_field :moderator_code, class: "form-control form-control-lg", style: 'padding:10px;', id:"moderatorKey"%>
       </div>
 
       <div class="actions">
-        <%= f.submit "Sign up", class: 'btn btn-primary btn-lg btn-block' %>
+        <%= f.submit "Sign up", class: 'btn btn-primary btn-lg btn-block', data: { disable_with: false } %>
       </div>
     <% end %>
   </div>
 </body>
+ <%= javascript_include_tag 'registrationFormValidation' %>

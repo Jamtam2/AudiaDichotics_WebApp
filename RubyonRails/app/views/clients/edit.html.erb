@@ -2,7 +2,34 @@
 <%= stylesheet_link_tag "tablesScroll" %>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function buttonClick(dropdownId) {
+    const dropdowns = document.getElementsByClassName("dropdown-content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      if (dropdowns[i].id !== dropdownId) {
+        dropdowns[i].style.display = "none";
+      }
+    }
 
+    const dropdown = document.getElementById(dropdownId);
+    const button = document.querySelector(".dropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    dropdown.style.width = `${button.offsetWidth}px`;
+  }
+
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropdown')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        openDropdown.style.display = "none"
+        const button = openDropdown.parentElement.querySelector(".dropdown");
+        button.classList.remove("clicked");
+      } 
+    }
+  }
+</script>
 
 
 
@@ -172,58 +199,46 @@
         <div class="row">
 <!-- DWT Test Button -->
 <div class="col-sm-4">
-  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+  <button onclick="buttonClick('dropdown1'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
+      <%= 'disabled' unless current_user.tenant.can_take_test? %>> 
     Add DWT Test
   </button>
   <% if current_user.tenant.can_take_test? %>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
-      <a class="dropdown-item" href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
-      <a class="dropdown-item" href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
-      <a class="dropdown-item" href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
+    <div id="dropdown1" class="dropdown-content">
+      <a href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
+      <a href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
+      <a href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
+      <a href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
     </div>
   <% end %>
 </div>
 
 <!-- RDDT Test Button -->
 <div class="col-sm-4">
-  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+  <button onclick="buttonClick('dropdown2'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
+      <%= 'disabled' unless current_user.tenant.can_take_test? %>>
     Add RDDT Test
   </button>
   <% if current_user.tenant.can_take_test? %>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
-      <a class="dropdown-item" href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
+    <div id="dropdown2" class="dropdown-content">
+      <a href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
+      <a href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
     </div>
   <% end %>
 </div>
 
 <!-- DNW Test Button -->
 <div class="col-sm-4">
-  <button class="btn btn-primary rounded-pill btn-block btn-lg dropdown-toggle"
-          type="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+  <button onclick="buttonClick('dropdown3'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
+      <%= 'disabled' unless current_user.tenant.can_take_test? %>>
     Add DNW Test
   </button>
   <% if current_user.can_take_test? %>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
-      <a class="dropdown-item" href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
-      <a class="dropdown-item" href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
-      <a class="dropdown-item" href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
+    <div id="dropdown3" class="dropdown-content">
+      <a href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
+      <a href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
+      <a href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
+      <a href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
     </div>
   <% end %>
 </div>
@@ -251,67 +266,58 @@
       <br>
     <!-- Table of existing tests -->
 
-  <div class="tableWrap">
-    <table id="tableID">
-      <thead>
+    <style>
+  /* Center the text in the table cells */
+  .tableWrap table {
+    width: 100%; /* Optional: Ensure the table spans its container */
+    border-collapse: collapse; /* Optional: Remove spacing between cells */
+  }
+
+  .tableWrap th,
+  .tableWrap td {
+    text-align: center; /* Center horizontally */
+    vertical-align: middle; /* Center vertically */
+    padding: 10px; /* Optional: Add padding for better readability */
+  }
+
+
+  .tableWrap td {
+    border: 1px solid #ddd; /* Optional: Add border for clarity */
+  }
+</style>
+    
+<div class="tableWrap">
+  <table id="tableID">
+    <thead>
+      <tr>
+        <th>Results</th>
+        <th>Date</th>
+        <th>Test Giver</th>
+        <th>Test Type</th>
+        <th>Left Score</th>
+        <th>Right Score</th>
+        <th>Ear Advantage</th>
+        <th>Ear Advantage Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @all_tests.each do |test| %>
         <tr>
-          <th>ID</th>
-
-          <th>Date</th>
-          <th>Test Giver</th>
-          <th>Test Type</th>
-          <th>Left Score</th>
-          <th>Right Score</th>
-          <th>Ear Advantage</th>
-          <th>Ear Advantage Score</th>
-
+          <td class="btn btn-link">
+            <%= link_to test.id, polymorphic_path([@client, test]) %>
+          </td>
+          <td><%= test.created_at.strftime('%m/%d/%Y') %></td>
+          <td><%= test.user.fname %> <%= test.user.lname %></td>
+          <td><%= test.test_type %></td>
+          <td><%= test.respond_to?(:left_score2) ? test.left_score2 : test.left_score %></td>
+          <td><%= test.respond_to?(:right_score2) ? test.right_score2 : test.right_score %></td>
+          <td><%= test.ear_advantage %></td>
+          <td><%= test.ear_advantage_score %></td>
         </tr>
-      </thead>
-      <tbody>
-        <!-- Iterate over each test and display its details -->
-        <% @client.dwt_tests.each do |dwt_test, index| %>
-          <tr>
-            <td class="btn btn-link">
-            <%= link_to dwt_test.id, client_dwt_test_path(@client, dwt_test) %></td>
-
-            <td><%= dwt_test.created_at.strftime('%m/%d/%Y') %> </td>
-            <td><%= dwt_test.user.fname %> <%= dwt_test.user.lname %></td>
-            <td><%= dwt_test.test_type %></td>
-            <td><%= dwt_test.left_score %></td>
-            <td><%= dwt_test.right_score %></td>
-            <td><%= dwt_test.ear_advantage %></td>
-            <td><%= dwt_test.ear_advantage_score %></td>
-          </tr>
-        <% end %>
-        <% @client.dnw_tests.each do |dnw_test, index| %>
-          <tr>
-            <td class="btn btn-link">
-            <%= link_to dnw_test.id, client_dnw_test_path(@client, dnw_test) %></td>
-            <td><%= dnw_test.created_at.strftime('%m/%d/%Y') %> </td>
-            <td><%= dnw_test.user.fname %> <%= dnw_test.user.lname %></td>
-            <td><%= dnw_test.test_type %></td>
-            <td><%= dnw_test.left_score %></td>
-            <td><%= dnw_test.right_score %></td>
-            <td><%= dnw_test.ear_advantage %></td>
-            <td><%= dnw_test.ear_advantage_score %></td>
-          </tr>
-        <% end %>
-        <% @client.rddt_tests.each do |rddt_test, index| %>
-          <tr>
-            <td class="btn btn-link" >
-            <%= link_to rddt_test.id, client_rddt_test_path(@client, rddt_test) %></td>
-            <td><%= rddt_test.created_at.strftime('%m/%d/%Y') %> </td>
-            <td><%= rddt_test.user.fname %> <%= rddt_test.user.lname %></td>
-            <td><%= rddt_test.test_type %></td>
-            <td><%= rddt_test.left_score2 %></td>
-            <td><%= rddt_test.right_score2 %></td>
-            <td><%= rddt_test.ear_advantage %></td>
-            <td><%= rddt_test.ear_advantage_score %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 
 
