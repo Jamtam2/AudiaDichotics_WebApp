@@ -94,17 +94,24 @@ class ClientsController < ApplicationController
 
        # Initialize instance variable to be used in clients > index.html.erb
        @clients = client_scope
-      #  @client_search =  Client.search(params[:search])
-
-      #  respond_to do |format|
-      #   format.html 
-      #   format.json { render json: @client_search }
-      #  end
 
       if params[:search]
-        @client_search =  Client.search(params[:search])
-      else
-        @client_search = Client.all
+        @client_scope =  Client.where(tenant_id: current_user.tenant_id)
+        @client_scope = @client_scope.select do |client|
+          decrypted_name = Client.decrypt_first_name(client.encrypted_first_name, key: ENV['ENCRYPTION_KEY'], iv: client.encrypted_first_name_iv)
+          decrypted_name = params[:search]
+        end
+       
+
+        for x in client_scope
+          x = decrypt(x)
+          if x == params[:search]
+            array.append(decrypted_name)
+          else
+            next
+          end
+        end
+        @client_scope = Client.where(tenant_id: current_user.tenant_id)
       end
 
        # Instance variable to be used to use scope from HashedData model for filtering
