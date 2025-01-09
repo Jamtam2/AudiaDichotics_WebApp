@@ -18,7 +18,6 @@ keybruh = Key.create!(
 )
 puts "#{keybruh.inspect})..."
 puts "Fetching keys and customer data..."
-FetchKeys.call
 puts "Data fetching complete."
 
 keybruh = Key.create!(
