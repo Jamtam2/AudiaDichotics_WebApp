@@ -38,7 +38,6 @@ The RDDT contains much more data and has more going on due to the multi button p
 
 <!--Data stored outside of the columns with the image -->
     <style>
-      /* Center buttons in the table cells */
       .btn-group-toggle {
         display: flex;
         justify-content: center;
@@ -46,26 +45,61 @@ The RDDT contains much more data and has more going on due to the multi button p
         height: 100%;
       }
 
-      /* Make the font larger */
+      /* Make the font larger for the selected words toggles */
       .btn.btn-outline-primary {
-        font-size: 16px; /* Adjust the font size as needed */
-        margin: 5px; /* Add some margin to separate the buttons */
-        min-width: 40px; /* Adjust the minimum width as needed */
+        font-size: 14px; /* Adjust as needed */
+        padding: 0.25rem 0.5rem; /* Smaller padding */
+        margin: 2px;
+        min-width: 30px; /* Adjust as needed */
       }
-    </style>
 
+      .centered-content {
+        display: flex;
+        flex-direction: column; /* Align content vertically */
+        justify-content: center; /* Center vertically */
+        align-items: center; /* Center horizontally */
+        height: 100vh; /* Adjust as needed to ensure full vertical centering */
+        text-align: center; /* Center text content */
+      }
+
+      /* Ensure the table is compact */
+      .table {
+        margin-bottom: 0; /* Reduce extra spacing below table */
+      }
+
+      .left-column {
+        background-color: lightblue;
+      }
+
+      .right-column {
+        background-color: lightpink;
+      }
+
+      .ear-advantage {
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .percentile {
+        text-align: center;
+        font-weight: bold;
+      }    </style>
+
+    <div class="row mt-4">
+      <!-- LEFT COLUMN: Selected Words -->
+      <div class="col-md-6">
 <% if @rddt_test.selected_words.present? %>
 
-<h3>Selected Numbers</h3>
-<table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
-  <thead class="thead-dark">
-    <tr>
-      <th>Number</th>
-      <th>Left</th>
-      <th>Right</th>
-    </tr>
-  </thead>
-  <tbody>
+   <h3>Selected Words</h3>
+          <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
+            <thead class="thead-dark">
+              <tr>
+                <th class="text-center">Number</th>
+                <th class="text-center">Left</th>
+                <th class="text-center">Right</th>
+              </tr>
+            </thead>
+            <tbody>
     <% nums_list = case @rddt_test.category_id
                   when 1
                     [
@@ -156,35 +190,38 @@ The RDDT contains much more data and has more going on due to the multi button p
   </tbody>
 </table>
 <% else %>
-  <p>Test was taken before test viewing was implemented, and cannot be reviewed.</p>
+          <p class= "text-center">Test was taken before test viewing was implemented, and cannot be reviewed.</p>
 <% end %>
 
+      </div>
 
 
 
 <hr>
 
-<h1><b>Interpretation of Test:      </b><%= @rddt_test.interpretation%></h1>
-<h2><b></b></h2>
+         <!-- RIGHT COLUMN: Interpretation, Scores, and Percentiles -->
+      <div class="col-md-6">
+        <hr>
+        <h1 class="text-center"><b>Interpretation of Test:</b></h1>
+        <h2 class = "text-center"><b><strong><%= @rddt_test.interpretation %></strong></b></h2>
+        <hr>
 
-<hr>
-<!--Same data, just stored in exactly same format as is on normal test page, if that is easier for the clinician to use for review -->
-
-
-<h3 class="display-4 pl-2", style= 'padding-top:20px'><b>Scores Table</b></h3>
-<div class="row">
-<div class="col-md">
-<table class="table table-sm table-bordered m1-4" style="max-width: 25rem;">
-    <thead>
-        <tr>
-            <th scope="col">Pairs</th>
-            <th scope="col">Left</th>
-            <th scope="col">Right</th>
-            <th scope="col">Ear Adv</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
+        <!-- SCORES TABLE -->
+        <h3 class="display-4 pl-2 text-center" style="padding-top:20px"><b>Scores Table</b></h3>
+        <!-- Table row -->
+        <div class="row ">
+          <div class="col-12 d-flex justify-content-center">
+            <table class="table table-sm table-bordered m1-4 text-center" style="max-width: 25rem;"> 
+              <thead>
+                <tr>
+                  <th scope="col">Pairs</th>
+                  <th scope="col">Left</th>
+                  <th scope="col">Right</th>
+                  <th scope="col" class="text-center">Ear Adv</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
             <th scope="row">1</th>
             <td class="left-column"><%= @rddt_test.left_score1%></span>%</td>
             <td class="right-column"><%= @rddt_test.right_score1%></span>%</td>
@@ -207,11 +244,14 @@ The RDDT contains much more data and has more going on due to the multi button p
     </tbody>
 </table>
 </div>
+<br>
+        <div style="margin-top: 1rem;"></div>
 
 <div class="col-md">
-    <h1><b>Dominant Ear</b>:    <%= @rddt_test.ear_advantage%></h1>
+<br>
+    <h1><b>Dominant Ear</b>: <b> <strong> <%= @rddt_test.ear_advantage%> </b> </strong></h1>
     <h2><b></b></h2>
-    <h1><b>Ear Advantage Score</b>:     <%= @rddt_test.ear_advantage_score%>%</h1>
+    <h1><b>Ear Advantage Score</b>:  <b> <strong>   <%= @rddt_test.ear_advantage_score%>% </b> </strong></h1>
     <h2><b></b></h2>
 </div>
 </div>
@@ -237,8 +277,9 @@ The RDDT contains much more data and has more going on due to the multi button p
             </thead>
         </table>
         <div>
+<br>
         <div class="col-md">
-            <h1><b>Ear Advantage Percentile:    </b><%= @rddt_test.advantage_percentile%>%</h1>
+            <h1><b>Ear Advantage:    </b> <b> <strong><%= @rddt_test.advantage_percentile%> </b> </strong></h1>
             <h2><b></b></h2>
         </div>
 </div>

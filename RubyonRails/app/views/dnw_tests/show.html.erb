@@ -20,7 +20,7 @@
         </div>
         <div class="col-sm">
             <h2 class="pt-5", style= 'padding-top:20px'><center><b>Right Ear Score</b></center></h2>
-            <h2 class="display-4 "pl-4"", style= 'padding-top:20px'><center><b><%= @dnw_test.right_score%>%</b></center></h2>
+            <h2 class="display-4 pl-4", style= 'padding-top:20px'><center><b><%= @dnw_test.right_score%>%</b></center></h2>
 
         </div>
     </div>
@@ -29,7 +29,7 @@
 <!--Data stored outside of the columns with the image -->
 <!--Data stored outside of the columns with the image -->
     <style>
-      /* Center buttons in the table cells */
+   /* Center buttons in the table cells */
       .btn-group-toggle {
         display: flex;
         justify-content: center;
@@ -37,27 +37,65 @@
         height: 100%;
       }
 
-      /* Make the font larger */
+      /* Make the font larger for the selected words toggles */
       .btn.btn-outline-primary {
-        font-size: 16px; /* Adjust the font size as needed */
-        margin: 5px; /* Add some margin to separate the buttons */
-        min-width: 40px; /* Adjust the minimum width as needed */
+        font-size: 14px; /* Adjust as needed */
+        padding: 0.25rem 0.5rem; /* Smaller padding */
+        margin: 2px;
+        min-width: 30px; /* Adjust as needed */
+      }
+
+      .centered-content {
+        display: flex;
+        flex-direction: column; /* Align content vertically */
+        justify-content: center; /* Center vertically */
+        align-items: center; /* Center horizontally */
+        height: 100vh; /* Adjust as needed to ensure full vertical centering */
+        text-align: center; /* Center text content */
+      }
+
+      /* Ensure the table is compact */
+      .table {
+        margin-bottom: 0; /* Reduce extra spacing below table */
+      }
+
+      .left-column {
+        background-color: lightblue;
+      }
+
+      .right-column {
+        background-color: lightpink;
+      }
+
+      .ear-advantage {
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .percentile {
+        text-align: center;
+        font-weight: bold;
       }
     </style>
 
-
-<% if @dnw_test.selected_words.present? %>
-
-<h3>Selected Words</h3>
-<table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
-  <thead class="thead-dark">
-    <tr>
-      <th>Number</th>
-      <th>Left</th>
-      <th>Right</th>
-    </tr>
-  </thead>
-  <tbody>
+<!-- BELOW ROW: Two columns side-by-side:
+         Left = Selected Words
+         Right = Interpretation + Scores Table + Percentile Table 
+    -->
+    <div class="row mt-4">
+      <!-- LEFT COLUMN: Selected Words -->
+      <div class="col-md-6">
+        <% if @dnw_test.selected_words.present? %>
+          <h3>Selected Words</h3>
+          <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
+            <thead class="thead-dark">
+              <tr>
+                <th class="text-center">Number</th>
+                <th class="text-center">Left</th>
+                <th class="text-center">Right</th>
+              </tr>
+            </thead>
+            <tbody>
     <% words_list = case @dnw_test.category_id
                    when 1
                      [
@@ -175,124 +213,114 @@
                      []
                    end %>
 
-    <% 25.times do |i| %>
-      <tr>
-        <td><%= i + 1 %></td>
-        <td>
-          <div class="btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-outline-primary column1-button <%= 'active' if @dnw_test.selected_words[i.to_s]&.include?("1") %>">
-              <%= words_list[i][0] %> <!-- Left word -->
-            </label>
+        <% 25.times do |i| %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td>
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-outline-primary column1-button <%= 'active' if @dnw_test.selected_words[i.to_s]&.include?("1") %>">
+                        <%= words_list[i][0] %>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-outline-primary column2-button <%= 'active' if @dnw_test.selected_words[i.to_s]&.include?("2") %>">
+                        <%= words_list[i][1] %>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p class= "text-center">Test was taken before test viewing was implemented, and cannot be reviewed.</p>
+        <% end %>
+      </div>
+         <!-- RIGHT COLUMN: Interpretation, Scores, and Percentiles -->
+      <div class="col-md-6">
+        <hr>
+        <h1 class="text-center"><b>Interpretation of Test:</b></h1>
+        <h2 class = "text-center"><b><strong><%= @dnw_test.interpretation %></strong></b></h2>
+        <hr>
+
+        <!-- SCORES TABLE -->
+        <h3 class="display-4 pl-2 text-center" style="padding-top:20px"><b>Scores Table</b></h3>
+        <!-- Table row -->
+        <div class="row ">
+          <div class="col-12 d-flex justify-content-center">
+            <table class="table table-sm table-bordered m1-4 text-center" style="max-width: 25rem;"> 
+              <thead>
+                <tr>
+                  <th scope="col">Pairs</th>
+                  <th scope="col">Left</th>
+                  <th scope="col">Right</th>
+                  <th scope="col" class="text-center">Ear Adv</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td class="left-column"><%= @dnw_test.left_score %>%</td>
+                  <td class="right-column"><%= @dnw_test.right_score %>%</td>
+                  <td class="ear-advantage"><%= @dnw_test.ear_advantage_score %>0%</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </td>
-        <td>
-          <div class="btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-outline-primary column2-button <%= 'active' if @dnw_test.selected_words[i.to_s]&.include?("2") %>">
-              <%= words_list[i][1] %> <!-- Right word -->
-            </label>
+        </div>
+        <br>
+
+        <!-- SPACE BETWEEN TABLE AND TEXT -->
+        <div style="margin-top: 1rem;"></div>
+
+        <!-- Values underneath the table -->
+        <div class="row">
+          <div class="col-12">
+            <!-- Label (NOT CENTERED), bold -->
+            <h1><b>Dominant Ear:</b> <b><strong><%= @dnw_test.ear_advantage %></strong></b></h1>
+            <br>
+            <!-- Label (NOT CENTERED), bold -->
+            <h1><b>Ear Advantage Score:</b> <b> <strong><%= @dnw_test.ear_advantage_score %>%</b></h1>
+            <!-- Value (CENTERED + BOLD) -->
           </div>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        </div>
 
-<% else %>
-  <p>Test was taken before test viewing was implemented, and cannot be reviewed.</p>
-<% end %>
+        <hr>
 
 
+    <script>
+      const earAdvantageCells = document.querySelectorAll('.ear-advantage');
+      const percentileCells = document.querySelectorAll('.percentile');
 
+      // Ear Advantage background color logic
+      earAdvantageCells.forEach(cell => {
+        const value = parseFloat(cell.textContent);
+        if (value < 0) {
+          cell.style.backgroundColor = 'lightblue';
+        } else if (value > 0) {
+          cell.style.backgroundColor = 'lightpink';
+        } else {
+          cell.style.backgroundColor = 'white';
+        }
+      });
 
-
-
-<hr>
-<!--Same data, just stored in exactly same format as is on normal test page, if that is easier for the clinician to use for review -->
-
-<h3 class="display-4 pl-2", style= 'padding-top:20px'><b>Scores Table</b></h3>
-<div class="row">
-<div class="col-md">
-<table class="table table-sm table-bordered m1-4" style="max-width: 25rem;">
-    <thead>
-        <tr>
-            <th scope="col">Pairs</th>
-            <th scope="col">Left</th>
-            <th scope="col">Right</th>
-            <th scope="col">Ear Adv</th>
-        </tr>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td class="left-column"><%= @dnw_test.left_score%></span>%</p></td>
-                <td class="right-column"><%= @dnw_test.right_score%></span>%</td>
-                <td class="ear-advantage"><%= @dnw_test.ear_advantage_score%>0</span>%</td>
-            </tr>
-        </tbody>
-    </thead>
-</table>
-</div>
-<div class="col-md">
-    <h1><b>Dominant Ear:</b>    <%= @dnw_test.ear_advantage%></h1>
-    <h2><b><center></b></center></h2>
-    <h1><b>Ear Advantage Score</b> <%= @dnw_test.ear_advantage_score%>%</h1>
-    <h2><b><center></b></center></h2>
-</div>
-<hr>
-
-<!--this begins the backend functions to keep the test tables looking exactly as they do on the normal test page, these are taken straight from the test page so reivew that for how they work -->
-
-
-<script>
-    const earAdvantageCells = document.querySelectorAll('.ear-advantage');
-    const percentileCells = document.querySelectorAll('.percentile');
-    
-    // Loop through each ear advantage cell
-    earAdvantageCells.forEach(cell => {
-    // Get the value of the cell
-    const value = parseFloat(cell.textContent);
-
-    // Check the value and set the background color accordingly
-    if (value < 0) {
-        cell.style.backgroundColor = 'lightblue';
-    } else if (value > 0) {
-        cell.style.backgroundColor = 'lightpink';
-    } else {
-        cell.style.backgroundColor = 'white';
-    }
-    });
-
-    percentileCells.forEach(cell => {
-    // Get the value of the cell
-    const percValue = cell.textContent.trim();
-
-    // Check the value and set the background color accordingly
-    if ((percValue == "5th Percentile")) {
-        cell.style.backgroundColor = 'lightpink';
-    } 
-    else if (percValue == "10th Percentile") {
-        cell.style.backgroundColor = 'hsl(60, 100%, 70%)';
-    } 
-    else if (percValue == "25th Percentile") {
-        cell.style.backgroundColor = 'lightgreen';
-    }
-    else{
-        cell.style.backgroundColor = 'lightblue';
-    }
-    });
-</script>
-
-
-<style>
-    .left-column {
-        background-color: lightblue;
-    }
-    
-    .right-column {
-        background-color: lightpink;
-    }
-
-</style>
-
-<hr>
+      // Percentile background color logic
+      percentileCells.forEach(cell => {
+        const percValue = cell.textContent.trim();
+        if (percValue === "5th Percentile") {
+          cell.style.backgroundColor = 'lightpink';
+        } else if (percValue === "10th Percentile") {
+          cell.style.backgroundColor = 'hsl(60, 100%, 70%)';
+        } else if (percValue === "25th Percentile") {
+          cell.style.backgroundColor = 'lightgreen';
+        } else {
+          cell.style.backgroundColor = 'lightblue';
+        }
+      });
+    </script>
+  </div>
+</body>
 
 
