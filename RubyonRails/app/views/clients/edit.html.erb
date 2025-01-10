@@ -265,11 +265,49 @@
 
       <br>
     <!-- Table of existing tests -->
+
+    <style>
+  /* Center the text in the table cells */
+  .tableWrap table {
+    width: 100%; /* Optional: Ensure the table spans its container */
+    border-collapse: collapse; /* Optional: Remove spacing between cells */
+  }
+
+  .tableWrap th,
+  .tableWrap td {
+    text-align: center; /* Center horizontally */
+    vertical-align: middle; /* Center vertically */
+    padding: 10px; /* Optional: Add padding for better readability */
+  }
+
+
+  .tableWrap td {
+    border: 1px solid #ddd; /* Optional: Add border for clarity */
+  }
+
+    /* Override the default background and text-indent */
+    td a.svg-link {
+      background: none !important; /* Remove the background */
+      text-indent: 0 !important;   /* Reset text hiding */
+      display: inline-flex;        /* Allow SVG content to display properly */
+      align-items: center;         /* Align content vertically */
+    }
+
+    td a.svg-link img {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+    }
+
+
+
+</style>
+    
 <div class="tableWrap">
   <table id="tableID">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Results</th>
         <th>Date</th>
         <th>Test Giver</th>
         <th>Test Type</th>
@@ -282,9 +320,11 @@
     <tbody>
       <% @all_tests.each do |test| %>
         <tr>
-          <td class="btn btn-link">
-            <%= link_to test.id, polymorphic_path([@client, test]) %>
-          </td>
+        <td>
+          <%= link_to polymorphic_path([@client, test]), class: 'svg-link' do %>
+            <%= image_tag 'house-medical-circle-check-solid.svg', alt: 'View Test', width: 50, height: 50 %>
+          <% end %>
+        </td>
           <td><%= test.created_at.strftime('%m/%d/%Y') %></td>
           <td><%= test.user.fname %> <%= test.user.lname %></td>
           <td><%= test.test_type %></td>

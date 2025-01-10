@@ -25,6 +25,7 @@ div.sticky {
 
 <div class="container">
 <%= form_with model: [@client, @rddt_test], local: true, html: { multipart: true } do |f| %>
+     <%= f.hidden_field :category_id, value: @rddt_test.category_id %>
 <div class="row">
   <div class="form-group row">
     <div class="col-sm">
@@ -240,7 +241,7 @@ div.sticky {
                     <% nums[i][0].each_with_index do |num, index| %>
                       <% button_class = "column1Group#{group_size}-button" %>
                       <label class="btn btn-outline-primary <%= button_class %>">
-                        <input type="checkbox" name="column1[<%= i %>][]" value="<%= num %>">
+                        <input type="checkbox" name="selected_words[<%= i %>][]" value="<%= num %>">
                         <%= num %>
                       </label>
                     <% end %>
@@ -253,7 +254,7 @@ div.sticky {
                     <% nums[i][1].each_with_index do |num, index| %>
                       <% button_class = "column2Group#{group_size}-button" %>
                       <label class="btn btn-outline-primary <%= button_class %>">
-                        <input type="checkbox" name="column2[<%= i %>][]" value="<%= num %>">
+                        <input type="checkbox" name="selected_words[<%= i %>][]" value="<%= num %>">
                         <%= num %>
                       </label>
                     <% end %>

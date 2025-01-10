@@ -24,6 +24,7 @@
 
 <!-- left column contains all details regarding testing, -->
 <%= form_with model: [@client, @dwt_test], local: true do |f| %>
+  <%= f.hidden_field :category_id, value: @dwt_test.category_id %>
 <div class="container">
   <div class="row">
     <div class="col-sm">
@@ -216,14 +217,14 @@
                 <td>
                   <div class="btn-group-toggle" data="buttons">
                     <label class="btn btn-outline-primary column1-button">
-                      <input type="checkbox" name="column1[<%= i %>][]" value="1"> <%= words[i][0] %>
+                      <input type="checkbox" name="selected_words[<%= i %>][]" value="1"> <%= words[i][0] %>
                     </label>
                   </div>
                 </td>
                 <td>
                   <div class="btn-group-toggle" data="buttons">
                     <label class="btn btn-outline-primary column2-button">
-                      <input type="checkbox" name="column1[<%= i %>][]" value="2"> <%= words[i][1] %>
+                      <input type="checkbox" name="selected_words[<%= i %>][]" value="2"> <%= words[i][1] %>
                     </label>
                   </div>
                 </td>
