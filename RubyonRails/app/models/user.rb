@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  right_ear_decibel      :integer
 #  role                   :integer
+#  terms_accepted         :boolean          default(FALSE), not null
 #  test_limit             :integer
 #  verification_key       :string
 #  created_at             :datetime         not null

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_14_051550) do
+ActiveRecord::Schema.define(version: 2025_01_11_054800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -346,6 +346,7 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.integer "test_limit"
     t.datetime "membership_expiration"
     t.boolean "reset"
+    t.boolean "terms_accepted", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["moderator_code"], name: "index_users_on_moderator_code"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
