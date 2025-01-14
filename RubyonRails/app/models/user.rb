@@ -66,7 +66,9 @@ class User < ApplicationRecord
   # Will validate the verification key only for the owner.
   validates :verification_key, presence: true, if: :owner?
 
-
+  # Validation that user has accepted terms of agreement
+  validates :terms_accepted, acceptance: { accept: true }
+  
   has_many :dwt_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy
   has_many :dnw_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy
   has_many :rddt_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy

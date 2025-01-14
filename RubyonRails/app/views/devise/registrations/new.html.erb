@@ -47,6 +47,11 @@
         <%= f.text_field :moderator_code, class: "form-control form-control-lg", style: 'padding:10px;', id:"moderatorKey"%>
       </div>
 
+      <div class="field"> 
+        <%= f.check_box :terms_accepted %>
+        <%= f.label :terms_accepted, "I accept the Terms of Service" %>
+      </div> 
+    
       <div class="actions">
         <%= f.submit "Sign up", class: 'btn btn-primary btn-lg btn-block', data: { disable_with: false } %>
       </div>

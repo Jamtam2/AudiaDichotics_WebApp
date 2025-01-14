@@ -371,14 +371,6 @@
           </div>
         </div>
       </div>
-      
-      <div class="col-sm-4 left">
-        <%= form_with url: clients_path, method: :get, local: true do |f| %>
-          <%= f.text_field :search, placeholder: 'Search by first name'%>
-          <%= f.submit ("Search") %>
-      <% end %>
-      </div>
-      
 
       <!-- JS functionality for the modal-->
       <%= javascript_include_tag 'modalControlClientsIndex.js' %>
