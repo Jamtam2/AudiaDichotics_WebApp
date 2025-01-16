@@ -50,7 +50,7 @@
       <div class="terms-of-service"> 
         <%= f.check_box :terms_accepted, disabled: true, id: 'tos-checkbox' %>
         <p>I have read the 
-          <button type = "button" onlick = "showText(event)" data-turbo="false">Terms of Service</button>
+          <button type = "button" onclick = "showText(event)" data-turbo="false">Terms of Service</button>
         </p>
       
 
@@ -60,7 +60,7 @@
             <p>
               Insert text here...
             </p>
-            <button type = "button" onlick = "hideText()" data-turbo="false">I accept</button>
+            <button type = "button" onclick = "hideText()" data-turbo="false">I accept</button>
           </div>
         </div>
       </div> 
@@ -71,7 +71,7 @@
     <% end %>
   </div>
   
-  <script src="terms_of_service.js"></script>
+  <%# <script src="terms_of_service.js"></script> %>
 </body>
  <%= javascript_include_tag 'registrationFormValidation' %>
   <%= javascript_include_tag 'terms_of_service' %>

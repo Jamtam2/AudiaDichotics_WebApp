@@ -9,3 +9,4 @@
 //= link modalControlGlobalModeratorIndex.js
 //= link application.css
 //= link registrationFormValidation.js
+//= link terms_of_service.js
