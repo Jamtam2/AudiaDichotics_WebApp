@@ -47,15 +47,31 @@
         <%= f.text_field :moderator_code, class: "form-control form-control-lg", style: 'padding:10px;', id:"moderatorKey"%>
       </div>
 
-      <div class="field"> 
-        <%= f.check_box :terms_accepted %>
-        <%= f.label :terms_accepted, "I accept the Terms of Service" %>
+      <div class="terms-of-service"> 
+        <%= f.check_box :terms_accepted, disabled: true, id: 'tos-checkbox' %>
+        <p>I have read the 
+          <button type = "button" onlick = "showText(event)" data-turbo="false">Terms of Service</button>
+        </p>
+      
+
+        <div id="tos-model" class="tos-model" style="display:none;">
+          <div class= 'tos-text'>
+            <h3>Terms of Service</h3>
+            <p>
+              Insert text here...
+            </p>
+            <button type = "button" onlick = "hideText()" data-turbo="false">I accept</button>
+          </div>
+        </div>
       </div> 
-    
+      
       <div class="actions">
         <%= f.submit "Sign up", class: 'btn btn-primary btn-lg btn-block', data: { disable_with: false } %>
       </div>
     <% end %>
   </div>
+  
+  <script src="terms_of_service.js"></script>
 </body>
  <%= javascript_include_tag 'registrationFormValidation' %>
+  <%= javascript_include_tag 'terms_of_service' %>
