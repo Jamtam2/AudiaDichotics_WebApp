@@ -266,67 +266,77 @@
       <br>
     <!-- Table of existing tests -->
 
-  <div class="tableWrap">
-    <table id="tableID">
-      <thead>
+    <style>
+  /* Center the text in the table cells */
+  .tableWrap table {
+    width: 100%; /* Optional: Ensure the table spans its container */
+    border-collapse: collapse; /* Optional: Remove spacing between cells */
+  }
+
+  .tableWrap th,
+  .tableWrap td {
+    text-align: center; /* Center horizontally */
+    vertical-align: middle; /* Center vertically */
+    padding: 10px; /* Optional: Add padding for better readability */
+  }
+
+
+  .tableWrap td {
+    border: 1px solid #ddd; /* Optional: Add border for clarity */
+  }
+
+    /* Override the default background and text-indent */
+    td a.svg-link {
+      background: none !important; /* Remove the background */
+      text-indent: 0 !important;   /* Reset text hiding */
+      display: inline-flex;        /* Allow SVG content to display properly */
+      align-items: center;         /* Align content vertically */
+    }
+
+    td a.svg-link img {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+    }
+
+
+
+</style>
+    
+<div class="tableWrap">
+  <table id="tableID">
+    <thead>
+      <tr>
+        <th>Results</th>
+        <th>Date</th>
+        <th>Test Giver</th>
+        <th>Test Type</th>
+        <th>Left Score</th>
+        <th>Right Score</th>
+        <th>Ear Advantage</th>
+        <th>Ear Advantage Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @all_tests.each do |test| %>
         <tr>
-          <th>ID</th>
-
-          <th>Date</th>
-          <th>Test Giver</th>
-          <th>Test Type</th>
-          <th>Left Score</th>
-          <th>Right Score</th>
-          <th>Ear Advantage</th>
-          <th>Ear Advantage Score</th>
-
+        <td>
+          <%= link_to polymorphic_path([@client, test]), class: 'svg-link' do %>
+            <%= image_tag 'house-medical-circle-check-solid.svg', alt: 'View Test', width: 50, height: 50 %>
+          <% end %>
+        </td>
+          <td><%= test.created_at.strftime('%m/%d/%Y') %></td>
+          <td><%= test.user.fname %> <%= test.user.lname %></td>
+          <td><%= test.test_type %></td>
+          <td><%= test.respond_to?(:left_score2) ? test.left_score2 : test.left_score %></td>
+          <td><%= test.respond_to?(:right_score2) ? test.right_score2 : test.right_score %></td>
+          <td><%= test.ear_advantage %></td>
+          <td><%= test.ear_advantage_score %></td>
         </tr>
-      </thead>
-      <tbody>
-        <!-- Iterate over each test and display its details -->
-        <% @client.dwt_tests.each do |dwt_test, index| %>
-          <tr>
-            <td class="btn btn-link">
-            <%= link_to dwt_test.id, client_dwt_test_path(@client, dwt_test) %></td>
-
-            <td><%= dwt_test.created_at.strftime('%m/%d/%Y') %> </td>
-            <td><%= dwt_test.user.fname %> <%= dwt_test.user.lname %></td>
-            <td><%= dwt_test.test_type %></td>
-            <td><%= dwt_test.left_score %></td>
-            <td><%= dwt_test.right_score %></td>
-            <td><%= dwt_test.ear_advantage %></td>
-            <td><%= dwt_test.ear_advantage_score %></td>
-          </tr>
-        <% end %>
-        <% @client.dnw_tests.each do |dnw_test, index| %>
-          <tr>
-            <td class="btn btn-link">
-            <%= link_to dnw_test.id, client_dnw_test_path(@client, dnw_test) %></td>
-            <td><%= dnw_test.created_at.strftime('%m/%d/%Y') %> </td>
-            <td><%= dnw_test.user.fname %> <%= dnw_test.user.lname %></td>
-            <td><%= dnw_test.test_type %></td>
-            <td><%= dnw_test.left_score %></td>
-            <td><%= dnw_test.right_score %></td>
-            <td><%= dnw_test.ear_advantage %></td>
-            <td><%= dnw_test.ear_advantage_score %></td>
-          </tr>
-        <% end %>
-        <% @client.rddt_tests.each do |rddt_test, index| %>
-          <tr>
-            <td class="btn btn-link" >
-            <%= link_to rddt_test.id, client_rddt_test_path(@client, rddt_test) %></td>
-            <td><%= rddt_test.created_at.strftime('%m/%d/%Y') %> </td>
-            <td><%= rddt_test.user.fname %> <%= rddt_test.user.lname %></td>
-            <td><%= rddt_test.test_type %></td>
-            <td><%= rddt_test.left_score2 %></td>
-            <td><%= rddt_test.right_score2 %></td>
-            <td><%= rddt_test.ear_advantage %></td>
-            <td><%= rddt_test.ear_advantage_score %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 
 

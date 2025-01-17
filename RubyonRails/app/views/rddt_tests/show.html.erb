@@ -4,7 +4,7 @@
 The RDDT contains much more data and has more going on due to the multi button per cell setup-->
 
 <h1 class="display-3 pl-4", style= 'padding-top:20px'><b><%= @rddt_test.test_type%> Test Results</b></h1>
-<h3 class="pl-5 pr-5", style="font-size:17px;"><b>Note*: RDDT tests, collect scores for all 3 button types, single, double and triple. However, only the double button scores arethe only scores used for interpretation, ear advantage and percentile.</center></b></h3>
+<h3 class="pl-5 pr-5", style="font-size:17px;"><b>Note*: RDDT tests, collect scores for all 3 button types, single, double and triple. However, only the double button scores are used for interpretation, ear advantage and percentile.</center></b></h3>
 <hr>
 <!--This contains the 3 rows for the data stored on the page all test scores are pulled from the rddt test model -->
 
@@ -37,33 +37,191 @@ The RDDT contains much more data and has more going on due to the multi button p
 <div>
 
 <!--Data stored outside of the columns with the image -->
+    <style>
+      .btn-group-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
 
+      /* Make the font larger for the selected words toggles */
+      .btn.btn-outline-primary {
+        font-size: 14px; /* Adjust as needed */
+        padding: 0.25rem 0.5rem; /* Smaller padding */
+        margin: 2px;
+        min-width: 30px; /* Adjust as needed */
+      }
+
+      .centered-content {
+        display: flex;
+        flex-direction: column; /* Align content vertically */
+        justify-content: center; /* Center vertically */
+        align-items: center; /* Center horizontally */
+        height: 100vh; /* Adjust as needed to ensure full vertical centering */
+        text-align: center; /* Center text content */
+      }
+
+      /* Ensure the table is compact */
+      .table {
+        margin-bottom: 0; /* Reduce extra spacing below table */
+      }
+
+      .left-column {
+        background-color: lightblue;
+      }
+
+      .right-column {
+        background-color: lightpink;
+      }
+
+      .ear-advantage {
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .percentile {
+        text-align: center;
+        font-weight: bold;
+      }    </style>
+
+    <div class="row mt-4">
+      <!-- LEFT COLUMN: Selected Words -->
+      <div class="col-md-6">
+<% if @rddt_test.selected_words.present? %>
+
+   <h3>Selected Words</h3>
+          <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
+            <thead class="thead-dark">
+              <tr>
+                <th class="text-center">Number</th>
+                <th class="text-center">Left</th>
+                <th class="text-center">Right</th>
+              </tr>
+            </thead>
+            <tbody>
+    <% nums_list = case @rddt_test.category_id
+                  when 1
+                    [
+                      [[1,3],[4,9]],
+                      [[8],[6]],
+                      [[3],[9]],
+                      [[6,1,3],[5,10,2]],
+                      [[5,9,4],[6,8,1]],
+                      [[2,8],[10,3]],
+                      [[3],[1]],
+                      [[2,6,1],[5,10,4]],
+                      [[9,4,1],[6,3,10]],
+                      [[4],[1]],
+                      [[3,5],[2,8]],
+                      [[1,3],[6,5]],
+                      [[8,10,6],[3,2,1]],
+                      [[6,1],[5,10]],
+                      [[9],[6]],
+                      [[1,9,4],[3,2,5]],
+                      [[9,4],[6,3]],
+                      [[6,9,8],[4,5,10]],
+                      [[8,3],[10,4]],
+                      [[9,4,6],[3,2,5]],
+                      [[8],[4]],
+                      [[9,1],[10,2]],
+                      [[5,9],[8,10]],
+                      [[1,5,8],[10,9,6]],
+                      [[4],[9]]
+                    ]
+                  when 2
+                    [
+                      [[6,2,4],[8,5,9]],
+                      [[2,10],[3,9]],
+                      [[5],[6]],
+                      [[10],[6]],
+                      [[5,9,6],[1,3,10]],
+                      [[6],[4]],
+                      [[4,8],[1,9]],
+                      [[4,8],[5,6]],
+                      [[8,3,6],[10,4,9]],
+                      [[10,3],[9,8]],
+                      [[2,1,10],[6,3,9]],
+                      [[5],[2]],
+                      [[4,1,3],[9,6,10]],
+                      [[1,6,5],[8,3,4]],
+                      [[10,6,9],[8,5,4]],
+                      [[9,10,8],[4,5,3]],
+                      [[3,1,2],[10,4,8]],
+                      [[4,5,9],[3,2,1]],
+                      [[5],[10]],
+                      [[3,4,10],[9,8,5]],
+                      [[5],[4]],
+                      [[2,8],[9,10]],
+                      [[5,9],[1,3]],
+                      [[3,9],[8,4]],
+                      [[1],[5]]
+                    ]
+                  else
+                    []
+                  end %>
+
+    <% 25.times do |i| %>
+      <% selected = (@rddt_test.selected_words[i.to_s] || []).map(&:to_i) %> <!-- Ensure selected values are integers -->
+      <% row = nums_list[i] || [[], []] %> <!-- Safely get the row or default to empty arrays -->
+
+      <tr>
+        <td><%= i + 1 %></td>
+        <td>
+          <div class="btn-group-toggle" data-toggle="buttons">
+            <% row[0].each do |num| %>
+              <label class="btn btn-outline-primary column1-button <%= 'active' if selected.include?(num) %>">
+                <%= num %>
+              </label>
+            <% end %>
+          </div>
+        </td>
+        <td>
+          <div class="btn-group-toggle" data-toggle="buttons">
+            <% row[1].each do |num| %>
+              <label class="btn btn-outline-primary column2-button <%= 'active' if selected.include?(num) %>">
+                <%= num %>
+              </label>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+          <p class= "text-center">Test was taken before test viewing was implemented, and cannot be reviewed.</p>
+<% end %>
+
+      </div>
 
 
 
 <hr>
 
-<h1><b>Interpretation of Test:      </b><%= @rddt_test.interpretation%></h1>
-<h2><b></b></h2>
+         <!-- RIGHT COLUMN: Interpretation, Scores, and Percentiles -->
+      <div class="col-md-6">
+        <hr>
+        <h1 class="text-center"><b>Interpretation of Test:</b></h1>
+        <h2 class = "text-center"><b><strong><%= @rddt_test.interpretation %></strong></b></h2>
+        <hr>
 
-<hr>
-<!--Same data, just stored in exactly same format as is on normal test page, if that is easier for the clinician to use for review -->
-
-
-<h3 class="display-4 pl-2", style= 'padding-top:20px'><b>Scores Table</b></h3>
-<div class="row">
-<div class="col-md">
-<table class="table table-sm table-bordered m1-4" style="max-width: 25rem;">
-    <thead>
-        <tr>
-            <th scope="col">Pairs</th>
-            <th scope="col">Left</th>
-            <th scope="col">Right</th>
-            <th scope="col">Ear Adv</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
+        <!-- SCORES TABLE -->
+        <h3 class="display-4 pl-2 text-center" style="padding-top:20px"><b>Scores Table</b></h3>
+        <!-- Table row -->
+        <div class="row ">
+          <div class="col-12 d-flex justify-content-center">
+            <table class="table table-sm table-bordered m1-4 text-center" style="max-width: 25rem;"> 
+              <thead>
+                <tr>
+                  <th scope="col">Pairs</th>
+                  <th scope="col">Left</th>
+                  <th scope="col">Right</th>
+                  <th scope="col" class="text-center">Ear Adv</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
             <th scope="row">1</th>
             <td class="left-column"><%= @rddt_test.left_score1%></span>%</td>
             <td class="right-column"><%= @rddt_test.right_score1%></span>%</td>
@@ -86,11 +244,14 @@ The RDDT contains much more data and has more going on due to the multi button p
     </tbody>
 </table>
 </div>
+<br>
+        <div style="margin-top: 1rem;"></div>
 
 <div class="col-md">
-    <h1><b>Dominant Ear</b>:    <%= @rddt_test.ear_advantage%></h1>
+<br>
+    <h1><b>Dominant Ear</b>: <b> <strong> <%= @rddt_test.ear_advantage%> </b> </strong></h1>
     <h2><b></b></h2>
-    <h1><b>Ear Advantage Score</b>:     <%= @rddt_test.ear_advantage_score%>%</h1>
+    <h1><b>Ear Advantage Score</b>:  <b> <strong>   <%= @rddt_test.ear_advantage_score%>% </b> </strong></h1>
     <h2><b></b></h2>
 </div>
 </div>
@@ -116,8 +277,9 @@ The RDDT contains much more data and has more going on due to the multi button p
             </thead>
         </table>
         <div>
+<br>
         <div class="col-md">
-            <h1><b>Ear Advantage Percentile:    </b><%= @rddt_test.advantage_percentile%>%</h1>
+            <h1><b>Ear Advantage:    </b> <b> <strong><%= @rddt_test.advantage_percentile%> </b> </strong></h1>
             <h2><b></b></h2>
         </div>
 </div>
@@ -125,17 +287,6 @@ The RDDT contains much more data and has more going on due to the multi button p
 
 
 <!--this begins the backend functions to keep the test tables looking exactly as they do on the normal test page, these are taken straight from the test page so reivew that for how they work -->
-
-<style>
-    .left-column {
-        background-color: lightblue;
-    }
-    
-    .right-column {
-        background-color: lightpink;
-    }
-
-</style>
 
 
 
