@@ -28,4 +28,12 @@
 #   runner "GenerateInvoicesJob.perform_later"
 # end
 
-  
+# Every day check the users' membership expiration date
+every 1.day at: '12:00 am' do
+    runner "SubscriptionChecker.perform_check"
+end
+
+# Check if any expired members renewed subscription
+# every 1.day at: '12:00 am' do
+#     runner "SubscriptionChecker.detect_status_change"
+# end
