@@ -1,4 +1,4 @@
-document.addEventListener('turbolinks:load', function () {
+document.addEventListener('DOMContentLoaded', function () {
     let localModeratorRadioButton = document.getElementById('localModerator');
     let regularUserRadioButton = document.getElementById('regularUser');
     let bootcampUserRadioButton = document.getElementById('bootcampUser'); // New line
