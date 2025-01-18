@@ -135,6 +135,6 @@ class ApplicationController < ActionController::Base
 
   # TODO: Because this requires a moderator_code, regular and global users will need have set special way to bypass this.
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:fname, :lname, :email, :password, :password_confirmation, :verification_key, :moderator_code])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:fname, :lname, :email, :password, :password_confirmation, :verification_key, :moderator_code, :terms_accepted])
   end
 end

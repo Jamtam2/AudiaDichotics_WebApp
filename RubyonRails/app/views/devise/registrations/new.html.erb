@@ -49,9 +49,9 @@
 
       <div class="terms-of-service"> 
         <%= f.check_box :terms_accepted, disabled: true, id: 'tos-checkbox' %>
-        <%= f.hidden_field :terms_accepted, id: 'tos-accepted', value: false %>
+        <%= f.hidden_field :terms_accepted, id: 'tos-accepted', value: 'false' %>
         <p>I have read the 
-          <button type = "button" onclick = "showText(event)" data-turbo="false">Terms of Service</button>
+          <button type = "button" onclick = "showText(event)" data-turbo="false" class="btn btn-link" style= "font-size: 20px; padding-bottom: 0.57em;">Terms of Service</button>
         </p>
       
 
