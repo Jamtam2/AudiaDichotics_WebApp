@@ -1,4 +1,4 @@
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const copyButton = document.getElementById('copy-button');
     const copyTarget = document.getElementById('copy-target');
 
