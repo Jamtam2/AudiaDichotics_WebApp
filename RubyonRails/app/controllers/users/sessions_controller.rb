@@ -12,8 +12,6 @@ class Users::SessionsController < Devise::SessionsController
       end
     end
   end
-  
-  private
 
   def check_terms_accepted
     if current_user.terms_accepted.nil?

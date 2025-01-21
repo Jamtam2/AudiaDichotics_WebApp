@@ -41,7 +41,6 @@ Rails.application.routes.draw do
   post 'update_registration_key', to: 'clients#update_registration_key'
   post 'user_mfa_sessions/reset_qr_code', to: 'user_mfa_sessions#reset_qr_code', as: :reset_qr_code_user_mfa_sessions
 
-
   get 'tos_agreement', to: 'terms_of_service#index', as: 'existing_user_accept_tos'
   patch 'accepted_terms_of_service', to: 'terms_of_service#accepted'
 
