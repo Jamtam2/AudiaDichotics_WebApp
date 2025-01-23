@@ -7,7 +7,7 @@
     </div>
     <div class="center">
       <div class="card mb-3 border-0" style="padding-top:25px">
-        <h1 class="display-3 pl-4" style='padding-top:100px'><strong>Start Your Plan</strong></h1>
+        <h1 class="display-3 pl-4" style='padding-top:200px'><strong>Start Your Plan</strong></h1>
         <hr>
         <div class="container">
           <div class="row pl-5 pr-5 pb-5">
@@ -124,7 +124,7 @@
 
       <!-- Discount -->
       <hr>
-      <div class="card border-0">
+      <div class="container my-3 w-75">
         <%= form_with(model: Inquiry.new, url: inquiries_path, local: true) do |form| %>
           <%= form.hidden_field :inquiry_type, value: 'discount_inquiry' %>
 
@@ -162,22 +162,22 @@
           <!--- <%= render "devise/shared/error_messages", resource: resource %> --->
 
           <div class="form-group">
-            <%= f.label :first_name %>
+            <%= f.label :first_name, class: 'label-medium' %>
             <%= f.text_field :fname, autofocus: true, class: "form-control form-control-lg rounded-pill", style: 'padding:10px;', required: true%>
           </div>
 
           <div class="form-group">
-            <%= f.label :last_name %>
+            <%= f.label :last_name, class: 'label-medium' %>
             <%= f.text_field :lname, autofocus: true, class: "form-control form-control-lg rounded-pill", style: 'padding:10px;', required: true %>
           </div>
 
         <div class="form-group">
-          <%= f.label :email %>
+          <%= f.label :email, class: 'label-medium' %>
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg rounded-pill", style: 'padding:10px;' %>
         </div>
 
         <div class="form-group">
-          <%= f.label :password %>
+          <%= f.label :password, class: 'label-medium' %>
           <% if @minimum_password_length %>
             <em>(<%= @minimum_password_length %> characters minimum)</em>
           <% end %>
@@ -185,7 +185,7 @@
         </div>
 
         <div class="form-group">
-          <label>Select Account Type:</label><br />
+          <label class='label-medium'>Select Account Type:</label><br />
           <p id="accountTypeErrorMessage" hidden style="color: red;">Please select an account type.</p>
           <input type="radio" name="account_type" value="local_moderator" id="localModerator"> Create a Local Moderator<br />
           <input type="radio" name="account_type" value="regular_user" id="regularUser"> I Have a Sign-Up Code<br />
@@ -193,14 +193,14 @@
 
         <!-- Registration Key Field -->
         <div class="form-group" id="registrationKeyField" style="display:none;">
-          <%= f.label :verification_key %>
-          <%= f.text_field :verification_key, class: "form-control form-control-lg", style: 'padding:10px;', id:"registrationKey"%>
+          <%= f.label :verification_key, class: 'label-medium' %>
+          <%= f.text_field :verification_key, class: "form-control form-control-lg rounded-pill", style: 'padding:10px;', id:"registrationKey"%>
         </div>
 
         <!-- Local Moderator Code Field -->
         <div class="form-group" id="signUpCodeField" style="display:none;">
-          <%= f.label :moderator_code, "Enter Local Moderator Code" %>
-          <%= f.text_field :moderator_code, class: "form-control form-control-lg", style: 'padding:10px;', id:"moderatorKey"%>
+          <%= f.label :moderator_code, "Enter Local Moderator Code", class: 'label-medium' %>
+          <%= f.text_field :moderator_code, class: "form-control form-control-lg rounded-pill", style: 'padding:10px;', id:"moderatorKey"%>
         </div>
 
         <div class="actions">
