@@ -91,6 +91,7 @@ class RegistrationsController < Devise::RegistrationsController
 
 
           user.verification_key = key.activation_code
+          tenant.stripe_customer_id = key.customer_id
           secret_key = ROTP::Base32.random_base32
           user.user_mfa_sessions.create!(secret_key: secret_key, activated: false)
           sign_in(:user, user)
