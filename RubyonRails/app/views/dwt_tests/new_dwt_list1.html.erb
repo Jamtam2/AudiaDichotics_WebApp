@@ -267,6 +267,7 @@
 
 
 
+<<<<<<< Updated upstream
     <script>
 
 
@@ -695,6 +696,19 @@
     </script>
 <%= javascript_pack_tag 'transcription' %>
 
+=======
+  <script>
+    //necessary for the javascript below
+    let age = <%= @client.age_in_years %>;
+  </script>
+  <%= javascript_pack_tag 'dwt_javascript' %>
+  <!-- NOTE FOR FUTURE H:
+  the script can go in app/javascript/packs
+  any ERB content can be done in the above-->
+
+  <%= javascript_pack_tag 'transcription' %>
+  
+>>>>>>> Stashed changes
 
   </div>
 </div>

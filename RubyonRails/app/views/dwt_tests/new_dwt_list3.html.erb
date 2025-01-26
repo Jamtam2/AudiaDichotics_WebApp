@@ -257,6 +257,7 @@
 
 
     <script>
+<<<<<<< Updated upstream
 
 
 
@@ -651,7 +652,12 @@
 
       //time needs to be updated when the audio progresses
       audioPlayer.addEventListener('timeupdate', updateTime)
+=======
+      //necessary for the javascript below
+      let age = <%= @client.age_in_years %>;
+>>>>>>> Stashed changes
     </script>
+    <%= javascript_pack_tag 'dwt_javascript' %>
 
 
   <%= javascript_pack_tag 'transcription' %>
