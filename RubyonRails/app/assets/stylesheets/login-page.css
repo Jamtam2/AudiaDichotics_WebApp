@@ -48,5 +48,15 @@
 }
 
 .label-medium {
-    font-size: large;
+    font-size: 25px;
+}
+
+.label-small {
+    font-size: 20px;
+    margin-top: 8px;
+}
+
+.checkbox-padding {
+    margin: 10px;
+    margin-bottom: 12px;
 }
