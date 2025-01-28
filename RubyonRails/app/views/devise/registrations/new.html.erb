@@ -1,45 +1,201 @@
-<body id="defBG">
-  <div class="container p-5 my-3 w-50 border rounded bg-white">
-    <h2 class="display-2" style='padding-bottom:20px'><strong>Sign Up</strong></h2>
+<%= stylesheet_link_tag "login-page" %>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {id: "registration_form"}) do |f| %>
-      <!--- <%= render "devise/shared/error_messages", resource: resource %> --->
+<div>
+  <div class="panel left">
+    <div class="logo">
+      <%= image_tag "AUDIA_RGB_LOGO_w.png", class: "logo-image" %>
+    </div>
+    <div class="center">
+      <div class="card mb-3 border-0" style="padding-top:25px">
+        <h1 class="display-3 pl-4" style='padding-top:200px'><strong>Start Your Plan</strong></h1>
+        <hr>
+        <div class="container">
+          <div class="row pl-5 pr-5 pb-5">
+            <!-- Plan 1: 1 year, 15 tests -->
+            <div class="col-md-4">
+              <div class="card border-0">
+                <div class="plan-card-container">
+                  <div class="plan-card">
+                    <div class="front-content">
+                      <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 20rem;' %>
+                      <p class="inline-block">15 Tests Plan</p>
+                    </div>
+                    <div class="content">
+                      <p class="heading">1 year, 15 tests - $999</p>
+                      <p>
+                        - 15 dichotic assessments<br>
+                        - Unlimited new users<br>
+                        - Access to analytical test data
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <%= button_to 'Start 15 Tests Plan', stripe_checkout_path(price_id: ENV['FIFTEEN_PRICEID'], license_type: ENV['FIFTEEN_TESTS'],mode_type:'subscription', test_quantity: 1), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
+              </div>
+            </div>
 
-      <div class="form-group">
-        <%= f.label :first_name %>
-        <%= f.text_field :fname, autofocus: true, class: "form-control form-control-lg", style: 'padding:10px;', required: true%>
+            <!-- Plan 2: 1 year, 45 tests -->
+            <div class="col-md-4">
+              <div class="card border-0">
+                <div class="plan-card-container">
+                  <div class="plan-card">
+                    <div class="front-content">
+                      <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 20rem;' %>
+                      <p class="inline-block">45 Tests Plan</p>
+                    </div>
+                    <div class="content">
+                      <p class="heading">1 year, 45 tests - $1,499</p>
+                      <p>
+                        - 45 dichotic assessments<br>
+                        - Unlimited new users<br>
+                        - Access to analytical test data
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <%= button_to 'Start 45 Tests Plan', stripe_checkout_path(price_id: ENV['FORTYFIVE_PRICEID'], license_type: ENV['FORTYFIVE_TESTS'], mode_type:'subscription', test_quantity: 1), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
+              </div>
+            </div>
+
+            <!-- Plan 3: 1 year, 100 tests -->
+            <div class="col-md-4">
+              <div class="card border-0">
+                <div class="plan-card-container">
+                  <div class="plan-card">
+                    <div class="front-content">
+                      <%= image_tag 'standardPlan.png', class: 'd-block m-auto pt-2', style: 'max-width: 20rem;' %>
+                      <p class="inline-block">100 Tests Plan</p>
+                    </div>
+                    <div class="content">
+                      <p class="heading">1 year, 100 tests - $2,499</p>
+                      <p>
+                        - 100 dichotic assessments<br>
+                        - Unlimited new users<br>
+                        - Access to analytical test data
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <%= button_to 'Start 100 Tests Plan', stripe_checkout_path(price_id: ENV['HUNDRED_PRICEID'],license_type: ENV['HUNDRED_TESTS'],mode_type:'subscription', test_quantity: 1), method: :post, id: 'checkout-button', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill", remote: true, data: { stripe_public_key: ENV['PUBLIC_KEY_TEST'] } %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <%= f.label :last_name %>
-        <%= f.text_field :lname, autofocus: true, class: "form-control form-control-lg", style: 'padding:10px;', required: true %>
-      </div>
+      <!-- Include Stripe.js -->
+      <script src="https://js.stripe.com/v3/"></script>
 
-      <div class="form-group">
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg", style: 'padding:10px;' %>
-      </div>
+      <script>
+        // First, find the button by its ID
+        let checkoutButton = document.getElementById('checkout-button');
 
-      <div class="form-group">
-        <%= f.label :password %>
-        <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
+        // Then, retrieve the public key from the data attribute of the button
+        var publicKeyTest = checkoutButton.getAttribute('data-stripe-public-key');
+
+        // Initialize Stripe with the public key
+        var stripe = Stripe(publicKeyTest);
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        checkoutButton.addEventListener('click', function () {
+          fetch('/stripe_checkout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken // Include the CSRF token in the request header
+            },
+            credentials: 'same-origin' // Ensure cookies (including CSRF token) are sent with the request
+          })
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (session) {
+            return stripe.redirectToCheckout({ sessionId: session.id });
+          })
+          .catch(function (error) {
+            console.error('Error:', error);
+          });
+        });
+      </script>
+
+      <!-- Discount -->
+      <hr>
+      <div class="container my-3 w-75">
+        <%= form_with(model: Inquiry.new, url: inquiries_path, local: true) do |form| %>
+          <%= form.hidden_field :inquiry_type, value: 'discount_inquiry' %>
+
+          <div class="form-group pl-2 pr-2">
+            <h1 class="card-title display-4 pt-2 text-center"><strong>Need a Discount?</strong></h1>
+            <div class="pt-1 pl-4 pr-4">
+              Submit your email below to see about your discount eligibility.
+            </div>
+          </div>
+
+          <div class="form-group pl-3 pr-3">
+            <%= form.label :email, 'Email', class: "pt-1 pl-3", style: "font-size:17px" %><br />
+            <%= form.email_field :email, required: true, class: "form-control rounded-pill", style: "height: 38px;" %>
+          </div>
+
+          <div class="form-group pl-3 pr-3">
+            <%= form.label :purpose, 'Reasoning for Discount', class: "pt-1 pl-3", style: "font-size:17px" %><br />
+            <%= form.text_area :purpose, required: true, class: "form-control rounded-pill", rows: 1, style: "height: 38px;" %>
+          </div>
+
+          <div class="pl-3 pr-3 pb-2 btn-lg btn-block rounded-pill">
+            <%= form.submit 'Get Discount', class: "btn-lg btn-block btn-primary mfa-submit rounded-pill" %>
+          </div>
         <% end %>
-        <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg", style: 'padding:10px;' %>
       </div>
+    </div>
+  </div>
 
-      <div class="form-group">
-        <label>Select Account Type:</label><br />
-        <p id="accountTypeErrorMessage" hidden style="color: red;">Please select an account type.</p>
-        <input type="radio" name="account_type" value="local_moderator" id="localModerator"> Create a Local Moderator<br />
-        <input type="radio" name="account_type" value="regular_user" id="regularUser"> I Have a Sign-Up Code<br />
-      </div>
+  <div class="panel right">
+    <div class="center">
+      <div class="container my-3 w-75">
+        <h2 class="display-2" style='padding-bottom:20px'><strong>Sign Up</strong></h2>
 
-      <!-- Registration Key Field -->
-      <div class="form-group" id="registrationKeyField" style="display:none;">
-        <%= f.label :verification_key %>
-        <%= f.text_field :verification_key, class: "form-control form-control-lg", style: 'padding:10px;', id:"registrationKey"%>
-      </div>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {id: "registration_form"}) do |f| %>
+          <!--- <%= render "devise/shared/error_messages", resource: resource %> --->
+
+          <div class="form-group">
+            <%= f.label :first_name, class: 'label-medium' %>
+            <%= f.text_field :fname, autofocus: true, class: "form-control form-control-lg rounded-pill", style: 'padding:10px;', required: true%>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :last_name, class: 'label-medium' %>
+            <%= f.text_field :lname, autofocus: true, class: "form-control form-control-lg rounded-pill", style: 'padding:10px;', required: true %>
+          </div>
+
+        <div class="form-group">
+          <%= f.label :email, class: 'label-medium' %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control form-control-lg rounded-pill", style: 'padding:10px;' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password, class: 'label-medium' %>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg rounded-pill", style: 'padding:10px;' %>
+        </div>
+
+        <div class="form-group">
+          <label class='label-medium'>Select Account Type:</label><br />
+          <p id="accountTypeErrorMessage" hidden style="color: red;">Please select an account type.</p>
+          <input type="radio" name="account_type" value="local_moderator" id="localModerator"> Create a Local Moderator<br />
+          <input type="radio" name="account_type" value="regular_user" id="regularUser"> I Have a Sign-Up Code<br />
+        </div>
+
+        <!-- Registration Key Field -->
+        <div class="form-group" id="registrationKeyField" style="display:none;">
+          <%= f.label :verification_key, class: 'label-medium' %>
+          <%= f.text_field :verification_key, class: "form-control form-control-lg rounded-pill", style: 'padding:10px;', id:"registrationKey"%>
+        </div>
 
       <!-- Local Moderator Code Field -->
       <div class="form-group" id="signUpCodeField" style="display:none;">
@@ -66,13 +222,12 @@
         </div>
       </div> 
       
-      <div class="actions">
-        <%= f.submit "Sign up", class: 'btn btn-primary btn-lg btn-block', data: { disable_with: false } %>
+      <<div class="actions">
+      <%= f.submit "Sign up", class: 'btn submit-button btn-primary btn-lg btn-block rounded-pill', data: { disable_with: false } %>
       </div>
     <% end %>
+    </div>
   </div>
-  
-  <%# <script src="terms_of_service.js"></script> %>
-</body>
- <%= javascript_include_tag 'registrationFormValidation' %>
-  <%= javascript_include_tag 'terms_of_service' %>
+</div>
+<%= javascript_include_tag 'registrationFormValidation' %>
+<%= javascript_include_tag 'terms_of_service' %>

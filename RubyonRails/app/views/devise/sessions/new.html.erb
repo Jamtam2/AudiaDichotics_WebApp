@@ -1,37 +1,50 @@
-<body id= "defBG">
-<div class="container p-5 my-3 w-50 border rounded bg-white">
+<%= stylesheet_link_tag "login-page" %>
 
-<h2 class= "display-1", style= 'padding-bottom:20px' ><strong>Log in</strong></h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field", style= 'padding-bottom:20px'>
-    <%= f.label :email, class: 'display-6' %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "form-control form-control-lg", style: ' padding:10px;' %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password, class:'display-6' %><br />
-    <%= f.password_field :password, autocomplete: "current-password",class: "form-control form-control-lg", style: ' padding:10px;' %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div>
+  <div class="panel left">
+    <div class="logo">
+      <%= image_tag "AUDIA_RGB_LOGO_w.png", class: "logo-image" %>
     </div>
-  <% end %>
-
-  <div class="actions" style= 'padding-bottom:20px'>
-    <%= f.submit "Log in", class: 'btn btn-primary btn-lg btn-block' %>
+    <div class="center">
+      <div class="container my-3 w-75">
+        <h2 class= "display-2", style= 'padding-bottom:20px' ><strong>Don't Have an Account?</strong></h2> 
+        <%= link_to "Sign Up Here", new_user_registration_path, class: "btn btn-primary btn-lg btn-block rounded-pill" %>
+        <h3 style="padding: 10px;">or<h3>
+        <%= link_to "Learn More Here", about_path, class: "btn btn-primary btn-lg btn-block rounded-pill"%>
+      </div>
+    </div>
   </div>
-<% end %>
 
-<%= render "devise/shared/links" %>
-<br>
-<label class="pt-2">Don't have a license? Start your plan today</label><br />
-<%= link_to 'Find Your Plan', stripe_checkout_path, class: 'btn btn-success btn-lg btn-block mt-3' %>
+  <div class="panel right">
+    <div class="center">
+      <div class="container my-3 w-75">
+        <h2 class= "display-1", style= 'padding-bottom:20px' ><strong>Log in</strong></h2>
+
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <div class="field", style= 'padding-bottom:20px'>
+            <%= f.label :email, class: 'label-medium' %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "form-control form-control-lg rounded-pill", style: ' padding:10px;' %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password, class:'label-medium' %><br />
+            <%= f.password_field :password, autocomplete: "current-password",class: "form-control form-control-lg rounded-pill", style: ' padding:10px;' %>
+          </div>
+
+          <% if devise_mapping.rememberable? %>
+            <div class="field">
+              <%= f.check_box :remember_me, class: 'checkbox-padding' %>
+              <%= f.label :remember_me, class: 'label-small' %>
+            </div>
+          <% end %>
+
+          <div class="actions" style= 'padding-bottom:20px'>
+            <%= f.submit "Log in", class: 'btn submit-button btn-primary btn-lg btn-block rounded-pill' %>
+          </div>
+        <% end %>
+
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
-</body>

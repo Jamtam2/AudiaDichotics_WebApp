@@ -9,7 +9,7 @@
     <%= javascript_pack_tag 'tabs', 'data-turbolinks-track': 'reload' %>
 
     <%# <script type="text/javascript">
-      window.assemblyApiKey = "<%= ENV['ASSEMBLY_API'] %>";
+      window.assemblyApiKey = "<%= ENV['ASSEMBLY_API'] %>
     <%# </script> %>
 
 
@@ -52,7 +52,7 @@
   </head>
 
   <body>
-    <nav id= "navbar"class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-3">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-3" style="<%= 'display: none;' if current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>">
       <div class="container-fluid clearfix">
         <div class="container-fluid clearfix justify-content-start">
           <a class="navbar-brand" href="/home">
