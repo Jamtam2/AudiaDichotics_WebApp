@@ -1,6 +1,4 @@
 <%= form_with url: accepted_terms_of_service_path, method: :patch do |f| %>
-    <p>
-        "Terms of service text here..."
-    </p>
-    <%= f.submit 'I accept' %>
+    <%= render "devise/shared/license_text" %>
+    <%= f.submit 'I accept', class: 'btn submit-button btn-primary btn-lg btn-block rounded-pill', style: "margin-top: 2em; margin-bottom: 5em" %>
 <% end %>

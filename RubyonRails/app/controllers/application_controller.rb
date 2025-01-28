@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :set_current_tenant
   before_action :check_mfa
   before_action :authenticate_user_with_redirect!, unless: :mfa_process?
+  before_action :check_terms_accepted
 
 
   def set_current_tenant
@@ -111,6 +112,15 @@ class ApplicationController < ActionController::Base
     user_signed_in? && !mfa_setup_paths.include?(request.path)
   end
 
+  def check_terms_accepted
+    # Skip this check for the license agreement page itself or for users not signed in
+    return if controller_name == 'terms_of_service' || !user_signed_in?
+
+    # Prevent users from bypassing license agreement through navbar links
+    unless current_user.terms_accepted?
+      redirect_to existing_user_accept_tos_path # Adjust the path to your license agreement page
+    end
+  end
 
   def mfa_setup_paths
     # List of paths for MFA setup

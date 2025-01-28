@@ -211,18 +211,17 @@
         </p>
       
 
-        <div id="tos-model" class="tos-model" style="display:none;">
+        <div id="tos-model" class="tos-model" style="display:none; overflow-y: auto; max-height: 370em; box-sizing: border-box;">
           <div class= 'tos-text'>
-            <h3>Terms of Service</h3>
             <p>
-              Insert text here...
+              <%= render "devise/shared/license_text" %>
             </p>
-            <button type = "button" onclick = "tosAccept(event)" data-turbo="false">I accept</button>
+            <button type = "button" onclick = "tosAccept(event)" data-turbo="false" class= 'btn submit-button btn-primary btn-lg btn-block rounded-pill'>I accept</button>
           </div>
         </div>
       </div> 
       
-      <<div class="actions">
+      <div class="actions">
       <%= f.submit "Sign up", class: 'btn submit-button btn-primary btn-lg btn-block rounded-pill', data: { disable_with: false } %>
       </div>
     <% end %>
