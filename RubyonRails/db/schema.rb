@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_14_051550) do
+ActiveRecord::Schema.define(version: 2025_01_18_222541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,9 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.float "left_score"
     t.float "right_score"
     t.float "ear_advantage_score"
+    t.string "left_percentile"
+    t.string "right_percentile"
+    t.string "advantage_percentile"
     t.bigint "client_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -131,9 +134,6 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.string "encrypted_client_name"
     t.string "encrypted_client_name_iv"
     t.decimal "price", precision: 10, scale: 2
-    t.string "advantage_percentile"
-    t.string "left_percentile"
-    t.string "right_percentile"
     t.index ["client_id"], name: "index_dwt_tests_on_client_id"
     t.index ["tenant_id"], name: "index_dwt_tests_on_tenant_id"
     t.index ["user_id"], name: "index_dwt_tests_on_user_id"
@@ -211,19 +211,6 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.integer "created_by_id"
   end
 
-  create_table "licenses", force: :cascade do |t|
-    t.integer "licenseID"
-    t.string "activationCode"
-    t.integer "licenseType"
-    t.datetime "expiration"
-    t.integer "productID"
-    t.integer "customerID"
-    t.integer "subscriptiontID"
-    t.datetime "createdOnUtc"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "payments", force: :cascade do |t|
     t.decimal "amount", precision: 10, scale: 2
     t.string "stripe_transaction_id"
@@ -250,7 +237,12 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.float "right_score2"
     t.float "right_score3"
     t.float "ear_advantage_score"
+    t.float "ear_advantage_score1"
+    t.float "ear_advantage_score3"
     t.string "interpretation"
+    t.string "left_percentile"
+    t.string "right_percentile"
+    t.string "advantage_percentile"
     t.bigint "client_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -259,11 +251,6 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.string "encrypted_client_name"
     t.string "encrypted_client_name_iv"
     t.decimal "price", precision: 10, scale: 2
-    t.string "advantage_percentile"
-    t.float "ear_advantage_score1"
-    t.string "left_percentile"
-    t.float "ear_advantage_score3"
-    t.string "right_percentile"
     t.index ["client_id"], name: "index_rddt_tests_on_client_id"
     t.index ["tenant_id"], name: "index_rddt_tests_on_tenant_id"
     t.index ["user_id"], name: "index_rddt_tests_on_user_id"
@@ -343,9 +330,8 @@ ActiveRecord::Schema.define(version: 2024_12_14_051550) do
     t.boolean "outstanding_balance"
     t.datetime "email_2fa_code_sent_at"
     t.string "bootcamp_code"
-    t.integer "test_limit"
-    t.datetime "membership_expiration"
     t.boolean "reset"
+    t.boolean "terms_accepted", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["moderator_code"], name: "index_users_on_moderator_code"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -82,7 +82,7 @@ class ClientsController < ApplicationController
      def destroy
        @client = Client.find(params[:id])
        @client.destroy
-
+       
        redirect_to clients_url, notice: "Client was successfully deleted."
      end
 
@@ -108,7 +108,6 @@ class ClientsController < ApplicationController
          format.html
          format.csv { send_data generate_csv(@clients), filename: "client_data-#{Date.today}.csv" }
        end
-
      end
 
      # Controller for global_moderator_index page functionality

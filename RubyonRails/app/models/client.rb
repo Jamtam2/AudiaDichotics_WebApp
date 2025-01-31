@@ -231,6 +231,4 @@ class Client < ApplicationRecord
   ransacker :age_in_years do
     Arel.sql("EXTRACT(YEAR FROM age(date_of_birth))")
   end
-
-
 end

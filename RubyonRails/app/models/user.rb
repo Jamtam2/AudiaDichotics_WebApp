@@ -21,6 +21,7 @@
 #  reset_password_token   :string
 #  right_ear_decibel      :integer
 #  role                   :integer
+#  terms_accepted         :boolean          default(FALSE)
 #  verification_key       :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -63,7 +64,9 @@ class User < ApplicationRecord
   # Will validate the verification key only for the owner.
   validates :verification_key, presence: true, if: :owner?
 
-
+  # Validation that user has accepted terms of agreement
+  validates :terms_accepted, acceptance: { accept: true, message: ':You must accept the Terms of Service'}
+  
   has_many :dwt_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy
   has_many :dnw_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy
   has_many :rddt_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy
