@@ -1,4 +1,3 @@
-console.log('IM IN!')
 //function for keeping the buttons blue after being clicked
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
@@ -54,8 +53,8 @@ allButtons.forEach(function (button) {
     //initializes various variables for further calculations
     let direction = null;
     let interpretation = null;
-    //let age = <%= @client.age_in_years %>; 
-    //this value can be defined in the template itself
+    const clientDataElement = document.getElementById('client-data');
+    const age = clientDataElement.dataset.age;
     let dom = null;
     let nondom = null;
     let nondomPercent = null;
