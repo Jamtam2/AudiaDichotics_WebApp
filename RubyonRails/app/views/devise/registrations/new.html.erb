@@ -201,32 +201,31 @@
 
       <!-- Local Moderator Code Field -->
       <div class="form-group" id="signUpCodeField" style="display:none;">
-        <%= f.label :moderator_code, "Enter Local Moderator Code" %>
-        <%= f.text_field :moderator_code, class: "form-control form-control-lg", style: 'padding:10px;', id:"moderatorKey"%>
+        <%= f.label :moderator_code, "Enter Local Moderator Code", class: 'label-medium' %>
+        <%= f.text_field :moderator_code, class: "form-control form-control-lg rounded-pill", style: 'padding:10px;', id:"moderatorKey"%>
       </div>
 
       <div class="terms-of-service"> 
         <%= f.check_box :terms_accepted, disabled: true, id: 'tos-checkbox' %>
         <%= f.hidden_field :terms_accepted, id: 'tos-accepted', value: 'false' %>
         <p>I have read the 
-          <button type = "button" onclick = "showText(event)" data-turbo="false" class="btn btn-link" style= "font-size: 20px; padding-bottom: 0.57em;">Terms of Service</button>
+          <button type = "button" onclick = "showText(event)" data-turbo="false" class="btn-link2 simplified" style= "font-size: 20px; padding-bottom: 0.57em;">Terms of Service</button>
         </p>
-      
-
-        <div id="tos-model" class="tos-model" style="display:none; overflow-y: auto; max-height: 370em; box-sizing: border-box;">
-          <div class= 'tos-text'>
-            <p>
-              <%= render "devise/shared/license_text" %>
-            </p>
-            <button type = "button" onclick = "tosAccept(event)" data-turbo="false" class= 'btn submit-button btn-primary btn-lg btn-block rounded-pill'>I accept</button>
-          </div>
-        </div>
       </div> 
       
       <div class="actions">
       <%= f.submit "Sign up", class: 'btn submit-button btn-primary btn-lg btn-block rounded-pill', data: { disable_with: false } %>
       </div>
     <% end %>
+    </div>
+  </div>
+
+  <div id="tos-model" class="tos-model" style="display:none; overflow-y: auto; max-height: 370em; box-sizing: border-box;">
+    <div class='tos-text-container'>
+      <div class='tos-text'>
+        <%= render "devise/shared/license_text" %>
+        <button type = "button" onclick = "tosAccept(event)" data-turbo="false" class= 'btn submit-button btn-primary btn-lg btn-block rounded-pill'>I accept</button>
+      </div>
     </div>
   </div>
 </div>

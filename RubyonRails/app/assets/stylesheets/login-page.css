@@ -60,3 +60,49 @@
     margin: 10px;
     margin-bottom: 12px;
 }
+
+.flash-messages {
+    position: relative;
+    z-index: 100;
+    padding: 0px;
+    margin: 0px;
+}
+
+.alert-success {
+    border: none;
+}
+
+.terms-of-service {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#tos-checkbox {
+    align-self: center;
+    margin-bottom: 18px;
+}
+
+.btn-link2 {
+    color: #e0202c;
+    text-decoration: underline;
+}
+
+.btn-link2:hover {
+    color: #bd1a25;
+    text-decoration: underline;
+}
+
+.simplified {
+    text-align: center;
+    display: inline-block;
+    font-weight: 300;
+    vertical-align: middle;
+    padding: 0.375rem 0.5rem;
+    line-height: 1.5;
+    background: none;
+}
+
+.simplified:hover {
+    background-color: inherit;
+}
