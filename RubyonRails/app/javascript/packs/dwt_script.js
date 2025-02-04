@@ -272,9 +272,6 @@ allButtons.forEach(function (button) {
       }
     }
 
-
-
-
     // Passes values to strings so they can be pushed to the html above
     column1Count.innerText = checkedCount1.toString();
     column1Percent.innerText = percent1.toString();
@@ -296,15 +293,12 @@ allButtons.forEach(function (button) {
       rightEarPercentile.innerText = domPercent.toString();
     }
 
-
     advantagePercentile.innerText = adv_percent.toString();
-
 
     advantageName.innerText = direction;
     testDiagnosis.innerText = interpretation;
     readOnly.value = advantageName.innerText;
     readOnlyDiag.value = testDiagnosis.innerText;
-
 
     const earAdvantageCells = document.querySelectorAll('.ear-advantage');
     const percentileCells = document.querySelectorAll('.percentile');
