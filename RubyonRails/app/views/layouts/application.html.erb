@@ -52,7 +52,8 @@
   </head>
 
   <body>
-    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-3" style="<%= 'display: none;' if current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-3" style="<%= 'display: none;' if devise_controller? && ['sessions', 'registrations', 'passwords'].include?(controller_name) %>">
+
       <div class="container-fluid clearfix">
         <div class="container-fluid clearfix justify-content-start">
           <a class="navbar-brand" href="/home">
