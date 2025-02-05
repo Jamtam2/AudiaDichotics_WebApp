@@ -10,12 +10,17 @@
 
 .left {
     left: 0;
+    
 }
 
 .right {
     right: 0;
     background-color: rgba(46,131,204,1);
     color: white;
+}
+
+.blue-background {
+    background-color: rgba(46,131,204,1);
 }
 
 .center {
@@ -47,8 +52,27 @@
     height: auto;
 }
 
+.logo-background {
+    background-color: white;
+    border-radius: 20%;
+}
+
 .label-medium {
     font-size: 25px;
+}
+
+.forgot-padding {
+    padding-bottom: 15px;
+}
+
+a.forgot-password {
+    font-size: 20px;
+    text-decoration: underline;
+    color: #e0202c;
+}
+
+a.forgot-password:hover {
+    color: #bd1a25;
 }
 
 .label-small {
@@ -105,4 +129,26 @@
 
 .simplified:hover {
     background-color: inherit;
+}
+
+.rounded-corner {
+    border-radius: 5%;
+}
+
+.text-padding {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.center-align {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+}
+
+.back-arrow {
+    width: 50px;
+    height: auto;
 }
