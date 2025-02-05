@@ -18,7 +18,7 @@ keybruh = Key.create!(
 )
 puts "#{keybruh.inspect})..."
 puts "Fetching keys and customer data..."
-FetchKeys.call
+# FetchKeys.call
 puts "Data fetching complete."
 
 keybruh = Key.create!(
@@ -79,7 +79,7 @@ ActsAsTenant.with_tenant(tenantbruh) do
     lname:"Mod",
     role: :local_moderator,
     verification_key: 'localmodkey',
-    terms_accepted: true
+    terms_accepted: false
   )
   user.user_mfa_sessions.create!(
     secret_key: ROTP::Base32.random_base32, # Generate a random secret key

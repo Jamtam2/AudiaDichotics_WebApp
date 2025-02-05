@@ -65,8 +65,9 @@ class User < ApplicationRecord
   validates :verification_key, presence: true, if: :owner?
 
   # Validation that user has accepted terms of agreement
-  validates :terms_accepted, acceptance: { accept: true, message: ':You must accept the Terms of Service'}
-  
+  validates :terms_accepted, acceptance: { accept: true, message: ':You must accept the Terms of Service' }, if: :new_user?
+
+
   has_many :dwt_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy
   has_many :dnw_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy
   has_many :rddt_tests, foreign_key: 'tenant_id', primary_key: 'tenant_id', dependent: :destroy
@@ -131,6 +132,7 @@ class User < ApplicationRecord
 
   end
 
+
   # functions finds the code for the registration key and checks to see if the key has been used or not.
   # This determines if the key for registration has been used or not.
 
@@ -173,6 +175,9 @@ class User < ApplicationRecord
       errors.add(:base, "You have no remaining tests or your membership has expired.")
       false
     end
+  end
+  def new_user?
+    terms_accepted.nil? # Only enforce if terms_accepted hasn't been explicitly set
   end
 
   private
