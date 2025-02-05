@@ -35,13 +35,17 @@ class Users::PasswordsController < Devise::PasswordsController
         redirect_to new_verify_2fa_code_path, notice: '2FA code sent to your email. Please enter the code to continue resetting your password.'
       else
         # Handle save error
-        respond_with(resource, alert: 'An error occurred while sending the 2FA code.')
+        flash[:alert] = "An error occurred while sending the 2FA code"
+        redirect_to new_user_password_path
       end
     else
       # Handle case where email is not found
-      respond_with(resource, alert: 'Email not found.')
+      flash[:alert] = "Email not found."
+      redirect_to new_user_password_path
+
     end
   end
+
 
 
   # PUT /resource/password
