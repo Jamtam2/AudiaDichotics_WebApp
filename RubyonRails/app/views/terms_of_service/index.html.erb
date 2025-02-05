@@ -1,4 +1,28 @@
-<%= form_with url: accepted_terms_of_service_path, method: :patch do |f| %>
-    <%= render "devise/shared/license_text" %>
-    <%= f.submit 'I accept', class: 'btn submit-button btn-primary btn-lg btn-block rounded-pill', style: "margin-top: 2em; margin-bottom: 5em" %>
-<% end %>
+<%= stylesheet_link_tag "login-page" %>
+
+<body class="blue-background" style="overflow-y: auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center;">
+  
+  <div class="container p-5 bg-white rounded-corner center-align" style="text-align: center; max-height: 90vh; overflow-y: auto;">
+    <div class="logo">
+      <%= link_to destroy_user_session_path, method: :delete do %>
+        <%= image_tag "back_arrow.svg", class: "back-arrow" %>
+      <% end %>
+    </div>
+    
+    <div class="d-flex justify-content-center">
+      <%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
+    </div>
+    
+    <h3 class="label-medium text-padding" style="font-weight: bold;">Terms of Service</h3>
+    
+    <%= form_with url: accepted_terms_of_service_path, method: :patch, html: { class: "form-container" } do |f| %>
+      <div class="terms-text" style="max-height: 50vh; overflow-y: auto; padding: 10px;">
+        <%= render "devise/shared/license_text" %>
+      </div>
+      
+      <div class="actions" style="margin-top: 2em; margin-bottom: 5em;">
+        <%= f.submit 'I accept', class: 'btn btn-primary btn-lg btn-block rounded-pill' %>
+      </div>
+    <% end %>
+  </div>
+</body>

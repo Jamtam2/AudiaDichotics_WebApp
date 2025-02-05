@@ -52,7 +52,7 @@
   </head>
 
   <body>
-    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-3" style="<%= 'display: none;' if devise_controller? && ['sessions', 'registrations', 'passwords'].include?(controller_name) %>">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-3" style="<%= 'display: none;' if devise_controller? && ['sessions', 'registrations', 'passwords', 'terms_of_service'].include?(controller_name) %>">
 
       <div class="container-fluid clearfix">
         <div class="container-fluid clearfix justify-content-start">
