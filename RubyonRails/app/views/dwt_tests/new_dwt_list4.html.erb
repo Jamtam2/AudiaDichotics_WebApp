@@ -19,6 +19,7 @@
 
 
 <%= form_with model: [@client, @dwt_test], local: true do |f| %>
+  <%= f.hidden_field :category_id, value: @dwt_test.category_id %>
 <div class="container">
   <div class="row">
     <div class="col-sm">
@@ -50,9 +51,13 @@
         <%= f.text_area :notes, class: 'form-control', rows: '3' %>
         <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-        <audio id="audioPlayer" controls >
+        <audio id="audioPlayer">
           <source src="<%= asset_path('Track 05 Dichotic Words Test Track 4.mp3') %>" type="audio/mpeg">
         </audio>
+        <!-- AUDIO PLAYER CONTROLS -->
+        <button id="startAudioBtn" type="button" class="btn btn-info" disabled>Start Audio</button>
+        <button id="stopAudioBtn" type="button" class="btn btn-info" disabled>Stop Audio</button>
+        <span id="audioTimeContainer"><i>Loading...</i></span>
         <hr/>
 
         <button id="startBtn" type="button" class="btn btn-info">Start Recording</button>
@@ -201,14 +206,14 @@
                 <td>
                   <div class="btn-group-toggle" data="buttons">
                     <label class="btn btn-outline-primary column1-button">
-                      <input type="checkbox" name="column1[<%= i %>][]" value="1"> <%= words[i][0] %>
+                      <input type="checkbox" name="selected_words[<%= i %>][]" value="1"> <%= words[i][0] %>
                     </label>
                   </div>
                 </td>
                 <td>
                   <div class="btn-group-toggle" data="buttons">
                     <label class="btn btn-outline-primary column2-button">
-                      <input type="checkbox" name="column1[<%= i %>][]" value="2"> <%= words[i][1] %>
+                      <input type="checkbox" name="selected_words[<%= i %>][]" value="2"> <%= words[i][1] %>
                     </label>
                   </div>
                 </td>
@@ -578,6 +583,70 @@
 
     }
 
+
+      // # AUDIO PLAYER CONTROLS
+      const audioPlayer = document.getElementById('audioPlayer');
+      const startAudioBtn = document.getElementById('startAudioBtn');
+      const stopAudioBtn = document.getElementById('stopAudioBtn');
+      const audioTimeContainer = document.getElementById('audioTimeContainer');
+
+      // Enables the audio player button if it is loaded
+      enableCustomControls();
+
+      function enableCustomControls() {
+        if (audioPlayer.readyState >= audioPlayer.HAVE_FUTURE_DATA) {
+          startAudioBtn.removeAttribute('disabled');
+          updateTime();
+        } else {
+          setTimeout(() => {
+            enableCustomControls();
+          }, 1000);
+        }
+      }
+
+      // starts audio file
+      startAudioBtn.addEventListener('click', function() {
+        audioPlayer.play();
+        stopAudioBtn.removeAttribute('disabled');
+        startAudioBtn.setAttribute('disabled', 'disabled');
+      });
+
+      // stops audio file.
+      // creates a popup, asking for user confirmation -
+      // if the user chooses to stop the audio file, restart the page
+      // because the test is invalidated
+      stopAudioBtn.addEventListener('click', function() {
+        const CONF_TEXT = "Stopping the audio file will invalidate the test.\nThe page will reload.\nPress \"OK\" to end test.\nPress \"CANCEL\" to continue."
+        if(window.confirm(CONF_TEXT)) {
+          window.location.reload();
+        }
+      })
+      
+      // reloads page if audio file ends before completion.
+      audioPlayer.addEventListener('pause', function() {
+        if(!audioPlayer.ended) {
+          window.alert('Paused before completion. Test invalidated.\nReloading page.');
+          window.location.reload();
+        }
+      });
+
+      //convert time to min:sec format
+      function timeConvert(time) {
+        const minutes = Math.floor(time / 60)
+        let seconds = Math.floor(time % 60)
+        if(seconds < 10) seconds = `0${seconds}`
+        return `${minutes}:${seconds}`
+      }
+
+      // capture audio time 
+      function updateTime() {
+        let currentTime = timeConvert(audioPlayer.currentTime)
+        let duration = timeConvert(audioPlayer.duration)
+        audioTimeContainer.innerText = `${currentTime} / ${duration}`
+      }
+
+      //time needs to be updated when the audio progresses
+      audioPlayer.addEventListener('timeupdate', updateTime)
     </script>
 
 <%= javascript_pack_tag 'transcription' %>
