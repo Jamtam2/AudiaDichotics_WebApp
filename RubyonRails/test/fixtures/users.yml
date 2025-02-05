@@ -12,7 +12,6 @@
 #  google_secret          :string
 #  left_ear_decibel       :integer
 #  lname                  :string
-#  membership_expiration  :datetime
 #  mfa_secret             :integer
 #  moderator_code         :string
 #  outstanding_balance    :boolean
@@ -22,7 +21,7 @@
 #  reset_password_token   :string
 #  right_ear_decibel      :integer
 #  role                   :integer
-#  test_limit             :integer
+#  terms_accepted         :boolean          default(FALSE)
 #  verification_key       :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null

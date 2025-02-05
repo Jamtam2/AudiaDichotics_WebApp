@@ -125,7 +125,7 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    allowed_params = [:fname, :lname, :email, :password, :password_confirmation, :verification_key]
+    allowed_params = [:fname, :lname, :email, :password, :password_confirmation, :verification_key, :terms_accepted]
 
     case params[:account_type]
     when 'regular_user'
