@@ -10,6 +10,14 @@
     
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
+    <style>
+      div.sticky {
+        position: -webkit-sticky; /* Safari */
+        position: sticky;
+        top: 0;
+      }
+    </style>
+
     <%= form_with model: [@client, @dnw_test], local: true do |f| %>
       <%= f.hidden_field :category_id, value: @dnw_test.category_id %>
       <div class="container">
@@ -192,5 +200,6 @@
 
   <div id="client-data" data-age="<%= @client.age_in_years %>"></div>
   <%= javascript_pack_tag 'dnw_script' %>
+  <%= javascript_pack_tag 'audio_player'%>
 
 </body>
