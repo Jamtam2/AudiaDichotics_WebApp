@@ -1,42 +1,54 @@
-# Ears Project
-## Overview
-Audia Dichotics aims to provide a scalable web application using Ruby on Rails to diagnose and treat hearing difficulties in children. The previous software had licensing issues, necessitating this rebuild. As of Summer 2024, the web app is live with full functionality; including:
-- Full user functionality with Stripe for payment processing.
-- Google MFA and email verification for enhanced security.
-- Ongoing development for a training feature and voice activation feature.
+# 🎧 Audia Dichotics - Hearing Diagnosis & Treatment Platform  
 
-### Website
+**Audia Dichotics** is a scalable web application designed to **diagnose and treat hearing difficulties in children** through validated auditory processing assessments. The platform was rebuilt from the ground up to replace legacy software that had licensing constraints.  
 
-The application is live and can be accessed at [audiadichotics.com](http://www.audiadichotics.com/).
+## 🌟 **Overview**
+- 🏥 **HIPAA-aligned** SaaS platform for auditory processing assessments  
+- 🏫 **Deployed in the San Diego school district**, making it available to **121,000+ students**  
+- 🔐 **Enhanced Security** with **Google MFA, email verification, and encrypted patient data**  
+- 💳 **Integrated Stripe Payments** for secure transactions  
+- 🚀 **Ongoing Development**: Training modules & voice activation features  
 
-### Work In Progress
+🔗 **Live Website:** [audiadichotics.com](https://www.audiadichotics.com)  
 
-- **Training Feature:** Exercises to correct hearing deficiencies.
+---
 
-## What is Amblyaudia?
+## 🛠 **Features**
+### ✅ **Current Functionalities**
+- 🎧 **Full User Management** – Secure authentication, account creation, and role-based access  
+- 📊 **Automated Test Scoring & Reports** – Analyzes patient responses and generates detailed assessments  
+- 🔐 **Security & Compliance** – Google MFA, email verification, and encrypted patient data storage  
+- 💳 **Stripe Payment Integration** – Secure billing and checkout for diagnostic assessments  
+- 🗣 **Voice Activation Feature:** Future integration for hands-free test responses  
 
-Amblyaudia is an auditory processing deficit due to weaknesses in binaural integration. It can be assessed through dichotic listening tests and treated with ARIA training programs.
+### 🚧 **Work in Progress**
+- 🏋 **Training Module:** Interactive exercises to help correct auditory deficiencies  
+- 🔍 **Search Filter:** Developing a secure search feature that navigates encrypted data without direct queries, ensuring HIPAA compliance while maintaining efficiency.
+---
 
-**Tools designed to aid listening and learning**
+## 📖 **What is Amblyaudia?**  
+Amblyaudia is an **auditory processing disorder** that affects binaural integration, making it difficult for individuals to process sounds correctly. The condition can be **diagnosed using dichotic listening tests** and treated with **ARIA training programs.**  
 
-Dichotics Inc provides tools to assess and rehabilitate individuals with amblyaudia.
+**Audia Dichotics provides**:  
+✔️ **Evidence-based assessment tools** for hearing professionals  
+✔️ **Automated result interpretation** to streamline diagnosis  
+✔️ **Research-backed rehabilitation methods**  
 
-- **Identify children at risk of amblyaudia.**
-- **Interpret and report test results.**
-- **Backed by research evidence.**
+More details at: [dichoticsinc.com](https://dichoticsinc.com)  
 
-Our software integrates sound files for the DWT and RDDT, scores patient responses, and generates detailed reports.
+---
 
-For more details, visit [dichoticsinc.com](https://www.dichoticsinc.com).
+## 🏗 **Tech Stack**
+| **Category**         | **Technologies Used** |
+|----------------------|----------------------|
+| **Framework**       | Ruby on Rails 6 |
+| **Language**        | Ruby 3.1.1 |
+| **Front End**       | Bootstrap 4, JavaScript |
+| **Database**        | PostgreSQL |
+| **Payment**         | Stripe |
+| **Security**        | Google MFA, Email Verification |
+| **Hosting**         | Heroku |
+| **Testing**         | RSpec, Capybara |
+| **Version Control** | Git |
 
-## Tech Stack
-
-- **Framework:** Ruby on Rails 6
-- **Language:** Ruby 3.1.1
-- **Front End:** Bootstrap 4, JavaScript
-- **Database:** PostgreSQL
-- **Payment Processing:** Stripe
-- **Security:** Google Multi-Factor Authentication, Email Verification
-- **Version Control:** Git
-- **Hosting:** Heroku
-- **Testing:** RSpec, Capybara
+---
