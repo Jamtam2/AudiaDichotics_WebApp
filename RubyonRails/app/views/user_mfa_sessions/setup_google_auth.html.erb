@@ -1,43 +1,53 @@
-<%# app/views/user_mfa_sessions/setup_google_auth.html.erb %>
+<%= stylesheet_link_tag "login-page" %>
 
-<body id= "defBG">
-<div class="container p-5 my-3 w-75 border bg-white">
-<div class="d-flex justify-content-center">
-<%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
-</div>
-<div>
-  <% if current_user && current_user.user_mfa_sessions.first && !current_user.google_secret %>
-    <h2  class= "display-4", style= 'padding-bottom:20px' ><strong>Set up Google Authenticator</strong></h2>
-    <div  class="mfa-page">
-    <div class="instructions">
-      <p><strong>Follow the steps below to enable Google Authenticator:</strong></p>
-      <ol>
-        <li>Download the <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&gl=US" target="_blank">Google Authenticator app</a> for Android or <a href="https://apps.apple.com/us/app/google-authenticator/id388497605" target="_blank">iOS</a>.</li>
-        <li>Open the app and scan the QR code.</li>
-        <li>Enter the code provided by the app in the field below.</li>
-      </ol>
+<body class="blue-background" style="overflow-y: auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center;">
+  
+  <div class="container p-5 bg-white rounded-corner center-align" style="text-align: center; max-height: 90vh; overflow-y: auto;">
+    <div class="logo">
+      <%= link_to new_user_mfa_session_path do %>
+        <%= image_tag "back_arrow.svg", class: "back-arrow" %>
+      <% end %>
     </div>
-    <div class="qr-code-container">
-      <% qr_code = RQRCode::QRCode.new(current_user.generate_qr_code) %>
-      <%= raw qr_code.as_svg(module_size: 5) %>
+    
+    <div class="d-flex justify-content-center">
+      <%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
     </div>
-  <% else %>
-    <p class="pt-3 d-flex justify-content-center text-align: center", style= ' font-size:30px;'>Enter the code from the Google Authenticator App.</p>
-    <div class="pt-3 bt-4 d-flex justify-content-center">
-    <p class>Having trouble getting your code? Reset your QR code here.<p> <%= link_to 'Reset QR Code', reset_qr_code_user_mfa_sessions_path, method: :post, class: "btn btn-warning" %>
-    </div>
-
-  <% end %>
-</div>
-  <div class="mfa-container">
-    <%= form_tag user_mfa_session_path, method: :post, class: "mfa-form", role: "form" do %>
-      <div class="form-group">
-        <%= label_tag "Token", 'Google Authenticator Code', class: 'mfa-label' %>
-        <%= text_field_tag 'mfa_code', params[:mfa_code], class: "form-control" %>
+    
+    <h3 class="label-medium text-padding" style="font-weight: bold;">Set up Google Authenticator</h3>
+    
+    <% if current_user && current_user.user_mfa_sessions.first && !current_user.google_secret %>
+      <div class="mfa-page">
+        <div class="instructions" style="text-align: left; padding-bottom: 20px;">
+          <p><strong>Follow the steps below to enable Google Authenticator:</strong></p>
+          <ol>
+            <li>Download the <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&gl=US" target="_blank">Google Authenticator app</a> for Android or <a href="https://apps.apple.com/us/app/google-authenticator/id388497605" target="_blank">iOS</a>.</li>
+            <li>Open the app and scan the QR code.</li>
+            <li>Enter the code provided by the app in the field below.</li>
+          </ol>
+        </div>
+        <div class="qr-code-container" style="text-align: center; padding-bottom: 20px;">
+          <% qr_code = RQRCode::QRCode.new(current_user.generate_qr_code) %>
+          <%= raw qr_code.as_svg(module_size: 5) %>
+        </div>
       </div>
-      <%= submit_tag 'Verify', class: "btn btn-primary mfa-submit" %>
+    <% else %>
+      <p class="pt-3 d-flex justify-content-center" style="font-size: 20px; text-align: center;">Enter the code from the Google Authenticator App.</p>
+      <div class="pt-3 bt-4 d-flex justify-content-center" style="padding-bottom: 20px;">
+        <p>Having trouble getting your code? Reset your QR code here.</p> 
+        <%= link_to 'Reset QR Code', reset_qr_code_user_mfa_sessions_path, method: :post, class: "btn btn-warning" %>
+      </div>
     <% end %>
+    
+    <div class="mfa-container">
+      <%= form_tag user_mfa_session_path, method: :post, class: "mfa-form", role: "form" do %>
+        <div class="form-group">
+          <%= label_tag "Token", 'Google Authenticator Code', class: 'mfa-label' %>
+          <%= text_field_tag 'mfa_code', params[:mfa_code], class: "form-control form-control-lg rounded-pill", style: "padding:10px;" %>
+        </div>
+        <div class="actions" style="margin-top: 20px;">
+          <%= submit_tag 'Verify', class: "btn btn-primary btn-lg btn-block rounded-pill" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-</div>
-</div>
 </body>
