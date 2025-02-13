@@ -15,7 +15,6 @@
 
 .login-process .left {
     left: 0;
-    
 }
 
 .login-process .right {
@@ -90,7 +89,10 @@
     z-index: 100;
     padding: 0px;
     margin: 0px;
-    border: none;
+}
+
+.login-process .flash-messages .alert {
+    border: none !important;
 }
 
 .login-process .terms-of-service {
@@ -104,7 +106,7 @@
     margin-bottom: 18px;
 }
 
-.login-process.btn-link2 {
+.login-process .btn-link2 {
     color: #e0202c;
     text-decoration: underline;
 }
