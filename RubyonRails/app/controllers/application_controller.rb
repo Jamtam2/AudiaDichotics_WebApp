@@ -37,9 +37,9 @@ class ApplicationController < ActionController::Base
 
   def check_mfa
     # Bypass MFA check in development
-    if Rails.env.development?
-      return
-    end
+    # if Rails.env.development?
+    #   return
+    # end
 
     # TODO: Remove this when moving to production
     # if Rails.env.development?
@@ -109,12 +109,24 @@ class ApplicationController < ActionController::Base
 
   def mfa_process?
     # Define the logic to determine if the user is in the MFA process
+    Rails.logger.info("This is the mfa process boolean:  #{user_signed_in? && !mfa_setup_paths.include?(request.path)}")
+
     user_signed_in? && !mfa_setup_paths.include?(request.path)
   end
 
   def check_terms_accepted
+    Rails.logger.info("DEBUG:THIS IS THE CHECK TERMS PATH: #{request.path}")
+
+    if mfa_setup_paths.include?(request.path)
+      Rails.logger.info("DEBUG:THIS IS THE PATH: #{request.path}")
+      return
+    end
+    Rails.logger.info("Got in here atleast")
+
+
     # Skip this check for the license agreement page itself or for users not signed in
-    return if controller_name == 'terms_of_service' || !user_signed_in?
+    return if controller_name == 'terms_of_service' || !user_signed_in? || mfa_setup_paths.include?(request.path)
+    Rails.logger.info("Got past here....")
 
     # Prevent users from bypassing license agreement through navbar links
     unless current_user.terms_accepted?
@@ -131,7 +143,9 @@ class ApplicationController < ActionController::Base
       verify_email_2fa_user_mfa_sessions_path,
       "/stripe_checkout",
       "/stripe_checkout/success",
-      "/user_mfa_sessions/reset_qr_code"
+      "/user_mfa_sessions/reset_qr_code",
+      "/user_mfa_sessions/setup_email_auth",
+      "/user_mfa_sessions/new"
     ]
   end
   # def current_user

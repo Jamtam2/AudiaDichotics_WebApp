@@ -1,4 +1,9 @@
-.panel {
+
+.blue-background {
+    background-color: rgba(46,131,204,1);
+}
+
+.login-process .panel {
     height: 100%;
     width: 50%;
     position: fixed;
@@ -8,22 +13,16 @@
     padding-top: 20px;
 }
 
-.left {
+.login-process .left {
     left: 0;
-    
 }
 
-.right {
+.login-process .right {
     right: 0;
-    background-color: rgba(46,131,204,1);
     color: white;
 }
 
-.blue-background {
-    background-color: rgba(46,131,204,1);
-}
-
-.center {
+.login-process .centered {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -32,92 +31,92 @@
     width: 100%;
 }
 
-.submit-button {
+.login-process .submit-button {
     background-color: #e0202c;
 }
 
-.submit-button:hover {
+.login-process .submit-button:hover {
     background-color: #bd1a25;
 }
 
-.logo {
+.login-process .logo {
     position: absolute;
     top: 30px; 
     left: 30px; 
     z-index: 2;
 }
 
-.logo-image {
+.login-process .logo-image {
     width: 150px; 
     height: auto;
 }
 
-.logo-background {
+.login-process .logo-background {
     background-color: white;
     border-radius: 20%;
 }
 
-.label-medium {
+.login-process .label-medium {
     font-size: 25px;
 }
 
-.forgot-padding {
+.login-process .forgot-padding {
     padding-bottom: 15px;
 }
 
-a.forgot-password {
+.login-process a.forgot-password {
     font-size: 20px;
     text-decoration: underline;
     color: #e0202c;
 }
 
-a.forgot-password:hover {
+.login-process a.forgot-password:hover {
     color: #bd1a25;
 }
 
-.label-small {
+.login-process .label-small {
     font-size: 20px;
     margin-top: 8px;
 }
 
-.checkbox-padding {
+.login-process .checkbox-padding {
     margin: 10px;
     margin-bottom: 12px;
 }
 
-.flash-messages {
+.login-process .flash-messages {
     position: relative;
     z-index: 100;
     padding: 0px;
     margin: 0px;
 }
 
-.alert-success {
-    border: none;
+.login-process .flash-messages .alert {
+    border: none !important;
 }
 
-.terms-of-service {
+.login-process .terms-of-service {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
 
-#tos-checkbox {
+.login-process #tos-checkbox {
     align-self: center;
     margin-bottom: 18px;
 }
 
-.btn-link2 {
+.login-process .btn-link2 {
     color: #e0202c;
     text-decoration: underline;
 }
 
-.btn-link2:hover {
+.login-process .btn-link2:hover {
     color: #bd1a25;
     text-decoration: underline;
 }
 
-.simplified {
+.login-process .simplified {
     text-align: center;
     display: inline-block;
     font-weight: 300;
@@ -127,20 +126,20 @@ a.forgot-password:hover {
     background: none;
 }
 
-.simplified:hover {
+.login-process .simplified:hover {
     background-color: inherit;
 }
 
-.rounded-corner {
+.login-process .rounded-corner {
     border-radius: 5%;
 }
 
-.text-padding {
+.login-process .text-padding {
     padding-top: 5%;
     padding-bottom: 5%;
 }
 
-.center-align {
+.login-process .center-align {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -148,7 +147,7 @@ a.forgot-password:hover {
     width: 30%;
 }
 
-.back-arrow {
+.login-process .back-arrow {
     width: 50px;
     height: auto;
 }
