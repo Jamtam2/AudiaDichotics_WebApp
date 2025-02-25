@@ -57,7 +57,7 @@ allButtons.forEach(function(button) {
     nondom = percent1;
   } else {
     direction = "Neutral";
-    }
+  }
 // IF else logic for diagnosis based on the childs age. Still unsure if this works as intended accoring to Employer, but we believe it does
   if (age == 5 || age == 6){
     if (direction == "Neutral"){
