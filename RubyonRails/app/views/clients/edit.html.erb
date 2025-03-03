@@ -26,7 +26,7 @@
         openDropdown.style.display = "none"
         const button = openDropdown.parentElement.querySelector(".dropdown");
         button.classList.remove("clicked");
-      } 
+      }
     }
   }
 </script>
@@ -200,7 +200,7 @@
 <!-- DWT Test Button -->
 <div class="col-sm-4">
   <button onclick="buttonClick('dropdown1'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
-      <%= 'disabled' unless current_user.tenant.can_take_test? %>> 
+      <%= 'disabled' unless current_user.tenant.can_take_test? %>>
     Add DWT Test
   </button>
   <% if current_user.tenant.can_take_test? %>
@@ -302,7 +302,7 @@
 
 
 </style>
-    
+
 <div class="tableWrap">
   <table id="tableID">
     <thead>
@@ -340,12 +340,12 @@
 
 
 
-  <div class="col">
+<div class="col">
   <h2 class="display-5 pt-5" style="padding-bottom:20px"><strong>Training</strong></h2>
-    <div class="card border-primary border-1">
-    <%= image_tag 'comingSoon.png', class: ' d-block m-auto' , style: ' max-width: 40rem;'%>
-    </div>
+  <div class="card border-primary border-1 text-center p-4">
+    <%= link_to "View Trainings", client_trainings_path(client_id: @client.id), class: "btn btn-primary btn-lg" %>
   </div>
+</div>
 
 
 
