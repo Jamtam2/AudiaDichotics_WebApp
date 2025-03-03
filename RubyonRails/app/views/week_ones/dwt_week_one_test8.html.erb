@@ -16,20 +16,20 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <div class="form-group row"> 
+      <div class="form-group row">
       <div>
         <p>Ear Dominance</p>
           <button id="setLeftDominance" type="button" class="btn btn-info">Set Left Dominance</button>
           <button id="setRightDominance" type="button" class="btn btn-info">Set Right Dominance</button>
         </div>
-      </div> 
+      </div>
       <div class="form-group row">
         <div>
           <p>Audio Controls</p>
           <button id="playButton" type="button">Play</button>
           <button id="pauseButton" type="button">Pause</button>
         </div>
-      </div> 
+      </div>
       <div class="form-group row">
         <label for="exampleLabel">Label</label>
           <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week One Test Eight" %>
@@ -51,27 +51,27 @@
         <%= f.text_area :notes, class: 'form-control', rows: '3' %>
       <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-
-        <%= audio_tag "Dichotic Words Track 12_R_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-        <%= audio_tag "Dichotic Words Track 12_R_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+        <%# COMMENTED OUT ALL .wav FILES BC I DON'T THINK WE HAVE ACCESS TO THEM YET AND IT WON'T RUN BC IT CAN'T FETCH THEM.%>
+        <%# <%= audio_tag "Dichotic Words Track 12_R_Left_HRTF.wav", id: "leftEarAudio", controls: false %> LEFTEAR
+        <%# <%= audio_tag "Dichotic Words Track 12_R_Right_HRTF.wav", id: "rightEarAudio", controls: false %> RIGHTEAR
         <!--Table for ear advantage percentage that is calculated in the script-->
         <style>
             .left-column {
               background-color: lightblue;
             }
-            
+
             .right-column {
               background-color: lightpink;
             }
-            
+
             .ear-advantage {
               background-color: white;
             }
-            
+
             .ear-advantage.positive {
               background-color: lightblue;
             }
-            
+
             .ear-advantage.negative {
               background-color: lightpink;
             }
@@ -96,7 +96,7 @@
                 <th scope="row">2</th>
               </tr>
               <tr>
-                <th scope="row">3</th>           
+                <th scope="row">3</th>
               </tr>
             </tbody>
           </thead>
@@ -124,7 +124,7 @@
         /* Remove margin and min-width properties */
       }
     </style>
-    
+
     <div class="col-sm">
 
         <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
@@ -193,8 +193,8 @@
 
         <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
         <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
-    
-        <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel() populateHiddenFields()" %> 
+
+        <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel() populateHiddenFields()" %>
         <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
         <%= link_to "Back",  week_one_test_seven_client_week_ones_path(@client), class: "btn btn-secondary btn-block"%>
       <% end %>
@@ -242,11 +242,11 @@
       const testDiagnosis = document.getElementById("Diagnosis");
       const readOnly = document.getElementById("read-Only");
       const readOnlyDiag = document.getElementById("read-Only-diag");
-      
+
 
 
       // Update the counts when a button is clicked
-      
+
       allButtons.forEach(function(button) {
         button.addEventListener("click", function() {
         const checkedCount1 = document.querySelectorAll(".column1-button input[type='checkbox']:checked").length;
@@ -303,7 +303,7 @@
             else{
               interpretation = "Within Normal Limits";
             }
-          }            
+          }
         }
         if (age >= 7 && age <= 9){
           if (direction == "Neutral"){
@@ -330,7 +330,7 @@
             else{
               interpretation = "Within Normal Limits";
             }
-          }          
+          }
         }
         if (age >= 10 && age <= 12){
           if (direction == "Neutral"){
@@ -384,7 +384,7 @@
             else{
               interpretation = "Within Normal Limits";
             }
-          }          
+          }
         }
         if (age >= 16 && age <= 18){
           if (direction == "Neutral"){
@@ -411,7 +411,7 @@
             else{
               interpretation = "Within Normal Limits";
             }
-          }          
+          }
         }
         // Passes values to strings so they can be pushed to the html above
         column1Count.innerText = checkedCount1.toString();
@@ -443,7 +443,7 @@
 
         })
       })
-     // gets the elements from hidden field submit above and populates them from the results in the script 
+     // gets the elements from hidden field submit above and populates them from the results in the script
     function populateHiddenFields() {
       document.getElementById("left_score").value = column1Percent.innerText;
       document.getElementById("right_score").value = column2Percent.innerText;
@@ -451,13 +451,13 @@
       document.getElementById("ear_advantage_score").value = advantageDiff.innerText;
     }
     //ALLEARS ADDITIONS
-      
+
       function calculateRightEarDecibel() {
-      
+
         const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
         const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked").length;
 
-        
+
 
         if (checkedCount1Group1 >= (checkedCount2Group1 * 1.1)) {
           rightEarDecibel = 35;

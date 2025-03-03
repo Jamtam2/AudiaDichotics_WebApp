@@ -11,8 +11,8 @@
   <!--Test page for RDDT List 1 Contains everything for completing and submitting a test  -->
   <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-  
-  
+
+
   <style>
     div.sticky {
         position: -webkit-sticky; /* Safari */
@@ -61,8 +61,9 @@
             <hr/>
             <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
             <!-- ALLEARS Edited by Layton, removed default controls and added ids for easier access across javascript, html, and so-->
-            <%= audio_tag "1-pair Dichotic Digits, List 1_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-            <%= audio_tag "1-pair Dichotic Digits, List 1_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+            <%# COMMENTED OUT ALL .wav FILES BC I DON'T THINK WE HAVE ACCESS TO THEM YET AND IT WON'T RUN BC IT CAN'T FETCH THEM.%>
+            <%# <%= audio_tag "1-pair Dichotic Digits, List 1_Left_HRTF.wav", id: "leftEarAudio", controls: false %> LEFT EAR
+            <%# <%= audio_tag "1-pair Dichotic Digits, List 1_Right_HRTF.wav", id: "rightEarAudio", controls: false %> RIGHT EAR
             <!-- Since this is the first test, this is hardcoded. Later, the deibels are controlled for as part of this file source pull -->
             <!-- <audio id="leftEarAudio">
               <source src="/app/assets/audio/1-pair Dichotic Digits, List 1_Left_HRTF.wav" type="audio/wav">
@@ -76,24 +77,24 @@
               .left-column {
                 background-color: lightblue;
               }
-              
+
               .right-column {
                 background-color: lightpink;
               }
-              
+
               .ear-advantage {
                 background-color: white;
               }
-              
+
               .ear-advantage.positive {
                 background-color: lightblue;
               }
-              
+
               .ear-advantage.negative {
                 background-color: lightpink;
               }
             </style>
-            
+
 
             <p>Scores:</p>
             <table class="table table-sm table-bordered m1-4" style="max-width: 25rem;">
@@ -119,10 +120,10 @@
                   <td class="ear-advantage"><span id="Group2advantage-Diff">0</span>%</td>
                 </tr>
                 <tr>
-                  <th scope="row">3</th>  
+                  <th scope="row">3</th>
                   <td class="left-column"><span id="column1Group3-percent">0</span>%</td>
                   <td class="right-column"><span id="column2Group3-percent">0</span>%</td>
-                  <td class="ear-advantage"><span id="Group3advantage-Diff">0</span>%</td>         
+                  <td class="ear-advantage"><span id="Group3advantage-Diff">0</span>%</td>
                 </tr>
               </tbody>
             </table>
@@ -149,7 +150,7 @@
           }
         </style>
 
-      
+
 
       <div class="col-sm">
             <table class="table table-sm table-striped ml-4">
@@ -161,7 +162,7 @@
                 </tr>
               </thead>
               <tbody>
-                
+
               <!-- Loop for table of numbers and creation of all buttons, only loops 54 times and creates table for buttons-->
                 <% 25.times do |i| %>
                   <% nums = [
@@ -225,7 +226,7 @@
               <!--Hidden table for submission items-->
             </table>
 
-          
+
             <%= f.hidden_field :client_name, value: "Example user" %>
             <%= f.hidden_field :test_type, value: "RDDT" %>
             <%= f.hidden_field :counter, value: "9" %>
@@ -247,7 +248,7 @@
           <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
           <%= link_to "Back",  week_one_test_eight_client_week_ones_path(@client), class: "btn btn-secondary btn-block"%>
         <% end %>
-            
+
     </div>
 
 
@@ -261,7 +262,7 @@
 
 
       <script>
-      
+
 
       //function for keeping the buttons blue after being clicked
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -287,10 +288,10 @@
         const column2ButtonsGroup3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']");
 
         const allButtons = document.querySelectorAll(".column1Group1-button input[type='checkbox'], .column1Group2-button input[type='checkbox'], .column1Group3-button input[type='checkbox'], .column2Group1-button input[type='checkbox'], .column2Group2-button input[type='checkbox'], .column2Group3-button input[type='checkbox']");
-        
+
         const column1Count = document.getElementById("column1-count");
         const column2Count = document.getElementById("column2-count");
-        
+
         const column1Group1Percent = document.getElementById("column1Group1-percent");
         const column1Group2Percent = document.getElementById("column1Group2-percent");
         const column1Group3Percent = document.getElementById("column1Group3-percent");
@@ -298,7 +299,7 @@
         const column2Group2Percent = document.getElementById("column2Group2-percent");
         const column2Group3Percent = document.getElementById("column2Group3-percent");
 
-      
+
         const advantageDiffGroup1 = document.getElementById("Group1advantage-Diff");
         //advantageDiffGroup1.innerText = group1Advantage.toString();
 
@@ -313,10 +314,10 @@
         const testDiagnosis = document.getElementById("Diagnosis");
         const readOnly = document.getElementById("read-Only");
         const readOnlyDiag = document.getElementById("read-Only-diag");
-        
+
 
         // Update the counts when a button is clicked
-        
+
         allButtons.forEach(function(button) {
           button.addEventListener("click", function() {
           const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
@@ -346,11 +347,11 @@
           const group3Advantage = (percentColumn2Group3 - percentColumn1Group3).toFixed(2);
 
 
-          
 
 
 
-          
+
+
           //ALLEARS ADDITIONS
           let rightEarDecibel; // Default hardcoded value, CHANGE TO SERVER-side later (SO GET VALUE instead hard code)
           let leftEarDecibel; // this is not yet attempted set up for server side at all, unlike right
@@ -393,7 +394,7 @@
           advantageName.innerText = direction;
           readOnly.value = advantageName.innerText;
 
-          
+
           testDiagnosis.innerText = interpretation;
           readOnlyDiag.value = testDiagnosis.innerText;
 
@@ -415,7 +416,7 @@
 
           })
         })
-      // gets the elements from hidden field submit above and populates them from the results in the script 
+      // gets the elements from hidden field submit above and populates them from the results in the script
       function populateHiddenFields() {
         document.getElementById("left_score").value = column1Group2Percent.innerText;
         document.getElementById("right_score").value = column2Group2Percent.innerText;
@@ -432,16 +433,16 @@
         document.getElementById("G3adv").value = advantageDiffGroup3.innerText;
 
         document.getElementById("interpretation").value = testDiagnosis.innerText;
-   
+
       }
       //ALLEARS ADDITIONS
       // only works for first group rn, copy paste for more when relevant to test
       function calculateRightEarDecibel() {
-      
+
         const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
         const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked").length;
 
-        
+
 
         if (checkedCount1Group1 >= (checkedCount2Group1 * 1.1)) {
           rightEarDecibel = 35;
@@ -495,7 +496,7 @@
         setEarDominance('right');
         });
       });
-      
+
       function submitAndExit() {
         // Calculate right ear decibel and populate hidden fields
           calculateRightEarDecibel();
