@@ -5,8 +5,8 @@
 
     <td>
       <div class="btn-group-toggle" data="buttons">
-        <% group_size = nums[i][0].length %>
-        <% nums[i][0].each_with_index do |num, index| %>
+        <% group_size = words[i][0].length %>
+        <% words[i][0].each_with_index do |num, index| %>
           <% button_class = "column1Group#{group_size}-button" %>
           <label class="btn btn-outline-primary <%= button_class %>">
             <input type="checkbox" name="selected_words[<%= i %>][]" value="<%= num %>" />
@@ -18,8 +18,8 @@
 
     <td>
       <div class="btn-group-toggle" data="buttons">
-        <% group_size = nums[i][1].length %>
-        <% nums[i][1].each_with_index do |num, index| %>
+        <% group_size = words[i][1].length %>
+        <% words[i][1].each_with_index do |num, index| %>
           <% button_class = "column2Group#{group_size}-button" %>
           <label class="btn btn-outline-primary <%= button_class %>">
             <input type="checkbox" name="selected_words[<%= i %>][]" value="<%= num %>" />
