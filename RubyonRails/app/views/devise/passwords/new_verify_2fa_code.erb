@@ -1,13 +1,27 @@
-<!-- app/views/devise/passwords/new_verify_2fa_code.html.erb -->
-<h2>Enter 2FA Code</h2>
-
-<%= form_with(url: verify_2fa_code_path, method: :post) do |f| %>
-  <div class="field">
-    <%= f.label :email_2fa_code, "2FA Code" %><br />
-    <%= f.text_field :email_2fa_code, autofocus: true %>
+<body class="login-process blue-background">
+  
+  <div class="container p-5 bg-white rounded-corner center-align" style="text-align: center;">
+    <div class="logo">
+      <%= link_to new_user_session_path do %>
+        <%= image_tag "back_arrow.svg", class: "back-arrow" %>
+      <% end %>
+    </div>
+    
+    <div class="d-flex justify-content-center">
+      <%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
+    </div>
+    
+    <h3 class="label-medium text-padding" style="font-weight: bold;">Enter 2FA Code</h3>
+    
+    <%= form_with(url: verify_2fa_code_path, method: :post, html: { class: "form-container" }) do |f| %>
+      <div class="field">
+        <%= f.label :email_2fa_code, "2FA Code", class: 'label-medium' %><br />
+        <%= f.text_field :email_2fa_code, autofocus: true, class: "form-control form-control-lg rounded-pill", style: "padding:10px;" %>
+      </div>
+      
+      <div class="actions" style="padding-top:20px">
+        <%= f.submit "Verify Code", class: 'btn btn-primary btn-lg btn-block rounded-pill' %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Verify Code" %>
-  </div>
-<% end %>
+</body>

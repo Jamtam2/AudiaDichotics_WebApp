@@ -18,7 +18,7 @@ keybruh = Key.create!(
 )
 puts "#{keybruh.inspect})..."
 puts "Fetching keys and customer data..."
-FetchKeys.call
+# FetchKeys.call
 puts "Data fetching complete."
 
 keybruh = Key.create!(
@@ -63,6 +63,7 @@ ActsAsTenant.with_tenant(tenantbruh) do
     lname:"Mod",
     role: :global_moderator,
     verification_key: 'globalmodkey',
+    terms_accepted: true
   )
 
   user.user_mfa_sessions.create!(
@@ -78,6 +79,7 @@ ActsAsTenant.with_tenant(tenantbruh) do
     lname:"Mod",
     role: :local_moderator,
     verification_key: 'localmodkey',
+    terms_accepted: false
   )
   user.user_mfa_sessions.create!(
     secret_key: ROTP::Base32.random_base32, # Generate a random secret key
@@ -91,6 +93,7 @@ ActsAsTenant.with_tenant(tenantbruh) do
     lname:"Mod",
     role: :local_moderator,
     verification_key: 'expkey',
+    terms_accepted: true
   )
   user.user_mfa_sessions.create!(
     secret_key: ROTP::Base32.random_base32, # Generate a random secret key
@@ -197,6 +200,7 @@ tenants.each do |tenant|
         lname: Faker::Name.last_name,
         role: :local_moderator,
         verification_key: keys.pop.activation_code,
+        terms_accepted: true
       )
 
       # Create 50 Clients and related Emergency Contacts and Tests for each user

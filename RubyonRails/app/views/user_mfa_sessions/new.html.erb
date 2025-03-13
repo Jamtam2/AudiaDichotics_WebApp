@@ -1,15 +1,27 @@
 <%# views/user_mfa_sessions/new.html.erb %>
-<body id= "defBG">
-<div class="container p-5 my-3 w-50 border bg-white">
-<div class="d-flex justify-content-center">
-<%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
-</div>
-<h2 class= "display-4", style= 'padding-bottom:20px' ><strong>Authenticate Your Account</strong></h2>
 
-<p class="d-flex justify-content-center text-align: center",style= 'padding-bottom:20px'>
-Protect your account with Two-Factor Authentication.
-</p>
-<%= link_to 'Set up Google Authenticator', setup_google_auth_user_mfa_sessions_path, method: :get, class: "btn mfa-submit btn-lg btn-block" %>
-<%= link_to 'Set up Email Verification', setup_email_auth_user_mfa_sessions_path, method: :get, class: "btn mfa-other btn-secondary border-none btn-lg btn-block" %>
-</div>
+
+<body class="login-process blue-background" style="overflow-y: auto; display: flex; flex-direction: column; justify-content: center;">
+  
+  <div class="container p-5 bg-white rounded-corner center-align" style="text-align: center; max-height: 90vh; overflow-y: auto;">
+    <div class="logo">
+      <%= link_to destroy_user_session_path, method: :delete do %>
+        <%= image_tag "back_arrow.svg", class: "back-arrow" %>
+      <% end %>
+    </div>
+    
+    <div class="d-flex justify-content-center">
+      <%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
+    </div>
+    
+    <h3 class="label-medium text-padding" style="font-weight: bold;">Authenticate Your Account</h3>
+    <p class="d-flex justify-content-center" style="text-align: center; padding-bottom: 20px;">
+      Protect your account with Two-Factor Authentication.
+    </p>
+    
+    <div class="actions">
+      <%= link_to 'Set up Google Authenticator', setup_google_auth_user_mfa_sessions_path, method: :get, class: "btn btn-primary btn-lg btn-block rounded-pill" %>
+      <%= link_to 'Set up Email Verification', setup_email_auth_user_mfa_sessions_path, method: :get, class: "btn btn-secondary btn-lg btn-block rounded-pill" %>
+    </div>
+  </div>
 </body>

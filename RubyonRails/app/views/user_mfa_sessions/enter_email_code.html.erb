@@ -1,21 +1,28 @@
-<%# app/views/user_mfa_sessions/enter_email_code.html.erb %>
-<%# views/user_mfa_sessions/new.html.erb %>
-<body id= "defBG">
-<div class="container p-5 my-3 w-50 border bg-white">
-<div class="d-flex justify-content-center">
-<%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
-</div>
-<div class="email-verification-page">
-  <h2 class= "display-4", style= 'padding-bottom:20px' ><strong>Email Verification</strong></h2>
-  <p>A verification code has been sent to: <%= current_user.email %></p>
 
-  <%= form_tag verify_email_2fa_user_mfa_sessions_path, method: :post do %>
-    <div class="form-group">
-      <%= label_tag :email_2fa_code, 'Enter the code from your email' %>
-      <%= text_field_tag :email_2fa_code, nil, class: "form-control" %>
+<body class="login-process blue-background" style="overflow-y: auto; display: flex; flex-direction: column; justify-content: center;">
+  <div class="container p-5 bg-white rounded-corner center-align" style="text-align: center; max-height: 90vh; overflow-y: auto;">
+    <div class="logo">
+      <%= link_to new_user_mfa_session_path do %>
+        <%= image_tag "back_arrow.svg", class: "back-arrow" %>
+      <% end %>
     </div>
-    <%= submit_tag 'Verify Code', class: "btn mfa-submit btn-lg btn-block" %>
-  <% end %>
-</div>
-</div>
+    
+    <div class="d-flex justify-content-center">
+      <%= image_tag 'AudiaShield1.png', style: "margin: 0 auto; width: 125px " %>
+    </div>
+    
+    <h3 class="label-medium text-padding" style="font-weight: bold;">Email Verification</h3>
+    <p>A verification code has been sent to: <%= current_user.email %></p>
+    
+    <%= form_tag verify_email_2fa_user_mfa_sessions_path, method: :post, class: "form-container" do %>
+      <div class="form-group">
+        <%= label_tag :email_2fa_code, 'Enter the code from your email', class: 'label-medium' %>
+        <%= text_field_tag :email_2fa_code, nil, class: "form-control form-control-lg rounded-pill", style: "padding:10px;" %>
+      </div>
+      
+      <div class="actions" style="margin-top: 2em;">
+        <%= submit_tag 'Verify Code', class: 'btn btn-primary btn-lg btn-block rounded-pill' %>
+      </div>
+    <% end %>
+  </div>
 </body>

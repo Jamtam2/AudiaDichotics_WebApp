@@ -84,7 +84,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:fname, :lname, :email, :password, :password_confirmation, :tenant_id, :registration_key)
+    params.require(:user).permit(:fname, :lname, :email, :password, :password_confirmation, :tenant_id, :registration_key, :terms_accepted)
     Rails.logger("DEBUG: #{@user.email.inspect}")
   end
 end

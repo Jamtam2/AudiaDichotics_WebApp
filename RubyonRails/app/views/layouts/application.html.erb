@@ -9,11 +9,8 @@
     <%= javascript_pack_tag 'tabs', 'data-turbolinks-track': 'reload' %>
 
     <%# <script type="text/javascript">
-      window.assemblyApiKey = "<%= ENV['ASSEMBLY_API'] %>";
+      window.assemblyApiKey = "<%= ENV['ASSEMBLY_API'] %>
     <%# </script> %>
-
-
-
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -52,11 +49,11 @@
 
 
     </style>
-
   </head>
 
   <body>
-    <nav id= "navbar"class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-3">
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-3" style="<%= 'display: none;' if devise_controller? && ['sessions', 'registrations', 'passwords'].include?(controller_name) || ['terms_of_service', 'user_mfa_sessions', 'two_factor'].include?(controller_name) %>">
+
       <div class="container-fluid clearfix">
         <div class="container-fluid clearfix justify-content-start">
           <a class="navbar-brand" href="/home">
@@ -109,6 +106,8 @@
       </ul>
     </nav>
 
+<% unless request.path == "/tos_agreement" %>
+
     <div class="flash-messages">
       <% flash.each do |key, messages| %>
         <% if messages.respond_to?(:each) %>
@@ -124,6 +123,7 @@
         <% end %>
       <% end %>
     </div>
+<% end %>
 
     <%# all code for the calibration feature (inside modal made here) %>
     <div class="modal fade content-justify-center" id="myModal">

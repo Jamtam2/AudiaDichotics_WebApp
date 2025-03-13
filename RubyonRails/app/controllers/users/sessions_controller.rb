@@ -1,4 +1,6 @@
-class Users::SessionsController < Devise::SessionsController
+class Users::SessionsController < Devise::SessionsController  
+  before_action :check_terms_accepted, if: :user_signed_in?
+
   def create
     super do |user|
       if user.valid_password?(params[:user][:password])
@@ -10,6 +12,13 @@ class Users::SessionsController < Devise::SessionsController
       end
     end
   end
+
+  def check_terms_accepted
+    if current_user.terms_accepted.nil?
+      redirect_to existing_user_accept_tos_path, alert: "You must accept the terms of service."
+    end
+  end
+
   def destroy
     if current_user
       # Update email_verified status
