@@ -1,0 +1,19 @@
+
+.about-page .item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.about-page .item {
+    width: 50%;
+}
+
+.about-page .item3 {
+    width: 33%;
+    padding: 1.5%;
+}
+
+.about-page hr {
+    background-color: #e0202c;
+}
