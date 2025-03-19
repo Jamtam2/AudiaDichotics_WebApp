@@ -3,10 +3,22 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    text-align: center;
+}
+
+.about-page .video {
+    justify-content: center;
 }
 
 .about-page .item {
     width: 50%;
+    padding: 5%;
+}
+
+.about-page .image-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .about-page .item3 {
@@ -14,6 +26,23 @@
     padding: 1.5%;
 }
 
+.about-page .item2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .about-page hr {
     background-color: #e0202c;
+}
+
+.about-page .image-border {
+    border: solid #e0202c 10px;
+    border-radius: 15px;
+}
+
+.about-page .image-content {
+    height: 300px;
+    width: auto;
 }
