@@ -138,6 +138,7 @@ Rails.application.routes.draw do
         get 'dnw_week_one_test7', to: 'week_ones#dnw_week_one_test7', as: 'week_one_test_seven'
         get 'dwt_week_one_test8', to: 'week_ones#dwt_week_one_test8', as: 'week_one_test_eight'
         get 'rddt_week_one_test9', to: 'week_ones#rddt_week_one_test9', as: 'week_one_test_nine'
+        get 'week_one_summary', to: 'week_ones#week_one_summary', as: 'week_one_summary'
         get 'week_ones/:id', to: 'week_ones#show', as: 'show'
       end
     end
@@ -154,6 +155,7 @@ Rails.application.routes.draw do
         get 'dwt_week_four_test7', to: 'week_fours#dwt_week_four_test7', as: 'week_four_test_seven'
         get 'dwt_week_four_test8', to: 'week_fours#dwt_week_four_test8', as: 'week_four_test_eight'
         get 'rddt_week_four_test9', to: 'week_fours#rddt_week_four_test9', as: 'week_four_test_nine'
+        get 'week_four_summary', to: 'week_fours#week_four_summary', as: 'week_four_summary'
         get 'week_fours/:id', to: 'week_fours#show', as: 'show'
       end
     end
@@ -171,6 +173,7 @@ Rails.application.routes.draw do
         get 'rddt_week_three_test8', to: 'week_threes#rddt_week_three_test8', as: 'week_three_test_eight'
         get 'dwt_week_three_test9', to: 'week_threes#dwt_week_three_test9', as: 'week_three_test_nine'
         get 'dwt_week_three_test10', to: 'week_threes#dwt_week_three_test10', as: 'week_three_test_ten'
+        get 'week_three_summary', to: 'week_threes#week_three_summary', as: 'week_three_summary'
         get 'week_threes/:id', to: 'week_threes#show', as: 'show'
       end
     end
@@ -186,6 +189,7 @@ Rails.application.routes.draw do
         get 'dnw_week_two_test6', to: 'week_twos#dnw_week_two_test6', as: 'week_two_test_six'
         get 'dwt_week_two_test7', to: 'week_twos#dwt_week_two_test7', as: 'week_two_test_seven'
         get 'dwt_week_two_test8', to: 'week_twos#dwt_week_two_test8', as: 'week_two_test_eight'
+        get 'week_two_summary', to: 'week_twos#week_two_summary', as: 'week_two_summary'
         get 'week_twos/:id', to: 'week_twos#show', as: 'show'
       end
     end
