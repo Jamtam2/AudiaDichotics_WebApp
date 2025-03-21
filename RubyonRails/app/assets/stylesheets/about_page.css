@@ -4,6 +4,24 @@
     flex-direction: row;
     justify-content: space-between;
     text-align: center;
+    padding: 5%;
+}
+
+.about-page .item-container2 {
+    padding: 5%;
+}
+
+.about-page .item-container3 {
+    padding: 5%;
+}
+
+.about-page #three-type {
+    padding: 0%;
+}
+
+.about-page h1 {
+    padding: 0px !important;
+    text-align: center;
 }
 
 .about-page .video {
@@ -12,7 +30,8 @@
 
 .about-page .item {
     width: 50%;
-    padding: 5%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
 }
 
 .about-page .image-item {
@@ -45,4 +64,10 @@
 .about-page .image-content {
     height: 300px;
     width: auto;
+}
+
+.about-page .form1 {
+    border-radius: 20px;
+    justify-content: center;
+    text-align: center;
 }

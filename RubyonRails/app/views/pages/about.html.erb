@@ -32,7 +32,7 @@
         <hr>
         <div class="item-container3">
             <h1 class="display-3 pl-4", style= 'padding-top:60px'><strong>Test Types</strong></h1>
-            <div class="item-container">
+            <div id="three-type" class="item-container">
                 <div class="item3">
                     <h1 class="card-title display-4"><strong>DWT</strong></h1>
                     <p style="font-size:17px;">
@@ -81,9 +81,9 @@
             </div>
         </div>
         <hr>
-        <div class="item-container">
+        <div class="item-container2">
             <div class="item2">
-                <div class="card bg-secondary border-0">
+                <div class="card bg-secondary border-0 form1">
                     <%= form_with(model: Inquiry.new, url: inquiries_path, local: true) do |form| %>
                         <div class="form-group pl-2 pr-2 ">
                         <h1 class="card-title display-4 pt-1 text-center"><strong>Issue Report</strong></h1>
