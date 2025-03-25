@@ -62,17 +62,33 @@
             <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
             <!-- ALLEARS Edited by Layton, removed default controls and added ids for easier access across javascript, html, and so-->
             <!-- This will default to playing the base file-->
-            <%# COMMENTED OUT ALL .wav FILES BC I DON'T THINK WE HAVE ACCESS TO THEM YET AND IT WON'T RUN BC IT CAN'T FETCH THEM.%>
-            <%# <%= audio_tag "1-pair Dichotic Digits, List 1_Left_HRTF.wav", id: "leftEarAudio", controls: false %> LEFTEAR
-            <%# <%= audio_tag "1-pair Dichotic Digits, List 1_Right_HRTF.wav", id: "rightEarAudio", controls: false %> RIGHTEAR
+            <%= audio_tag "1-pair Dichotic Digits, List 1_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
+            <%= audio_tag "1-pair Dichotic Digits, List 1_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
             <!-- Since this is the first test, this is hardcoded. Later, the deibels are controlled for as part of this file source pull -->
             <!-- <audio id="leftEarAudio">
-              <%# <source src="/app/assets/audio/1-pair Dichotic Digits, List 1_Left_HRTF.wav" type="audio/wav"> %>
+              <source src="/app/assets/audio/1-pair Dichotic Digits, List 1_Left_HRTF.wav" type="audio/wav">
             </audio>
             <audio id="rightEarAudio">
-              <%# <source src="/app/assets/audio/1-pair Dichotic Digits, List 1_Right_HRTF.wav" type="audio/wav"> %>
+              <source src="/app/assets/audio/1-pair Dichotic Digits, List 1_Right_HRTF.wav" type="audio/wav">
             </audio>
-            <hr/>-->
+            <!-- JavaScript to Handle Playback -->
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  const leftAudio = document.getElementById("leftEarAudio");
+                  const rightAudio = document.getElementById("rightEarAudio");
+                  const playButton = document.getElementById("playButton");
+
+                  playButton.addEventListener("click", function() {
+                    leftAudio.play();
+                    rightAudio.play();
+                  });
+                  pauseButton.addEventListener("click", function() {
+                    leftAudio.pause();
+                    rightAudio.pause();
+                  });
+                });
+              </script>
+            <hr/>
             <!--Table for ear advantage percentage that is calculated in the script-->
             <style>
               .left-column {
