@@ -42,3 +42,15 @@
     padding-left: 5px;
     padding-right: 5px;
 }
+
+.training-process .content {
+    display: flex;
+}
+
+.training-process .content .left {
+    width: 50%;
+}
+
+.training-process .content .left {
+   width: 50%; 
+}
