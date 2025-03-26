@@ -38,6 +38,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-left: 100px;
+    padding-right: 100px;
+    width: 60%;
 }
 
 .about-page .item3 {
@@ -57,7 +60,6 @@
 }
 
 .about-page .image-border {
-    border: solid #e0202c 10px;
     border-radius: 15px;
 }
 
@@ -70,4 +72,8 @@
     border-radius: 20px;
     justify-content: center;
     text-align: center;
+}
+
+.about-page main {
+    padding: 0;
 }
