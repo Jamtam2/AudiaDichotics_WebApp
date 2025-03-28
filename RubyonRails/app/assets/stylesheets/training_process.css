@@ -5,7 +5,6 @@
 
 .training-process .infobar {
     display: flex;
-    padding-bottom: 20px;
 }
 
 .training-process .infobar h2 {
@@ -43,14 +42,22 @@
     padding-right: 5px;
 }
 
+.training-process .no-style {
+    all: unset;
+    background: none;
+    
+}
+
 .training-process .content {
     display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
-.training-process .content .left {
-    width: 50%;
-}
-
-.training-process .content .left {
-   width: 50%; 
+.training-process .content .summary {
+    width: 90%;
+    margin: 0 auto;
 }
