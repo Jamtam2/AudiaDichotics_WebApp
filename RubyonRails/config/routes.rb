@@ -195,6 +195,7 @@ Rails.application.routes.draw do
     end
   end
     get 'clients/:client_id/trainings', to: 'trainings#index', as: 'client_trainings'
+    get 'clients/:client_id/trainings/export', to: 'trainings#export', defaults: {format: 'xlsx'}, as: 'trainings_export'
     get 'clients/:client_id/trainings/:id', to: 'trainings#show', as: 'client_training'
 
   #ALLEARS Addition: Trying to fix audio path issues for Week_Ones
