@@ -11,27 +11,30 @@
     margin: 0;
 }
 
-.training-process .infobar .left {
-    width: 33%;
+.training-process .infobar .left,
+.training-process .infobar .center,
+.training-process .infobar .right {
+    display: flex;
     align-items: center;
-    text-align: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
     justify-content: center;
-    border: 2px black solid;
+    text-align: center;
+    padding: 5px 0;
+    border: 2px solid black;
+}
+
+.training-process .infobar .left {
+    width: 10%;
+    border-left: none;
+}
+
+.training-process .infobar .center {
+    width: 23%;
     border-right: none;
     border-left: none;
 }
 
 .training-process .infobar .right {
-    display: flex;
     width: 67%;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    border: 2px black solid;
     border-right: none;
 }
 
@@ -53,7 +56,7 @@
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: 50px;
     padding-top: 20px;
 }
 
