@@ -195,7 +195,9 @@
           </div>
         <% end %>
       <% end %>
-      <%= link_to "export as excel file", trainings_export_path(@client) %>
-    </div>
+      <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
+        <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn btn-primary" %>
+      </div>
+        </div>
   </div>
 </body>
