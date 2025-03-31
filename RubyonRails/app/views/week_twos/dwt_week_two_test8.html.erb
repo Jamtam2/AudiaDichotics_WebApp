@@ -43,7 +43,7 @@
         <label for="testType">Type</label>
         <input class="form-control" type="text" id="testType" placeholder="Dichotic Spondees" readonly>
       </div>
-     
+
       <div class="sticky">
         <label for="Notes">Notes</label>
         <%= f.text_area :notes, class: 'form-control', rows: '3' %>
@@ -51,7 +51,47 @@
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
         <hr/>
         <%= audio_tag "Dichotic Words Track 12_R_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-            <%= audio_tag "Dichotic Words Track 12_R_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+        <%= audio_tag "Dichotic Words Track 12_R_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+        <!-- JavaScript to Handle Playback and Timer -->
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const leftAudio = document.getElementById("leftEarAudio");
+            const rightAudio = document.getElementById("rightEarAudio");
+            const playButton = document.getElementById("playButton");
+            const pauseButton = document.getElementById("pauseButton");
+            const timerDisplay = document.getElementById("timer");
+            const durationDisplay = document.getElementById("duration");
+
+            // Function to format time as mm:ss
+            function formatTime(seconds) {
+              const minutes = Math.floor(seconds / 60);
+              const secs = Math.floor(seconds % 60);
+              return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+            }
+
+            // Set total duration when data is loaded
+            leftAudio.addEventListener("loadedmetadata", function() {
+              durationDisplay.textContent = formatTime(leftAudio.duration);
+            });
+
+            // Update timer
+            leftAudio.addEventListener("timeupdate", function() {
+              timerDisplay.textContent = formatTime(leftAudio.currentTime);
+            });
+
+            // Play both audio files
+            playButton.addEventListener("click", function() {
+              leftAudio.play();
+              rightAudio.play();
+            });
+
+            // Pause both audio files
+            pauseButton.addEventListener("click", function() {
+              leftAudio.pause();
+              rightAudio.pause();
+            });
+          });
+        </script>
         <!--<%= audio_tag "1-pair Dichotic Digits, List 1_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
             <%= audio_tag "1-pair Dichotic Digits, List 1_Right_HRTF.wav", id: "rightEarAudio", controls: false %> -->
         <!--Table for ear advantage percentage that is calculated in the script-->
@@ -59,19 +99,19 @@
             .left-column {
               background-color: lightblue;
             }
-            
+
             .right-column {
               background-color: lightpink;
             }
-            
+
             .ear-advantage {
               background-color: white;
             }
-            
+
             .ear-advantage.positive {
               background-color: lightblue;
             }
-            
+
             .ear-advantage.negative {
               background-color: lightpink;
             }
@@ -96,7 +136,7 @@
                 <th scope="row">2</th>
               </tr>
               <tr>
-                <th scope="row">3</th>           
+                <th scope="row">3</th>
               </tr>
             </tbody>
           </thead>
@@ -134,7 +174,7 @@
         /* Remove margin and min-width properties */
       }
     </style>
-    
+
     <div class="col-sm">
 
         <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
@@ -203,8 +243,8 @@
 
         <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
         <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
-    
-        <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel() populateHiddenFields()" %> 
+
+        <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel() populateHiddenFields()" %>
         <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
         <%= link_to "Back",  week_two_test_seven_client_week_twos_path(@client), class: "btn btn-secondary btn-block"%>
       <% end %>
@@ -251,11 +291,11 @@
       const testDiagnosis = document.getElementById("Diagnosis");
       const readOnly = document.getElementById("read-Only");
       const readOnlyDiag = document.getElementById("read-Only-diag");
-      
+
 
 
       // Update the counts when a button is clicked
-      
+
       allButtons.forEach(function(button) {
         button.addEventListener("click", function() {
         const checkedCount1 = document.querySelectorAll(".column1-button input[type='checkbox']:checked").length;
@@ -312,7 +352,7 @@
             else{
               interpretation = "Within Normal Limits";
             }
-          }            
+          }
         }
         if (age >= 7 && age <= 9){
           if (direction == "Neutral"){
@@ -339,7 +379,7 @@
             else{
               interpretation = "Within Normal Limits";
             }
-          }          
+          }
         }
         if (age >= 10 && age <= 12){
           if (direction == "Neutral"){
@@ -393,7 +433,7 @@
             else{
               interpretation = "Within Normal Limits";
             }
-          }          
+          }
         }
         if (age >= 16 && age <= 18){
           if (direction == "Neutral"){
@@ -420,7 +460,7 @@
             else{
               interpretation = "Within Normal Limits";
             }
-          }          
+          }
         }
         // Passes values to strings so they can be pushed to the html above
         column1Count.innerText = checkedCount1.toString();
@@ -452,7 +492,7 @@
 
         })
       })
-     // gets the elements from hidden field submit above and populates them from the results in the script 
+     // gets the elements from hidden field submit above and populates them from the results in the script
     function populateHiddenFields() {
       document.getElementById("left_score").value = column1Percent.innerText;
       document.getElementById("right_score").value = column2Percent.innerText;
@@ -460,13 +500,13 @@
       document.getElementById("ear_advantage_score").value = advantageDiff.innerText;
     }
     //ALLEARS ADDITIONS
-      
+
       function calculateRightEarDecibel() {
-      
+
         const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
         const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked").length;
 
-        
+
 
         if (checkedCount1Group1 >= (checkedCount2Group1 * 1.1)) {
           rightEarDecibel = 35;
@@ -531,7 +571,7 @@
       }
 
     </script>
-    
+
     <div>
 
         <button id="testButton" type="button" class="btn btn-info" onclick="testRightEarDecibelUpdate()">Test Right Ear Decibel Update</button>
@@ -545,7 +585,7 @@
         </div>
 
         </div>
-     
+
     </div>
   </div>
 </div>

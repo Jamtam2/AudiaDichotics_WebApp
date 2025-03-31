@@ -56,28 +56,26 @@
         <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
         <hr/>
-        <%= audio_tag "Dichotic Spondees 16-35_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-            <%= audio_tag "Dichotic Spondees 16-35_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
-        <!--<%= audio_tag "1-pair Dichotic Digits, List 1_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-            <%= audio_tag "1-pair Dichotic Digits, List 1_Right_HRTF.wav", id: "rightEarAudio", controls: false %> -->
+        <--<%= audio_tag "Dichotic Spondees 16-35_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
+        <%= audio_tag "Dichotic Spondees 16-35_Right_HRTF.wav", id: "rightEarAudio", controls: false %>-->
         <!--Table for ear advantage percentage that is calculated in the script-->
         <style>
             .left-column {
               background-color: lightblue;
             }
-            
+
             .right-column {
               background-color: lightpink;
             }
-            
+
             .ear-advantage {
               background-color: white;
             }
-            
+
             .ear-advantage.positive {
               background-color: lightblue;
             }
-            
+
             .ear-advantage.negative {
               background-color: lightpink;
             }
@@ -102,7 +100,7 @@
                 <th scope="row">2</th>
               </tr>
               <tr>
-                <th scope="row">3</th>           
+                <th scope="row">3</th>
               </tr>
             </tbody>
           </thead>
@@ -140,7 +138,7 @@
         /* Remove margin and min-width properties */
       }
     </style>
-    
+
     <div class="col-sm">
 
         <table class="table table-sm table-striped ml-4" style="max-width: 25rem;">
@@ -209,8 +207,8 @@
 
         <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
         <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
-    
-        <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel() populateHiddenFields()" %> 
+
+        <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel() populateHiddenFields()" %>
         <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
         <%= link_to "Back",  week_two_test_five_client_week_twos_path(@client), class: "btn btn-secondary btn-block"%>
     <% end %>
@@ -257,11 +255,11 @@
       const testDiagnosis = document.getElementById("Diagnosis");
       const readOnly = document.getElementById("read-Only");
       const readOnlyDiag = document.getElementById("read-Only-diag");
-      
+
 
 
       // Update the counts when a button is clicked
-      
+
       allButtons.forEach(function(button) {
         button.addEventListener("click", function() {
         const checkedCount1 = document.querySelectorAll(".column1-button input[type='checkbox']:checked").length;
@@ -323,7 +321,7 @@
 
         })
       })
-     // gets the elements from hidden field submit above and populates them from the results in the script 
+     // gets the elements from hidden field submit above and populates them from the results in the script
     function populateHiddenFields() {
       document.getElementById("left_score").value = column1Percent.innerText;
       document.getElementById("right_score").value = column2Percent.innerText;
@@ -331,13 +329,13 @@
       document.getElementById("ear_advantage_score").value = advantageDiff.innerText;
     }
     //ALLEARS ADDITIONS
-      
+
       function calculateRightEarDecibel() {
-      
+
         const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
         const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked").length;
 
-        
+
 
         if (checkedCount1Group1 >= (checkedCount2Group1 * 1.1)) {
           rightEarDecibel = 35;
@@ -400,9 +398,9 @@
         // Redirect to the client training index page
           window.location.href = '<%= client_trainings_path(@client) %>';
       }
-      
+
     </script>
-    
+
     <div>
 
         <button id="testButton" type="button" class="btn btn-info" onclick="testRightEarDecibelUpdate()">Test Right Ear Decibel Update</button>
@@ -410,9 +408,9 @@
         <p>DEBUG: Page Value: Left Ear Decibel: <span id="leftEarDecibelDisplay"></span></p>
         <p>DEBUG: Client Value: Right Ear Decibel: <%= @client.right_ear_decibel %></p>
         <p>DEBUG: Client Name - @client functioning check:  <%= @client.first_name %></p>
-        
+
         </div>
-     
+
     </div>
   </div>
 </div>
