@@ -13,18 +13,19 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <div class="form-group row"> 
+      <div class="form-group row">
       <div>
         <p>Ear Dominance</p>
           <button id="setLeftDominance" type="button" class="btn btn-info">Set Left Dominance</button>
           <button id="setRightDominance" type="button" class="btn btn-info">Set Right Dominance</button>
         </div>
-      </div> 
+      </div>
       <div class="form-group row">
         <div>
           <p>Audio Controls</p>
           <button id="playButton" type="button">Play</button>
           <button id="pauseButton" type="button">Pause</button>
+          <p>Time Elapsed: <span id="timer">0:00</span> / <span id="duration">--:--</span></p>
         </div>
       </div>
       <div class="form-group row">
@@ -48,6 +49,46 @@
       <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
       <%= audio_tag "Dichotic Words Track 6_R_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
       <%= audio_tag "Dichotic Words Track 6_R_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+      <!-- JavaScript to Handle Playback and Timer -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const leftAudio = document.getElementById("leftEarAudio");
+          const rightAudio = document.getElementById("rightEarAudio");
+          const playButton = document.getElementById("playButton");
+          const pauseButton = document.getElementById("pauseButton");
+          const timerDisplay = document.getElementById("timer");
+          const durationDisplay = document.getElementById("duration");
+
+          // Function to format time as mm:ss
+          function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+          }
+
+          // Set total duration when data is loaded
+          leftAudio.addEventListener("loadedmetadata", function() {
+            durationDisplay.textContent = formatTime(leftAudio.duration);
+          });
+
+          // Update timer
+          leftAudio.addEventListener("timeupdate", function() {
+            timerDisplay.textContent = formatTime(leftAudio.currentTime);
+          });
+
+          // Play both audio files
+          playButton.addEventListener("click", function() {
+            leftAudio.play();
+            rightAudio.play();
+          });
+
+          // Pause both audio files
+          pauseButton.addEventListener("click", function() {
+            leftAudio.pause();
+            rightAudio.pause();
+          });
+        });
+      </script>
       <!-- <audio controls>
         <source src="/assets/Dichotic Words Track 6_R_Left_HRTF.wav" type="audio/wav">
       </audio>
@@ -60,19 +101,19 @@
           .left-column {
             background-color: lightblue;
           }
-          
+
           .right-column {
             background-color: lightpink;
           }
-          
+
           .ear-advantage {
             background-color: white;
           }
-          
+
           .ear-advantage.positive {
             background-color: lightblue;
           }
-          
+
           .ear-advantage.negative {
             background-color: lightpink;
           }
@@ -97,7 +138,7 @@
               <th scope="row">2</th>
             </tr>
             <tr>
-              <th scope="row">3</th>           
+              <th scope="row">3</th>
             </tr>
           </tbody>
         </thead>
@@ -189,12 +230,12 @@
         <%= f.hidden_field :right_score, id: "right_score" %>
         <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
         <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
-    
+
         <!-- ALLEARS ADDITIONS, added to submit as well-->
 
         <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
         <%= f.hidden_field :left_ear_decibel, id: "leftEarDecibelField" %>
-          
+
         <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
         <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
         <%= link_to "Back",  week_three_test_four_client_week_threes_path(@client), class: "btn btn-secondary btn-block"%>
@@ -243,10 +284,10 @@
       const testDiagnosis = document.getElementById("Diagnosis");
       const readOnly = document.getElementById("read-Only");
       const readOnlyDiag = document.getElementById("read-Only-diag");
-      
+
 
       // Update the counts when a button is clicked
-      
+
       allButtons.forEach(function(button) {
         button.addEventListener("click", function() {
         const checkedCount1 = document.querySelectorAll(".column1-button input[type='checkbox']:checked").length;
@@ -257,12 +298,12 @@
         const percent2 = parseFloat((checkedCount2 / totalCount2) * 100).toFixed(2);
         const advantage = (percent2 - percent1).toFixed(2);
         const avgPercent = ((+percent1 + +percent2) / 2).toFixed(2);
-        
+
         //ALLEARS ADDITIONS
         let rightEarDecibel; // Default hardcoded value, CHANGE TO SERVER-side later (SO GET VALUE instead hard code)
         let leftEarDecibel; // this is not yet attempted set up for server side at all, unlike right
 
-        
+
         let direction = null;
         let interpretation = null;
         let age = 40;
@@ -305,7 +346,7 @@
         //     else{
         //       interpretation = "Within Normal Limits";
         //     }
-        //   }            
+        //   }
         // }
         // if (age >= 7 && age <= 9){
         //   if (direction == "Neutral"){
@@ -332,7 +373,7 @@
         //     else{
         //       interpretation = "Within Normal Limits";
         //     }
-        //   }          
+        //   }
         // }
         // if (age >= 10 && age <= 12){
         //   if (direction == "Neutral"){
@@ -386,7 +427,7 @@
         //     else{
         //       interpretation = "Within Normal Limits";
         //     }
-        //   }          
+        //   }
         // }
         // if (age >= 16 && age <= 18){
         //   if (direction == "Neutral"){
@@ -413,13 +454,13 @@
         //     else{
         //       interpretation = "Within Normal Limits";
         //     }
-        //   }          
+        //   }
         // }
         // Passes values to strings so they can be pushed to the html above
-           
+
         //EARS TRAINING ADDITION
         // TESTING ONLY NEEDS LEFT/RIGHT VALUES
-        
+
         if (percent1 >= percent2 * 1.1) {
           decibel += 5;
         } else if (percent2 >= percent1 * 1.1) {
@@ -437,7 +478,7 @@
         readOnly.value = advantageName.innerText;
         readOnlyDiag.value = testDiagnosis.innerText;
 
-        
+
 
           // Get the ear advantage cells
           const earAdvantageCells = document.querySelectorAll('.ear-advantage');
@@ -458,23 +499,23 @@
 
         })
       })
-     // gets the elements from hidden field submit above and populates them from the results in the script 
+     // gets the elements from hidden field submit above and populates them from the results in the script
     function populateHiddenFields() {
       document.getElementById("left_score").value = column1Percent.innerText;
       document.getElementById("right_score").value = column2Percent.innerText;
       document.getElementById("ear_advantage").value = advantageName.innerText;
       document.getElementById("ear_advantage_score").value = advantageDiff.innerText;
-      
+
     }
 
       //ALLEARS ADDITIONS
       // only works for first group rn, copy paste for more when relevant to test
       function calculateRightEarDecibel() {
-      
+
         const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
         const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked").length;
 
-        
+
 
         if (checkedCount1Group1 >= (checkedCount2Group1 * 1.1)) {
           rightEarDecibel = 35;
@@ -528,7 +569,7 @@
         setEarDominance('right');
         });
       });
-        
+
         function submitAndExit() {
         // Calculate right ear decibel and populate hidden fields
           calculateRightEarDecibel();

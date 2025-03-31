@@ -124,3 +124,5 @@ gem 'grpc-tools'
 gem 'websocket-client-simple'
 
 gem 'streamio-ffmpeg'
+
+gem 'caxlsx'

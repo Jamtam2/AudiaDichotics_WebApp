@@ -88,6 +88,7 @@ Rails.application.routes.draw do
   end
 
   get 'clients/:client_id/trainings', to: 'trainings#index', as: 'client_trainings'
+  get 'clients/:client_id/trainings/export', to: 'trainings#export', defaults: {format: 'xlsx'}, as: 'trainings_export'
   get 'clients/:client_id/trainings/:id', to: 'trainings#show', as: 'client_training'
 
   resources :clients do
