@@ -34,7 +34,9 @@
         <% if @client.week_ones.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <%= link_to "Start Training",  week_one_test_one_client_week_ones_path(@client), class: "btn btn-secondary"%>
+            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
+              <%= link_to "Start Training",  week_one_test_one_client_week_ones_path(@client), class: "btn btn-primary"%>
+            <div>
           </div>
         <% else %>
           <div class="summary">
@@ -76,7 +78,9 @@
         <% elsif @client.week_twos.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <%= link_to "Start Training",  week_two_test_one_client_week_twos_path(@client), class: "btn btn-secondary"%>
+            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
+              <%= link_to "Start Training",  week_two_test_one_client_week_twos_path(@client), class: "btn btn-primary"%>
+            <div>
           </div>
         <% else %>
           <div class="summary">
@@ -118,7 +122,9 @@
         <% elsif @client.week_threes.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <%= link_to "Start Training",  week_three_test_one_client_week_threes_path(@client), class: "btn btn-secondary"%>
+            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
+              <%= link_to "Start Training",  week_three_test_one_client_week_threes_path(@client), class: "btn btn-primary"%>
+            <div>
           </div>
         <% else %>
           <div class="summary">
@@ -160,7 +166,9 @@
         <% elsif @client.week_fours.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <%= link_to "Start Training",  week_four_test_one_client_week_fours_path(@client), class: "btn btn-secondary"%>
+            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
+              <%= link_to "Start Training",  week_four_test_one_client_week_fours_path(@client), class: "btn btn-primary"%>
+            <div>
           </div>
         <% else %>
           <div class="summary">
