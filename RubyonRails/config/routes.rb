@@ -87,9 +87,16 @@ Rails.application.routes.draw do
 
   end
 
+  get 'clients/:client_id/trainings', to: 'trainings#index', as: 'client_trainings'
+  get 'clients/:client_id/trainings/export', to: 'trainings#export', defaults: {format: 'xlsx'}, as: 'trainings_export'
+  get 'clients/:client_id/trainings/:id', to: 'trainings#show', as: 'client_training'
 
   resources :clients do
     resources :emergency_contacts, only: [:create, :destroy, :new, :edit, :update]
+    resources :trainings do
+      post 'add_week', on: :collection
+      post 'subtract_week', on: :collection
+    end
     resources :dwt_tests do
       collection do
         get 'new_dwt_list1', to: 'dwt_tests#new_dwt_list1', as: 'dwt_list1'
@@ -194,8 +201,6 @@ Rails.application.routes.draw do
       end
     end
   end
-    get 'clients/:client_id/trainings', to: 'trainings#index', as: 'client_trainings'
-    get 'clients/:client_id/trainings/:id', to: 'trainings#show', as: 'client_training'
 
   #ALLEARS Addition: Trying to fix audio path issues for Week_Ones
   get '/audio_files/:file_name', to: 'audio_files#show', as: :audio_file
