@@ -32,6 +32,7 @@
           <p>Audio Controls</p>
           <button id="playButton" type="button">Play</button>
           <button id="pauseButton" type="button">Pause</button>
+          <p>Time Elapsed: <span id="timer">0:00</span> / <span id="duration">--:--</span></p>
         </div>
       </div>
       <div class="form-group row">
@@ -52,11 +53,49 @@
       <hr/>
         <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
         <hr/>
-        <%# COMMENTED OUT ALL .wav FILES BC I DON'T THINK WE HAVE ACCESS TO THEM YET AND IT WON'T RUN BC IT CAN'T FETCH THEM.%>
-        <%# <%= audio_tag "Dichotic Spondees 16-35_Left_HRTF.wav", id: "leftEarAudio", controls: false %> LEFTEAR
-        <%# <%= audio_tag "Dichotic Spondees 16-35_Right_HRTF.wav", id: "rightEarAudio", controls: false %> RIGHTEAR
-        <!-- <%# <%= audio_tag "1-pair Dichotic Digits, List 1_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-            <%# <%= audio_tag "1-pair Dichotic Digits, List 1_Right_HRTF.wav", id: "rightEarAudio", controls: false %> -->
+        <%= audio_tag "Dichotic Spondees 16-35_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
+        <%= audio_tag "Dichotic Spondees 16-35_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+        <!-- JavaScript to Handle Playback and Timer -->
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const leftAudio = document.getElementById("leftEarAudio");
+            const rightAudio = document.getElementById("rightEarAudio");
+            const playButton = document.getElementById("playButton");
+            const pauseButton = document.getElementById("pauseButton");
+            const timerDisplay = document.getElementById("timer");
+            const durationDisplay = document.getElementById("duration");
+
+            // Function to format time as mm:ss
+            function formatTime(seconds) {
+              const minutes = Math.floor(seconds / 60);
+              const secs = Math.floor(seconds % 60);
+              return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+            }
+
+            // Set total duration when data is loaded
+            leftAudio.addEventListener("loadedmetadata", function() {
+              durationDisplay.textContent = formatTime(leftAudio.duration);
+            });
+
+            // Update timer
+            leftAudio.addEventListener("timeupdate", function() {
+              timerDisplay.textContent = formatTime(leftAudio.currentTime);
+            });
+
+            // Play both audio files
+            playButton.addEventListener("click", function() {
+              leftAudio.play();
+              rightAudio.play();
+            });
+
+            // Pause both audio files
+            pauseButton.addEventListener("click", function() {
+              leftAudio.pause();
+              rightAudio.pause();
+            });
+          });
+        </script>
+
         <!--Table for ear advantage percentage that is calculated in the script-->
         <style>
             .left-column {
@@ -524,10 +563,6 @@
       }
 
     </script>
-    <!-- <div>
-        <%= link_to "Submit and Exit", client_trainings_path(@client), class: "btn btn-primary btn-block" %>
-        <%= link_to "Back",  week_one_test_five_client_week_ones_path(@client), class: "btn btn-primary btn-block"%>
-       </div> -->
     <div>
   </div>
 </div>
