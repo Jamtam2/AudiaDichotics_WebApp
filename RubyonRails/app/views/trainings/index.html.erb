@@ -242,6 +242,7 @@
       <%= link_to "Week Two Summary", week_two_summary_client_week_twos_path(@client) %>
       <%= link_to "Week Three Summary", week_three_summary_client_week_threes_path(@client) %>
       <%= link_to "Week Four Summary", week_four_summary_client_week_fours_path(@client) %>
+      <%= link_to "export as excel file", trainings_export_path(@client) %>
     </div>
   <div>
     <%= link_to 'Go back to Client information page', edit_client_path(@client), class: 'btn btn-outline-primary' %> </div>
