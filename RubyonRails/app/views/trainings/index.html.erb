@@ -99,15 +99,15 @@
               </thead>
 
               <tbody>
-                <% @client.week_ones.each do |week_one| %>
+                <% @client.week_twos.each do |week_two| %>
                   <tr>
-                    <td><%= week_one.id %></td>
-                    <td><%= week_one.client.full_name %></td>
-                    <td><%= week_one.test_type %></td>
-                    <td><%= week_one.left_score %></td>
-                    <td><%= week_one.right_score %></td>
-                    <td><%= week_one.ear_advantage %></td>
-                    <td><%= week_one.ear_advantage_score %></td>
+                    <td><%= week_two.id %></td>
+                    <td><%= week_two.client.full_name %></td>
+                    <td><%= week_two.test_type %></td>
+                    <td><%= week_two.left_score %></td>
+                    <td><%= week_two.right_score %></td>
+                    <td><%= week_two.ear_advantage %></td>
+                    <td><%= week_two.ear_advantage_score %></td>
                   </tr>
                 <% end %>
               </tbody>
