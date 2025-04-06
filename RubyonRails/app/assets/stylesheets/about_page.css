@@ -5,7 +5,15 @@
     justify-content: space-between;
     text-align: center;
     padding: 5%;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s ease-out;
 }
+
+.about-page .item-container.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
 .about-page .item-container2 {
     padding: 5%;
@@ -29,7 +37,7 @@
 }
 
 .about-page .item {
-    width: 50%;
+    width: 40%;
     padding-left: 2.5%;
     padding-right: 2.5%;
 }
@@ -64,7 +72,7 @@
 }
 
 .about-page .image-content {
-    height: 300px;
+    height: 250px;
     width: auto;
 }
 

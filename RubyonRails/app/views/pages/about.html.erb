@@ -1,10 +1,28 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const items = document.querySelectorAll('.item-container');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target); // Remove if you want it to animate only once
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    items.forEach(item => {
+      observer.observe(item);
+    });
+  });
+</script>
+
 <body class="about-page">
     <div class="", style="padding-top:25px">
         <img class="card-img-top">
         <%= image_tag 'AIDA_RGB_Beta.png', class: ' d-block m-auto' , style: ' max-width: 50rem;'%>
-        <div class="card-body">
-            <h5 class="card-title text-center"></h5>
-        </div>
         <hr>
         <div class="item-container video">
             <div class="item2">
@@ -14,46 +32,46 @@
         <hr>
         <div class="item-container">
             <div class="item">
-                <h1 class="display-3 pl-4", style= 'padding-top:30px'> <strong>About</strong></h1>
-                <p style="font-size:17px;">
+                <h1 class="display-3 pl-4", style= 'padding-top:30px; font-size:50px;'> <strong>About</strong></h1>
+                <p style="font-size:16px;">
                     Binaural integration is assessed through dichotic listening tests. During dichotic listening, two different words are simultaneously presented to the two ears and the listener is asked to repeat both words. Weaknesses in binaural integration are shown by poor performance in both ears or by a large difference in performance between the two ears. A large difference in performance between the two ears is typically the result of weak performance in the listener's non-dominant ear which in most (but not all) listeners is the left ear.
                 </p>
             </div>
             <div class="item image-item">
-                <img src="<%= asset_path 'audiaimage1.png' %>" alt="Placeholder Image" class="image-border image-content">
+                <img src="<%= asset_path 'audiaimage5.jpg' %>" alt="Placeholder Image" class="image-border image-content">
             </div>
         </div>
         <hr>
         <div class="item-container">
             <div class="item image-item">
-                <img src="<%= asset_path 'audiaimage2.png' %>" alt="Placeholder Image" class="image-border image-content">
+                <img src="<%= asset_path 'audiaimage6.jpg' %>" alt="Placeholder Image" class="image-border image-content">
             </div>
             <div class="item">
-                <h1 class="display-3 pl-4", style= 'padding-top: 60px'> <strong>Amblyaudia</strong></h1>
-                <p style="font-size:17px;">
+                <h1 class="display-3 pl-4", style= 'padding-top: 60px; font-size:50px;'> <strong>Amblyaudia</strong></h1>
+                <p style="font-size:15px;">
                     Amblyaudia is a type of auditory processing deficit. It is due to a weakness in binaural integration. Binaural integration occurs when all information arriving at both ears is adequately coded by the central auditory system, whether the information is the same or different between the ears. When all features arriving at the two ears are preserved, integrated and coded by the auditory system, the listener will correctly perceive what has been heard. When features are not preserved, as in individuals with the binaural integration deficit of amblyaudia, the listener struggles to perceive the sounds that have been taken in. A binaural integration deficit is likely to be greatest when listening to unfamiliar material or during challenging listening situations as when background noise is present.
                 </p>
             </div>
         </div>
         <hr>
         <div class="item-container3">
-            <h1 class="display-3 pl-4", style= 'padding-top:60px'><strong>Test Types</strong></h1>
+            <h1 class="display-3 pl-4", style= 'padding-top:60px; font-size:50px;'><strong>Test Types</strong></h1>
             <div id="three-type" class="item-container">
                 <div class="item3">
-                    <h1 class="card-title display-4"><strong>DWT</strong></h1>
-                    <p style="font-size:17px;">
+                    <h1 class="card-title display-4; font-size:20px;"><strong>DWT</strong></h1>
+                    <p style="font-size:15px;">
                         DWT or Dichotic Words Test is a test that uses real words in a 2 column table of buttons. Play the audio file and the words on the left and right will be played simultaneously in each of the childs ear, click the buttons based on which words the child recalls correctly. This test provides interpretation based on normative score data.
                     </p>
                 </div>
                 <div class="item3">
-                    <h1 class="card-title display-4"><strong>RDDT</strong></h1>
-                    <p style="font-size:17px;">
+                    <h1 class="card-title display-4; font-size:20px;"><strong>RDDT</strong></h1>
+                    <p style="font-size:15px;">
                         RDDT or Randomized Dichotic Digit Test is a test that uses random numbers in a 2 column table of buttons, however each row of buttons may contain 1, 2 or 3 buttons. The test functions the same however if there is more than one button in the row, those numbers will be read in rapid sequence. This test provides interpretation based on normative score data.
                     </p>
                 </div>
                 <div class="item3">
-                    <h1 class="card-title display-4"><strong>DNW</strong></h1>
-                    <p style="font-size:17px;">
+                    <h1 class="card-title display-4; font-size:20px;"><strong>DNW</strong></h1>
+                    <p style="font-size:15px;">
                         DNW or Dichotic Nonsense Words is a test that uses nonsense or fake words in a 2 column table of buttons. This test does not provide interpretation.
                     </p>
                 </div>
@@ -62,8 +80,8 @@
         <hr>
         <div class="item-container">
             <div class="item2">
-                <h1 class="display-3 pl-4", style= 'padding-top:60px'> <strong>Running Tests</strong></h1>
-                <p style="font-size:17px;">
+                <h1 class="display-3 pl-4", style='padding-top:60px; font-size:50px;'> <strong>Running Tests</strong></h1>
+                <p style="font-size:15px;">
                     Ensure the headphones or speakers are on child so that the left words play in the childs left ear and right in right. You can start the audio to test this pefore putting them on the child. Then give a brief explanation to the child and start the test. Have the child recall what they heard and record their responses. Finally submit the test when complete.
                 </p>
             </div>
@@ -71,11 +89,11 @@
         <hr>
         <div class="item-container">
             <div class="item2">
-                <h1 class="display-3 pl-4", style= 'padding-top:60px'><strong>Troubleshooting</strong></h1>
-                <p style="font-size:17px;">
+                <h1 class="display-3 pl-4", style= 'padding-top:60px; font-size:50px;'><strong>Troubleshooting</strong></h1>
+                <p style="font-size:15px;">
                     The most common issue you might run into is the testing buttons not working or dropdowns for different test lists not working. This is normally caused by using the back arrows in the browser to exit a test before it is submitted. To fix this refresh the page and try again and ensure that if you start a test it is submitted properly.
                 </p>
-                <p style="font-size:17px;">
+                <p style="font-size:15px;">
                     If you run into any other issues, before trying to contact an administrator, attempt to close and reopen the site and sign out and back in. If these solutions did not work contact your admistrator for assistance or issue a report.                    </p>    
             </div>
         </div>
@@ -93,15 +111,15 @@
 
 
                         <div class="form-group pl-3 pr-3 ">
-                            <%= form.label :email, 'Email', style:"font-size:17px" %><br />
+                            <%= form.label :email, 'Email', style:"font-size:15px" %><br />
                             <%= form.email_field :email, required: true %>
                         </div>
                         <div class="form-group pl-3 pr-3 ">
-                            <%= form.label :company, 'Company/Organization (Required for Dataset)',style:"font-size:17px" %><br />
+                            <%= form.label :company, 'Company/Organization (Required for Dataset)',style:"font-size:15px" %><br />
                             <%= form.text_field :company, required: false , style:"inline-block"%>
                         </div>
                         <div class=" form-group pl-3 pr-3 ">
-                            <%= form.label :purpose, 'Purpose for Dataset Use' , style:"font-size:17px"%><br />
+                            <%= form.label :purpose, 'Purpose for Dataset Use' , style:"font-size:15px"%><br />
                             <%= form.text_area :purpose, required: true %>
                         </div>
                         <div class="pl-3 pr-3 pb-2 btn-lg btn-block rounded-pill">
