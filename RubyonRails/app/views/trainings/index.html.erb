@@ -1,6 +1,6 @@
 
 <body id="defBG" class="training-process bg-white center">
-  <div class="card mb-3 border-0", style="padding-top:25px">
+  <div class="card mb-3 border-0 container-training">
     <div class="infobar">
       <div class="left">
         <%= link_to edit_client_path(@client) do %>
@@ -34,8 +34,8 @@
         <% if @client.week_ones.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-              <%= link_to "Start Training",  week_one_test_one_client_week_ones_path(@client), class: "btn btn-primary"%>
+            <div class="pos-button">
+              <%= link_to "Start Training",  week_one_test_one_client_week_ones_path(@client), class: "btn-training"%>
             <div>
           </div>
         <% else %>
@@ -68,18 +68,21 @@
                 <% end %>
               </tbody>
             </table>
+            <div class="pos-button">
+              <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn-training" %>
+            </div>
           </div>
         <% end %>
       <% elsif @week_number == 2%>
         <% if @client.week_ones.empty? %>
           <div>
-            <h2>Please Complete the Previous Training to Continue</h2>
+            <h3>Please Complete the Previous Training to Continue</h3>
           </div>
         <% elsif @client.week_twos.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-              <%= link_to "Start Training",  week_two_test_one_client_week_twos_path(@client), class: "btn btn-primary"%>
+            <div class="pos-button">
+              <%= link_to "Start Training",  week_two_test_one_client_week_twos_path(@client), class: "btn-training"%>
             <div>
           </div>
         <% else %>
@@ -112,18 +115,21 @@
                 <% end %>
               </tbody>
             </table>
+            <div class="pos-button">
+              <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn-training" %>
+            </div>
           </div>
         <% end %>
       <% elsif @week_number == 3 %>
         <% if @client.week_twos.empty? %>
           <div>
-            <h2>Please Complete the Previous Training to Continue</h2>
+            <h3>Please Complete the Previous Training to Continue</h3>
           </div>
         <% elsif @client.week_threes.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-              <%= link_to "Start Training",  week_three_test_one_client_week_threes_path(@client), class: "btn btn-primary"%>
+            <div class="pos-button">
+              <%= link_to "Start Training",  week_three_test_one_client_week_threes_path(@client), class: "btn-training"%>
             <div>
           </div>
         <% else %>
@@ -156,18 +162,21 @@
                 <% end %>
               </tbody>
             </table>
+            <div class="pos-button">
+              <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn-training" %>
+            </div>
           </div>
         <% end %>
       <% elsif @week_number == 4 %>
         <% if @client.week_threes.empty? %>
           <div>
-            <h2>Please Complete the Previous Training to Continue</h2>
+            <h3>Please Complete the Previous Training to Continue</h3>
           </div>
         <% elsif @client.week_fours.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-              <%= link_to "Start Training",  week_four_test_one_client_week_fours_path(@client), class: "btn btn-primary"%>
+            <div class="pos-button">
+              <%= link_to "Start Training",  week_four_test_one_client_week_fours_path(@client), class: "btn-training"%>
             <div>
           </div>
         <% else %>
@@ -200,12 +209,12 @@
                 <% end %>
               </tbody>
             </table>
+            <div class="pos-button">
+              <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn-training" %>
+            </div>
           </div>
         <% end %>
       <% end %>
-      <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-        <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn btn-primary" %>
-      </div>
-        </div>
+    </div>
   </div>
 </body>
