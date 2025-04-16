@@ -196,8 +196,9 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Test Giver</th>
                   <th>Test Type</th>
+                  <th>Left Ear Decibel Level</th>
+                  <th>Right Ear Decibel Level</th>
                   <th>Left Score</th>
                   <th>Right Score</th>
                   <th>Ear Advantage</th>
@@ -206,11 +207,13 @@
               </thead>
 
               <tbody>
-                <% @client.week_twos.each do |week_two| %>
+                  <% word_tests = @client.week_twos.select { |week_two| week_two.test_type != 'RDDT'} %>
+                  <% word_tests.each do |week_two| %>
                   <tr>
                     <td><%= week_two.id %></td>
-                    <td><%= week_two.client.full_name %></td>
                     <td><%= week_two.test_type %></td>
+                    <td><%= week_two.left_ear_decibel %></td>
+                    <td><%= week_two.right_ear_decibel %></td>
                     <td><%= week_two.left_score %></td>
                     <td><%= week_two.right_score %></td>
                     <td><%= week_two.ear_advantage %></td>
@@ -218,9 +221,112 @@
                   </tr>
                 <% end %>
               </tbody>
-            </table>
-          </div>
-        <% end %>
+              <tfoot>
+                <tr>
+                <td colspan="2" style = "text-align: center;"><strong>Averages</strong></td>
+                <td>
+                  <%= word_dec_left_scores = word_tests.map(&:left_ear_decibel).compact
+                      word_dec_left_avg = word_dec_left_scores.sum / word_dec_left_scores.size.to_f
+                      word_dec_left_avg.round(2)
+                      %>
+                </td>
+                <td>
+                <%= word_dec_right_scores = word_tests.map(&:right_ear_decibel).compact
+                    word_dec_right_avg = word_dec_right_scores.sum / word_dec_right_scores.size.to_f
+                    word_dec_right_avg.round(2)
+                    %>
+                </td>
+                <td>
+                <%= word_left_scores = word_tests.map(&:left_score).compact
+                    word_left_avg = word_left_scores.sum / word_left_scores.size.to_f
+                    word_left_avg.round(2)
+                    %>
+                </td>
+                <td>
+                <%= word_right_scores = word_tests.map(&:right_score).compact
+                word_right_avg = word_right_scores.sum / word_right_scores.size.to_f
+                word_right_avg.round(2)
+                %>
+                </td>
+                <td></td>
+                <td>
+                <%= word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
+                word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f
+                word_earadv_avg.round(2)
+                %>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+          <div class="summary">
+          <table>
+          <thead>
+            <tr>
+            <th>ID</th>
+            <th>Test Type</th>
+            <th>Left Ear Decibel Level</th>
+            <th>Right Ear Decibel Level</th>
+            <th>Left Score</th>
+            <th>Right Score</th>
+            <th>Ear Advantage</th>
+            <th>Ear Advantage Score</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% digit_tests = @client.week_twos.select { |week_two| week_two.test_type == 'RDDT'} %>
+              <% digit_tests.each do |week_two| %>
+              <tr>
+              <td><%= week_two.id %></td>
+              <td><%= week_two.test_type %></td>
+              <td><%= week_two.left_ear_decibel %></td>
+              <td><%= week_two.right_ear_decibel %></td>
+              <td><%= week_two.left_score %></td>
+              <td><%= week_two.right_score %></td>
+              <td><%= week_two.ear_advantage %></td>
+              <td><%= week_two.ear_advantage_score %></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+          <tr>
+          <td colspan="2" style = "text-align: center;"><strong>Averages</strong></td>
+          <td>
+            <%= digit_dec_left_scores = digit_tests.map(&:left_ear_decibel).compact
+                digit_dec_left_avg = digit_dec_left_scores.sum / digit_dec_left_scores.size.to_f
+                digit_dec_left_avg.round(2)
+                %>
+          </td>
+          <td>
+          <%= digit_dec_right_scores = digit_tests.map(&:right_ear_decibel).compact
+              digit_dec_right_avg = digit_dec_right_scores.sum / digit_dec_right_scores.size.to_f
+              digit_dec_right_avg.round(2)
+              %>
+          </td>
+          <td>
+          <%= digit_left_scores = digit_tests.map(&:left_score).compact
+              digit_left_avg = digit_left_scores.sum / digit_left_scores.size.to_f
+              digit_left_avg.round(2)
+              %>
+          </td>
+          <td>
+          <%= digit_right_scores = digit_tests.map(&:right_score).compact
+          digit_right_avg = digit_right_scores.sum / digit_right_scores.size.to_f
+          digit_right_avg.round(2)
+          %>
+          </td>
+          <td></td>
+          <td>
+          <%= digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
+          digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f
+          digit_earadv_avg.round(2)
+          %>
+          </td>
+        </tr>
+        </tfoot>
+        </table>
+      </div>
+  <% end %>
       <% elsif @week_number == 3 %>
         <% if @client.week_twos.empty? %>
           <div>
@@ -240,8 +346,9 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Test Giver</th>
                   <th>Test Type</th>
+                  <th>Left Ear Decibel Level</th>
+                  <th>Right Ear Decibel Level</th>
                   <th>Left Score</th>
                   <th>Right Score</th>
                   <th>Ear Advantage</th>
@@ -250,11 +357,13 @@
               </thead>
 
               <tbody>
-                <% @client.week_threes.each do |week_three| %>
+                  <% word_tests = @client.week_ones.select { |week_three| week_three.test_type != 'RDDT'} %>
+                  <% word_tests.each do |week_three| %>
                   <tr>
                     <td><%= week_three.id %></td>
-                    <td><%= week_three.client.full_name %></td>
                     <td><%= week_three.test_type %></td>
+                    <td><%= week_three.left_ear_decibel %></td>
+                    <td><%= week_three.right_ear_decibel %></td>
                     <td><%= week_three.left_score %></td>
                     <td><%= week_three.right_score %></td>
                     <td><%= week_three.ear_advantage %></td>
@@ -262,8 +371,111 @@
                   </tr>
                 <% end %>
               </tbody>
-            </table>
-          </div>
+              <tfoot>
+                <tr>
+                <td colspan="2" style = "text-align: center;"><strong>Averages</strong></td>
+                <td>
+                  <%= word_dec_left_scores = word_tests.map(&:left_ear_decibel).compact
+                      word_dec_left_avg = word_dec_left_scores.sum / word_dec_left_scores.size.to_f
+                      word_dec_left_avg.round(2)
+                      %>
+                </td>
+                <td>
+                <%= word_dec_right_scores = word_tests.map(&:right_ear_decibel).compact
+                    word_dec_right_avg = word_dec_right_scores.sum / word_dec_right_scores.size.to_f
+                    word_dec_right_avg.round(2)
+                    %>
+                </td>
+                <td>
+                <%= word_left_scores = word_tests.map(&:left_score).compact
+                    word_left_avg = word_left_scores.sum / word_left_scores.size.to_f
+                    word_left_avg.round(2)
+                    %>
+                </td>
+                <td>
+                <%= word_right_scores = word_tests.map(&:right_score).compact
+                word_right_avg = word_right_scores.sum / word_right_scores.size.to_f
+                word_right_avg.round(2)
+                %>
+                </td>
+                <td></td>
+                <td>
+                <%= word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
+                word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f
+                word_earadv_avg.round(2)
+                %>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+          <div class="summary">
+          <table>
+          <thead>
+            <tr>
+            <th>ID</th>
+            <th>Test Type</th>
+            <th>Left Ear Decibel Level</th>
+            <th>Right Ear Decibel Level</th>
+            <th>Left Score</th>
+            <th>Right Score</th>
+            <th>Ear Advantage</th>
+            <th>Ear Advantage Score</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% digit_tests = @client.week_threes.select { |week_three| week_three.test_type == 'RDDT'} %>
+              <% digit_tests.each do |week_three| %>
+              <tr>
+              <td><%= week_three.id %></td>
+              <td><%= week_three.test_type %></td>
+              <td><%= week_three.left_ear_decibel %></td>
+              <td><%= week_three.right_ear_decibel %></td>
+              <td><%= week_three.left_score %></td>
+              <td><%= week_three.right_score %></td>
+              <td><%= week_three.ear_advantage %></td>
+              <td><%= week_three.ear_advantage_score %></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+          <tr>
+          <td colspan="2" style = "text-align: center;"><strong>Averages</strong></td>
+          <td>
+            <%= digit_dec_left_scores = digit_tests.map(&:left_ear_decibel).compact
+                digit_dec_left_avg = digit_dec_left_scores.sum / digit_dec_left_scores.size.to_f
+                digit_dec_left_avg.round(2)
+                %>
+          </td>
+          <td>
+          <%= digit_dec_right_scores = digit_tests.map(&:right_ear_decibel).compact
+              digit_dec_right_avg = digit_dec_right_scores.sum / digit_dec_right_scores.size.to_f
+              digit_dec_right_avg.round(2)
+              %>
+          </td>
+          <td>
+          <%= digit_left_scores = digit_tests.map(&:left_score).compact
+              digit_left_avg = digit_left_scores.sum / digit_left_scores.size.to_f
+              digit_left_avg.round(2)
+              %>
+          </td>
+          <td>
+          <%= digit_right_scores = digit_tests.map(&:right_score).compact
+          digit_right_avg = digit_right_scores.sum / digit_right_scores.size.to_f
+          digit_right_avg.round(2)
+          %>
+          </td>
+          <td></td>
+          <td>
+          <%= digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
+          digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f
+          digit_earadv_avg.round(2)
+          %>
+          </td>
+        </tr>
+        </tfoot>
+        </table>
+      </div>
         <% end %>
       <% elsif @week_number == 4 %>
         <% if @client.week_threes.empty? %>
@@ -284,8 +496,9 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Test Giver</th>
                   <th>Test Type</th>
+                  <th>Left Ear Decibel Level</th>
+                  <th>Right Ear Decibel Level</th>
                   <th>Left Score</th>
                   <th>Right Score</th>
                   <th>Ear Advantage</th>
@@ -294,11 +507,13 @@
               </thead>
 
               <tbody>
-                <% @client.week_fours.each do |week_four| %>
+                  <% word_tests = @client.week_fours.select { |week_four| week_four.test_type != 'RDDT'} %>
+                  <% word_tests.each do |week_four| %>
                   <tr>
                     <td><%= week_four.id %></td>
-                    <td><%= week_four.client.full_name %></td>
                     <td><%= week_four.test_type %></td>
+                    <td><%= week_four.left_ear_decibel %></td>
+                    <td><%= week_four.right_ear_decibel %></td>
                     <td><%= week_four.left_score %></td>
                     <td><%= week_four.right_score %></td>
                     <td><%= week_four.ear_advantage %></td>
@@ -306,8 +521,112 @@
                   </tr>
                 <% end %>
               </tbody>
-            </table>
-          </div>
+              <tfoot>
+                <tr>
+                <td colspan="2" style = "text-align: center;"><strong>Averages</strong></td>
+                <td>
+                  <%= word_dec_left_scores = word_tests.map(&:left_ear_decibel).compact
+                      word_dec_left_avg = word_dec_left_scores.sum / word_dec_left_scores.size.to_f
+                      word_dec_left_avg.round(2)
+                      %>
+                </td>
+                <td>
+                <%= word_dec_right_scores = word_tests.map(&:right_ear_decibel).compact
+                    word_dec_right_avg = word_dec_right_scores.sum / word_dec_right_scores.size.to_f
+                    word_dec_right_avg.round(2)
+                    %>
+                </td>
+                <td>
+                <%= word_left_scores = word_tests.map(&:left_score).compact
+                    word_left_avg = word_left_scores.sum / word_left_scores.size.to_f
+                    word_left_avg.round(2)
+                    %>
+                </td>
+                <td>
+                <%= word_right_scores = word_tests.map(&:right_score).compact
+                word_right_avg = word_right_scores.sum / word_right_scores.size.to_f
+                word_right_avg.round(2)
+                %>
+                </td>
+                <td></td>
+                <td>
+                <%= word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
+                word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f
+                word_earadv_avg.round(2)
+                %>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+          <div class="summary">
+          <table>
+          <thead>
+            <tr>
+            <th>ID</th>
+            <th>Test Type</th>
+            <th>Left Ear Decibel Level</th>
+            <th>Right Ear Decibel Level</th>
+            <th>Left Score</th>
+            <th>Right Score</th>
+            <th>Ear Advantage</th>
+            <th>Ear Advantage Score</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% digit_tests = @client.week_fours.select { |week_four| week_four.test_type == 'RDDT'} %>
+              <% digit_tests.each do |week_four| %>
+              <tr>
+              <td><%= week_four.id %></td>
+              <td><%= week_four.test_type %></td>
+              <td><%= week_four.left_ear_decibel %></td>
+              <td><%= week_four.right_ear_decibel %></td>
+              <td><%= week_four.left_score %></td>
+              <td><%= week_four.right_score %></td>
+              <td><%= week_four.ear_advantage %></td>
+              <td><%= week_four.ear_advantage_score %></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+          <tr>
+          <td colspan="2" style = "text-align: center;"><strong>Averages</strong></td>
+          <td>
+            <%= digit_dec_left_scores = digit_tests.map(&:left_ear_decibel).compact
+                digit_dec_left_avg = digit_dec_left_scores.sum / digit_dec_left_scores.size.to_f
+                digit_dec_left_avg.round(2)
+                %>
+          </td>
+          <td>
+          <%= digit_dec_right_scores = digit_tests.map(&:right_ear_decibel).compact
+              digit_dec_right_avg = digit_dec_right_scores.sum / digit_dec_right_scores.size.to_f
+              digit_dec_right_avg.round(2)
+              %>
+          </td>
+          <td>
+          <%= digit_left_scores = digit_tests.map(&:left_score).compact
+              digit_left_avg = digit_left_scores.sum / digit_left_scores.size.to_f
+              digit_left_avg.round(2)
+              %>
+          </td>
+          <td>
+          <%= digit_right_scores = digit_tests.map(&:right_score).compact
+          digit_right_avg = digit_right_scores.sum / digit_right_scores.size.to_f
+          digit_right_avg.round(2)
+          %>
+          </td>
+          <td></td>
+          <td>
+          <%= digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
+          digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f
+          digit_earadv_avg.round(2)
+          %>
+          </td>
+        </tr>
+        </tfoot>
+        </table>
+      </div>
+  
         <% end %>
       <% end %>
       <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
