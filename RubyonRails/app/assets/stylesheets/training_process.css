@@ -5,10 +5,10 @@
 
 .training-process .infobar {
     display: flex;
-    position: absolute;
     top: 25px;
     left: 0;
     right: 0;
+    z-index: 10;
 }
 
 .training-process .infobar h2 {
@@ -66,6 +66,7 @@
 
 .training-process .content {
     display: flex;
+    min-height: 60vh;
     justify-content: center;
     flex-direction: column;
     text-align: center;
@@ -88,11 +89,8 @@
 
 .training-process .container-training {
     padding-top:25px; 
-    height: 80vh; 
-    display: flex; 
-    justify-content: center;
-    flex-direction: column;
     position: relative;
+    overflow-y: scroll;
 }
 
 .training-process .btn-training {
