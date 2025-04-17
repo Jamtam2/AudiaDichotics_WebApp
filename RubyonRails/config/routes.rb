@@ -90,7 +90,8 @@ Rails.application.routes.draw do
   get 'clients/:client_id/trainings', to: 'trainings#index', as: 'client_trainings'
   get 'clients/:client_id/trainings/export', to: 'trainings#export', defaults: {format: 'xlsx'}, as: 'trainings_export'
   get 'clients/:client_id/trainings/:id', to: 'trainings#show', as: 'client_training'
-
+  # Below are rest break paths for specific steps in the training procedure
+  get 'clients/:client_id/week_ones/rest_break_week_one', to: 'week_ones#rest_break_week_one', as: 'rest_break_week_one_client_week_ones'
   resources :clients do
     resources :emergency_contacts, only: [:create, :destroy, :new, :edit, :update]
     resources :trainings do
