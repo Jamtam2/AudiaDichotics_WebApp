@@ -21,29 +21,29 @@
     }
   </style>
 
- <!-- <div class="container"> -->
-<%= form_with model: [@client, @week_one], local: true, html: { multipart: true } do |f| %>
+  <%= form_with model: [@client, @week_one], local: true, html: { multipart: true } do |f| %>
   <div class="container">
     <div class="row">
+      <div class="form-group row">
         <div class="col-sm">
-          <div class="form-group row ">
+          <div class="form-group row">
             <div>
               <p>Ear Dominance</p>
-              <button id="setLeftDominance" type="button" class="btn btn-info">Set Left Dominance</button>
-              <button id="setRightDominance" type="button" class="btn btn-info">Set Right Dominance</button>
+                <button id="setLeftDominance" type="button" class="btn btn-info">Set Left Dominance</button>
+                <button id="setRightDominance" type="button" class="btn btn-info">Set Right Dominance</button>
             </div>
           </div>
-          <div class="form-group row ">
+          <div class="form-group row">
             <div>
               <p>Audio Controls</p>
-              <button id="playButton" type="button">Play</button>
-              <button id="pauseButton" type="button">Pause</button>
-              <p>Time Elapsed: <span id="timer">0:00</span> / <span id="duration">--:--</span></p>
+                <button id="playButton" type="button">Play</button>
+                <button id="pauseButton" type="button">Pause</button>
+                <p>Time Elapsed: <span id="timer">0:00</span> / <span id="duration">--:--</span></p>
             </div>
-          </div>
+        </div>
           <div class="form-group row ">
             <label for="exampleLabel">Label</label>
-              <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week One Test Nine" %>
+              <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week One Test One" %>
           </div>
           <div class="form-group row ">
           <label for="clientName">Client</label>
@@ -61,9 +61,10 @@
             <%= f.text_area :notes, class: 'form-control', rows: '3' %>
             <hr/>
             <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-            <!-- ALLEARS Edited by Layton, removed default controls and added ids for easier access across javascript, html, and so-->
-            <%= audio_tag "1-pair Dichotic Digits, List 1_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-            <%= audio_tag "1-pair Dichotic Digits, List 1_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+            <!-- ALLEARS, removed default controls and added ids for easier access across javascript, html, and so-->
+            <%= audio_tag "2-pair Dichotic Digits, List 2_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
+            <%= audio_tag "2-pair Dichotic Digits, List 2_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+
             <!-- JavaScript to Handle Playback and Timer -->
             <script>
               document.addEventListener("DOMContentLoaded", function() {
@@ -104,14 +105,7 @@
                 });
               });
             </script>
-            <!-- Since this is the first test, this is hardcoded. Later, the deibels are controlled for as part of this file source pull -->
-            <!-- <audio id="leftEarAudio">
-              <source src="/app/assets/audio/1-pair Dichotic Digits, List 1_Left_HRTF.wav" type="audio/wav">
-            </audio>
-            <audio id="rightEarAudio">
-              <source src="/app/assets/audio/1-pair Dichotic Digits, List 1_Right_HRTF.wav" type="audio/wav">
-            </audio>
-            <hr/>-->
+
             <!--Table for ear advantage percentage that is calculated in the script-->
             <style>
               .left-column {
@@ -171,7 +165,8 @@
             <label for="read-Only">Ear Advantage</label>
             <input class="form-control" type="text" id="read-Only" value="" readonly>
             <span hidden id="advantage-Name"></span>
-            </div>
+          </div>
+        </div>
       </div>
         <style>
           /* Center buttons in the table cells */
@@ -206,31 +201,31 @@
               <!-- Loop for table of numbers and creation of all buttons, only loops 54 times and creates table for buttons-->
                 <% 25.times do |i| %>
                   <% nums = [
-                    [[10],[2]],
-                    [[6],[10]],
-                    [[5],[3]],
-                    [[6],[9]],
-                    [[1],[4]],
-                    [[6],[5]],
-                    [[8],[10]],
-                    [[3],[1]],
-                    [[9],[3]],
-                    [[2],[8]],
-                    [[6],[2]],
-                    [[4],[9]],
-                    [[1],[3]],
-                    [[10],[5]],
-                    [[10],[4]],
-                    [[3],[9]],
-                    [[6],[1]],
-                    [[5],[9]],
-                    [[3],[10]],
-                    [[8],[2]],
-                    [[1],[9]],
-                    [[9],[6]],
-                    [[9],[10]],
-                    [[3],[8]],
-                    [[4],[5]]
+                    [[4,3],[1,6]],
+                    [[3,1],[9,10]],
+                    [[9,6],[1,5]],
+                    [[2,10],[6,8]],
+                    [[4,8],[6,8]],
+                    [[9,1],[8,6]],
+                    [[2,4],[9,10]],
+                    [[1,9],[8,6]],
+                    [[2,4],[3,9]],
+                    [[1,4],[10,5]],
+                    [[2,5],[1,3]],
+                    [[4,5],[2,6]],
+                    [[3,10],[5,6]],
+                    [[4,1],[9,5]],
+                    [[4,5],[3,8]],
+                    [[9,5],[4,1]],
+                    [[4,5],[10,2]],
+                    [[9,8],[3,4]],
+                    [[9,10],[8,5]],
+                    [[8,6],[4,1]],
+                    [[6,8],[10,2]],
+                    [[9,1],[2,8]],
+                    [[6,9],[3,1]],
+                    [[1,2],[3,9]],
+                    [[5,3],[2,1]]
                     ] %>
                   <tr>
                     <td><%= i + 1 %></td>
@@ -263,7 +258,7 @@
                   </tr>
                 <% end %>
               </tbody>
-              <!--Hidden table for submission items-->
+              <!--Hidden table for submition items-->
             </table>
 
 
@@ -275,18 +270,14 @@
             <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
             <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
 
-          <!-- <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "populateHiddenFields()" %> -->
+            <!-- ALLEARS ADDITIONS, added to submit as well-->
 
-          <!-- ALLEARS ADDITIONS, added to submit as well-->
+            <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
+            <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
 
-          <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
-          <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
-          <!--  try a 'test' button that just updates the value to check if this is an issue here - also try to check client.rb, no handler for right_ear mightr be the problem?-->
-
-          <!-- <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel() populateHiddenFields()" %> -->
-          <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
-          <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
-          <%= link_to "Back",  week_one_test_eight_client_week_ones_path(@client), class: "btn btn-secondary btn-block"%>
+            <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
+            <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
+            <%= link_to "Back",  week_one_test_one_client_week_ones_path(@client), class: "btn btn-secondary btn-block"%>
         <% end %>
 
     </div>
@@ -300,8 +291,8 @@
           <p><span id="advantage-Diff"></span></p>
         </div>
 
-
       <script>
+
 
 
       //function for keeping the buttons blue after being clicked
@@ -341,19 +332,21 @@
 
 
         const advantageDiffGroup1 = document.getElementById("Group1advantage-Diff");
-        //advantageDiffGroup1.innerText = group1Advantage.toString();
+        advantageDiffGroup1.innerText = group1Advantage.toString();
 
         const advantageDiffGroup2 = document.getElementById("Group2advantage-Diff");
-        //advantageDiffGroup2.innerText = group2Advantage.toString();
+        advantageDiffGroup2.innerText = group2Advantage.toString();
 
         const advantageDiffGroup3 = document.getElementById("Group3advantage-Diff");
-        //advantageDiffGroup3.innerText = group3Advantage.toString();
+        advantageDiffGroup3.innerText = group3Advantage.toString();
+
 
 
         const advantageName = document.getElementById("advantage-Name");
         const testDiagnosis = document.getElementById("Diagnosis");
         const readOnly = document.getElementById("read-Only");
         const readOnlyDiag = document.getElementById("read-Only-diag");
+
 
 
         // Update the counts when a button is clicked
@@ -390,12 +383,24 @@
 
 
 
+          //calcs advantage side using average of all of them (ideal but not what client wants)
 
+          /*
+          const sumAdvantage = parseFloat(group1Advantage) + parseFloat(group2Advantage) + parseFloat(group3Advantage);
+          const threshold = 0.01; // Define the threshold value for neutrality
+
+          if (Math.abs(sumAdvantage) <= threshold) {
+            direction = "Neutral";
+          } else if (sumAdvantage > 0) {
+            direction = "Left";
+          } else {
+            direction = "Right";
+          }
+          */
 
           //ALLEARS ADDITIONS
           let rightEarDecibel; // Default hardcoded value, CHANGE TO SERVER-side later (SO GET VALUE instead hard code)
           let leftEarDecibel; // this is not yet attempted set up for server side at all, unlike right
-
 
           let direction = null;
           let interpretation = null;
@@ -414,6 +419,10 @@
           } else {
             direction = "Neutral";
           }
+
+
+
+          // Passes values to strings so they can be pushed to the html above
 
 
           column1Group1Percent.innerText = percentColumn1Group1.toString();
@@ -453,7 +462,6 @@
               cell.style.backgroundColor = 'white';
             }
           });
-
           })
         })
       // gets the elements from hidden field submit above and populates them from the results in the script
@@ -463,18 +471,8 @@
         document.getElementById("ear_advantage").value = advantageName.innerText;
         document.getElementById("ear_advantage_score").value = advantageDiffGroup2.innerText;
 
-
-        document.getElementById("col1G1").value = column1Group1Percent.innerText;
-        document.getElementById("col2G1").value = column2Group1Percent.innerText;
-        document.getElementById("col1G3").value = column1Group3Percent.innerText;
-        document.getElementById("col2G3").value = column2Group3Percent.innerText;
-
-        document.getElementById("G1adv").value = advantageDiffGroup1.innerText;
-        document.getElementById("G3adv").value = advantageDiffGroup3.innerText;
-
-        document.getElementById("interpretation").value = testDiagnosis.innerText;
-
       }
+
       //ALLEARS ADDITIONS
       // only works for first group rn, copy paste for more when relevant to test
       function calculateRightEarDecibel() {
@@ -546,9 +544,11 @@
           window.location.href = '<%= client_trainings_path(@client) %>';
       }
 
-    </script>
+      </script>
 
+      </div>
     </div>
   </div>
+
   </body>
 </html>

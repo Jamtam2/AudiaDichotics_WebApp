@@ -1,0 +1,30 @@
+<div class="container mt-5 text-center">
+  <h2 class="mb-3">Time for a Short Break</h2>
+
+  <p class="lead">Please take a moment to rest before continuing with the next test.</p>
+  <p class="h4 mt-4"><span id="countdown-text">You can continue in </span><span id="countdown">30</span><span id= "countdown-unit"> seconds...</span></p>
+
+  <div class="mt-4">
+    <%= link_to "Next", week_one_test_six_client_week_ones_path(@client), class: "btn btn-primary btn-lg me-2" %>
+    <%= link_to "Back", week_one_test_five_client_week_ones_path(@client), class: "btn btn-secondary btn-lg" %>
+  </div>
+</div>
+<!-- CHANGE TO 20 MINUTES IN FINAL VERSION -->
+<script>
+  let countdown = 30;
+  const countdownSpan = document.getElementById("countdown");
+  const countdownText = document.getElementById("countdown-text");
+  const countdownUnit = document.getElementById("countdown-unit");
+
+  const interval = setInterval(() => {
+    countdown--;
+    countdownSpan.textContent = countdown;
+
+    if (countdown <= 0) {
+      clearInterval(interval);
+      countdownText.textContent = "You can proceed"; // Change the whole text
+      countdownSpan.textContent = ""; // Clear the countdown number
+      countdownUnit.textContent = ""; // Clear the countdown unit
+    }
+  }, 1000);
+</script>
