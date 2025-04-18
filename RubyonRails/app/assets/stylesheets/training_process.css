@@ -94,6 +94,7 @@
 }
 
 .training-process .btn-training {
+    all: unset;
     border: 1px solid transparent;
     border-radius: 7.5px;
     text-align: center;
