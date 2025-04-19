@@ -92,22 +92,3 @@
     position: relative;
     overflow-y: scroll;
 }
-
-.training-process .btn-training {
-    all: unset;
-    border: 1px solid transparent;
-    border-radius: 7.5px;
-    text-align: center;
-    transition: transform 0.3s ease;
-    transform-origin: center;
-    text-decoration: none !important;
-    color: white;
-    padding: 0.375rem 0.5rem;
-    font-size: 0.9375rem;
-    background-color: #008cba;
-}
-
-.training-process .btn-training:hover {
-    transform: scale(1.1);
-    background-color: #0082ae;
-}

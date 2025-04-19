@@ -81,8 +81,6 @@
   border: 1px solid transparent;
   border-radius: 7.5px;
   text-align: center;
-  transition: transform 0.3s ease;
-  transform-origin: center;
   text-decoration: none !important;
   color: white;
   padding: 0.375rem 0.5rem;
@@ -95,8 +93,6 @@
   border: 1px solid transparent;
   border-radius: 7.5px;
   text-align: center;
-  transition: transform 0.3s ease;
-  transform-origin: center;
   text-decoration: none !important;
   color: white;
   padding: 0.375rem 0.5rem;
@@ -107,13 +103,29 @@
 
 .btn-1:hover {
   color: white;
-  transform: scale(1.1);
   background-color: #0082ae;
 }
 
 .btn-2:hover {
   color: white;
-  transform: scale(1.1);
   background-color: #bd1a25;
+}
+
+.btn-anim1 {
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.btn-anim1:hover {
+  transform: scale(1.05);
+}
+
+.btn-anim2 {
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.btn-anim2:hover {
+  transform: scale(1.02);
 }
   
