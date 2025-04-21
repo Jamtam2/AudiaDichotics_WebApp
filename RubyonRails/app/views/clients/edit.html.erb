@@ -31,242 +31,11 @@
   }
 </script>
 
-
-
-<!-- Header section with client name and button to add new test -->
-<body id="defBG">
-    <%# <script>
-    var = index;
-    </script> %>
-
-
-
-    <!-- Form for editing and saving client information -->
-
-    <div class= "parent-container pt-5 my-1 w-150 ">
-    <div class="row">
-        <div class="col-sm-8">
-          <h2 class="display-4">
-          <!-- Display client name -->
-          <strong><%= @client.first_name + " " + @client.last_name %></strong></h2>
-        </div>
-        <!-- Buttons and dropdowns to add new tests -->
-        <div class="col-sm-4 d-flex justify-content-center">
-          <button id="myBtn" class=" btn-lg btn-block rounded-pill">Save</button>
-        </div>
-      </div>
-      </div>
-       <div class= "parent-container d-flex justify-content-center">
-    <div class="container rounded p-5 my-3 w-100 border  bg-white border-primary">
-
-
-
-    <div class= "row">
-    <div class ="col">
-
-      <%= bootstrap_form_with model: @client, id:"myForm" do |f| %>
-      <h2 class="display-6" style="padding-bottom:20px"><strong>Details</strong></h2>
-        <div class="row gx-5">
-
-
-          <div class="col-md-6">
-            <!-- Personal information fields -->
-
-            <div class="form-group">
-              <%= f.text_field :first_name, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.text_field :last_name, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.date_field :date_of_birth, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.email_field :email, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.text_field :mgmt_ref, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.select :gender, ['Male', 'Female', 'Other'], {}, class: "form-control" %>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <!-- Address and phone number fields -->
-            <div class="form-group">
-              <%= f.text_field :address1, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.text_field :country, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.text_field :state, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.text_field :city, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.text_field :zip, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.text_field :phone1, class: "form-control" %>
-            </div>
-            <div class="form-group">
-              <%= f.text_field :phone2, class: "form-control" %>
-            </div>
-
-
-           <%# below is the script that allows the save button be outside the form's loop%>
-           <script>
-            $(document).ready(function() {
-            $('#myBtn').on('click', function() { $('#myForm').submit(); });
-                });
-           </script>
-
-
-          </div>
-
-
-
-
-
-          <div class="col-md-12">
-            <!-- Emergency contact information and buttons -->
-
-            <h2 class="display-5 pt-4" style="padding-bottom:20px"><strong>Emergency Contact Info</strong></h2>
-
-            <%= link_to "Add Emergency Contact", new_client_emergency_contact_path(@client), class: "btn btn-primary rounded-pill btn-lg btn-block" %><br>
-            <!-- Table of existing emergency contacts -->
-            <div class="tableWrap">
-            <table class="table table-striped ">
-              <thead>
-                <tr>
-                  <th>Edit</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Phone #</th>
-                  <th>Address</th>
-                  <th>City</th>
-                  <th>State</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Iterate over each emergency contact and display its details -->
-            <% @client.emergency_contacts.each do |contact| %>
-              <tr>
-              <td>
-                  <!-- Link to edit emergency contact -->
-                  <%= link_to edit_client_emergency_contact_path(@client, contact) do %>
-                    <%= image_tag 'edit_icon.png', alt: 'Edit', width: 20 %>
-                  <% end %>
-                </td>
-                <td><%= contact.first_name.present? ? contact.first_name : "&nbsp;".html_safe %></td>
-                <td><%= contact.last_name.present? ? contact.last_name : "&nbsp;".html_safe %></td>
-                <td><%= contact.phone_number.present? ? contact.phone_number : "&nbsp;".html_safe %></td>
-                <td><%= contact.address.present? ? contact.address : "&nbsp;".html_safe %></td>
-                <td><%= contact.city.present? ? contact.city : "&nbsp;".html_safe %></td>
-                <td><%= contact.state.present? ? contact.state : "&nbsp;".html_safe %></td>
-
-
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-
-      <%end%>
-              </div>
-      </div>
-      </div>
-    </div>
-  </div>
-  </div>
-
-
-
-
-
-
-<!-- Tests section with buttons to add new tests and table of existing tests -->
-<div class="container rounded border bg-white p-5 my-3 w-100 border-primary">
-  <div class="col">
-    <div class="col-md-12">
-      <h2 class="display-5" style="padding-bottom:20px"><strong>Tests</strong></h2>
-
-      <!-- Buttons and dropdowns to add new tests -->
-      <div class="container">
-        <div class="row">
-<!-- DWT Test Button -->
-<div class="col-sm-4">
-  <button onclick="buttonClick('dropdown1'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
-      <%= 'disabled' unless current_user.tenant.can_take_test? %>>
-    Add DWT Test
-  </button>
-  <% if current_user.tenant.can_take_test? %>
-    <div id="dropdown1" class="dropdown-content">
-      <a href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
-      <a href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
-      <a href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
-      <a href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
-    </div>
-  <% end %>
-</div>
-
-<!-- RDDT Test Button -->
-<div class="col-sm-4">
-  <button onclick="buttonClick('dropdown2'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
-      <%= 'disabled' unless current_user.tenant.can_take_test? %>>
-    Add RDDT Test
-  </button>
-  <% if current_user.tenant.can_take_test? %>
-    <div id="dropdown2" class="dropdown-content">
-      <a href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
-      <a href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
-    </div>
-  <% end %>
-</div>
-
-<!-- DNW Test Button -->
-<div class="col-sm-4">
-  <button onclick="buttonClick('dropdown3'); this.classList.toggle('clicked')" class="btn btn-primary rounded-pill btn-block btn-lg dropdown"
-      <%= 'disabled' unless current_user.tenant.can_take_test? %>>
-    Add DNW Test
-  </button>
-  <% if current_user.can_take_test? %>
-    <div id="dropdown3" class="dropdown-content">
-      <a href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
-      <a href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
-      <a href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
-      <a href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
-    </div>
-  <% end %>
-</div>
-
-
-        </div>
-      </div>
-
-      <!-- Alert Message when user cannot take tests -->
-      <% unless current_user.tenant.can_take_test? %>
-        <div class="alert alert-warning mt-4">
-          <strong>Notice:</strong>
-          <% if current_user.tenant.membership_expired? %>
-            Your membership has expired. Please contact support to renew your membership.
-          <% elsif current_user.tenant.test_limit.to_i.zero? %>
-            You have used all your allocated tests. Please contact an administrator to get more.
-          <% else %>
-            You cannot take more tests at this time.
-          <% end %>
-        </div>
-      <% end %>
-
-      <!-- Spacer -->
-
-      <br>
-    <!-- Table of existing tests -->
-
-    <style>
+<style>
+  button:hover {
+    box-shadow: none;
+    letter-spacing: inherit;
+  } 
   /* Center the text in the table cells */
   .tableWrap table {
     width: 100%; /* Optional: Ensure the table spans its container */
@@ -279,7 +48,6 @@
     vertical-align: middle; /* Center vertically */
     padding: 10px; /* Optional: Add padding for better readability */
   }
-
 
   .tableWrap td {
     border: 1px solid #ddd; /* Optional: Add border for clarity */
@@ -298,65 +66,250 @@
       width: 20px;
       height: 20px;
     }
-
-
-
 </style>
 
-<div class="tableWrap">
-  <table id="tableID">
-    <thead>
-      <tr>
-        <th>Results</th>
-        <th>Date</th>
-        <th>Test Giver</th>
-        <th>Test Type</th>
-        <th>Left Score</th>
-        <th>Right Score</th>
-        <th>Ear Advantage</th>
-        <th>Ear Advantage Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @all_tests.each do |test| %>
-        <tr>
-        <td>
-          <%= link_to polymorphic_path([@client, test]), class: 'svg-link' do %>
-            <%= image_tag 'house-medical-circle-check-solid.svg', alt: 'View Test', width: 50, height: 50 %>
-          <% end %>
-        </td>
-          <td><%= test.created_at.strftime('%m/%d/%Y') %></td>
-          <td><%= test.user.fname %> <%= test.user.lname %></td>
-          <td><%= test.test_type %></td>
-          <td><%= test.respond_to?(:left_score2) ? test.left_score2 : test.left_score %></td>
-          <td><%= test.respond_to?(:right_score2) ? test.right_score2 : test.right_score %></td>
-          <td><%= test.ear_advantage %></td>
-          <td><%= test.ear_advantage_score %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-
-
-<div class="col">
-  <h2 class="display-5 pt-5" style="padding-bottom:20px"><strong>Training</strong></h2>
-  <div class="card border-primary border-1 text-center p-4" style="flex-direction: row; justify-content: space-between;">
-    <%= link_to "Trainings", client_trainings_path(client_id: @client.id), class: "btn btn-primary btn-lg" %>
+<!-- Header section with client name and button to add new test -->
+<body id="defBG" style="font-family: Arial !important; margin-bottom: 60px;">
+  <!-- Form for editing and saving client information -->
+  <div class= "parent-container pt-5 my-1 w-150 ">
+    <div class="row">
+      <div class="col-sm-8">
+        <h2 class="display-4">
+        <!-- Display client name -->
+        <strong><%= @client.first_name + " " + @client.last_name %></strong></h2>
+      </div>
+      <!-- Buttons and dropdowns to add new tests -->
+      <div class="col-sm-4 d-flex justify-content-center">
+        <button id="myBtn" class="btn-2 btn-block btn-anim1">Save</button>
+      </div>
+    </div>
   </div>
-  
-</div>
+  <div class= "parent-container d-flex justify-content-center">
+    <div class="container rounded p-5 my-3 w-100 border  bg-white border-primary">
+      <div class= "row">
+        <div class ="col">
+          <%= bootstrap_form_with model: @client, id:"myForm" do |f| %>
+            <h2 class="display-6" style="padding-bottom:20px"><strong>Details</strong></h2>
+            <div class="row gx-5">
+              <div class="col-md-6">
+                <!-- Personal information fields -->
+                <div class="form-group">
+                  <%= f.text_field :first_name, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_field :last_name, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.date_field :date_of_birth, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.email_field :email, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_field :mgmt_ref, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.select :gender, ['Male', 'Female', 'Other'], {}, class: "form-control" %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!-- Address and phone number fields -->
+                <div class="form-group">
+                  <%= f.text_field :address1, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_field :country, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_field :state, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_field :city, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_field :zip, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_field :phone1, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <%= f.text_field :phone2, class: "form-control" %>
+                </div>
+
+
+              <%# below is the script that allows the save button be outside the form's loop%>
+              <script>
+                $(document).ready(function() {
+                $('#myBtn').on('click', function() { $('#myForm').submit(); });
+                    });
+              </script>
+            </div>
+            <div class="col-md-12">
+              <!-- Emergency contact information and buttons -->
+              <h2 class="display-5 pt-4" style="padding-bottom:20px"><strong>Emergency Contact Info</strong></h2>
+              <%= link_to "Add Emergency Contact", new_client_emergency_contact_path(@client), class: "btn-1 btn-anim2 btn-block" %><br>
+              <!-- Table of existing emergency contacts -->
+              <div class="tableWrap">
+                <table class="table table-striped ">
+                  <thead>
+                    <tr>
+                      <th>Edit</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Phone #</th>
+                      <th>Address</th>
+                      <th>City</th>
+                      <th>State</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Iterate over each emergency contact and display its details -->
+                    <% @client.emergency_contacts.each do |contact| %>
+                      <tr>
+                        <td>
+                          <!-- Link to edit emergency contact -->
+                          <%= link_to edit_client_emergency_contact_path(@client, contact) do %>
+                            <%= image_tag 'edit_icon.png', alt: 'Edit', width: 20 %>
+                          <% end %>
+                        </td>
+                        <td><%= contact.first_name.present? ? contact.first_name : "&nbsp;".html_safe %></td>
+                        <td><%= contact.last_name.present? ? contact.last_name : "&nbsp;".html_safe %></td>
+                        <td><%= contact.phone_number.present? ? contact.phone_number : "&nbsp;".html_safe %></td>
+                        <td><%= contact.address.present? ? contact.address : "&nbsp;".html_safe %></td>
+                        <td><%= contact.city.present? ? contact.city : "&nbsp;".html_safe %></td>
+                        <td><%= contact.state.present? ? contact.state : "&nbsp;".html_safe %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <%end%>       
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Tests section with buttons to add new tests and table of existing tests -->
+  <div class="container rounded border bg-white p-5 my-3 w-100 border-primary">
+    <div class="col">
+      <div class="col-md-12">
+        <h2 class="display-5" style="padding-bottom:20px"><strong>Tests</strong></h2>
+        <!-- Buttons and dropdowns to add new tests -->
+        <div class="container">
+          <div class="row">
+            <!-- DWT Test Button -->
+            <div class="col-sm-4">
+              <button onclick="buttonClick('dropdown1'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown"
+                <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+                Add DWT Test
+              </button>
+              <% if current_user.tenant.can_take_test? %>
+                <div id="dropdown1" class="dropdown-content">
+                  <a href="<%= dwt_list1_client_dwt_tests_path(@client) %>">List 1</a>
+                  <a href="<%= dwt_list2_client_dwt_tests_path(@client) %>">List 2</a>
+                  <a href="<%= dwt_list3_client_dwt_tests_path(@client) %>">List 3</a>
+                  <a href="<%= dwt_list4_client_dwt_tests_path(@client) %>">List 4</a>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- RDDT Test Button -->
+            <div class="col-sm-4">
+              <button onclick="buttonClick('dropdown2'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown"
+                <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+                Add RDDT Test
+              </button>
+              <% if current_user.tenant.can_take_test? %>
+                <div id="dropdown2" class="dropdown-content">
+                  <a href="<%= rddt_list1_client_rddt_tests_path(@client) %>">List 1</a>
+                  <a href="<%= rddt_list2_client_rddt_tests_path(@client) %>">List 2</a>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- DNW Test Button -->
+            <div class="col-sm-4">
+              <button onclick="buttonClick('dropdown3'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown"
+                <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+                Add DNW Test
+              </button>
+              <% if current_user.can_take_test? %>
+                <div id="dropdown3" class="dropdown-content">
+                  <a href="<%= dnw_list1_client_dnw_tests_path(@client) %>">List 1</a>
+                  <a href="<%= dnw_list2_client_dnw_tests_path(@client) %>">List 2</a>
+                  <a href="<%= dnw_list3_client_dnw_tests_path(@client) %>">List 3</a>
+                  <a href="<%= dnw_list4_client_dnw_tests_path(@client) %>">List 4</a>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alert Message when user cannot take tests -->
+        <% unless current_user.tenant.can_take_test? %>
+          <div class="alert alert-warning mt-4">
+            <strong>Notice:</strong>
+            <% if current_user.tenant.membership_expired? %>
+              Your membership has expired. Please contact support to renew your membership.
+            <% elsif current_user.tenant.test_limit.to_i.zero? %>
+              You have used all your allocated tests. Please contact an administrator to get more.
+            <% else %>
+              You cannot take more tests at this time.
+            <% end %>
+          </div>
+        <% end %>
+        <!-- Spacer -->
+
+        <br>
+        <!-- Table of existing tests -->
+
+        <div class="tableWrap">
+          <table id="tableID">
+            <thead>
+              <tr>
+                <th>Results</th>
+                <th>Date</th>
+                <th>Test Giver</th>
+                <th>Test Type</th>
+                <th>Left Score</th>
+                <th>Right Score</th>
+                <th>Ear Advantage</th>
+                <th>Ear Advantage Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @all_tests.each do |test| %>
+                <tr>
+                <td>
+                  <%= link_to polymorphic_path([@client, test]), class: 'svg-link' do %>
+                    <%= image_tag 'house-medical-circle-check-solid.svg', alt: 'View Test', width: 50, height: 50 %>
+                  <% end %>
+                </td>
+                  <td><%= test.created_at.strftime('%m/%d/%Y') %></td>
+                  <td><%= test.user.fname %> <%= test.user.lname %></td>
+                  <td><%= test.test_type %></td>
+                  <td><%= test.respond_to?(:left_score2) ? test.left_score2 : test.left_score %></td>
+                  <td><%= test.respond_to?(:right_score2) ? test.right_score2 : test.right_score %></td>
+                  <td><%= test.ear_advantage %></td>
+                  <td><%= test.ear_advantage_score %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
 
 
 
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
+        <div class="col">
+          <h2 class="display-5 pt-5" style="padding-bottom:20px"><strong>Training</strong></h2>
+          <div class="card border-primary border-1 text-center p-4" style="justify-content: space-between;">
+            <%= link_to "Trainings", client_trainings_path(client_id: @client.id), class: "btn-1 btn-anim2 btn-block" %>
+            <%= link_to "Total Summary", "#", class: "btn-1 btn-anim2 btn-block" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
