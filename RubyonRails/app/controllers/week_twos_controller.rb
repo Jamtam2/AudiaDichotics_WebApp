@@ -77,8 +77,11 @@ class WeekTwosController < ApplicationController
       @week_two.user = current_user
       @week_two.client = @client
       submit_with_counter()
-    end
-    def submit_with_counter
+  end
+  def rest_break_week_two
+      @client = Client.find(params[:client_id])
+  end
+  def submit_with_counter
       if @week_two.save
         case @week_two.counter
         when 1
@@ -89,7 +92,7 @@ class WeekTwosController < ApplicationController
         when 3
           redirect_to week_two_test_four_client_week_twos_path(@client)
         when 4
-          redirect_to week_two_test_five_client_week_twos_path(@client)
+          redirect_to rest_break_week_two_client_week_twos_path(@client)
         when 5
           redirect_to week_two_test_six_client_week_twos_path(@client)
         when 6
@@ -104,7 +107,7 @@ class WeekTwosController < ApplicationController
       else
         render 'new'
       end
-    end
+  end
 
 
       private
