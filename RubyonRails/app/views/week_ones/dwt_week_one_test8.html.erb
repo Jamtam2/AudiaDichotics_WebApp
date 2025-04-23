@@ -104,13 +104,12 @@
               <%= f.text_area :notes, class: 'form-control', rows: '3' %>
               <hr>
               <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-              <%= audio_tag "Dichotic Words Track 12_R_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-              <%= audio_tag "Dichotic Words Track 12_R_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
+              <%= audio_tag "Dichotic Words Track 12_R.wav", id: "testAudio", controls: false %>
+
               <!-- JavaScript to Handle Playback and Timer -->
               <script>
                 document.addEventListener("DOMContentLoaded", function() {
-                  const leftAudio = document.getElementById("leftEarAudio");
-                  const rightAudio = document.getElementById("rightEarAudio");
+                  const leftAudio = document.getElementById("testAudio");
                   const playButton = document.getElementById("playButton");
                   const pauseButton = document.getElementById("pauseButton");
                   const timerDisplay = document.getElementById("timer");
@@ -124,29 +123,27 @@
                   }
 
                   // Set total duration when data is loaded
-                  leftAudio.addEventListener("loadedmetadata", function() {
-                    durationDisplay.textContent = formatTime(leftAudio.duration);
+                  testAudio.addEventListener("loadedmetadata", function() {
+                    durationDisplay.textContent = formatTime(testAudio.duration);
                   });
 
                   // Update timer
-                  leftAudio.addEventListener("timeupdate", function() {
-                    timerDisplay.textContent = formatTime(leftAudio.currentTime);
+                  testAudio.addEventListener("timeupdate", function() {
+                    timerDisplay.textContent = formatTime(testAudio.currentTime);
                   });
 
-                  // Play both audio files
+                  // Play audio file
                   playButton.addEventListener("click", function() {
                     playButton.style.display = "none";
                     pauseButton.style.display = "inline";
-                    leftAudio.play();
-                    rightAudio.play();
+                    testAudio.play();
                   });
 
-                  // Pause both audio files
+                  // Pause audio file
                   pauseButton.addEventListener("click", function() {
                     playButton.style.display = "inline";
                     pauseButton.style.display = "none";
-                    leftAudio.pause();
-                    rightAudio.pause();
+                    testAudio.pause();
                   });
                 });
               </script>
