@@ -141,14 +141,14 @@
                     timerDisplay.textContent = formatTime(testAudio.currentTime);
                   });
 
-                  // Play both audio files
+                  // Play audio file
                   playButton.addEventListener("click", function() {
                     playButton.style.display = "none";
                     pauseButton.style.display = "inline";
                     testAudio.play();
                   });
 
-                  // Pause both audio files
+                  // Pause audio file
                   pauseButton.addEventListener("click", function() {
                     playButton.style.display = "inline";
                     pauseButton.style.display = "none";
