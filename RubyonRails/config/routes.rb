@@ -93,6 +93,7 @@ Rails.application.routes.draw do
   # Below are rest break paths for specific steps in the training procedure
   get 'clients/:client_id/week_ones/rest_break_week_one', to: 'week_ones#rest_break_week_one', as: 'rest_break_week_one_client_week_ones'
   get 'clients/:client_id/week_twos/rest_break_week_two', to: 'week_twos#rest_break_week_two', as: 'rest_break_week_two_client_week_twos'
+  get 'clients/:client_id/week_threes/rest_break_week_three', to: 'week_threes#rest_break_week_three', as: 'rest_break_week_three_client_week_threes'
   resources :clients do
     resources :emergency_contacts, only: [:create, :destroy, :new, :edit, :update]
     resources :trainings do

@@ -48,7 +48,7 @@ class WeekThreesController < ApplicationController
       @client = Client.find(params[:client_id])
       @week_three = @client.week_threes.build
     end
-    
+
     def index
         @week_three = WeekThrees.all
         render :index
@@ -66,21 +66,21 @@ class WeekThreesController < ApplicationController
         @week_three = WeekThrees.find(params[:id])
         render :edit
       end
-      
-  
+
+
     def update
       @client = Client.find(params[:client_id])
       @week_three = @client.week_threes.find(params[:id])
       @week_three.assign_attributes(week_three_params)
-      
+
       if @week_three.save
         redirect_to edit_client_path(@client)
       else
         render 'edit'
       end
     end
-  
-  
+
+
     def create
       @client = Client.find(params[:client_id])
       @week_three = @client.week_threes.build(week_three_params)
@@ -88,8 +88,11 @@ class WeekThreesController < ApplicationController
       @week_three.client = @client
       submit_with_counter()
     end
-  
-    
+
+    def rest_break_week_three
+      @client = Client.find(params[:client_id])
+    end
+
     def submit_with_counter
       if @week_three.save
         case @week_three.counter
@@ -123,8 +126,8 @@ class WeekThreesController < ApplicationController
         #redirect_to client_trainings_path(@client)
       end
     end
-  
-    
+
+
       private
       #ALLEARS - L - added left and right ear decibel
       # took out :notes -->
