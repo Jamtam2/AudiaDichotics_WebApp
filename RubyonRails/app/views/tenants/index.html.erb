@@ -26,7 +26,14 @@
         <% end %>
         <td><%= tenant.test_limit %></td>
         <td>
-          <%= link_to 'Edit', edit_tenant_path(tenant), class: "btn btn-primary" %>
+          <%= link_to edit_tenant_path(tenant), class: 'svg-link' do %>
+            <%= image_tag 'edit_icon.png' , alt: 'Edit' ,width: 20 %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to tenant_path(tenant), method: :delete, data: { confirm: 'Are you sure?' }, class: 'svg-link' do %>
+              <%= image_tag 'delete_icon.png' , alt: 'Delete' ,width: 20 %>
+          <% end %>
         </td>
       </tr>
     <% end %>

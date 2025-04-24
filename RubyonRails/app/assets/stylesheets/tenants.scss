@@ -1,3 +1,15 @@
 // Place all the styles related to the Tenants controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+td a.svg-link {
+    background: none !important; 
+    text-indent: 0 !important;   
+    display: inline-flex;        
+  } 
+  
+  td a.svg-link img {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+  }
