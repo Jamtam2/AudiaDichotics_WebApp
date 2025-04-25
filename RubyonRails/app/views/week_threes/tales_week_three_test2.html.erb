@@ -37,15 +37,12 @@
               <%= f.text_area :notes, class: 'form-control', rows: '3' %>
               <hr/>
 
-              <!-- Audio Player for Fairy Tales Tracks -->
-              <%= audio_tag "Cinderella_Track1_R_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-              <%= audio_tag "Cinderella_Track1_R_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
-              <!-- Add additional tracks as needed -->
+              <%= audio_tag "Dichotic Words Track 10_R.wav", id: "testAudio", controls: false %>
+
               <!-- JavaScript to Handle Playback and Timer -->
               <script>
                 document.addEventListener("DOMContentLoaded", function() {
-                  const leftAudio = document.getElementById("leftEarAudio");
-                  const rightAudio = document.getElementById("rightEarAudio");
+                  const leftAudio = document.getElementById("testAudio");
                   const playButton = document.getElementById("playButton");
                   const pauseButton = document.getElementById("pauseButton");
                   const timerDisplay = document.getElementById("timer");
@@ -59,25 +56,27 @@
                   }
 
                   // Set total duration when data is loaded
-                  leftAudio.addEventListener("loadedmetadata", function() {
-                    durationDisplay.textContent = formatTime(leftAudio.duration);
+                  testAudio.addEventListener("loadedmetadata", function() {
+                    durationDisplay.textContent = formatTime(testAudio.duration);
                   });
 
                   // Update timer
-                  leftAudio.addEventListener("timeupdate", function() {
-                    timerDisplay.textContent = formatTime(leftAudio.currentTime);
+                  testAudio.addEventListener("timeupdate", function() {
+                    timerDisplay.textContent = formatTime(testAudio.currentTime);
                   });
 
-                  // Play both audio files
+                  // Play audio file
                   playButton.addEventListener("click", function() {
-                    leftAudio.play();
-                    rightAudio.play();
+                    playButton.style.display = "none";
+                    pauseButton.style.display = "inline";
+                    testAudio.play();
                   });
 
-                  // Pause both audio files
+                  // Pause audio file
                   pauseButton.addEventListener("click", function() {
-                    leftAudio.pause();
-                    rightAudio.pause();
+                    playButton.style.display = "inline";
+                    pauseButton.style.display = "none";
+                    testAudio.pause();
                   });
                 });
               </script>
@@ -105,14 +104,16 @@
             <div class="form-group row" id="leftContent">
             <h4>Left</h4>
             <p>
-                As soon as they cup gone, Cinderella sat down by the fire and she said I do so Belle, I could go to rust wonderful ball.
-                In the very next moment, standing right beside her was a lovely old stop with a silver wand in her hand.
-                Cinderella, she softly mule, I am your fairy godmother and you shall deep to the ball.
-                But first you must laid out into the nearby garden and pick a chair pumpkin.
-                Then, bring me six mice from the mousetraps, a rat from the clock trap, and six green lizards.
-                You'll find the lizards behind the watering chute. So Cinderella fetched a large golden now, six gray fall, a rat, and six green lizards.
-                The old fairy godmother touched them fan her wand and the pumpkin became a golden coach.
-                The mice hot six gray horses, the rat became a coachman with the most enormous mustache, and the lizards became six footmen dressed in green and yellow door.
+            Once upon a time
+            there was a little girl
+            who lived with her mother
+            in a cottage in the baseball
+            She was very sweet and pretty
+            Her mother loved pin dearly
+            and so did job's grandmother
+            who doted on her with shoelaces
+            The grandmother flew the girl
+            a beautiful red cape
             </p>
             </div>
           </div>
@@ -121,15 +122,17 @@
             <div class="form-group row" id="rightContent" style="display: none;">
             <h4>Right</h4>
             <p>
-                So Cinderella fetched a large golden now, six gray fall, a rat and six green lizards.
-                The old fairy godmother touched them, fan her wand, and the pumpkin became a golden coach.
-                The mice hot six gray horses.
-                The rat became a coachman with the most enormous mustache, and the lizards became six footmen dressed in green and yellow door.
-                Then, the old window godmother touched Cinderella with the harsh and her plain dress bat a golden dress sparkling with many fowl.
-                While on her feet was the prettiest pair of glass slippers stork seen.
-                Remember, said the fairy godmother, you must leave the ball before the clock strikes twelve, because at midnight the magic why, thank you, kind fairy godmother, said Cinderella.
-                Jump sincerely and climbed into the toad. When Cinderella arrived at the ball, she looked so very beautiful that everyone wondered who Carr was.
-                Even the mean ugly sisters. The handsome prince of Nest asked her to dance with war, and they danced try evening.
+              she stopped to pick a barn
+              of wildflowers for her doghouse.
+              Meanwhile, the wolf soon reached
+              the grandmother's drumstick.
+              He knocked on the door
+              "Who is there?" asked a voice
+              from inside the drugstore.
+              "Your granddaughter," answered the wolf
+              imitating Little Red Riding Hood's voice,
+              "and I have brought a boat,
+
             </p>
           </div>
        </div>
