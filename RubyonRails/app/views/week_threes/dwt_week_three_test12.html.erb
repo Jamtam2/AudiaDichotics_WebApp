@@ -104,7 +104,7 @@
               <%= f.text_area :notes, class: 'form-control', rows: '3' %>
               <hr>
               <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
-              <%= audio_tag "Dichotic Words Track 12_R.wav", id: "testAudio", controls: false %>
+              <%= audio_tag "Dichotic Words Track 8_R.wav", id: "testAudio", controls: false %>
 
               <!-- JavaScript to Handle Playback and Timer -->
               <script>
@@ -188,30 +188,30 @@
               </thead>
               <tbody>
               <!-- Loop for table of words and creation of all buttons, only loops 25 times and creates table for buttons-->
-              <!--Track 12-->
-                <% 20.times do |i| %>
-                  <% words = [
-                    ["Hug", "Cave"],
-                    ["Weave", "Vice"],
-                    ["Joke", "Numb"],
-                    ["Hot", "Win"],
-                    ["Five", "Set"],
-                    ["Shelf", "Rice"],
-                    ["Cheek", "Bath"],
-                    ["Goose", "Hedge"],
-                    ["Not", "Cheer"],
-                    ["Reap", "Patch"],
-                    ["Fudge", "Ship"],
-                    ["Foam", "Days"],
-                    ["June", "Both"],
-                    ["Sheep", "Move"],
-                    ["Doll", "Jug"],
-                    ["Him", "Deep"],
-                    ["Tooth", "Well"],
-                    ["Got", "Bug"],
-                    ["Wish", "Phone"],
-                    ["Vote", "Half"]
-                    ] %>
+              <!--Track 8-->
+              <% 20.times do |i| %>
+                <% words = [
+                  ["Kick", "Tell"],
+                  ["When", "Dog"],
+                  ["Pad", "Near"],
+                  ["Hit", "Take"],
+                  ["Yes", "Search"],
+                  ["Gin", "Pass"],
+                  ["Dead", "Take"],
+                  ["Tough", "Bite"],
+                  ["Note", "Hire"],
+                  ["Match", "Juice"],
+                  ["Laud", "Make"],
+                  ["Join", "Shout"],
+                  ["Boat", "Dip"],
+                  ["Mill", "Loaf"],
+                  ["Void", "Sub"],
+                  ["Can", "Long"],
+                  ["Lease", "Raid"],
+                  ["Came", "Learn"],
+                  ["Reach", "Soup"],
+                  ["Said", "Thumb"]
+                  ] %>
                   <tr>
                     <td><%= i + 1 %></td>
                     <td>
