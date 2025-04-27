@@ -201,8 +201,7 @@
           <div class="row">
             <!-- DWT Test Button -->
             <div class="col-sm-4">
-              <button onclick="buttonClick('dropdown1'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown"
-                <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+              <button onclick="buttonClick('dropdown1'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown" <%= current_user.tenant.can_take_test? ? '' : 'disabled' %>>
                 Add DWT Test
               </button>
               <% if current_user.tenant.can_take_test? %>
@@ -217,8 +216,7 @@
 
             <!-- RDDT Test Button -->
             <div class="col-sm-4">
-              <button onclick="buttonClick('dropdown2'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown"
-                <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+              <button onclick="buttonClick('dropdown2'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown" <%= current_user.tenant.can_take_test? ? '' : 'disabled' %>>
                 Add RDDT Test
               </button>
               <% if current_user.tenant.can_take_test? %>
@@ -231,8 +229,7 @@
 
             <!-- DNW Test Button -->
             <div class="col-sm-4">
-              <button onclick="buttonClick('dropdown3'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown"
-                <%= 'disabled' unless current_user.tenant.can_take_test? %>>
+              <button onclick="buttonClick('dropdown3'); this.classList.toggle('clicked')" class="btn-1 btn-anim1 btn-block dropdown" <%= current_user.tenant.can_take_test? ? '' : 'disabled' %>>
                 Add DNW Test
               </button>
               <% if current_user.can_take_test? %>

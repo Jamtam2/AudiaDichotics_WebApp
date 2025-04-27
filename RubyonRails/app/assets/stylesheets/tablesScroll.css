@@ -62,7 +62,7 @@
     position: absolute;
     background-color: white;
     z-index: 1;
-    border-radius: 0rem 0rem 1.5rem 1.5rem;
+    border-radius :0px 0px 7.5px 7.5px;
     padding-top: 20px;
     padding-bottom: 20px;
     top: 50%;
@@ -85,6 +85,5 @@
   }
 
   .clicked {
-    background-color: #006f94;
-    border: #00a0d6 solid 3px;
+    background-color: #0082ae;
   }
