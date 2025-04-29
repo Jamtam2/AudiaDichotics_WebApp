@@ -110,62 +110,65 @@ class ClientsController < ApplicationController
        end
      end
 
-     # Controller for global_moderator_index page functionality
-     def global_moderator_index
-       client_scope = nil
-       if current_user.global_moderator?
-         ActsAsTenant.without_tenant do
-             client_scope = Client.unscoped.includes(:dwt_tests, :dnw_tests, :rddt_tests)
-             client_scope.each do |client|
-               client.dwt_tests.unscoped.load
-               client.dnw_tests.unscoped.load
-               client.rddt_tests.unscoped.load
-             end
+    # Controller for global_moderator_index page functionality
+    def global_moderator_index
+      client_scope = nil
+      if current_user.global_moderator?
+        ActsAsTenant.without_tenant do
+          client_scope = Client.unscoped.includes(:dwt_tests, :dnw_tests, :rddt_tests)
+          client_scope.each do |client|
+            client.dwt_tests.unscoped.load
+            client.dnw_tests.unscoped.load
+            client.rddt_tests.unscoped.load
 
-             # repeat this for DNW and RDDT
-             client.dwt_tests.each do |test|
+            # repeat this for DNW and RDDT
+            client.dwt_tests.each do |test|
               class << test
                 attr_accessor :unique_id
               end
               test.unique_id = "t" + client.tenant_id.to_s + "_u" + test.user_id.to_s
-             end
-             client.dnw_tests.each do |test|
+            end
+
+            client.dnw_tests.each do |test|
               class << test
                 attr_accessor :unique_id
               end
               test.unique_id = "t" + client.tenant_id.to_s + "_u" + test.user_id.to_s
-             end
-             client.rddt_tests.each do |test|
+            end
+
+            client.rddt_tests.each do |test|
               class << test
                 attr_accessor :unique_id
               end
               test.unique_id = "t" + client.tenant_id.to_s + "_u" + test.user_id.to_s
-             end
+            end
+          end
 
-         end
-         # @q = @clients.ransack(params[:q])
-     # Include associated tests to avoid N+1 query problems
-         @clients = client_scope
-         # @clients = client_scope.includes(:dwt_tests, :dnw_tests, :rddt_tests)
+             
 
-     else
-       # If the user is not a global moderator, redirect them
-       redirect_to root_path, alert: 'You do not have access to this page.'
-       end
+        end
+        # @q = @clients.ransack(params[:q])
+        # Include associated tests to avoid N+1 query problems
+        @clients = client_scope
+        # @clients = client_scope.includes(:dwt_tests, :dnw_tests, :rddt_tests)
+      else
+        # If the user is not a global moderator, redirect them
+        redirect_to root_path, alert: 'You do not have access to this page.'
+      end
 
-         # Initialize instance variable to be used in clients > index.html.erb
-         # @clients = client_scope
+      # Initialize instance variable to be used in clients > index.html.erb
+      # @clients = client_scope
 
-         # Calling method that enables Ransack functionality
-         # sort_and_filter_clients(client_scope)
+      # Calling method that enables Ransack functionality
+      # sort_and_filter_clients(client_scope)
 
-       process_hashed_search_parameters
+      process_hashed_search_parameters
 
-         respond_to do |format|
-           format.html
-           format.csv { send_data generate_csv(@clients), filename: "global_moderator_data-#{Date.today}.csv" }
-         end
-       end
+      respond_to do |format|
+        format.html
+        format.csv { send_data generate_csv(@clients), filename: "global_moderator_data-#{Date.today}.csv" }
+      end
+    end
 
 
  # Method that contains functionality for ransack advanced search
