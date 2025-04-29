@@ -1,6 +1,6 @@
 
 <body id="defBG" class="training-process bg-white center">
-  <div class="card mb-3 border-0", style="padding-top:25px">
+  <div class="card mb-3 border-0 container-training">
     <div class="infobar">
       <div class="left">
         <%= link_to edit_client_path(@client) do %>
@@ -34,9 +34,9 @@
         <% if @client.week_ones.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-              <%= link_to "Start Training",  week_one_test_one_client_week_ones_path(@client), class: "btn btn-primary"%>
-            <div>
+            <div class="pos-button">
+              <%= link_to "Start Training",  week_one_test_one_client_week_ones_path(@client), class: "btn-1 btn-anim1"%>
+            </div>
           </div>
         <% else %>
           <div class="summary">
@@ -62,7 +62,7 @@
                     <% ear_adv_color = week_one.ear_advantage == "Left" ? "lightblue" : week_one.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
                      <% ear_adv_score_color = week_one.ear_advantage_score.to_f < 0 ? "lightblue" : week_one.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
                   <tr>
-                    <td><%= week_one.id %></td>
+                    <td style ="text-align: center;"><%= week_one.id %></td>
                     <td><%= week_one.test_type %></td>
                     <td><%= week_one.left_ear_decibel %></td>
                     <td><%= week_one.right_ear_decibel %></td>
@@ -147,7 +147,7 @@
                 <% ear_adv_color = week_one.ear_advantage == "Left" ? "lightblue" : week_one.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
                 <% ear_adv_score_color = week_one.ear_advantage_score.to_f < 0 ? "lightblue" : week_one.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
               <tr>
-              <td><%= week_one.id %></td>
+              <td style ="text-align: center;"><%= week_one.id %></td>
               <td><%= week_one.test_type %></td>
               <td><%= week_one.left_ear_decibel %></td>
               <td><%= week_one.right_ear_decibel %></td>
@@ -210,20 +210,22 @@
         </tr>
         </tfoot>
         </table>
+        <div class="pos-button">
+          <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn-1 btn-anim1" %>
+        </div>
       </div>
-  
-    <% end %>
+      <% end %>
       <% elsif @week_number == 2%>
         <% if @client.week_ones.empty? %>
           <div>
-            <h2>Please Complete the Previous Training to Continue</h2>
+            <h3>Please Complete the Previous Training to Continue</h3>
           </div>
         <% elsif @client.week_twos.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-              <%= link_to "Start Training",  week_two_test_one_client_week_twos_path(@client), class: "btn btn-primary"%>
-            <div>
+            <div class="pos-button">
+              <%= link_to "Start Training",  week_two_test_one_client_week_twos_path(@client), class: "btn-1 btn-anim1" %>
+            </div>
           </div>
         <% else %>
           <div class="summary">
@@ -246,17 +248,17 @@
               <tbody>
                   <% word_tests = @client.week_twos.select { |week_two| week_two.test_type != 'RDDT'} %>
                   <% word_tests.each do |week_two| %>
-                      <% ear_adv_color = week_two.ear_advantage == "Left" ? "lightblue" : week_two.ear_advantage == "Right" ? "lightpink" : 'transparent' %> #
-                     <% ear_adv_score_color = week_two.ear_advantage_score.to_f < 0 ? "lightblue" : week_two.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %> #
+                      <% ear_adv_color = week_two.ear_advantage == "Left" ? "lightblue" : week_two.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
+                     <% ear_adv_score_color = week_two.ear_advantage_score.to_f < 0 ? "lightblue" : week_two.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
                   <tr>
-                    <td><%= week_two.id %></td>
+                    <td style ="text-align: center;"><%= week_two.id %></td>
                     <td><%= week_two.test_type %></td>
                     <td><%= week_two.left_ear_decibel %></td>
                     <td><%= week_two.right_ear_decibel %></td>
                     <td style = "background-color: lightblue;"><%= "#{(week_two.left_score.presence || 0.0)}%" %></td>
                     <td style = "background-color: lightpink;"><%= "#{(week_two.right_score.presence || 0.0)}%" %></td>
                     <td style = "background-color: <%= ear_adv_color %>;"><%= week_two.ear_advantage %></td>
-                    <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_two.ear_advantage_score || 0.0)}%" %></td> #
+                    <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_two.ear_advantage_score || 0.0)}%" %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -305,7 +307,7 @@
               </td>
                 <% word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
                 word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f %>
-                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %> #
+                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %>
                 <td style="background-color: <%= earadv_avg_color %>;">
                 <%= "#{word_earadv_avg.round(2)}%" %>
                 </td>
@@ -332,7 +334,7 @@
               <% digit_tests = @client.week_twos.select { |week_two| week_two.test_type == 'RDDT'} %>
               <% digit_tests.each do |week_two| %>
               <tr>
-              <td><%= week_two.id %></td>
+              <td style ="text-align: center;"><%= week_two.id %></td>
               <td><%= week_two.test_type %></td>
               <td><%= week_two.left_ear_decibel %></td>
               <td><%= week_two.right_ear_decibel %></td>
@@ -388,26 +390,29 @@
         </td>
           <% digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
           digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f %>
-          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %> #
+          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %>
           <td style="background-color: <%= earadv_avg_color %>;">
           <%= "#{digit_earadv_avg.round(2)}%" %>
           </td>
         </tr>
         </tfoot>
         </table>
+        <div class="pos-button">
+          <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn-1 btn-anim1" %>
+        </div>
       </div>
-  <% end %>
+    <% end %>
       <% elsif @week_number == 3 %>
         <% if @client.week_twos.empty? %>
           <div>
-            <h2>Please Complete the Previous Training to Continue</h2>
+            <h3>Please Complete the Previous Training to Continue</h3>
           </div>
         <% elsif @client.week_threes.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-              <%= link_to "Start Training",  week_three_test_one_client_week_threes_path(@client), class: "btn btn-primary"%>
-            <div>
+            <div class="pos-button">
+              <%= link_to "Start Training",  week_three_test_one_client_week_threes_path(@client), class: "btn-1 btn-anim1" %>
+            </div>
           </div>
         <% else %>
           <div class="summary">
@@ -430,17 +435,17 @@
               <tbody>
                   <% word_tests = @client.week_ones.select { |week_three| week_three.test_type != 'RDDT'} %>
                   <% word_tests.each do |week_three| %>
-                    <% ear_adv_color = week_three.ear_advantage == "Left" ? "lightblue" : week_three.ear_advantage == "Right" ? "lightpink" : 'transparent' %> #
-                     <% ear_adv_score_color = week_three.ear_advantage_score.to_f < 0 ? "lightblue" : week_three.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %> #
+                    <% ear_adv_color = week_three.ear_advantage == "Left" ? "lightblue" : week_three.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
+                     <% ear_adv_score_color = week_three.ear_advantage_score.to_f < 0 ? "lightblue" : week_three.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
                   <tr>
-                    <td><%= week_three.id %></td>
+                    <td style ="text-align: center;"><%= week_three.id %></td>
                     <td><%= week_three.test_type %></td>
                     <td><%= week_three.left_ear_decibel %></td>
                     <td><%= week_three.right_ear_decibel %></td>
-                    <td style = "background-color: lightblue;"><%= "#{(week_three.left_score.presence || 0.0)}%" %></td> #
-                    <td style = "background-color: lightpink;"><%= "#{(week_three.right_score.presence || 0.0)}%" %></td> #
-                    <td style = "background-color: <%= ear_adv_color %>;"><%= week_three.ear_advantage %></td> #
-                    <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_three.ear_advantage_score || 0.0)}%" %></td> #
+                    <td style = "background-color: lightblue;"><%= "#{(week_three.left_score.presence || 0.0)}%" %></td>
+                    <td style = "background-color: lightpink;"><%= "#{(week_three.right_score.presence || 0.0)}%" %></td>
+                    <td style = "background-color: <%= ear_adv_color %>;"><%= week_three.ear_advantage %></td>
+                    <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_three.ear_advantage_score || 0.0)}%" %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -489,7 +494,7 @@
               </td>
                 <% word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
                 word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f %>
-                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %> #
+                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %>
                 <td style="background-color: <%= earadv_avg_color %>;">
                 <%= "#{word_earadv_avg.round(2)}%" %>
                 </td>
@@ -515,17 +520,17 @@
           <tbody>
               <% digit_tests = @client.week_threes.select { |week_three| week_three.test_type == 'RDDT'} %>
               <% digit_tests.each do |week_three| %>
-                      <% ear_adv_color = week_three.ear_advantage == "Left" ? "lightblue" : week_three.ear_advantage == "Right" ? "lightpink" : 'transparent' %> #
-                     <% ear_adv_score_color = week_three.ear_advantage_score.to_f < 0 ? "lightblue" : week_three.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %> #
+                      <% ear_adv_color = week_three.ear_advantage == "Left" ? "lightblue" : week_three.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
+                     <% ear_adv_score_color = week_three.ear_advantage_score.to_f < 0 ? "lightblue" : week_three.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
               <tr>
-              <td><%= week_three.id %></td>
+              <td style ="text-align: center;"><%= week_three.id %></td>
               <td><%= week_three.test_type %></td>
               <td><%= week_three.left_ear_decibel %></td>
               <td><%= week_three.right_ear_decibel %></td>
-              <td style = "background-color: lightblue;"><%= "#{(week_three.left_score.presence || 0.0)}%" %></td> #
-              <td style = "background-color: lightpink;"><%= "#{(week_three.right_score.presence || 0.0)}%" %></td> #
-              <td style = "background-color: <%= ear_adv_color %>;"><%= week_three.ear_advantage %></td> #
-              <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_three.ear_advantage_score || 0.0)}%" %></td> #
+              <td style = "background-color: lightblue;"><%= "#{(week_three.left_score.presence || 0.0)}%" %></td>
+              <td style = "background-color: lightpink;"><%= "#{(week_three.right_score.presence || 0.0)}%" %></td>
+              <td style = "background-color: <%= ear_adv_color %>;"><%= week_three.ear_advantage %></td>
+              <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_three.ear_advantage_score || 0.0)}%" %></td>
               </tr>
             <% end %>
           </tbody>
@@ -544,16 +549,16 @@
               digit_dec_right_avg.round(2)
               %>
           </td>
-          <td style = "background-color: lightblue;"> #
+          <td style = "background-color: lightblue;">
           <%= digit_left_scores = digit_tests.map(&:left_score).compact
               digit_left_avg = digit_left_scores.sum / digit_left_scores.size.to_f
-              "#{digit_left_avg.round(2)}%" #
+              "#{digit_left_avg.round(2)}%"
               %>
           </td>
           <td>
           <%= digit_right_scores = digit_tests.map(&:right_score).compact
           digit_right_avg = digit_right_scores.sum / digit_right_scores.size.to_f
-          "#{digit_right_avg.round(2)}%" #
+          "#{digit_right_avg.round(2)}%"
           %>
           </td>
           <% 
@@ -574,26 +579,29 @@
         </td>
           <% digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
           digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f %>
-          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %> #
+          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %>
           <td style="background-color: <%= earadv_avg_color %>;">
           <%= "#{digit_earadv_avg.round(2)}%" %>
           </td>
         </tr>
         </tfoot>
         </table>
+        <div class="pos-button">
+          <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn-1 btn-anim1" %>
+        </div>
       </div>
         <% end %>
       <% elsif @week_number == 4 %>
         <% if @client.week_threes.empty? %>
           <div>
-            <h2>Please Complete the Previous Training to Continue</h2>
+            <h3>Please Complete the Previous Training to Continue</h3>
           </div>
         <% elsif @client.week_fours.empty? %>
           <div class="training-button">
             <h3>Complete Training Below To View Summary</h3>
-            <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-              <%= link_to "Start Training",  week_four_test_one_client_week_fours_path(@client), class: "btn btn-primary"%>
-            <div>
+            <div class="pos-button">
+              <%= link_to "Start Training",  week_four_test_one_client_week_fours_path(@client), class: "btn-1 btn-anim1" %>
+            </div>
           </div>
         <% else %>
           <div class="summary">
@@ -616,17 +624,17 @@
               <tbody>
                   <% word_tests = @client.week_fours.select { |week_four| week_four.test_type != 'RDDT'} %>
                   <% word_tests.each do |week_four| %>
-                      <% ear_adv_color = week_four.ear_advantage == "Left" ? "lightblue" : week_four.ear_advantage == "Right" ? "lightpink" : 'transparent' %> #
-                     <% ear_adv_score_color = week_four.ear_advantage_score.to_f < 0 ? "lightblue" : week_four.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %> #
+                      <% ear_adv_color = week_four.ear_advantage == "Left" ? "lightblue" : week_four.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
+                     <% ear_adv_score_color = week_four.ear_advantage_score.to_f < 0 ? "lightblue" : week_four.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
                   <tr>
-                    <td><%= week_four.id %></td>
+                    <td style ="text-align: center;"><%= week_four.id %></td>
                     <td><%= week_four.test_type %></td>
                     <td><%= week_four.left_ear_decibel %></td>
                     <td><%= week_four.right_ear_decibel %></td>
-                    <td style = "background-color: lightblue;"><%= "#{(week_four.left_score.presence || 0.0)}%" %></td> #
-                    <td style = "background-color: lightpink;"><%= "#{(week_four.right_score.presence || 0.0)}%" %></td> #
-                    <td style = "background-color: <%= ear_adv_color %>;"><%= week_four.ear_advantage %></td> #
-                    <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_four.ear_advantage_score || 0.0)}%" %></td> #
+                    <td style = "background-color: lightblue;"><%= "#{(week_four.left_score.presence || 0.0)}%" %></td>
+                    <td style = "background-color: lightpink;"><%= "#{(week_four.right_score.presence || 0.0)}%" %></td>
+                    <td style = "background-color: <%= ear_adv_color %>;"><%= week_four.ear_advantage %></td>
+                    <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_four.ear_advantage_score || 0.0)}%" %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -675,7 +683,7 @@
               </td>
                 <% word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
                 word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f %>
-                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %> #
+                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %>
                 <td style="background-color: <%= earadv_avg_color %>;">
                 <%= "#{word_earadv_avg.round(2)}%" %>
                 </td>
@@ -701,17 +709,17 @@
           <tbody>
               <% digit_tests = @client.week_fours.select { |week_four| week_four.test_type == 'RDDT'} %>
               <% digit_tests.each do |week_four| %>
-                      <% ear_adv_color = week_four.ear_advantage == "Left" ? "lightblue" : week_four.ear_advantage == "Right" ? "lightpink" : 'transparent' %> #
-                     <% ear_adv_score_color = week_four.ear_advantage_score.to_f < 0 ? "lightblue" : week_four.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %> #
+                      <% ear_adv_color = week_four.ear_advantage == "Left" ? "lightblue" : week_four.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
+                     <% ear_adv_score_color = week_four.ear_advantage_score.to_f < 0 ? "lightblue" : week_four.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
               <tr>
-              <td><%= week_four.id %></td>
+              <td style ="text-align: center;"><%= week_four.id %></td>
               <td><%= week_four.test_type %></td>
               <td><%= week_four.left_ear_decibel %></td>
               <td><%= week_four.right_ear_decibel %></td>
-              <td style = "background-color: lightblue;"><%= "#{(week_four.left_score.presence || 0.0)}%" %></td> #
-              <td style = "background-color: lightpink;"><%= "#{(week_four.right_score.presence || 0.0)}%" %></td> #
-              <td style = "background-color: <%= ear_adv_color %>;"><%= week_four.ear_advantage %></td> #
-              <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_four.ear_advantage_score || 0.0)}%" %></td> #
+              <td style = "background-color: lightblue;"><%= "#{(week_four.left_score.presence || 0.0)}%" %></td>
+              <td style = "background-color: lightpink;"><%= "#{(week_four.right_score.presence || 0.0)}%" %></td>
+              <td style = "background-color: <%= ear_adv_color %>;"><%= week_four.ear_advantage %></td>
+              <td style = "background-color: <%= ear_adv_score_color %>;"><%= "#{(week_four.ear_advantage_score || 0.0)}%" %></td>
               </tr>
             <% end %>
           </tbody>
@@ -730,16 +738,16 @@
               digit_dec_right_avg.round(2)
               %>
           </td>
-          <td style = "background-color: lightblue;"> #
+          <td style = "background-color: lightblue;">
           <%= digit_left_scores = digit_tests.map(&:left_score).compact
               digit_left_avg = digit_left_scores.sum / digit_left_scores.size.to_f
-              "#{digit_left_avg.round(2)}%" #
+              "#{digit_left_avg.round(2)}%"
               %>
           </td>
-          <td style = "background-color: lightpink;"> # 
+          <td style = "background-color: lightpink;">
           <%= digit_right_scores = digit_tests.map(&:right_score).compact
           digit_right_avg = digit_right_scores.sum / digit_right_scores.size.to_f
-          "#{digit_right_avg.round(2)}%" #
+          "#{digit_right_avg.round(2)}%"
           %>
           </td>
           <% 
@@ -760,20 +768,19 @@
         </td>
           <% digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
           digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f %>
-          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %> #
+          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %>
           <td style="background-color: <%= earadv_avg_color %>;">
           <%= "#{digit_earadv_avg.round(2)}%" %>
           </td>
         </tr>
         </tfoot>
         </table>
-      </div>
-  
-        <% end %>
-      <% end %>
-      <div style="display: flex; justify-content: center; max-width: 200px; margin: 0 auto;">
-        <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn btn-primary" %>
-      </div>
+        <div class="pos-button">
+          <%= link_to "Export to Excel", trainings_export_path(@client), class: "btn-1 btn-anim1" %>
         </div>
+      </div>
+        <% end %>
+        <% end %>
+    </div>
   </div>
 </body>

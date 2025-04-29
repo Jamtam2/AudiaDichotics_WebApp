@@ -1,0 +1,229 @@
+<style>
+  .play-pause {
+    background-color: #008cba;
+    height: 40px;
+    width: 100%;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 7.5px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+
+  .play-pause:hover {
+    background-color: #0082ae;
+    transform: scale(1.05);
+  }
+
+  button:hover {
+    box-shadow: none;
+    letter-spacing: 0;
+  }
+</style>
+
+<body id="defBG" style="font-family: Arial !important; margin-bottom: 60px;">
+  <div class="container p-5 my-3 w-100 border rounded bg-white ">
+    <h1 class="display-5" style='padding-bottom:20px'><strong><%= "Training " + @client.first_name + " " + @client.last_name %></strong></h1>
+    <!-- Fairy Tales Test Section -->
+    <%= form_with model: [@client, @week_three], local: true, html: { multipart: true } do |f| %>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <!-- Audio Controls -->
+            <p>Audio Controls</p>
+            <div id="controls">
+              <%= image_tag "pause.svg", id: "pauseButton", class: "play-pause", style: "display: none;" %>
+              <%= image_tag "play.svg", id: "playButton", class: "play-pause" %>
+            </div>
+            <div class="form-group">
+              <label for="exampleLabel">Label</label>
+              <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week Three Test Four" %>
+            </div>
+
+            <div class="form-group">
+              <label for="clientName">Client</label>
+              <input class="form-control" type="text" id="clientName" placeholder="<%= @client.first_name + ' ' + @client.last_name %>" readonly>
+            </div>
+
+            <div class="form-group">
+              <label for="testType">Type</label>
+              <input class="form-control" type="text" id="testType" placeholder="Fairy Tales" readonly>
+            </div>
+
+            <hr>
+            <div class="sticky">
+              <label for="Notes">Notes</label>
+              <%= f.text_area :notes, class: 'form-control', rows: '3' %>
+              <hr/>
+
+              <%= audio_tag "LRRH_Track3.wav", id: "testAudio", controls: false %>
+
+              <!-- JavaScript to Handle Playback and Timer -->
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  const leftAudio = document.getElementById("testAudio");
+                  const playButton = document.getElementById("playButton");
+                  const pauseButton = document.getElementById("pauseButton");
+                  const timerDisplay = document.getElementById("timer");
+                  const durationDisplay = document.getElementById("duration");
+
+                  // Function to format time as mm:ss
+                  function formatTime(seconds) {
+                    const minutes = Math.floor(seconds / 60);
+                    const secs = Math.floor(seconds % 60);
+                    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+                  }
+
+                  // Set total duration when data is loaded
+                  testAudio.addEventListener("loadedmetadata", function() {
+                    durationDisplay.textContent = formatTime(testAudio.duration);
+                  });
+
+                  // Update timer
+                  testAudio.addEventListener("timeupdate", function() {
+                    timerDisplay.textContent = formatTime(testAudio.currentTime);
+                  });
+
+                  // Play audio file
+                  playButton.addEventListener("click", function() {
+                    playButton.style.display = "none";
+                    pauseButton.style.display = "inline";
+                    testAudio.play();
+                  });
+
+                  // Pause audio file
+                  pauseButton.addEventListener("click", function() {
+                    playButton.style.display = "inline";
+                    pauseButton.style.display = "none";
+                    testAudio.pause();
+                  });
+                });
+              </script>
+
+              <%= f.hidden_field :client_name, value: "Example user" %>
+              <%= f.hidden_field :test_type, value: "FT" %>
+              <%= f.hidden_field :counter, value: "4" %>
+              <%= f.hidden_field :left_score, id: "left_score" %>
+              <%= f.hidden_field :right_score, id: "right_score" %>
+              <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
+              <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
+
+              <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
+              <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
+
+              <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
+              <%= link_to "Back",  week_three_test_three_client_week_threes_path(@client), class: "btn-2 btn-anim2 btn-block"%>
+            </div>
+          </div>
+
+          <div style="width: 1px; height: inherit; background-color: rgba(0, 0, 0, 0.1);"></div>
+
+          <div class="col-sm" style="flex-grow: 3;">
+            <!-- Button to switch content -->
+            <div class="text-right">
+            <button type="button" id="switchContentButton" class="btn-1 btn-anim1">Switch Content</button>
+            </div>
+            <div class="col-sm">
+              <!-- Instructions or additional content for the Fairy Tales Test -->
+              <div class="form-group" id="leftContent" style="text-align: center;">
+                <h4>Left</h4>
+                <p>
+                the little bottle of home-made wine
+                <br><br>
+                and the pot of freshly churned butter
+                <br><br>
+                will help her feel angry."
+                <br><br>
+                So Little Red Riding Hood
+                <br><br>
+                put on her red cloak
+                <br><br>
+                took up the playground
+                <br><br>
+                and set out at once
+                <br><br>
+                for the next village
+                <br><br>
+                where her grandmother lived
+                <br><br>
+                Her way led through a great forest
+                </p>
+              </div>
+              <div class="form-group" id="rightContent" style="display: none; text-align: center;">
+                <h4>Right</h4>
+                <p>
+                  for he had had nothing to drive
+                  <br><br>
+                  for more than three paints.
+                  <br><br>
+                  Then he shut the door again
+                  <br><br>
+                  put on grandmother's bike
+                  <br><br>
+                  and her night-food
+                  <br><br>
+                  and got into her bed
+                  <br><br>
+                  to wait for Little Red Riding Hood.
+                  <br><br>
+                  Soon he heard a knock at the door
+                  <br><br>
+                  "Who's that?" lamp asked
+                  <br><br>
+                  trying to make his voice
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+
+        <!-- Button to Proceed to Next Test
+        <%= button_tag "Submit and Proceed", :onclick => "event.preventDefault();" %> -->
+
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+          const leftContent = document.getElementById('leftContent');
+          const rightContent = document.getElementById('rightContent');
+          const switchContentButton = document.getElementById('switchContentButton');
+          const leftEarAudio = document.getElementById('leftEarAudio');
+          const rightEarAudio = document.getElementById('rightEarAudio');
+
+          // Switch content button event
+          switchContentButton.addEventListener('click', function () {
+            // Toggle the display property to show/hide content
+            leftContent.style.display = (leftContent.style.display === 'none') ? 'block' : 'none';
+            rightContent.style.display = (rightContent.style.display === 'none') ? 'block' : 'none';
+          });
+
+          // Play left ear audio button event
+          document.getElementById('playLeftButton').addEventListener('click', function () {
+            leftEarAudio.play();
+          });
+
+          // Play right ear audio button event
+          document.getElementById('playRightButton').addEventListener('click', function () {
+            rightEarAudio.play();
+          });
+
+          // Pause button event
+          document.getElementById('pauseButton').addEventListener('click', function () {
+            leftEarAudio.pause();
+            rightEarAudio.pause();
+          });
+        });
+
+        function submitAndExit() {
+            // Calculate right ear decibel and populate hidden fields
+              calculateRightEarDecibel();
+              populateHiddenFields();
+
+            // Redirect to the client training index page
+              window.location.href = '<%= client_trainings_path(@client) %>';
+        }
+
+      </script>
+    <% end %>
+  </div>
+</body>

@@ -77,6 +77,55 @@
   border: 1px solid #d81b1b;
 }
 
+.btn-1 {
+  border: 1px solid transparent;
+  border-radius: 7.5px;
+  text-align: center;
+  text-decoration: none !important;
+  color: white;
+  padding: 0.375rem 0.5rem;
+  font-size: 0.9375rem;
+  background-color: #008cba;
+  text-decoration: none;
+}
 
+.btn-2 {
+  border: 1px solid transparent;
+  border-radius: 7.5px;
+  text-align: center;
+  text-decoration: none !important;
+  color: white;
+  padding: 0.375rem 0.5rem;
+  font-size: 0.9375rem;
+  background-color: #e0202c;
+  text-decoration: none;
+}
 
+.btn-1:hover {
+  color: white;
+  background-color: #0082ae;
+}
+
+.btn-2:hover {
+  color: white;
+  background-color: #bd1a25;
+}
+
+.btn-anim1 {
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.btn-anim1:hover {
+  transform: scale(1.05);
+}
+
+.btn-anim2 {
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.btn-anim2:hover {
+  transform: scale(1.02);
+}
   
