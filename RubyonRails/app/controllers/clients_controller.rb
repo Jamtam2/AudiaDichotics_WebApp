@@ -122,6 +122,26 @@ class ClientsController < ApplicationController
                client.rddt_tests.unscoped.load
              end
 
+             # repeat this for DNW and RDDT
+             client.dwt_tests.each do |test|
+              class << test
+                attr_accessor :unique_id
+              end
+              test.unique_id = "t" + client.tenant_id.to_s + "_u" + test.user_id.to_s
+             end
+             client.dnw_tests.each do |test|
+              class << test
+                attr_accessor :unique_id
+              end
+              test.unique_id = "t" + client.tenant_id.to_s + "_u" + test.user_id.to_s
+             end
+             client.rddt_tests.each do |test|
+              class << test
+                attr_accessor :unique_id
+              end
+              test.unique_id = "t" + client.tenant_id.to_s + "_u" + test.user_id.to_s
+             end
+
          end
          # @q = @clients.ransack(params[:q])
      # Include associated tests to avoid N+1 query problems
