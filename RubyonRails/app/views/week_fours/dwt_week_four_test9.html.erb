@@ -1,4 +1,3 @@
-
 <!--Test page for DWT List 1 Contains everything for completing and submitting a test  -->
 <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
@@ -89,7 +88,7 @@
             </div>
             <div class="form-group">
               <label for="exampleLabel">Label</label>
-              <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week Four Test One" %>
+              <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week Four Test Nine" %>
             </div>
             <div class="form-group">
               <label for="clientName">Client</label>
@@ -106,7 +105,7 @@
               <hr>
               <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
               <!-- ALLEARS Edited by Layton, removed default controls and added ids for easier access across javascript, html, and so-->
-              <%= audio_tag "Dichotic Words Track 10_R.wav", id: "testAudio", controls: false %>
+              <%= audio_tag "Dichotic Words Track 9_R.wav", id: "testAudio", controls: false %>
 
               <!-- JavaScript to Handle Playback and Timer -->
               <script>
@@ -190,30 +189,30 @@
               </thead>
               <tbody>
                 <!-- Loop for table of words and creation of all buttons, only loops 20 times and creates table for buttons-->
-                <!--Track 10-->
+                <!--Track 9-->
                 <% 20.times do |i| %>
                   <% words = [
-                    ["Hurt", "Book"],
-                    ["Skin", "Leave"],
-                    ["Thing", "Bells"],
-                    ["Dad", "Wire"],
-                    ["Your", "White"],
-                    ["Bin", "Had/Have"],
-                    ["Then", "Yet"],
-                    ["Gave", "Ditch"],
-                    ["Bring", "Farm"],
-                    ["Send", "Rooms"],
-                    ["Tier", "Cap"],
-                    ["Vine", "With"],
-                    ["Young", "Does"],
-                    ["Tag", "Ton"],
-                    ["Cars", "Dolls"],
-                    ["Will", "That"],
-                    ["Ham", "Jar"],
-                    ["Thin", "Pale"],
-                    ["Flat", "Can"],
-                    ["Cute", "Wood"]
-                    ] %>
+                    ["Yard", "Them"],
+                    ["Dumb", "Car/Carve"],
+                    ["Felt", "What"],
+                    ["Smart", "Stove"],
+                    ["Hunt", "Done"],
+                    ["Shove", "Ran"],
+                    ["Knees", "Close"],
+                    ["Mood", "Not"],
+                    ["Chest", "Star"],
+                    ["Comb", "Wet"],
+                    ["Nuts", "Hit"],
+                    ["What", "Kill"],
+                    ["Bread", "Give"],
+                    ["Move", "Twins"],
+                    ["Could", "Near"],
+                    ["Deaf", "Ton"],
+                    ["Dime", "Tare"],
+                    ["None", "Jam"],
+                    ["Poor", "Men"],
+                    ["Him", "Book"]
+                  ] %>
                   <tr>
                     <td><%= i + 1 %></td>
                     <td>
@@ -238,7 +237,7 @@
 
             <%= f.hidden_field :client_name, value: "Example user" %>
             <%= f.hidden_field :test_type, value: "DWT" %>
-            <%= f.hidden_field :counter, value: "1" %>
+            <%= f.hidden_field :counter, value: "9" %>
             <%= f.hidden_field :left_score, id: "left_score" %>
             <%= f.hidden_field :right_score, id: "right_score" %>
             <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
@@ -251,6 +250,7 @@
 
             <!-- <%= f.submit "Submit", class: "btn btn-primary btn-block", onclick: "populateHiddenFields()" %> -->
             <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
+            <%= link_to "Back",  week_four_test_eight_client_week_fours_path(@client), class: "btn-2 btn-anim2 btn-block"%>
         </div>
         <script>
 

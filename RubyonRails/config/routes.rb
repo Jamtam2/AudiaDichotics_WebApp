@@ -94,6 +94,7 @@ Rails.application.routes.draw do
   get 'clients/:client_id/week_ones/rest_break_week_one', to: 'week_ones#rest_break_week_one', as: 'rest_break_week_one_client_week_ones'
   get 'clients/:client_id/week_twos/rest_break_week_two', to: 'week_twos#rest_break_week_two', as: 'rest_break_week_two_client_week_twos'
   get 'clients/:client_id/week_threes/rest_break_week_three', to: 'week_threes#rest_break_week_three', as: 'rest_break_week_three_client_week_threes'
+  get 'clients/:client_id/week_fours/rest_break_week_four', to: 'week_fours#rest_break_week_four', as: 'rest_break_week_four_client_week_fours'
   resources :clients do
     resources :emergency_contacts, only: [:create, :destroy, :new, :edit, :update]
     resources :trainings do
@@ -161,10 +162,12 @@ Rails.application.routes.draw do
         get 'rddt_week_four_test3', to: 'week_fours#rddt_week_four_test3', as: 'week_four_test_three'
         get 'tales_week_four_test4', to: 'week_fours#tales_week_four_test4', as: 'week_four_test_four'
         get 'tales_week_four_test5', to: 'week_fours#tales_week_four_test5', as: 'week_four_test_five'
-        get 'dnw_week_four_test6', to: 'week_fours#dnw_week_four_test6', as: 'week_four_test_six'
-        get 'dwt_week_four_test7', to: 'week_fours#dwt_week_four_test7', as: 'week_four_test_seven'
-        get 'dwt_week_four_test8', to: 'week_fours#dwt_week_four_test8', as: 'week_four_test_eight'
-        get 'rddt_week_four_test9', to: 'week_fours#rddt_week_four_test9', as: 'week_four_test_nine'
+        get 'tales_week_four_test6', to: 'week_fours#tales_week_four_test6', as: 'week_four_test_six'
+        get 'tales_week_four_test7', to: 'week_fours#tales_week_four_test7', as: 'week_four_test_seven'
+        get 'dnw_week_four_test8', to: 'week_fours#dnw_week_four_test8', as: 'week_four_test_eight'
+        get 'dwt_week_four_test9', to: 'week_fours#dwt_week_four_test9', as: 'week_four_test_nine'
+        get 'dwt_week_four_test10', to: 'week_fours#dwt_week_four_test10', as: 'week_four_test_ten'
+        get 'rddt_week_four_test11', to: 'week_fours#rddt_week_four_test11', as: 'week_four_test_eleven'
         get 'week_four_summary', to: 'week_fours#week_four_summary', as: 'week_four_summary'
         get 'week_fours/:id', to: 'week_fours#show', as: 'show'
       end

@@ -91,7 +91,7 @@
             </div>
             <div class="form-group">
               <label for="exampleLabel">Label</label>
-              <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week Four Test Three" %>
+              <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week Four Test Eleven" %>
             </div>
             <div class="form-group">
               <label for="clientName">Client</label>
@@ -205,31 +205,31 @@
                 <!-- Loop for table of numbers and creation of all buttons, only loops 54 times and creates table for buttons-->
                 <% 25.times do |i| %>
                   <% nums = [
-                    [[4,3],[1,6]],
-                    [[3,1],[9,10]],
-                    [[9,6],[1,5]],
-                    [[2,10],[6,8]],
-                    [[4,8],[6,8]],
-                    [[9,1],[8,6]],
-                    [[2,4],[9,10]],
-                    [[1,9],[8,6]],
-                    [[2,4],[3,9]],
-                    [[1,4],[10,5]],
-                    [[2,5],[1,3]],
-                    [[4,5],[2,6]],
-                    [[3,10],[5,6]],
-                    [[4,1],[9,5]],
-                    [[4,5],[3,8]],
-                    [[9,5],[4,1]],
-                    [[4,5],[10,2]],
-                    [[9,8],[3,4]],
-                    [[9,10],[8,5]],
-                    [[8,6],[4,1]],
-                    [[6,8],[10,2]],
-                    [[9,1],[2,8]],
-                    [[6,9],[3,1]],
-                    [[1,2],[3,9]],
-                    [[5,3],[2,1]]
+                    [[10,3],[2,9]],
+                    [[10,6],[3,8]],
+                    [[10,8],[5,1]],
+                    [[6,9],[5,8]],
+                    [[1,3],[2,5]],
+                    [[5,2],[10,1]],
+                    [[3,5],[6,9]],
+                    [[8,10],[9,1]],
+                    [[4,6],[5,2]],
+                    [[10,8],[4,5]],
+                    [[4,9],[8,2]],
+                    [[5,10],[9,2]],
+                    [[1,10],[9,3]],
+                    [[5,2],[3,8]],
+                    [[10,4],[8,1]],
+                    [[6,2],[8,10]],
+                    [[8,4],[5,3]],
+                    [[3,4],[1,2]],
+                    [[3,9],[4,5]],
+                    [[9,3],[5,4]],
+                    [[10,2],[6,4]],
+                    [[8,6],[10,4]],
+                    [[5,10],[6,4]],
+                    [[3,2],[10,6]],
+                    [[10,9],[1,3]]
                   ] %>
                   <tr>
                     <td><%= i + 1 %></td>
@@ -268,7 +268,7 @@
 
             <%= f.hidden_field :client_name, value: "Example user" %>
             <%= f.hidden_field :test_type, value: "RDDT" %>
-            <%= f.hidden_field :counter, value: "3" %>
+            <%= f.hidden_field :counter, value: "11" %>
             <%= f.hidden_field :left_score2, id: "left_score" %>
             <%= f.hidden_field :right_score2, id: "right_score" %>
             <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
@@ -280,7 +280,7 @@
             <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
 
             <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
-            <%= link_to "Back", week_four_test_two_client_week_fours_path(@client), class: "btn-2 btn-anim2 btn-block" %>
+            <%= link_to "Back", week_four_test_ten_client_week_fours_path(@client), class: "btn-2 btn-anim2 btn-block" %>
           </div>
 
           <script>
