@@ -190,7 +190,7 @@
                 const leftScoreId = 'column1Group1-percent';
                 const rightScoreId = 'column2Group1-percent';
                 const advDisplayId = 'Group1advantage-Diff';
-                const advInputId = 'read-Only';
+                const advInputId = 'advantage-Name';
                 const advCellSelector = '.ear-advantage';
 
                 // Initialize left and right
@@ -250,8 +250,8 @@
                 </tbody>
               </table>
               <!--Table for ear advantage that is calculated in the script and ear diagnosis/interpretation-->
-              <label for="read-Only">Ear Advantage</label>
-              <input class="form-control" type="text" id="read-Only" value="" readonly>
+              <label for="advantage-Name">Ear Advantage</label>
+              <input class="form-control" type="text" id="advantage-Name" value="" readonly>
               <span hidden id="advantage-Name"></span>
             </div>
           </div>
@@ -334,8 +334,8 @@
             <%= f.hidden_field :client_name, value: "Example user" %>
             <%= f.hidden_field :test_type, value: "RDDT" %>
             <%= f.hidden_field :counter, value: "1" %>
-            <%= f.hidden_field :left_score2, id: "left_score" %>
-            <%= f.hidden_field :right_score2, id: "right_score" %>
+            <%= f.hidden_field :left_score, id: "left_score" %>
+            <%= f.hidden_field :right_score, id: "right_score" %>
             <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
             <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
 
@@ -344,7 +344,7 @@
             <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
             <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
 
-            <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
+            <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "populateHiddenFields();" %>
           </div>
 
           <script>
@@ -365,19 +365,26 @@
 
             // gets the elements from hidden field submit above and populates them from the results in the script
             function populateHiddenFields() {
-              document.getElementById("left_score").value = document.getElementById("column1Group2-percent").innerText;
-              document.getElementById("right_score").value = document.getElementById("column2Group2-percent").innerText;
-              document.getElementById("ear_advantage").value = document.getElementById("advantage-Name").innerText;
-              document.getElementById("ear_advantage_score").value = document.getElementById("Group2advantage-Diff").innerText;
+              document.getElementById("left_score").value = document.getElementById("column1Group1-percent").innerText;
+              document.getElementById("right_score").value = document.getElementById("column2Group1-percent").innerText;
+              document.getElementById("ear_advantage").value = document.getElementById("advantage-Name").value;
+              document.getElementById("ear_advantage_score").value = document.getElementById("Group1advantage-Diff").innerText;
             }
+            document.addEventListener("DOMContentLoaded", function () {
+              const form = document.querySelector("form");
+              if (form) {
+                form.addEventListener("submit", function (event) {
+                  populateHiddenFields();
+                });
+              }
+            });
 
             function submitAndExit() {
-              // Calculate right ear decibel and populate hidden fields
-                calculateRightEarDecibel();
                 populateHiddenFields();
 
-              // Redirect to the client training index page
-                window.location.href = '<%= client_trainings_path(@client) %>';
+                setTimeout(() => {
+                  document.querySelector("form").submit();
+                }, 100); // slight delay to ensure values get filled in
             }
 
           </script>
