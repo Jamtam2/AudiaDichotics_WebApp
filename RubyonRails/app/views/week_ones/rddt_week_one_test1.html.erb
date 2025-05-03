@@ -1,5 +1,3 @@
-
-
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <!-- Include jQuery -->
@@ -157,12 +155,86 @@
                 });
               </script>
 
+              <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                function setupEarTracking({
+                  checkboxSelector,
+                  displayId,
+                  side
+                }) {
+                  const scoreDisplay = document.getElementById(displayId);
+                  const checkboxes = document.querySelectorAll(checkboxSelector);
+                  const total = checkboxes.length;
+                  const checkedSet = new Set();
+
+                  checkboxes.forEach((checkbox, index) => {
+                    checkbox.addEventListener('change', function () {
+                      const key = `${side}-${index}`; // uniquely identifies each checkbox per side
+
+                      if (checkbox.checked) {
+                        checkedSet.add(key);
+                      } else {
+                        checkedSet.delete(key);
+                      }
+
+                      const percent = Math.round((checkedSet.size / total) * 100);
+                      scoreDisplay.innerText = percent;
+
+                      updateEarAdvantage(); // Recalculate advantage on every change
+                    });
+                  });
+
+                  return () => checkedSet.size;
+                }
+
+                const leftScoreId = 'column1Group1-percent';
+                const rightScoreId = 'column2Group1-percent';
+                const advDisplayId = 'Group1advantage-Diff';
+                const advInputId = 'read-Only';
+                const advCellSelector = '.ear-advantage';
+
+                // Initialize left and right
+                let getLeftCount = setupEarTracking({
+                  checkboxSelector: 'input[name^="column1"]',
+                  displayId: leftScoreId,
+                  side: 'left'
+                });
+
+                let getRightCount = setupEarTracking({
+                  checkboxSelector: 'input[name^="column2"]',
+                  displayId: rightScoreId,
+                  side: 'right'
+                });
+
+                function updateEarAdvantage() {
+                  const leftVal = parseInt(document.getElementById(leftScoreId).innerText) || 0;
+                  const rightVal = parseInt(document.getElementById(rightScoreId).innerText) || 0;
+                  const diff = rightVal - leftVal;
+
+                  const advDisplay = document.getElementById(advDisplayId);
+                  const advInput = document.getElementById(advInputId);
+                  const advCell = document.querySelector(advCellSelector);
+
+                  advDisplay.innerText = Math.abs(diff);
+                  advInput.value = diff > 0 ? "Right" : diff < 0 ? "Left" : "None";
+
+                  // Set cell background based on advantage
+                  if (diff > 0) {
+                    advCell.style.backgroundColor = "#ffb6c1"; // light pink
+                  } else if (diff < 0) {
+                    advCell.style.backgroundColor = "#add8e6"; // light blue
+                  } else {
+                    advCell.style.backgroundColor = ""; // neutral
+                  }
+                }
+              });
+            </script>
+
 
               <p>Scores:</p>
               <table class="table table-sm table-bordered m1-4" style="max-width: 25rem;">
                 <thead>
                   <tr>
-                    <th scope="col">Pairs</th>
                     <th scope="col">Left</th>
                     <th scope="col">Right</th>
                     <th scope="col">Ear Adv</th>
@@ -170,22 +242,10 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">1</th>
                     <td class="left-column"><span id="column1Group1-percent">0</span>%</td>
                     <td class="right-column"><span id="column2Group1-percent">0</span>%</td>
                     <td class="ear-advantage"><span id="Group1advantage-Diff">0</span>%</td>
                   </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td class="left-column"><span id="column1Group2-percent">0</span>%</td>
-                    <td class="right-column"><span id="column2Group2-percent">0</span>%</td>
-                    <td class="ear-advantage"><span id="Group2advantage-Diff">0</span>%</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td class="left-column"><span id="column1Group3-percent">0</span>%</td>
-                    <td class="right-column"><span id="column2Group3-percent">0</span>%</td>
-                    <td class="ear-advantage"><span id="Group3advantage-Diff">0</span>%</td>
                   </tr>
                 </tbody>
               </table>
@@ -303,231 +363,13 @@
                 });
               });
 
-              //script completes all logic for calculating diagnosis and ear advantage values, It updates the percentages and lists the ear diag and advantage
-              // Get the toggle buttons and count elements
-              const column1ButtonsGroup1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']");
-              const column1ButtonsGroup2 = document.querySelectorAll(".column1Group2-button input[type='checkbox']");
-              const column1ButtonsGroup3 = document.querySelectorAll(".column1Group3-button input[type='checkbox']");
-              const column2ButtonsGroup1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']");
-              const column2ButtonsGroup2 = document.querySelectorAll(".column2Group2-button input[type='checkbox']");
-              const column2ButtonsGroup3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']");
-
-              const allButtons = document.querySelectorAll(".column1Group1-button input[type='checkbox'], .column1Group2-button input[type='checkbox'], .column1Group3-button input[type='checkbox'], .column2Group1-button input[type='checkbox'], .column2Group2-button input[type='checkbox'], .column2Group3-button input[type='checkbox']");
-
-              const column1Count = document.getElementById("column1-count");
-              const column2Count = document.getElementById("column2-count");
-
-              const column1Group1Percent = document.getElementById("column1Group1-percent");
-              const column1Group2Percent = document.getElementById("column1Group2-percent");
-              const column1Group3Percent = document.getElementById("column1Group3-percent");
-              const column2Group1Percent = document.getElementById("column2Group1-percent");
-              const column2Group2Percent = document.getElementById("column2Group2-percent");
-              const column2Group3Percent = document.getElementById("column2Group3-percent");
-
-
-              const advantageDiffGroup1 = document.getElementById("Group1advantage-Diff");
-              advantageDiffGroup1.innerText = group1Advantage.toString();
-
-              const advantageDiffGroup2 = document.getElementById("Group2advantage-Diff");
-              advantageDiffGroup2.innerText = group2Advantage.toString();
-
-              const advantageDiffGroup3 = document.getElementById("Group3advantage-Diff");
-              advantageDiffGroup3.innerText = group3Advantage.toString();
-
-
-
-              const advantageName = document.getElementById("advantage-Name");
-              const testDiagnosis = document.getElementById("Diagnosis");
-              const readOnly = document.getElementById("read-Only");
-              const readOnlyDiag = document.getElementById("read-Only-diag");
-
-
-
-              // Update the counts when a button is clicked
-
-              allButtons.forEach(function(button) {
-                button.addEventListener("click", function() {
-                const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
-                const checkedCount1Group2 = document.querySelectorAll(".column1Group2-button input[type='checkbox']:checked").length;
-                const checkedCount1Group3 = document.querySelectorAll(".column1Group3-button input[type='checkbox']:checked").length;
-                const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked").length;
-                const checkedCount2Group2 = document.querySelectorAll(".column2Group2-button input[type='checkbox']:checked").length;
-                const checkedCount2Group3 = document.querySelectorAll(".column2Group3-button input[type='checkbox']:checked").length;
-
-                const totalCountColumn1Group1 = column1ButtonsGroup1.length;
-                const totalCountColumn1Group2 = column1ButtonsGroup2.length;
-                const totalCountColumn1Group3 = column1ButtonsGroup3.length;
-                const totalCountColumn2Group1 = column2ButtonsGroup1.length;
-                const totalCountColumn2Group2 = column2ButtonsGroup2.length;
-                const totalCountColumn2Group3 = column2ButtonsGroup3.length;
-
-
-                const percentColumn1Group1 = ((checkedCount1Group1 / totalCountColumn1Group1) * 100).toFixed(2);
-                const percentColumn1Group2 = ((checkedCount1Group2 / totalCountColumn1Group2) * 100).toFixed(2);
-                const percentColumn1Group3 = ((checkedCount1Group3 / totalCountColumn1Group3) * 100).toFixed(2);
-                const percentColumn2Group1 = ((checkedCount2Group1 / totalCountColumn2Group1) * 100).toFixed(2);
-                const percentColumn2Group2 = ((checkedCount2Group2 / totalCountColumn2Group2) * 100).toFixed(2);
-                const percentColumn2Group3 = ((checkedCount2Group3 / totalCountColumn2Group3) * 100).toFixed(2);
-
-                const group1Advantage = (percentColumn2Group1 - percentColumn1Group1).toFixed(2);
-                const group2Advantage = (percentColumn2Group2 - percentColumn1Group2).toFixed(2);
-                const group3Advantage = (percentColumn2Group3 - percentColumn1Group3).toFixed(2);
-
-
-
-
-
-                //calcs advantage side using average of all of them (ideal but not what client wants)
-
-                /*
-                const sumAdvantage = parseFloat(group1Advantage) + parseFloat(group2Advantage) + parseFloat(group3Advantage);
-                const threshold = 0.01; // Define the threshold value for neutrality
-
-                if (Math.abs(sumAdvantage) <= threshold) {
-                  direction = "Neutral";
-                } else if (sumAdvantage > 0) {
-                  direction = "Left";
-                } else {
-                  direction = "Right";
-                }
-                */
-
-                //ALLEARS ADDITIONS
-                let rightEarDecibel; // Default hardcoded value, CHANGE TO SERVER-side later (SO GET VALUE instead hard code)
-                let leftEarDecibel; // this is not yet attempted set up for server side at all, unlike right
-
-                let direction = null;
-                let interpretation = null;
-                let age = <%= @client.age_in_years %>;
-                let dom = null;
-                let nondom = null;
-
-                if (group2Advantage < 0) {
-                  direction = "Left";
-                  dom = percentColumn1Group2;
-                  nondom = percentColumn2Group2;
-                } else if (group2Advantage > 0) {
-                  direction = "Right";
-                  dom = percentColumn2Group2;
-                  nondom = percentColumn1Group2;
-                } else {
-                  direction = "Neutral";
-                }
-
-
-
-                // Passes values to strings so they can be pushed to the html above
-
-
-                column1Group1Percent.innerText = percentColumn1Group1.toString();
-                column1Group2Percent.innerText = percentColumn1Group2.toString();
-                column1Group3Percent.innerText = percentColumn1Group3.toString();
-
-                column2Group1Percent.innerText = percentColumn2Group1.toString();
-                column2Group2Percent.innerText = percentColumn2Group2.toString();
-                column2Group3Percent.innerText = percentColumn2Group3.toString();
-
-
-
-                advantageDiffGroup1.innerText = group1Advantage.toString();
-                advantageDiffGroup2.innerText = group2Advantage.toString();
-                advantageDiffGroup3.innerText = group3Advantage.toString();
-
-
-                advantageName.innerText = direction;
-                readOnly.value = advantageName.innerText;
-
-
-                testDiagnosis.innerText = interpretation;
-                readOnlyDiag.value = testDiagnosis.innerText;
-
-                const earAdvantageCells = document.querySelectorAll('.ear-advantage');
-                // Loop through each ear advantage cell
-                earAdvantageCells.forEach(cell => {
-                  // Get the value of the cell
-                  const value = parseFloat(cell.textContent);
-
-                  // Check the value and set the background color accordingly
-                  if (value < 0) {
-                    cell.style.backgroundColor = 'lightblue';
-                  } else if (value > 0) {
-                    cell.style.backgroundColor = 'lightpink';
-                  } else {
-                    cell.style.backgroundColor = 'white';
-                  }
-                });
-                })
-              })
             // gets the elements from hidden field submit above and populates them from the results in the script
             function populateHiddenFields() {
-              document.getElementById("left_score").value = column1Group2Percent.innerText;
-              document.getElementById("right_score").value = column2Group2Percent.innerText;
-              document.getElementById("ear_advantage").value = advantageName.innerText;
-              document.getElementById("ear_advantage_score").value = advantageDiffGroup2.innerText;
-
+              document.getElementById("left_score").value = document.getElementById("column1Group2-percent").innerText;
+              document.getElementById("right_score").value = document.getElementById("column2Group2-percent").innerText;
+              document.getElementById("ear_advantage").value = document.getElementById("advantage-Name").innerText;
+              document.getElementById("ear_advantage_score").value = document.getElementById("Group2advantage-Diff").innerText;
             }
-
-            //ALLEARS ADDITIONS
-            // only works for first group rn, copy paste for more when relevant to test
-            function calculateRightEarDecibel() {
-
-              const checkedCount1Group1 = document.querySelectorAll(".column1Group1-button input[type='checkbox']:checked").length;
-              const checkedCount2Group1 = document.querySelectorAll(".column2Group1-button input[type='checkbox']:checked").length;
-
-
-
-              if (checkedCount1Group1 >= (checkedCount2Group1 * 1.1)) {
-                rightEarDecibel = 35;
-              }
-              // SETS VALUE of hidden field
-              document.getElementById("rightEarDecibelField").value = rightEarDecibel;
-            }
-            //functions for setting ear dominance
-            function setEarDominance(dominance) {
-            // Assuming rightEarDecibel changes based on ear dominance
-              if (dominance === 'left') {
-                rightEarDecibel = 50;
-                leftEarDecibel = 30;
-              } else if (dominance === 'right') {
-                rightEarDecibel = 30;
-                leftEarDecibel = 50;
-              }
-              document.getElementById("rightEarDecibelField").value = rightEarDecibel;
-              document.getElementById("leftEarDecibelField").value = leftEarDecibel;
-              document.getElementById('rightEarDecibelDisplay').innerText = document.getElementById("rightEarDecibelField").value;
-              document.getElementById('leftEarDecibelDisplay').innerText = document.getElementById("leftEarDecibelField").value;
-            }
-            //separate testing function, can be commented/deleted later
-            // This is working, problem is with the user data then
-            function testRightEarDecibelUpdate() {
-              calculateRightEarDecibel();
-              // Update display of rightEarDecibel
-              document.getElementById('rightEarDecibelDisplay').innerText = document.getElementById("rightEarDecibelField").value;
-            }
-            //ALLEARS Audio control listener, buttons
-            document.addEventListener('DOMContentLoaded', (event) => {
-              const leftEarAudio = document.getElementById('leftEarAudio');
-              const rightEarAudio = document.getElementById('rightEarAudio');
-
-              // Play button event
-              document.getElementById('playButton').addEventListener('click', function() {
-                leftEarAudio.play();
-                rightEarAudio.play();
-              });
-
-              // Pause button event
-              document.getElementById('pauseButton').addEventListener('click', function() {
-                leftEarAudio.pause();
-                rightEarAudio.pause();
-              });
-              document.getElementById('setLeftDominance').addEventListener('click', function() {
-              setEarDominance('left');
-              });
-
-              document.getElementById('setRightDominance').addEventListener('click', function() {
-              setEarDominance('right');
-              });
-            });
 
             function submitAndExit() {
               // Calculate right ear decibel and populate hidden fields
