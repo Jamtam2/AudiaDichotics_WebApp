@@ -17,7 +17,10 @@ class TrainingsController < ApplicationController
         session[:week_number] = [session[:week_number].to_i - 1, 1].max
         redirect_to client_trainings_path(@client)
     end
-
+    def final_summary
+        @client = Client.find(params[:client_id])
+        @trainings = Training.all
+    end
     def show
         @client= Client.find(params[:client_id])
         @training= @client.trainings.find(params[:id])
