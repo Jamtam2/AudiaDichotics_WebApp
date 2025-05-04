@@ -303,7 +303,7 @@
           <h2 class="display-5 pt-5" style="padding-bottom:20px"><strong>Training</strong></h2>
           <div class="card border-primary border-1 text-center p-4" style="justify-content: space-between;">
             <%= link_to "Trainings", client_trainings_path(client_id: @client.id), class: "btn-1 btn-anim2 btn-block" %>
-            <%= link_to "Total Summary", "#", class: "btn-1 btn-anim2 btn-block" %>
+            <%= link_to "Finl Summary", client_final_summary_path(@client), class: "btn-1 btn-anim2 btn-block" %>
           </div>
         </div>
       </div>
