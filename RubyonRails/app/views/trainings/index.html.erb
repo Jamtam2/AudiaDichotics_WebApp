@@ -88,19 +88,19 @@
                     word_dec_right_avg.round(2)
                     %>
                 </td>
-                <td style = "background-color: lightblue;"> 
+                <td style = "background-color: lightblue;">
                 <%= word_left_scores = word_tests.map(&:left_score).compact
                     word_left_avg = word_left_scores.sum / word_left_scores.size.to_f
-                    "#{word_left_avg.round(2)}%" 
+                    "#{word_left_avg.round(2)}%"
                     %>
                 </td>
-                <td style = "background-color: lightpink;"> 
+                <td style = "background-color: lightpink;">
                 <%= word_right_scores = word_tests.map(&:right_score).compact
                 word_right_avg = word_right_scores.sum / word_right_scores.size.to_f
                 "#{word_right_avg.round(2)}%"
                 %>
                 </td>
-                <% 
+                <%
                 ear_advantages = word_tests.map(&:ear_advantage).compact
                 left_count = ear_advantages.count { |adv| adv == "Left" }
                 right_count = ear_advantages.count { |adv| adv == "Right" }
@@ -173,19 +173,19 @@
               digit_dec_right_avg.round(2)
               %>
           </td>
-          <td style = "background-color: lightblue;"> 
+          <td style = "background-color: lightblue;">
           <%= digit_left_scores = digit_tests.map(&:left_score).compact
               digit_left_avg = digit_left_scores.sum / digit_left_scores.size.to_f
               "#{digit_left_avg.round(2)}%"
               %>
           </td>
-          <td style = "background-color: lightpink;"> 
+          <td style = "background-color: lightpink;">
           <%= digit_right_scores = digit_tests.map(&:right_score).compact
           digit_right_avg = digit_right_scores.sum / digit_right_scores.size.to_f
           "#{digit_right_avg.round(2)}%"
           %>
           </td>
-          <% 
+          <%
           ear_advantages = digit_tests.map(&:ear_advantage).compact
           left_count = ear_advantages.count { |adv| adv == "Left" }
           right_count = ear_advantages.count { |adv| adv == "Right" }
@@ -290,7 +290,7 @@
                 "#{word_right_avg.round(2)}%"
                 %>
                 </td>
-                <% 
+                <%
                 ear_advantages = word_tests.map(&:ear_advantage).compact
                 left_count = ear_advantages.count { |adv| adv == "Left" }
                 right_count = ear_advantages.count { |adv| adv == "Right" }
@@ -361,7 +361,7 @@
               digit_dec_right_avg.round(2)
               %>
           </td>
-          <td style = "background-color: lightblue;"> 
+          <td style = "background-color: lightblue;">
           <%= digit_left_scores = digit_tests.map(&:left_score).compact
               digit_left_avg = digit_left_scores.sum / digit_left_scores.size.to_f
               "#{digit_left_avg.round(2)}%"
@@ -373,7 +373,7 @@
           "#{digit_right_avg.round(2)}%"
           %>
           </td>
-          <% 
+          <%
           ear_advantages = digit_tests.map(&:ear_advantage).compact
           left_count = ear_advantages.count { |adv| adv == "Left" }
           right_count = ear_advantages.count { |adv| adv == "Right" }
@@ -474,10 +474,10 @@
                 <td style = "background-color: lightpink;">
                 <%= word_right_scores = word_tests.map(&:right_score).compact
                 word_right_avg = word_right_scores.sum / word_right_scores.size.to_f
-                "#{word_right_avg.round(2)}%" 
+                "#{word_right_avg.round(2)}%"
                 %>
                 </td>
-                <% 
+                <%
                 ear_advantages = word_tests.map(&:ear_advantage).compact
                 left_count = ear_advantages.count { |adv| adv == "Left" }
                 right_count = ear_advantages.count { |adv| adv == "Right" }
@@ -562,7 +562,7 @@
           "#{digit_right_avg.round(2)}%"
           %>
           </td>
-          <% 
+          <%
           ear_advantages = digit_tests.map(&:ear_advantage).compact
           left_count = ear_advantages.count { |adv| adv == "Left" }
           right_count = ear_advantages.count { |adv| adv == "Right" }
@@ -666,7 +666,7 @@
                 "#{word_right_avg.round(2)}%"
                 %>
                 </td>
-                <% 
+                <%
                 ear_advantages = word_tests.map(&:ear_advantage).compact
                 left_count = ear_advantages.count { |adv| adv == "Left" }
                 right_count = ear_advantages.count { |adv| adv == "Right" }
@@ -751,7 +751,7 @@
           "#{digit_right_avg.round(2)}%"
           %>
           </td>
-          <% 
+          <%
           ear_advantages = digit_tests.map(&:ear_advantage).compact
           left_count = ear_advantages.count { |adv| adv == "Left" }
           right_count = ear_advantages.count { |adv| adv == "Right" }
