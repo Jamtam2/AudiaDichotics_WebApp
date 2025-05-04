@@ -89,6 +89,7 @@ Rails.application.routes.draw do
 
   get 'clients/:client_id/trainings', to: 'trainings#index', as: 'client_trainings'
   get 'clients/:client_id/trainings/export', to: 'trainings#export', defaults: {format: 'xlsx'}, as: 'trainings_export'
+    get 'clients/:client_id/trainings/final_summary', to: 'trainings#final_summary', as: 'client_final_summary'
   get 'clients/:client_id/trainings/:id', to: 'trainings#show', as: 'client_training'
   # Below are rest break paths for specific steps in the training procedure
   get 'clients/:client_id/week_ones/rest_break_week_one', to: 'week_ones#rest_break_week_one', as: 'rest_break_week_one_client_week_ones'
