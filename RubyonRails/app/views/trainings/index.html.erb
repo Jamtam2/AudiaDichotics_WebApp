@@ -60,7 +60,11 @@
                   <% word_tests = @client.week_ones.select { |week_one| week_one.test_type != 'RDDT'} %>
                   <% word_tests.each do |week_one| %>
                     <% ear_adv_color = week_one.ear_advantage == "Left" ? "lightblue" : week_one.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
-                     <% ear_adv_score_color = week_one.ear_advantage_score.to_f < 0 ? "lightblue" : week_one.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
+                    <% if week_one.left_score.present? && week_one.right_score.present? %>
+                    <% ear_adv_score_color = week_one.left_score > week_one.right_score ? "lightblue" : week_one.left_score < week_one.right_score ? "lightpink" : "transparent" %>
+                      <% else %>
+                    <% ear_adv_score_color = "transparent" %>
+                      <% end %>
                   <tr>
                     <td style ="text-align: center;"><%= week_one.id %></td>
                     <td><%= week_one.test_type %></td>
@@ -109,19 +113,22 @@
                                         elsif right_count > left_count
                                           "Right Dom"
                                         else
-                                          "Neutral"
+                                          "None"
                                         end
                 earadv_avg_color = ear_advantage_result == 'Left Dom' ? 'lightblue' : ear_advantage_result == 'Right Dom' ? 'lightpink' : 'transparent'
               %>
               <td style="background-color: <%= earadv_avg_color %>;">
                 <%= ear_advantage_result %>
               </td>
-                <% word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
-                word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f %>
-                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %>
-                <td style="background-color: <%= earadv_avg_color %>;">
-                <%= "#{word_earadv_avg.round(2)}%" %>
-                </td>
+              <%
+                left_adv_scores = word_tests.select { |w| w.ear_advantage == "Left" }.map { |w| -(w.ear_advantage_score || 0.0) }
+                right_adv_scores = word_tests.select { |w| w.ear_advantage == "Right" }.map { |w| (w.ear_advantage_score || 0.0) }
+                signed_scores = left_adv_scores + right_adv_scores
+                signed_avg = signed_scores.sum / signed_scores.size.to_f rescue 0.0
+                earadv_avg_color = signed_avg < 0 ? "lightblue" : signed_avg > 0 ? "lightpink" : "transparent" %>
+              <td style="background-color: <%= earadv_avg_color %>;">
+                <%= "#{signed_avg.abs.round(2)}%" %>
+              </td>
               </tr>
             </tfoot>
           </table>
@@ -145,7 +152,11 @@
               <% digit_tests = @client.week_ones.select { |week_one| week_one.test_type == 'RDDT'} %>
               <% digit_tests.each do |week_one| %>
                 <% ear_adv_color = week_one.ear_advantage == "Left" ? "lightblue" : week_one.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
-                <% ear_adv_score_color = week_one.ear_advantage_score.to_f < 0 ? "lightblue" : week_one.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
+                    <% if week_one.left_score.present? && week_one.right_score.present? %>
+                    <% ear_adv_score_color = week_one.left_score > week_one.right_score ? "lightblue" : week_one.left_score < week_one.right_score ? "lightpink" : "transparent" %>
+                      <% else %>
+                    <% ear_adv_score_color = "transparent" %>
+                      <% end %>
               <tr>
               <td style ="text-align: center;"><%= week_one.id %></td>
               <td><%= week_one.test_type %></td>
@@ -194,19 +205,22 @@
                                   elsif right_count > left_count
                                     "Right Dom"
                                   else
-                                    "Neutral"
+                                    "None"
                                   end
           earadv_avg_color = ear_advantage_result == 'Left Dom' ? 'lightblue' : ear_advantage_result == 'Right Dom' ? 'lightpink' : 'transparent'
         %>
         <td style="background-color: <%= earadv_avg_color %>;">
           <%= ear_advantage_result %>
         </td>
-          <% digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
-          digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f %>
-          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %>
-          <td style="background-color: <%= earadv_avg_color %>;">
-          <%= "#{digit_earadv_avg.round(2)}%" %>
-          </td>
+            <%
+              left_adv_scores = digit_tests.select { |w| w.ear_advantage == "Left" }.map { |w| -(w.ear_advantage_score || 0.0) }
+              right_adv_scores = digit_tests.select { |w| w.ear_advantage == "Right" }.map { |w| (w.ear_advantage_score || 0.0) }
+              signed_scores = left_adv_scores + right_adv_scores
+              signed_avg = signed_scores.sum / signed_scores.size.to_f rescue 0.0
+              earadv_avg_color = signed_avg < 0 ? "lightblue" : signed_avg > 0 ? "lightpink" : "transparent" %>
+            <td style="background-color: <%= earadv_avg_color %>;">
+              <%= "#{signed_avg.abs.round(2)}%" %>
+            </td>
         </tr>
         </tfoot>
         </table>
@@ -250,7 +264,11 @@
                   <% word_tests = @client.week_twos.select { |week_two| week_two.test_type != 'RDDT'} %>
                   <% word_tests.each do |week_two| %>
                       <% ear_adv_color = week_two.ear_advantage == "Left" ? "lightblue" : week_two.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
-                     <% ear_adv_score_color = week_two.ear_advantage_score.to_f < 0 ? "lightblue" : week_two.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
+                    <% if week_two.left_score.present? && week_two.right_score.present? %>
+                    <% ear_adv_score_color = week_two.left_score > week_two.right_score ? "lightblue" : week_two.left_score < week_two.right_score ? "lightpink" : "transparent" %>
+                      <% else %>
+                    <% ear_adv_score_color = "transparent" %>
+                      <% end %>
                   <tr>
                     <td style ="text-align: center;"><%= week_two.id %></td>
                     <td><%= week_two.test_type %></td>
@@ -299,19 +317,22 @@
                                         elsif right_count > left_count
                                           "Right Dom"
                                         else
-                                          "Neutral"
+                                          "None"
                                         end
                 earadv_avg_color = ear_advantage_result == 'Left Dom' ? 'lightblue' : ear_advantage_result == 'Right Dom' ? 'lightpink' : 'transparent'
               %>
               <td style="background-color: <%= earadv_avg_color %>;">
                 <%= ear_advantage_result %>
               </td>
-                <% word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
-                word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f %>
-                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %>
-                <td style="background-color: <%= earadv_avg_color %>;">
-                <%= "#{word_earadv_avg.round(2)}%" %>
-                </td>
+              <%
+                left_adv_scores = word_tests.select { |w| w.ear_advantage == "Left" }.map { |w| -(w.ear_advantage_score || 0.0) }
+                right_adv_scores = word_tests.select { |w| w.ear_advantage == "Right" }.map { |w| (w.ear_advantage_score || 0.0) }
+                signed_scores = left_adv_scores + right_adv_scores
+                signed_avg = signed_scores.sum / signed_scores.size.to_f rescue 0.0
+                earadv_avg_color = signed_avg < 0 ? "lightblue" : signed_avg > 0 ? "lightpink" : "transparent" %>
+              <td style="background-color: <%= earadv_avg_color %>;">
+                <%= "#{signed_avg.abs.round(2)}%" %>
+              </td>
               </tr>
             </tfoot>
           </table>
@@ -334,6 +355,12 @@
           <tbody>
               <% digit_tests = @client.week_twos.select { |week_two| week_two.test_type == 'RDDT'} %>
               <% digit_tests.each do |week_two| %>
+                    <% ear_adv_color = week_two.ear_advantage == "Left" ? "lightblue" : week_two.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
+                    <% if week_two.left_score.present? && week_two.right_score.present? %>
+                    <% ear_adv_score_color = week_two.left_score > week_two.right_score ? "lightblue" : week_two.left_score < week_two.right_score ? "lightpink" : "transparent" %>
+                      <% else %>
+                    <% ear_adv_score_color = "transparent" %>
+                      <% end %>
               <tr>
               <td style ="text-align: center;"><%= week_two.id %></td>
               <td><%= week_two.test_type %></td>
@@ -382,19 +409,22 @@
                                   elsif right_count > left_count
                                     "Right Dom"
                                   else
-                                    "Neutral"
+                                    "None"
                                   end
           earadv_avg_color = ear_advantage_result == 'Left Dom' ? 'lightblue' : ear_advantage_result == 'Right Dom' ? 'lightpink' : 'transparent'
         %>
         <td style="background-color: <%= earadv_avg_color %>;">
           <%= ear_advantage_result %>
         </td>
-          <% digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
-          digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f %>
-          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %>
-          <td style="background-color: <%= earadv_avg_color %>;">
-          <%= "#{digit_earadv_avg.round(2)}%" %>
-          </td>
+            <%
+              left_adv_scores = digit_tests.select { |w| w.ear_advantage == "Left" }.map { |w| -(w.ear_advantage_score || 0.0) }
+              right_adv_scores = digit_tests.select { |w| w.ear_advantage == "Right" }.map { |w| (w.ear_advantage_score || 0.0) }
+              signed_scores = left_adv_scores + right_adv_scores
+              signed_avg = signed_scores.sum / signed_scores.size.to_f rescue 0.0
+              earadv_avg_color = signed_avg < 0 ? "lightblue" : signed_avg > 0 ? "lightpink" : "transparent" %>
+            <td style="background-color: <%= earadv_avg_color %>;">
+              <%= "#{signed_avg.abs.round(2)}%" %>
+            </td>
         </tr>
         </tfoot>
         </table>
@@ -434,10 +464,14 @@
               </thead>
 
               <tbody>
-                  <% word_tests = @client.week_ones.select { |week_three| week_three.test_type != 'RDDT'} %>
+                  <% word_tests = @client.week_threes.select { |week_three| week_three.test_type != 'RDDT'} %>
                   <% word_tests.each do |week_three| %>
                     <% ear_adv_color = week_three.ear_advantage == "Left" ? "lightblue" : week_three.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
-                     <% ear_adv_score_color = week_three.ear_advantage_score.to_f < 0 ? "lightblue" : week_three.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
+                    <% if week_three.left_score.present? && week_three.right_score.present? %>
+                    <% ear_adv_score_color = week_three.left_score > week_three.right_score ? "lightblue" : week_three.left_score < week_three.right_score ? "lightpink" : "transparent" %>
+                      <% else %>
+                    <% ear_adv_score_color = "transparent" %>
+                      <% end %>
                   <tr>
                     <td style ="text-align: center;"><%= week_three.id %></td>
                     <td><%= week_three.test_type %></td>
@@ -486,19 +520,22 @@
                                         elsif right_count > left_count
                                           "Right Dom"
                                         else
-                                          "Neutral"
+                                          "None"
                                         end
                 earadv_avg_color = ear_advantage_result == 'Left Dom' ? 'lightblue' : ear_advantage_result == 'Right Dom' ? 'lightpink' : 'transparent'
               %>
               <td style="background-color: <%= earadv_avg_color %>;">
                 <%= ear_advantage_result %>
               </td>
-                <% word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
-                word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f %>
-                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %>
-                <td style="background-color: <%= earadv_avg_color %>;">
-                <%= "#{word_earadv_avg.round(2)}%" %>
-                </td>
+              <%
+                left_adv_scores = word_tests.select { |w| w.ear_advantage == "Left" }.map { |w| -(w.ear_advantage_score || 0.0) }
+                right_adv_scores = word_tests.select { |w| w.ear_advantage == "Right" }.map { |w| (w.ear_advantage_score || 0.0) }
+                signed_scores = left_adv_scores + right_adv_scores
+                signed_avg = signed_scores.sum / signed_scores.size.to_f rescue 0.0
+                earadv_avg_color = signed_avg < 0 ? "lightblue" : signed_avg > 0 ? "lightpink" : "transparent" %>
+              <td style="background-color: <%= earadv_avg_color %>;">
+                <%= "#{signed_avg.abs.round(2)}%" %>
+              </td>
               </tr>
             </tfoot>
           </table>
@@ -522,7 +559,11 @@
               <% digit_tests = @client.week_threes.select { |week_three| week_three.test_type == 'RDDT'} %>
               <% digit_tests.each do |week_three| %>
                       <% ear_adv_color = week_three.ear_advantage == "Left" ? "lightblue" : week_three.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
-                     <% ear_adv_score_color = week_three.ear_advantage_score.to_f < 0 ? "lightblue" : week_three.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
+                    <% if week_three.left_score.present? && week_three.right_score.present? %>
+                    <% ear_adv_score_color = week_three.left_score > week_three.right_score ? "lightblue" : week_three.left_score < week_three.right_score ? "lightpink" : "transparent" %>
+                      <% else %>
+                    <% ear_adv_score_color = "transparent" %>
+                      <% end %>
               <tr>
               <td style ="text-align: center;"><%= week_three.id %></td>
               <td><%= week_three.test_type %></td>
@@ -556,7 +597,7 @@
               "#{digit_left_avg.round(2)}%"
               %>
           </td>
-          <td>
+          <td style = "background-color: lightpink;">
           <%= digit_right_scores = digit_tests.map(&:right_score).compact
           digit_right_avg = digit_right_scores.sum / digit_right_scores.size.to_f
           "#{digit_right_avg.round(2)}%"
@@ -571,19 +612,22 @@
                                   elsif right_count > left_count
                                     "Right Dom"
                                   else
-                                    "Neutral"
+                                    "None"
                                   end
           earadv_avg_color = ear_advantage_result == 'Left Dom' ? 'lightblue' : ear_advantage_result == 'Right Dom' ? 'lightpink' : 'transparent'
         %>
         <td style="background-color: <%= earadv_avg_color %>;">
           <%= ear_advantage_result %>
         </td>
-          <% digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
-          digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f %>
-          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %>
-          <td style="background-color: <%= earadv_avg_color %>;">
-          <%= "#{digit_earadv_avg.round(2)}%" %>
-          </td>
+            <%
+              left_adv_scores = digit_tests.select { |w| w.ear_advantage == "Left" }.map { |w| -(w.ear_advantage_score || 0.0) }
+              right_adv_scores = digit_tests.select { |w| w.ear_advantage == "Right" }.map { |w| (w.ear_advantage_score || 0.0) }
+              signed_scores = left_adv_scores + right_adv_scores
+              signed_avg = signed_scores.sum / signed_scores.size.to_f rescue 0.0
+              earadv_avg_color = signed_avg < 0 ? "lightblue" : signed_avg > 0 ? "lightpink" : "transparent" %>
+            <td style="background-color: <%= earadv_avg_color %>;">
+              <%= "#{signed_avg.abs.round(2)}%" %>
+            </td>
         </tr>
         </tfoot>
         </table>
@@ -626,7 +670,11 @@
                   <% word_tests = @client.week_fours.select { |week_four| week_four.test_type != 'RDDT'} %>
                   <% word_tests.each do |week_four| %>
                       <% ear_adv_color = week_four.ear_advantage == "Left" ? "lightblue" : week_four.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
-                     <% ear_adv_score_color = week_four.ear_advantage_score.to_f < 0 ? "lightblue" : week_four.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
+                    <% if week_four.left_score.present? && week_four.right_score.present? %>
+                    <% ear_adv_score_color = week_four.left_score > week_four.right_score ? "lightblue" : week_four.left_score < week_four.right_score ? "lightpink" : "transparent" %>
+                      <% else %>
+                    <% ear_adv_score_color = "transparent" %>
+                      <% end %>
                   <tr>
                     <td style ="text-align: center;"><%= week_four.id %></td>
                     <td><%= week_four.test_type %></td>
@@ -675,19 +723,22 @@
                                         elsif right_count > left_count
                                           "Right Dom"
                                         else
-                                          "Neutral"
+                                          "None"
                                         end
                 earadv_avg_color = ear_advantage_result == 'Left Dom' ? 'lightblue' : ear_advantage_result == 'Right Dom' ? 'lightpink' : 'transparent'
               %>
               <td style="background-color: <%= earadv_avg_color %>;">
                 <%= ear_advantage_result %>
               </td>
-                <% word_earadv_scores = word_tests.map(&:ear_advantage_score).compact
-                word_earadv_avg = word_earadv_scores.sum / word_earadv_scores.size.to_f %>
-                <% earadv_avg_color = word_earadv_avg < 0 ? "lightblue" : word_earadv_avg > 0 ? "lightpink" : "transparent" %>
-                <td style="background-color: <%= earadv_avg_color %>;">
-                <%= "#{word_earadv_avg.round(2)}%" %>
-                </td>
+              <%
+                left_adv_scores = word_tests.select { |w| w.ear_advantage == "Left" }.map { |w| -(w.ear_advantage_score || 0.0) }
+                right_adv_scores = word_tests.select { |w| w.ear_advantage == "Right" }.map { |w| (w.ear_advantage_score || 0.0) }
+                signed_scores = left_adv_scores + right_adv_scores
+                signed_avg = signed_scores.sum / signed_scores.size.to_f rescue 0.0
+                earadv_avg_color = signed_avg < 0 ? "lightblue" : signed_avg > 0 ? "lightpink" : "transparent" %>
+              <td style="background-color: <%= earadv_avg_color %>;">
+                <%= "#{signed_avg.abs.round(2)}%" %>
+              </td>
               </tr>
             </tfoot>
           </table>
@@ -711,7 +762,11 @@
               <% digit_tests = @client.week_fours.select { |week_four| week_four.test_type == 'RDDT'} %>
               <% digit_tests.each do |week_four| %>
                       <% ear_adv_color = week_four.ear_advantage == "Left" ? "lightblue" : week_four.ear_advantage == "Right" ? "lightpink" : 'transparent' %>
-                     <% ear_adv_score_color = week_four.ear_advantage_score.to_f < 0 ? "lightblue" : week_four.ear_advantage_score.to_f > 0 ? "lightpink" : "transparent" %>
+                    <% if week_four.left_score.present? && week_four.right_score.present? %>
+                    <% ear_adv_score_color = week_four.left_score > week_four.right_score ? "lightblue" : week_four.left_score < week_four.right_score ? "lightpink" : "transparent" %>
+                      <% else %>
+                    <% ear_adv_score_color = "transparent" %>
+                      <% end %>
               <tr>
               <td style ="text-align: center;"><%= week_four.id %></td>
               <td><%= week_four.test_type %></td>
@@ -760,19 +815,22 @@
                                   elsif right_count > left_count
                                     "Right Dom"
                                   else
-                                    "Neutral"
+                                    "None"
                                   end
           earadv_avg_color = ear_advantage_result == 'Left Dom' ? 'lightblue' : ear_advantage_result == 'Right Dom' ? 'lightpink' : 'transparent'
         %>
         <td style="background-color: <%= earadv_avg_color %>;">
           <%= ear_advantage_result %>
         </td>
-          <% digit_earadv_scores = digit_tests.map(&:ear_advantage_score).compact
-          digit_earadv_avg = digit_earadv_scores.sum / digit_earadv_scores.size.to_f %>
-          <% earadv_avg_color = digit_earadv_avg < 0 ? "lightblue" : digit_earadv_avg > 0 ? "lightpink" : "transparent" %>
-          <td style="background-color: <%= earadv_avg_color %>;">
-          <%= "#{digit_earadv_avg.round(2)}%" %>
-          </td>
+            <%
+              left_adv_scores = digit_tests.select { |w| w.ear_advantage == "Left" }.map { |w| -(w.ear_advantage_score || 0.0) }
+              right_adv_scores = digit_tests.select { |w| w.ear_advantage == "Right" }.map { |w| (w.ear_advantage_score || 0.0) }
+              signed_scores = left_adv_scores + right_adv_scores
+              signed_avg = signed_scores.sum / signed_scores.size.to_f rescue 0.0
+              earadv_avg_color = signed_avg < 0 ? "lightblue" : signed_avg > 0 ? "lightpink" : "transparent" %>
+            <td style="background-color: <%= earadv_avg_color %>;">
+              <%= "#{signed_avg.abs.round(2)}%" %>
+            </td>
         </tr>
         </tfoot>
         </table>
