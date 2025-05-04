@@ -295,65 +295,66 @@
                 <% end %>
               </tbody>
               <!--Hidden table for submition items-->
-              </table>
+            </table>
 
-              <%= f.hidden_field :client_name, value: "Example user" %>
-              <%= f.hidden_field :test_type, value: "DNW" %>
-              <%= f.hidden_field :counter, value: "7" %>
-              <%= f.hidden_field :left_score, id: "left_score" %>
-              <%= f.hidden_field :right_score, id: "right_score" %>
-              <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
-              <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
+            <%= f.hidden_field :client_name, value: "Example user" %>
+            <%= f.hidden_field :test_type, value: "DNW" %>
+            <%= f.hidden_field :counter, value: "7" %>
+            <%= f.hidden_field :left_score, id: "left_score" %>
+            <%= f.hidden_field :right_score, id: "right_score" %>
+            <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
+            <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
 
-              <!-- ALLEARS ADDITIONS, added to submit as well-->
+            <!-- ALLEARS ADDITIONS, added to submit as well-->
 
-              <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
-              <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
+            <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
+            <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
 
-              <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "populateHiddenFields();" %>
-            </div>
+            <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "populateHiddenFields();" %>
+          </div>
 
-            <script>
+          <script>
 
-              //function for keeping the buttons blue after being clicked
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            //function for keeping the buttons blue after being clicked
+              const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-                checkboxes.forEach(function(checkbox) {
-                  checkbox.addEventListener('change', function() {
-                    const label = this.closest('label');
-                    if (this.checked) {
-                      label.classList.add('active');
-                    } else {
-                      label.classList.remove('active');
-                    }
-                  });
+              checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                  const label = this.closest('label');
+                  if (this.checked) {
+                    label.classList.add('active');
+                  } else {
+                    label.classList.remove('active');
+                  }
                 });
-
-              // gets the elements from hidden field submit above and populates them from the results in the script
-              function populateHiddenFields() {
-                document.getElementById("left_score").value = document.getElementById("column1Group1-percent").innerText;
-                document.getElementById("right_score").value = document.getElementById("column2Group1-percent").innerText;
-                document.getElementById("ear_advantage").value = document.getElementById("advantage-Name").value;
-                document.getElementById("ear_advantage_score").value = document.getElementById("Group1advantage-Diff").innerText;
-              }
-              document.addEventListener("DOMContentLoaded", function () {
-                const form = document.querySelector("form");
-                if (form) {
-                  form.addEventListener("submit", function (event) {
-                    populateHiddenFields();
-                  });
-                }
               });
 
-              function submitAndExit() {
+            // gets the elements from hidden field submit above and populates them from the results in the script
+            function populateHiddenFields() {
+              document.getElementById("left_score").value = document.getElementById("column1Group1-percent").innerText;
+              document.getElementById("right_score").value = document.getElementById("column2Group1-percent").innerText;
+              document.getElementById("ear_advantage").value = document.getElementById("advantage-Name").value;
+              document.getElementById("ear_advantage_score").value = document.getElementById("Group1advantage-Diff").innerText;
+            }
+            document.addEventListener("DOMContentLoaded", function () {
+              const form = document.querySelector("form");
+              if (form) {
+                form.addEventListener("submit", function (event) {
                   populateHiddenFields();
-
-                  setTimeout(() => {
-                    document.querySelector("form").submit();
-                  }, 100); // slight delay to ensure values get filled in
+                });
               }
+            });
 
-            </script>
+            function submitAndExit() {
+                populateHiddenFields();
+
+                setTimeout(() => {
+                  document.querySelector("form").submit();
+                }, 100); // slight delay to ensure values get filled in
+            }
+
+          </script>
+        </div> 
       </div>
     <% end %>
   </div>
