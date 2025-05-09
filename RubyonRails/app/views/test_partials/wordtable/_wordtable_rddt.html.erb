@@ -1,0 +1,33 @@
+<!-- Loop for table of numbers and creation of all buttons, only loops 54 times and creates table for buttons-->
+<% 54.times do |i| %>
+  <tr>
+    <td><%= i + 1 %></td>
+
+    <td>
+      <div class="btn-group-toggle" data="buttons">
+        <% group_size = words[i][0].length %>
+        <% words[i][0].each_with_index do |num, index| %>
+          <% button_class = "column1Group#{group_size}-button" %>
+          <label class="btn btn-outline-primary <%= button_class %>">
+            <input type="checkbox" name="selected_words[<%= i %>][]" value="<%= num %>" />
+            <%= num %>
+          </label>
+        <% end %>
+      </div>
+    </td>
+
+    <td>
+      <div class="btn-group-toggle" data="buttons">
+        <% group_size = words[i][1].length %>
+        <% words[i][1].each_with_index do |num, index| %>
+          <% button_class = "column2Group#{group_size}-button" %>
+          <label class="btn btn-outline-primary <%= button_class %>">
+            <input type="checkbox" name="selected_words[<%= i %>][]" value="<%= num %>" />
+            <%= num %>
+          </label>
+        <% end %>
+      </div>
+    </td>
+
+  </tr>
+<% end %>

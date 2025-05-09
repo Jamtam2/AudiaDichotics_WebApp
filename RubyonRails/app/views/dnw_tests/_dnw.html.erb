@@ -1,0 +1,7 @@
+<% controller = @dnw_test %>
+<% part_prefix = "dnw"%>
+
+<%= render partial: "test_partials/test", locals: {words: words, audio_asset: audio_asset, audio_type: audio_type, example_label: example_label, data_list_type: data_list_type, controller: controller, part_prefix: part_prefix } %>
+
+<%= javascript_pack_tag 'dnw_script' %>
+<%= javascript_pack_tag 'audio_player'%>

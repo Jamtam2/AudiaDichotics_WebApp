@@ -1,0 +1,20 @@
+<!-- Loop for table of words and creation of all buttons, only loops 25 times and creates table for buttons-->
+<% 25.times do |i| %>
+  <tr>
+    <td><%= i + 1 %></td>
+    <td>
+      <div class="btn-group-toggle" data="buttons">
+        <label class="btn btn-outline-primary column1-button">
+          <input type="checkbox" name="selected_words[<%= i %>][]" value="1"> <%= words[i][0] %>
+        </label>
+      </div>
+    </td>
+    <td>
+      <div class="btn-group-toggle" data="buttons">
+        <label class="btn btn-outline-primary column2-button">
+          <input type="checkbox" name="selected_words[<%= i %>][]" value="2"> <%= words[i][1] %>
+        </label>
+      </div>
+    </td>
+  </tr>
+<% end %>
