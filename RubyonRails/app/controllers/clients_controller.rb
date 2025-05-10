@@ -297,17 +297,17 @@ class ClientsController < ApplicationController
  def generate_csv(clients)
    if current_user.global_moderator?
      return CSV.generate(headers: true) do |csv|
-       csv << ["Test_Type", "Gender", "Age", "City", "Country", "State", "Race", "Ear Advantage", "Ear Advantage Score", "Left Score", "Right Score"]
+       csv << ["Test_Type", "Gender", "Age", "City", "Country", "State", "Race", "Ear Advantage", "Ear Advantage Score", "Left Score", "Right Score", "Unique ID"]
 
        clients.each do |client|
          client.dwt_tests.each do |dwt_test|
-           csv << ["DWT", client.gender, client.age_in_years, client.city, client.country, client.state, client.race, dwt_test.ear_advantage, dwt_test.ear_advantage_score, dwt_test.left_score, dwt_test.right_score]
+           csv << ["DWT", client.gender, client.age_in_years, client.city, client.country, client.state, client.race, dwt_test.ear_advantage, dwt_test.ear_advantage_score, dwt_test.left_score, dwt_test.right_score, "t" + client.tenant_id.to_s + "_u" + dwt_test.user_id.to_s]
          end
          client.dnw_tests.each do |dnw_test|
-           csv << ["DNW",client.gender, client.age_in_years, client.city, client.country, client.state, client.race, dnw_test.ear_advantage, dnw_test.ear_advantage_score, dnw_test.left_score, dnw_test.right_score]
+           csv << ["DNW",client.gender, client.age_in_years, client.city, client.country, client.state, client.race, dnw_test.ear_advantage, dnw_test.ear_advantage_score, dnw_test.left_score, dnw_test.right_score, "t" + client.tenant_id.to_s + "_u" + dnw_test.user_id.to_s]
          end
          client.rddt_tests.each do |rddt_test|
-           csv << ["RDDT",client.gender, client.age_in_years, client.city, client.country, client.state, client.race, rddt_test.ear_advantage, rddt_test.ear_advantage_score, [[rddt_test.left_score1,rddt_test.left_score2,rddt_test.left_score3]], [rddt_test.right_score1,rddt_test.right_score2,rddt_test.right_score3]]
+           csv << ["RDDT",client.gender, client.age_in_years, client.city, client.country, client.state, client.race, rddt_test.ear_advantage, rddt_test.ear_advantage_score, [[rddt_test.left_score1,rddt_test.left_score2,rddt_test.left_score3]], [rddt_test.right_score1,rddt_test.right_score2,rddt_test.right_score3], "t" + client.tenant_id.to_s + "_u" + rddt_test.user_id.to_s]
          end
        end
      end
@@ -324,13 +324,14 @@ class ClientsController < ApplicationController
  end
 
 
-     private
+private
 
-     def client_params
-         params.require(:client).permit(:first_name, :last_name, :email, :date_of_birth, :gender, :address1, :country, :state, :city, :zip, :phone1,:mgmt_ref,:phone2, emergency_contacts_attributes: [
-            :first_name, :last_name, :phone_number, :address,
-           :email, :city, :state
-         ]
-   )
-       end
-      end
+def client_params
+    params.require(:client).permit(:first_name, :last_name, :email, :date_of_birth, :gender, :address1, :country, :state, :city, :zip, :phone1,:mgmt_ref,:phone2, emergency_contacts_attributes: [
+      :first_name, :last_name, :phone_number, :address,
+      :email, :city, :state
+    ]
+    )
+  end
+end
+
