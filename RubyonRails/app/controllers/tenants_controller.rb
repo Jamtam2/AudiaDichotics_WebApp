@@ -52,6 +52,25 @@ class TenantsController < ApplicationController
       )
     end
 
+    if params[:start_date].present?
+      begin
+        start_date = Date.parse(params[:start_date])
+        @tenants = @tenants.where('tenants.created_at >= ?', start_date)
+      rescue ArgumentError
+        # ignore invalid date
+      end
+    end
+
+    if params[:end_date].present?
+      begin
+        end_date = Date.parse(params[:end_date])
+        @tenants = @tenants.where('tenants.created_at <= ?', end_date)
+      rescue ArgumentError
+        # ignore invalid date
+      end
+    end
+
+
   @tenants = @tenants.order(:id)
   end
 
