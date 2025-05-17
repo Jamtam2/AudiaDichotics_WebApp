@@ -15,3 +15,28 @@
     <%= form.submit "Update Tenant", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<h2>License Keys</h2>
+
+<% if @license_keys.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Activation Code</th>
+        <th>Email</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @license_keys.each do |key| %>
+        <tr>
+          <td><%= key.activation_code %></td>
+          <td><%= key.email %></td>
+          <td><%= key.created_at.strftime('%m/%d/%Y %I:%M %p') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No license keys found for this tenant.</p>
+<% end %>

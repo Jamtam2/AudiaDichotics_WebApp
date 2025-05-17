@@ -4,6 +4,10 @@ class TenantsController < ApplicationController
 
   def edit
     # This will render the edit form to update membership_expiration and test_limit
+    @tenant = Tenant.find(params[:id])
+
+    @license_keys = Key.where(email: @tenant.users.pluck(:email))
+
   end
 
   def update
@@ -18,12 +22,20 @@ class TenantsController < ApplicationController
 
   def index
     @tenants = Tenant.left_joins(:users)
-                     .select('DISTINCT tenants.*, (SELECT email FROM users WHERE users.tenant_id = tenants.id ORDER BY users.id LIMIT 1) AS first_user_email')
-                     .order(:id)
-
-
-  end
-
+    .select('DISTINCT tenants.*,
+             (SELECT email FROM users WHERE users.tenant_id = tenants.id ORDER BY users.id LIMIT 1) AS first_user_email,
+             (SELECT fname FROM users WHERE users.tenant_id = tenants.id ORDER BY users.id LIMIT 1) AS user_fname,
+             (SELECT lname FROM users WHERE users.tenant_id = tenants.id ORDER BY users.id LIMIT 1) AS user_lname,
+             (
+               SELECT string_agg(keys.activation_code, \', \')
+               FROM keys
+               WHERE keys.email IN (
+                 SELECT email FROM users WHERE users.tenant_id = tenants.id
+               )
+             ) AS license_keys')
+    .where('tenants.membership_expiration IS NOT NULL')
+    .order(:id)
+end
 
   private
 

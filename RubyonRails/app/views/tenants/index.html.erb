@@ -4,10 +4,12 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>Name</th> <!-- New Column for the First User's Email -->
       <th>First User Email</th> <!-- New Column for the First User's Email -->
       <th>Creation Date</th>
       <th>Membership Expiration</th>
       <th>Test Limit</th>
+      <th>License Keys</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -15,6 +17,8 @@
     <% @tenants.each do |tenant| %>
       <tr>
         <td><%= tenant.id %></td>
+        <td><%= tenant.user_fname %> <%= tenant.user_lname %></td>
+
         <td>
           <%= tenant.first_user_email.present? ? tenant.first_user_email : "No users available" %>
         </td>
@@ -25,6 +29,16 @@
             <td>N/A</td>
         <% end %>
         <td><%= tenant.test_limit %></td>
+        <td>
+          <% if tenant.license_keys.present? %>
+            <%= tenant.license_keys %>
+          <% else %>
+            No licenses
+          <% end %>
+       </td>
+
+
+
         <td>
           <%= link_to 'Edit', edit_tenant_path(tenant), class: "btn btn-primary" %>
         </td>
