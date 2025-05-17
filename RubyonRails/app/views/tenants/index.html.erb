@@ -1,11 +1,21 @@
 <h1>Tenants List</h1>
 
+<!-- Search bar -->
+<div class="mb-3">
+  <%= form_with url: tenants_path, method: :get, local: true, class: 'form-inline' do %>
+    <%= text_field_tag :query, params[:query], class: 'form-control mr-sm-2 rounded-pill', placeholder: 'Search by name' %>
+    <%= submit_tag "Search", class: "btn rounded-pill btn-outline-info my-2 my-sm-0" %>
+  <% end %>
+</div>
+
+
 <table class="table">
   <thead>
     <tr>
       <th>ID</th>
       <th>Name</th> <!-- New Column for the First User's Email -->
       <th>First User Email</th> <!-- New Column for the First User's Email -->
+      <th># Of Users</th>
       <th>Creation Date</th>
       <th>Membership Expiration</th>
       <th>Test Limit</th>
@@ -22,6 +32,8 @@
         <td>
           <%= tenant.first_user_email.present? ? tenant.first_user_email : "No users available" %>
         </td>
+        <td><%= tenant.user_count %></td>
+
         <td><%= tenant.created_at.strftime('%m/%d/%Y') %></td>
           <% if tenant.membership_expiration.present? %>
             <td><%= tenant.membership_expiration.strftime('%m/%d/%Y') %></td>

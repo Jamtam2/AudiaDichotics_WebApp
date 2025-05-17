@@ -32,10 +32,28 @@ class TenantsController < ApplicationController
                WHERE keys.email IN (
                  SELECT email FROM users WHERE users.tenant_id = tenants.id
                )
-             ) AS license_keys')
+             ) AS license_keys,
+             (
+               SELECT COUNT(*)
+               FROM users
+               WHERE users.tenant_id = tenants.id
+             ) AS user_count')
     .where('tenants.membership_expiration IS NOT NULL')
-    .order(:id)
-end
+
+    if params[:query].present?
+      q = "%#{params[:query].downcase}%"
+      @tenants = @tenants.where(
+        "(LOWER(
+            (SELECT fname FROM users WHERE users.tenant_id = tenants.id ORDER BY users.id LIMIT 1)
+         ) LIKE ?
+         OR LOWER(
+            (SELECT lname FROM users WHERE users.tenant_id = tenants.id ORDER BY users.id LIMIT 1)
+         ) LIKE ?)", q, q
+      )
+    end
+
+  @tenants = @tenants.order(:id)
+  end
 
   private
 
