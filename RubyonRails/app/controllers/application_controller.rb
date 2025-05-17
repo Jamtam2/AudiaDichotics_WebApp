@@ -37,6 +37,10 @@ class ApplicationController < ActionController::Base
 
   def check_mfa
     # Bypass MFA check in development
+    # if Rails.env.development?
+    #   return
+    # end
+
     if Rails.env.development?
       return
     end
