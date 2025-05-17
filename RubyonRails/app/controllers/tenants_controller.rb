@@ -39,6 +39,11 @@ class TenantsController < ApplicationController
                WHERE users.tenant_id = tenants.id
              ) AS user_count')
     .where('tenants.membership_expiration IS NOT NULL')
+    .where('EXISTS (
+          SELECT 1 FROM users
+          WHERE users.tenant_id = tenants.id
+       )')
+
 
     if params[:query].present?
       q = "%#{params[:query].downcase}%"
