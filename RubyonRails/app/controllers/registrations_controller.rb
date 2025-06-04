@@ -34,7 +34,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     if local_moderator.present?
       Rails.logger.info("DEBUG: Local mod was present.")
-      
+
       # The user is associated with the tenant of the local moderator whose code was entered.
       user.tenant_id = local_moderator.tenant_id
 
@@ -66,7 +66,7 @@ class RegistrationsController < Devise::RegistrationsController
       user = User.new(sign_up_params) # Initialize new user
       user.role = :local_moderator    # Set the role
       key = Key.find_by(activation_code: user.verification_key)
-
+      user.stripe_customer_id = key.customer_id
       if valid_registration_key?(key)
         # Save the user, which will trigger before_create callback
         if user.save
