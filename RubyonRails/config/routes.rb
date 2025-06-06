@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   post '/webhooks/stripe', to: 'webhooks#stripe'
 
 
+
   resources :global_moderators_dashboard, only: [:index] do
     post :create_discount, on: :collection
     post :create_key, on: :collection

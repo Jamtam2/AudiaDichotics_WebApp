@@ -6,7 +6,7 @@ class BillingDashboardController < ApplicationController
 
 
     def index
-
+      tenant = current_user.tenant.reload
       @current_month_tests = current_tests
       @previous_tests = previous_tests
       @expiration_date = current_user.tenant.membership_expiration
@@ -50,6 +50,7 @@ class BillingDashboardController < ApplicationController
       previous_month = 1.month.ago.beginning_of_month..1.month.ago.end_of_month
       fetch_tests(previous_month)
     end
+
 
     def fetch_tests(range)
       {

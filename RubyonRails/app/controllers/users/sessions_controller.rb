@@ -28,4 +28,15 @@ class Users::SessionsController < Devise::SessionsController
     # Proceed with the normal sign out process
     super
   end
+  #---------------------------------------------------------------JOE ADDED THIS-------------------
+  def after_sign_in_path_for(resource)
+    tenant = resource.tenant
+    if tenant.membership_expiration.present? && tenant.membership_expiration < Time.current
+      expired_license_path #  sends them to license key entry page
+    else
+      home_path #  default path (dashboard or root)
+    end
+  end
+
+
 end

@@ -66,6 +66,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate_user_with_redirect!
+    Rails.logger.info("IN AUTH CHECK — user_signed_in?: #{user_signed_in?}, current_user: #{current_user.inspect}")
+
     if request.path == "/users/sign_out"
       sign_out(current_user)
       redirect_to new_user_session_path and return
@@ -75,7 +77,19 @@ class ApplicationController < ActionController::Base
       Rails.logger.info("DEBUG:THIS IS THE PATH: #{request.path}")
       return
     end
-    if user_signed_in? && license_key_expired?(current_user)
+    Rails.logger.info("-------------------------------------")
+    Rails.logger.info("-------------------------------------")
+    Rails.logger.info("-------------------------------------")
+    Rails.logger.info("CHECKING IF LICENSE_KEY_EXPIRED")
+    Rails.logger.info("-------------------------------------")
+    Rails.logger.info("-------------------------------------")
+    Rails.logger.info("-------------------------------------")
+    Rails.logger.info("about to check the method: ")
+    Rails.logger.info("DEBUG: USER SIGNED IN? #{user_signed_in?}")
+    Rails.logger.info("Current user: #{current_user.inspect}")
+    Rails.logger.info("User signed in? #{user_signed_in?}")
+
+    if license_key_expired?(current_user)
       Rails.logger.info("DEBUG: USER SIGNED IN AND KEY IS EXPIRED: #{current_user.inspect}")
       Rails.logger.info("DEBUG: KEY INFO: #{current_user.license_key.inspect}")
 
@@ -100,11 +114,15 @@ class ApplicationController < ActionController::Base
   #         false - if no license key is found
   #         license_key - if a license key is found
   def license_key_expired?(user)
-    license_key = user.license_key
-    return false unless license_key
-    Rails.logger.info("KEY IN EXPIRATION METHOD: #{license_key.inspect}")
+    if user_signed_in?
+            
 
-    license_key.expiration < DateTime.current
+    current_tenant = user.tenant
+    return false unless current_tenant
+    Rails.logger.info("EXPIRATION IN {}: #{current_tenant.inspect}")
+
+    current_tenant.membership_expiration < DateTime.current
+    end
   end
 
   def mfa_process?
