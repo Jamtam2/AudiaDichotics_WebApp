@@ -2,7 +2,7 @@
 
 class StripeMembershipChecker
   def self.call
-    User.where.not(stripe_customer_id: nil).find_each do |user|
+    Tenant.where.not(stripe_customer_id: nil).find_each do |user|
       begin
         customer_id = user.stripe_customer_id
 
@@ -35,7 +35,7 @@ class StripeMembershipChecker
                      end
 
         tenant = user.tenant
-        new_expiration = [tenant.membership_expiration || Time.current, Time.current].max + 1.year
+        new_expiration = Time.current + 1.year
         tenant.update!(
           membership_expiration: new_expiration,
           test_limit: tenant.test_limit + test_count

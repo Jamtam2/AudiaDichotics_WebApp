@@ -37,6 +37,10 @@ class Users::SessionsController < Devise::SessionsController
       home_path #  default path (dashboard or root)
     end
   end
-
+  
+  def signout_and_go_to_plans
+    sign_out(current_user)
+    redirect_to stripe_checkout_path
+  end
 
 end

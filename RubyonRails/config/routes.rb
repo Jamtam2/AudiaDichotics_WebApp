@@ -24,7 +24,10 @@ Rails.application.routes.draw do
     get 'users/password/verify_2fa_code', to: 'users/passwords#new_verify_2fa_code', as: :new_verify_2fa_code
     post 'users/password/verify_2fa_code', to: 'users/passwords#verify_2fa_code', as: :verify_2fa_code
 
+    post 'signout_and_go_to_plans', to: 'users/sessions#signout_and_go_to_plans', as: :signout_and_go_to_plans
+
   end
+
 
   post 'recordings/start', to: 'recordings#start'
   post 'recordings/stop', to: 'recordings#stop'
@@ -199,5 +202,6 @@ Rails.application.routes.draw do
 
   # Adding a route for the speech api
   get 'speech_api', to: 'speech_api#index'
+
 
 end

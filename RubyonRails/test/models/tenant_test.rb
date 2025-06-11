@@ -8,6 +8,7 @@
 #  test_limit            :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  stripe_customer_id    :string
 #
 require "test_helper"
 

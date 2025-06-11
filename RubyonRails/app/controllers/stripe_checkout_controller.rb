@@ -57,6 +57,7 @@ class StripeCheckoutController < ApplicationController
       session = Stripe::Checkout::Session.retrieve(session_id)
 
       if session.metadata.test_purchase == 'true'
+        if user_signed_in?
         tenant = current_user.tenant
         curr_tests = tenant.test_limit
         test_quantity = session.metadata.test_quantity.to_i
@@ -67,7 +68,13 @@ class StripeCheckoutController < ApplicationController
         puts "tenant should be incremented...: #{tenant}"
         flash[:notice] = "Successfully purchased #{test_quantity} tests!"
         redirect_to('/billing_dashboard')
+        else
+          redirect_to new_user_session_path, alert: "Please sign in to apply your test credits."
+        end
       else
+        email = session.customer_details.email
+        user = User.find_by(email: email)
+        tenant = user&.tenant
 
 
         license_type = session.metadata.license_type
@@ -79,7 +86,7 @@ class StripeCheckoutController < ApplicationController
         license_key = SecureRandom.hex(15)
 
         # Assuming `Key` is your model for storing license keys info
-        Key.create!(
+        key = Key.create!(
           activation_code: license_key,
           email: session.customer_details.email,
           customer_id: session.customer,
@@ -89,14 +96,20 @@ class StripeCheckoutController < ApplicationController
         )
         puts "#{license_key}"
 
+        #Linking tenant to Stripe customer
+        tenant.update!(stripe_customer_id: key.customer_id) if tenant
+
+
         # Send the license key to the user's email
         UserMailer.license_key_purchase(session.customer_details.email, license_key).deliver_now
 
 
         flash[:notice] = 'Please check your email for your verification key.'
+        redirect_to root_path
+        
       end
       # Redirect or render success message
-      end
+    end
     def failure
         if current_user
           redirect_to('/billing_dashboard')
