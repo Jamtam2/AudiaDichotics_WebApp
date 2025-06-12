@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_03_12_210747) do
+ActiveRecord::Schema.define(version: 2025_06_09_000350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -268,6 +268,7 @@ ActiveRecord::Schema.define(version: 2025_03_12_210747) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "test_limit"
     t.datetime "membership_expiration"
+    t.string "stripe_customer_id"
   end
 
   create_table "tests", force: :cascade do |t|

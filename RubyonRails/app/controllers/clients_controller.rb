@@ -35,11 +35,32 @@ class ClientsController < ApplicationController
        if key.present? && !key.used
 
          puts "Valid registration key found: #{key.inspect}"
+         curr_key.update(email:  "OLDKEYSFOR#{user.email}") if curr_key.present? #joe
          user.update(verification_key: verification_key)
-         curr_key.update(email:  "OLDKEYSFOR#{user.email}")
          key.update(used: true, email: user.email)
-         redirect_to home_path
 
+          tenant = user.tenant
+          case key.license_type
+          when "tests_15"
+            tenant.test_limit += 15
+            tenant.membership_expiration = Time.current + 1.year
+            tenant.save
+
+          when "tests_45"
+            tenant.test_limit += 45
+            tenant.membership_expiration = Time.current + 1.year
+            tenant.save
+
+          when "tests_100"
+            tenant.test_limit += 100
+            tenant.membership_expiration = Time.current + 1.year
+            tenant.save
+          else
+            flash[:alert] = "Unknown license type"
+            redirect_to expired_license_path and return
+          end
+         
+          redirect_to home_path, notice: "License activated successfully"
        else
          redirect_to expired_license_path, alert: 'Invalid registration key.'
        end
