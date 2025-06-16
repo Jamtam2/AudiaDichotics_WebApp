@@ -110,13 +110,13 @@ class StripeCheckoutController < ApplicationController
       end
       # Redirect or render success message
     end
-    def failure
-        if current_user
-          redirect_to('/billing_dashboard')
-        else
-          redirect_to('/users/sign_in')
-    end
-        # Redirect or render success message
-    end
+      def failure
+          if current_user
+            redirect_to('/billing_dashboard')
+          else
+            redirect_to('/users/sign_in')
+          end
+          
+      end
 
 end

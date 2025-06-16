@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
     if user_mfa_session.nil? || (!user_mfa_session.activated && !user_mfa_session.email_verified)
       redirect_to new_user_mfa_session_path and return
 
-  else
+    else
       authenticate_user_with_redirect!
 
     end

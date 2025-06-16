@@ -27,7 +27,7 @@ class Tenant < ApplicationRecord
     def can_take_test?
         # puts "can you take the test? #{test_limit}"
         test_limit > 0 && !membership_expired?
-      end
+    end
 
       def membership_expired?
         membership_expiration < Time.current

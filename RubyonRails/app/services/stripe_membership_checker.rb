@@ -1,26 +1,43 @@
 # app/services/stripe_membership_checker.rb
-
 class StripeMembershipChecker
   def self.call
-    Tenant.where.not(stripe_customer_id: nil).find_each do |user|
+    # Go through all tenants with a Stripe ID
+    Tenant.where.not(stripe_customer_id: nil).find_each do |tenant|
       begin
-        customer_id = user.stripe_customer_id
+        customer_id = tenant.stripe_customer_id
+        Rails.logger.info("Checking Stripe customer: #{customer_id}")
 
-        # Get recent invoices
-        invoices = Stripe::Invoice.list(customer: customer_id, limit: 10).data
-        paid_renewal = invoices.find do |inv|
-          inv.status == 'paid' && inv.billing_reason == 'subscription_cycle'
+        # Get the active Stripe subscription
+        subscriptions = Stripe::Subscription.list(customer: customer_id).data
+        subscription = subscriptions.find { |sub| sub.status == 'active' }
+        if subscription.nil?
+          Rails.logger.info "No active subscription for tenant #{tenant.id} — skipping."
+          next
+        end
+        # Make sure the latest invoice is paid
+        invoice = Stripe::Invoice.retrieve(subscription.latest_invoice)
+        unless invoice.status == 'paid'
+          Rails.logger.info "Latest invoice not paid for tenant #{tenant.id} — skipping."
+          next
         end
 
-        unless paid_renewal
-          Rails.logger.info "No renewal found for #{user.email} — skipping."
+
+       # Get when the current Stripe period ends
+        current_period_end = Time.at(subscription.current_period_end)
+        if subscription.status != 'active'
+          Rails.logger.info "Subscription is not active for tenant #{tenant.id} — skipping."
+          next
+        end
+        # Skip if already renewed
+        if tenant.membership_expiration.present? && tenant.membership_expiration >= current_period_end
+          Rails.logger.info "Tenant #{tenant.id} already renewed for this billing period — skipping."
           next
         end
 
         # Get license info
-        key = Key.where(email: user.email).order(created_at: :desc).first
+        key = Key.where(customer_id: tenant.stripe_customer_id).order(created_at: :desc).first
         unless key&.license_type
-          Rails.logger.warn "No license key found for #{user.email}"
+          Rails.logger.warn "No valid license key found for customer #{customer_id}"
           next
         end
 
@@ -30,23 +47,26 @@ class StripeMembershipChecker
                      when 'tests_45' then 45
                      when 'tests_100' then 100
                      else
-                       Rails.logger.warn "Invalid license type #{key.license_type} for #{user.email}"
+                       Rails.logger.warn "Invalid license type #{key.license_type} for customer #{customer_id}"
                        next
                      end
 
-        tenant = user.tenant
-        new_expiration = Time.current + 1.year
+        new_expiration = current_period_end 
         tenant.update!(
           membership_expiration: new_expiration,
-          test_limit: tenant.test_limit + test_count
+          test_limit: (tenant.test_limit || 0) + test_count,
         )
 
-        Rails.logger.info "Updated #{user.email}: +#{test_count} tests, expires on #{new_expiration}"
+        Rails.logger.info "Updated #{tenant.users.first&.email || "tenant ##{tenant.id}"}: +#{test_count} tests, expires on #{new_expiration}"
+        user_email = tenant.users.first&.email
+        tenant_identifier = user_email || "tenant ##{tenant.id}"
+        Rails.logger.info "Updated #{tenant_identifier}: +#{test_count} tests, expires on #{new_expiration}"
 
       rescue Stripe::StripeError => e
-        Rails.logger.error "Stripe error for #{user.email}: #{e.message}"
-      rescue => e
-        Rails.logger.error "Unexpected error for #{user.email}: #{e.message}"
+        Rails.logger.error "Stripe error for customer #{tenant.stripe_customer_id}: #{e.message}"
+      rescue StandardError => e
+        Rails.logger.error "Unexpected error for tenant #{tenant.id}: #{e.message}"
+        raise e
       end
     end
   end

@@ -7,10 +7,11 @@ class BillingDashboardController < ApplicationController
 
     def index
       tenant = current_user.tenant.reload
+      puts "DEBUG — Tenant: #{tenant.inspect}"
       @current_month_tests = current_tests
       @previous_tests = previous_tests
       @expiration_date = current_user.tenant.membership_expiration
-
+      puts "DEBUG — Expiration Date: #{@expiration_date.inspect}"
       @total_tests = current_user.tenant.test_limit
     end
 
@@ -28,7 +29,7 @@ class BillingDashboardController < ApplicationController
 
     def set_stripe_api_key
       Stripe.api_key = ENV['API_KEY_TEST']
-  end
+    end
 
 
     private
@@ -61,4 +62,4 @@ class BillingDashboardController < ApplicationController
 
     end
 
-  end
+end
