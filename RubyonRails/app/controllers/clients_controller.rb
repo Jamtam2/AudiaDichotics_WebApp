@@ -35,11 +35,25 @@ class ClientsController < ApplicationController
        if key.present? && !key.used
 
          puts "Valid registration key found: #{key.inspect}"
+         curr_key.update(email:  "OLDKEYSFOR#{user.email}") if curr_key.present? #joe
          user.update(verification_key: verification_key)
-         curr_key.update(email:  "OLDKEYSFOR#{user.email}")
          key.update(used: true, email: user.email)
-         redirect_to home_path
 
+          tenant = user.tenant
+          case key.license_type
+          when "tests_15"
+            tenant.test_limit += 15
+          when "tests_45"
+            tenant.test_limit += 45
+          when "tests_100"
+            tenant.test_limit += 100
+          else
+            flash[:alert] = "Unknown license type"
+            redirect_to expired_license_path and return
+          end
+          tenant.save
+         
+          redirect_to home_path, notice: "License activated successfully"
        else
          redirect_to expired_license_path, alert: 'Invalid registration key.'
        end
@@ -58,15 +72,15 @@ class ClientsController < ApplicationController
      end
 
 
-     def edit
-         @client = Client.find(params[:id])
-         #is this way of doing id correct? or should it be split up into 3 lines?
-         @all_tests = (
-          @client.dwt_tests.to_a +
-          @client.dnw_tests.to_a +
-          @client.rddt_tests.to_a
-         ).sort_by(&:created_at).reverse
-       end
+        def edit
+            @client = Client.find(params[:id])
+            #is this way of doing id correct? or should it be split up into 3 lines?
+            @all_tests = (
+              @client.dwt_tests.to_a +
+              @client.dnw_tests.to_a +
+              @client.rddt_tests.to_a
+            ).sort_by(&:created_at).reverse
+        end
 
 
      def update
@@ -242,7 +256,7 @@ class ClientsController < ApplicationController
    # loop over the dict of search terms and filter results if the user is using search term
    dict_of_search_terms.each do |search_term, (hashed_attribute, hashed_value)|
      if params[search_term].present?
-       hashed_records = HashedDatum.where(hashed_attribute => hashed_value)
+      hashed_records = HashedDatum.where(hashed_attribute => hashed_value)
        # @clients = @clients.where(id: hashed_records.pluck(:hashable_id)) if hashed_records.exists?
      end
    end
@@ -270,12 +284,12 @@ class ClientsController < ApplicationController
  end
 
 
-     def show
-       @client = Client.find(params[:id])
-       @dwt_tests = @client.dwt_tests
-       @dnw_tests = @client.dnw_tests
-       @rddt_tests = @client.rddt_tests
-       end
+      def show
+        @client = Client.find(params[:id])
+        @dwt_tests = @client.dwt_tests
+        @dnw_tests = @client.dnw_tests
+        @rddt_tests = @client.rddt_tests
+      end
 
 
      def search
@@ -326,12 +340,12 @@ class ClientsController < ApplicationController
 
 private
 
-def client_params
-    params.require(:client).permit(:first_name, :last_name, :email, :date_of_birth, :gender, :address1, :country, :state, :city, :zip, :phone1,:mgmt_ref,:phone2, emergency_contacts_attributes: [
-      :first_name, :last_name, :phone_number, :address,
-      :email, :city, :state
-    ]
-    )
+  def client_params
+      params.require(:client).permit(:first_name, :last_name, :email, :date_of_birth, :gender, :address1, :country, :state, :city, :zip, :phone1,:mgmt_ref,:phone2, emergency_contacts_attributes: [
+        :first_name, :last_name, :phone_number, :address,
+        :email, :city, :state
+      ]
+      )
   end
 end
 

@@ -8,11 +8,20 @@
           <!-- Other head elements -->
           <script src="https://js.stripe.com/v3/"></script>
         </head>
-        <%= button_to 'Manage Billing', customer_portal_path, method: :post , class: "btn-lg btn-primary mfa-submit rounded-pill", style:"float: right;"%>
-
+        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 20px;">
+          <%= button_to 'Manage Billing', customer_portal_path, 
+          method: :post , class: "btn-lg btn-primary mfa-submit rounded-pill"%>
+        </div>
           <!-- Display remaining tests -->
       <h2 class="display-3">Tests Remaining</h2>
-      <p>You have <strong><%=  @total_tests %></strong> tests remaining. Your membership will expire <strong><%=  @expiration_date.strftime('%m/%d/%Y') %></strong></p>
+      <p>
+        You have <strong><%= @total_tests %></strong> tests remaining.
+        <% if @expiration_date.present? %>
+          Your membership will expire <strong><%= @expiration_date.strftime('%m/%d/%Y') %></strong>.
+        <% else %>
+          Your membership will expire
+        <% end %>
+      </p>
       
         <% if @current_month_tests.present? %>
           <h2 class="display-3">Current Month's Tests</h2>

@@ -8,6 +8,7 @@
 #  test_limit            :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  stripe_customer_id    :string
 #
 class Tenant < ApplicationRecord
     has_many :users
@@ -21,11 +22,12 @@ class Tenant < ApplicationRecord
     # Associate payments with tenant
     has_many :payments, dependent: :destroy
 
-
+    validates :stripe_customer_id, uniqueness: true, allow_nil: true
+    
     def can_take_test?
         # puts "can you take the test? #{test_limit}"
         test_limit > 0 && !membership_expired?
-      end
+    end
 
       def membership_expired?
         membership_expiration < Time.current

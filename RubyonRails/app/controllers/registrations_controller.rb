@@ -67,6 +67,7 @@ class RegistrationsController < Devise::RegistrationsController
       user.role = :local_moderator    # Set the role
       key = Key.find_by(activation_code: user.verification_key)
       user.stripe_customer_id = key.customer_id
+      tenant.stripe_customer_id = key.customer_id
       if valid_registration_key?(key)
         # Save the user, which will trigger before_create callback
         if user.save
