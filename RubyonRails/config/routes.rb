@@ -87,9 +87,21 @@ Rails.application.routes.draw do
 
   end
 
-
+  get 'clients/:client_id/trainings', to: 'trainings#index', as: 'client_trainings'
+  get 'clients/:client_id/trainings/export', to: 'trainings#export', defaults: {format: 'xlsx'}, as: 'trainings_export'
+    get 'clients/:client_id/trainings/final_summary', to: 'trainings#final_summary', as: 'client_final_summary'
+  get 'clients/:client_id/trainings/:id', to: 'trainings#show', as: 'client_training'
+  # Below are rest break paths for specific steps in the training procedure
+  get 'clients/:client_id/week_ones/rest_break_week_one', to: 'week_ones#rest_break_week_one', as: 'rest_break_week_one_client_week_ones'
+  get 'clients/:client_id/week_twos/rest_break_week_two', to: 'week_twos#rest_break_week_two', as: 'rest_break_week_two_client_week_twos'
+  get 'clients/:client_id/week_threes/rest_break_week_three', to: 'week_threes#rest_break_week_three', as: 'rest_break_week_three_client_week_threes'
+  get 'clients/:client_id/week_fours/rest_break_week_four', to: 'week_fours#rest_break_week_four', as: 'rest_break_week_four_client_week_fours'
   resources :clients do
     resources :emergency_contacts, only: [:create, :destroy, :new, :edit, :update]
+    resources :trainings do
+      post 'add_week', on: :collection
+      post 'subtract_week', on: :collection
+    end
     resources :dwt_tests do
       collection do
         get 'new_dwt_list1', to: 'dwt_tests#new_dwt_list1', as: 'dwt_list1'
@@ -138,6 +150,7 @@ Rails.application.routes.draw do
         get 'dnw_week_one_test7', to: 'week_ones#dnw_week_one_test7', as: 'week_one_test_seven'
         get 'dwt_week_one_test8', to: 'week_ones#dwt_week_one_test8', as: 'week_one_test_eight'
         get 'rddt_week_one_test9', to: 'week_ones#rddt_week_one_test9', as: 'week_one_test_nine'
+        get 'week_one_summary', to: 'week_ones#week_one_summary', as: 'week_one_summary'
         get 'week_ones/:id', to: 'week_ones#show', as: 'show'
       end
     end
@@ -150,10 +163,13 @@ Rails.application.routes.draw do
         get 'rddt_week_four_test3', to: 'week_fours#rddt_week_four_test3', as: 'week_four_test_three'
         get 'tales_week_four_test4', to: 'week_fours#tales_week_four_test4', as: 'week_four_test_four'
         get 'tales_week_four_test5', to: 'week_fours#tales_week_four_test5', as: 'week_four_test_five'
-        get 'dnw_week_four_test6', to: 'week_fours#dnw_week_four_test6', as: 'week_four_test_six'
-        get 'dwt_week_four_test7', to: 'week_fours#dwt_week_four_test7', as: 'week_four_test_seven'
-        get 'dwt_week_four_test8', to: 'week_fours#dwt_week_four_test8', as: 'week_four_test_eight'
-        get 'rddt_week_four_test9', to: 'week_fours#rddt_week_four_test9', as: 'week_four_test_nine'
+        get 'tales_week_four_test6', to: 'week_fours#tales_week_four_test6', as: 'week_four_test_six'
+        get 'tales_week_four_test7', to: 'week_fours#tales_week_four_test7', as: 'week_four_test_seven'
+        get 'dnw_week_four_test8', to: 'week_fours#dnw_week_four_test8', as: 'week_four_test_eight'
+        get 'dwt_week_four_test9', to: 'week_fours#dwt_week_four_test9', as: 'week_four_test_nine'
+        get 'dwt_week_four_test10', to: 'week_fours#dwt_week_four_test10', as: 'week_four_test_ten'
+        get 'rddt_week_four_test11', to: 'week_fours#rddt_week_four_test11', as: 'week_four_test_eleven'
+        get 'week_four_summary', to: 'week_fours#week_four_summary', as: 'week_four_summary'
         get 'week_fours/:id', to: 'week_fours#show', as: 'show'
       end
     end
@@ -164,13 +180,16 @@ Rails.application.routes.draw do
         get 'rddt_week_three_test1', to: 'week_threes#rddt_week_three_test1', as: 'week_three_test_one'
         get 'tales_week_three_test2', to: 'week_threes#tales_week_three_test2', as: 'week_three_test_two'
         get 'tales_week_three_test3', to: 'week_threes#tales_week_three_test3', as: 'week_three_test_three'
-        get 'dwt_week_three_test4', to: 'week_threes#dwt_week_three_test4', as: 'week_three_test_four'
-        get 'dwt_week_three_test5', to: 'week_threes#dwt_week_three_test5', as: 'week_three_test_five'
-        get 'dnw_week_three_test6', to: 'week_threes#dnw_week_three_test6', as: 'week_three_test_six'
-        get 'dnw_week_three_test7', to: 'week_threes#dnw_week_three_test7', as: 'week_three_test_seven'
-        get 'rddt_week_three_test8', to: 'week_threes#rddt_week_three_test8', as: 'week_three_test_eight'
-        get 'dwt_week_three_test9', to: 'week_threes#dwt_week_three_test9', as: 'week_three_test_nine'
-        get 'dwt_week_three_test10', to: 'week_threes#dwt_week_three_test10', as: 'week_three_test_ten'
+        get 'tales_week_three_test4', to: 'week_threes#tales_week_three_test4', as: 'week_three_test_four'
+        get 'tales_week_three_test5', to: 'week_threes#tales_week_three_test5', as: 'week_three_test_five'
+        get 'dwt_week_three_test6', to: 'week_threes#dwt_week_three_test6', as: 'week_three_test_six'
+        get 'dwt_week_three_test7', to: 'week_threes#dwt_week_three_test7', as: 'week_three_test_seven'
+        get 'dnw_week_three_test8', to: 'week_threes#dnw_week_three_test8', as: 'week_three_test_eight'
+        get 'dnw_week_three_test9', to: 'week_threes#dnw_week_three_test9', as: 'week_three_test_nine'
+        get 'rddt_week_three_test10', to: 'week_threes#rddt_week_three_test10', as: 'week_three_test_ten'
+        get 'dwt_week_three_test11', to: 'week_threes#dwt_week_three_test11', as: 'week_three_test_eleven'
+        get 'dwt_week_three_test12', to: 'week_threes#dwt_week_three_test12', as: 'week_three_test_twelve'
+        get 'week_three_summary', to: 'week_threes#week_three_summary', as: 'week_three_summary'
         get 'week_threes/:id', to: 'week_threes#show', as: 'show'
       end
     end
@@ -186,12 +205,11 @@ Rails.application.routes.draw do
         get 'dnw_week_two_test6', to: 'week_twos#dnw_week_two_test6', as: 'week_two_test_six'
         get 'dwt_week_two_test7', to: 'week_twos#dwt_week_two_test7', as: 'week_two_test_seven'
         get 'dwt_week_two_test8', to: 'week_twos#dwt_week_two_test8', as: 'week_two_test_eight'
+        get 'week_two_summary', to: 'week_twos#week_two_summary', as: 'week_two_summary'
         get 'week_twos/:id', to: 'week_twos#show', as: 'show'
       end
     end
   end
-    get 'clients/:client_id/trainings', to: 'trainings#index', as: 'client_trainings'
-    get 'clients/:client_id/trainings/:id', to: 'trainings#show', as: 'client_training'
 
   #ALLEARS Addition: Trying to fix audio path issues for Week_Ones
   get '/audio_files/:file_name', to: 'audio_files#show', as: :audio_file

@@ -1,0 +1,368 @@
+<!--Test page for DWT List 1 Contains everything for completing and submitting a test  -->
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+<style>
+  div.sticky {
+      position: -webkit-sticky; /* Safari */
+      position: sticky;
+      top: 0;
+  }
+  /* Center buttons in the table cells */
+  .btn-group-toggle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+  /* Make the font larger */
+  .btn.btn-outline-primary {
+      font-size: 16px; /* Adjust the font size as needed */
+      margin: 5px; /* Add some margin to separate the buttons */
+      min-width: 40px; /* Adjust the minimum width as needed */
+  }
+  .left-column {
+      background-color: lightblue;
+                  }
+
+  .right-column {
+      background-color: lightpink;
+  }
+
+  .ear-advantage {
+      background-color: white;
+  }
+
+  .ear-advantage.positive {
+      background-color: lightblue;
+  }
+
+  .ear-advantage.negative {
+      background-color: lightpink;
+  }
+
+  .play-pause {
+    background-color: #008cba;
+    height: 40px;
+    width: 100%;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 7.5px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+
+  .play-pause:hover {
+    background-color: #0082ae;
+    transform: scale(1.05);
+  }
+</style>
+
+<body id="defBG" style="font-family: Arial !important; margin-bottom: 60px;">
+  <div class="container p-5 my-3 w-100 border rounded bg-white ">
+    <h1 class= "display-5", style= 'padding-bottom:20px' ><strong><%= "Training for " + @client.first_name + " " + @client.last_name%></strong></h1>
+    <%= form_with model: [@client, @week_three], local: true, html: { multipart: true } do |f| %>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-group">
+              <div>
+                <p>Ear Dominance</p>
+                <div style="display: flex;">
+                  <%= button_to "Set Left Dominance", "#", class: "btn-1 btn-anim1", style: "min-width: 150px; margin-right:20px;" %>
+                  <%= button_to "Set Right Dominance", "#", class: "btn-1 btn-anim1", style: "min-width: 150px;" %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div>
+                <p>Audio Controls</p>
+                <div id="controls">
+                  <%= image_tag "pause.svg", id: "pauseButton", class: "play-pause", style: "display: none;" %>
+                  <%= image_tag "play.svg", id: "playButton", class: "play-pause" %>
+                </div>
+                <p>Time Elapsed: <span id="timer">0:00</span> / <span id="duration">--:--</span></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exampleLabel">Label</label>
+              <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week Three Test Eleven" %>
+            </div>
+            <div class="form-group">
+              <label for="clientName">Client</label>
+              <input class="form-control" type="text" id="clientName" placeholder="<%= @client.first_name + ' ' + @client.last_name %>" readonly>
+            </div>
+            <div class="form-group">
+              <label for="testType">Type</label>
+              <input class="form-control" type="text" id="testType" placeholder="Dichotic Words" readonly>
+            </div>
+            <hr>
+            <!-- <%= button_tag "Switch left/right", :onclick => "event.preventDefault();" %> -->
+
+            <div class="sticky">
+              <label for="Notes">Notes</label>
+              <%= f.text_area :notes, class: 'form-control', rows: '3' %>
+              <hr>
+              <!--AUDIO PLAYER FOR AUDIO FILES STORED IN ASSETS/AUDIO/ETC.MP3-->
+              <%= audio_tag "Dichotic Words Track 12_R.wav", id: "testAudio", controls: false %>
+
+              <!-- JavaScript to Handle Playback and Timer -->
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  const leftAudio = document.getElementById("testAudio");
+                  const playButton = document.getElementById("playButton");
+                  const pauseButton = document.getElementById("pauseButton");
+                  const timerDisplay = document.getElementById("timer");
+                  const durationDisplay = document.getElementById("duration");
+
+                  // Function to format time as mm:ss
+                  function formatTime(seconds) {
+                    const minutes = Math.floor(seconds / 60);
+                    const secs = Math.floor(seconds % 60);
+                    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+                  }
+
+                  // Set total duration when data is loaded
+                  testAudio.addEventListener("loadedmetadata", function() {
+                    durationDisplay.textContent = formatTime(testAudio.duration);
+                  });
+
+                  // Update timer
+                  testAudio.addEventListener("timeupdate", function() {
+                    timerDisplay.textContent = formatTime(testAudio.currentTime);
+                  });
+
+                  // Play audio file
+                  playButton.addEventListener("click", function() {
+                    playButton.style.display = "none";
+                    pauseButton.style.display = "inline";
+                    testAudio.play();
+                  });
+
+                  // Pause audio file
+                  pauseButton.addEventListener("click", function() {
+                    playButton.style.display = "inline";
+                    pauseButton.style.display = "none";
+                    testAudio.pause();
+                  });
+                });
+              </script>
+              <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                function setupEarTracking({
+                  checkboxSelector,
+                  displayId,
+                  side
+                }) {
+                  const scoreDisplay = document.getElementById(displayId);
+                  const checkboxes = document.querySelectorAll(checkboxSelector);
+                  const total = checkboxes.length;
+                  const checkedSet = new Set();
+
+                  checkboxes.forEach((checkbox, index) => {
+                    checkbox.addEventListener('change', function () {
+                      const key = `${side}-${index}`; // uniquely identifies each checkbox per side
+
+                      if (checkbox.checked) {
+                        checkedSet.add(key);
+                      } else {
+                        checkedSet.delete(key);
+                      }
+
+                      const percent = Math.round((checkedSet.size / total) * 100);
+                      scoreDisplay.innerText = percent;
+
+                      updateEarAdvantage(); // Recalculate advantage on every change
+                    });
+                  });
+
+                  return () => checkedSet.size;
+                }
+
+                const leftScoreId = 'column1Group1-percent';
+                const rightScoreId = 'column2Group1-percent';
+                const advDisplayId = 'Group1advantage-Diff';
+                const advInputId = 'advantage-Name';
+                const advCellSelector = '.ear-advantage';
+
+                // Initialize left and right
+                let getLeftCount = setupEarTracking({
+                  checkboxSelector: 'input[name^="column1"]',
+                  displayId: leftScoreId,
+                  side: 'left'
+                });
+
+                let getRightCount = setupEarTracking({
+                  checkboxSelector: 'input[name^="column2"]',
+                  displayId: rightScoreId,
+                  side: 'right'
+                });
+
+                function updateEarAdvantage() {
+                  const leftVal = parseInt(document.getElementById(leftScoreId).innerText) || 0;
+                  const rightVal = parseInt(document.getElementById(rightScoreId).innerText) || 0;
+                  const diff = rightVal - leftVal;
+
+                  const advDisplay = document.getElementById(advDisplayId);
+                  const advInput = document.getElementById(advInputId);
+                  const advCell = document.querySelector(advCellSelector);
+
+                  advDisplay.innerText = Math.abs(diff);
+                  advInput.value = diff > 0 ? "Right" : diff < 0 ? "Left" : "None";
+
+                  // Set cell background based on advantage
+                  if (diff > 0) {
+                    advCell.style.backgroundColor = "#ffb6c1"; // light pink
+                  } else if (diff < 0) {
+                    advCell.style.backgroundColor = "#add8e6"; // light blue
+                  } else {
+                    advCell.style.backgroundColor = ""; // neutral
+                  }
+                }
+              });
+            </script>
+              <p>Scores:</p>
+              <table class="table table-sm table-bordered m1-4" style="max-width: 25rem;">
+                <thead>
+                  <tr>
+                    <th scope="col">Left</th>
+                    <th scope="col">Right</th>
+                    <th scope="col">Ear Adv</th>
+                  </tr>
+                  <tbody>
+                    <tr>
+                    <td class="left-column"><span id="column1Group1-percent">0</span>%</td>
+                    <td class="right-column"><span id="column2Group1-percent">0</span>%</td>
+                    <td class="ear-advantage"><span id="Group1advantage-Diff">0</span>%</td>
+                    </tr>
+                  </tbody>
+                </thead>
+              </table>
+
+              <!--Table for ear advantage that is calculated in the script and ear diagnosis/interpretation-->
+              <label for="advantage-Name">Ear Advantage</label>
+              <input class="form-control" type="text" id="advantage-Name" value="" readonly>
+              <span hidden id="advantage-Name"></span>
+            </div>
+          </div>
+
+          <div style="width: 1px; height: inherit; background-color: rgba(0, 0, 0, 0.1);"></div>
+
+          <div class="col-sm" style="flex-grow: 3;">
+            <table class="table table-sm table-striped" style="max-width: 25rem; margin: 0 auto 1rem;">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Number</th>
+                  <th>Left</th>
+                  <th>Right</th>
+                </tr>
+              </thead>
+              <tbody>
+              <!-- Loop for table of words and creation of all buttons, only loops 25 times and creates table for buttons-->
+              <!--Track 12-->
+                <% 20.times do |i| %>
+                  <% words = [
+                    ["Hug", "Cave"],
+                    ["Weave", "Vice"],
+                    ["Joke", "Numb"],
+                    ["Hot", "Win"],
+                    ["Five", "Set"],
+                    ["Shelf", "Rice"],
+                    ["Cheek", "Bath"],
+                    ["Goose", "Hedge"],
+                    ["Not", "Cheer"],
+                    ["Reap", "Patch"],
+                    ["Fudge", "Ship"],
+                    ["Foam", "Days"],
+                    ["June", "Both"],
+                    ["Sheep", "Move"],
+                    ["Doll", "Jug"],
+                    ["Him", "Deep"],
+                    ["Tooth", "Well"],
+                    ["Got", "Bug"],
+                    ["Wish", "Phone"],
+                    ["Vote", "Half"]
+                    ] %>
+                  <tr>
+                    <td><%= i + 1 %></td>
+                    <td>
+                      <div class="btn-group-toggle" data="buttons">
+                        <label class="btn btn-outline-primary column1-button">
+                          <input type="checkbox" name="column1[<%= i %>][]" value="1"> <%= words[i][0] %>
+                        </label>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="btn-group-toggle" data="buttons">
+                        <label class="btn btn-outline-primary column2-button">
+                          <input type="checkbox" name="column2[<%= i %>][]" value="2"> <%= words[i][1] %>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <!--Hidden table for submition items-->
+              </table>
+
+              <%= f.hidden_field :client_name, value: "Example user" %>
+              <%= f.hidden_field :test_type, value: "DWT" %>
+              <%= f.hidden_field :counter, value: "11" %>
+              <%= f.hidden_field :left_score, id: "left_score" %>
+              <%= f.hidden_field :right_score, id: "right_score" %>
+              <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
+              <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
+
+              <!-- ALLEARS ADDITIONS, added to submit as well-->
+
+              <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
+              <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
+
+              <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "populateHiddenFields();" %>
+            </div>
+
+            <script>
+
+              //function for keeping the buttons blue after being clicked
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+                checkboxes.forEach(function(checkbox) {
+                  checkbox.addEventListener('change', function() {
+                    const label = this.closest('label');
+                    if (this.checked) {
+                      label.classList.add('active');
+                    } else {
+                      label.classList.remove('active');
+                    }
+                  });
+                });
+
+              // gets the elements from hidden field submit above and populates them from the results in the script
+              function populateHiddenFields() {
+                document.getElementById("left_score").value = document.getElementById("column1Group1-percent").innerText;
+                document.getElementById("right_score").value = document.getElementById("column2Group1-percent").innerText;
+                document.getElementById("ear_advantage").value = document.getElementById("advantage-Name").value;
+                document.getElementById("ear_advantage_score").value = document.getElementById("Group1advantage-Diff").innerText;
+              }
+              document.addEventListener("DOMContentLoaded", function () {
+                const form = document.querySelector("form");
+                if (form) {
+                  form.addEventListener("submit", function (event) {
+                    populateHiddenFields();
+                  });
+                }
+              });
+
+              function submitAndExit() {
+                  populateHiddenFields();
+
+                  setTimeout(() => {
+                    document.querySelector("form").submit();
+                  }, 100); // slight delay to ensure values get filled in
+              }
+
+            </script>
+      </div>
+    <% end %>
+  </div>
+</body>

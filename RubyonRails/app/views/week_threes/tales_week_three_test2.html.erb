@@ -1,152 +1,230 @@
-<body class="bg-light center">
+<style>
+  .play-pause {
+    background-color: #008cba;
+    height: 40px;
+    width: 100%;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 7.5px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+
+  .play-pause:hover {
+    background-color: #0082ae;
+    transform: scale(1.05);
+  }
+
+  button:hover {
+    box-shadow: none;
+    letter-spacing: 0;
+  }
+</style>
+
+<body id="defBG" style="font-family: Arial !important; margin-bottom: 60px;">
   <div class="container p-5 my-3 w-100 border rounded bg-white ">
     <h1 class="display-5" style='padding-bottom:20px'><strong><%= "Training " + @client.first_name + " " + @client.last_name %></strong></h1>
-
     <!-- Fairy Tales Test Section -->
     <%= form_with model: [@client, @week_three], local: true, html: { multipart: true } do |f| %>
       <div class="container">
         <div class="row">
           <div class="col-sm">
             <!-- Audio Controls -->
-            <div class="form-group row">
-              <div>
-                <p>Audio Controls</p>
-                <button id="playLeftButton" type="button" class="btn btn-info">Play Left</button>
-                <button id="playRightButton" type="button" class="btn btn-info">Play Right</button>
-                <button id="pauseButton" type="button" class="btn btn-info">Pause</button>
-                </div>
+            <p>Audio Controls</p>
+            <div id="controls">
+              <%= image_tag "pause.svg", id: "pauseButton", class: "play-pause", style: "display: none;" %>
+              <%= image_tag "play.svg", id: "playButton", class: "play-pause" %>
+              <p>Time Elapsed: <span id="timer">0:00</span> / <span id="duration">--:--</span></p>
             </div>
-            <div class="form-group row ">
+            <div class="form-group">
               <label for="exampleLabel">Label</label>
               <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week Three Test Two" %>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group">
               <label for="clientName">Client</label>
               <input class="form-control" type="text" id="clientName" placeholder="<%= @client.first_name + ' ' + @client.last_name %>" readonly>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group">
               <label for="testType">Type</label>
               <input class="form-control" type="text" id="testType" placeholder="Fairy Tales" readonly>
             </div>
 
-            <hr/>
+            <hr>
             <div class="sticky">
               <label for="Notes">Notes</label>
               <%= f.text_area :notes, class: 'form-control', rows: '3' %>
               <hr/>
 
-              <!-- Audio Player for Fairy Tales Tracks -->
-              <%= audio_tag "Cinderella_Track1_R_Left_HRTF.wav", id: "leftEarAudio", controls: false %>
-              <%= audio_tag "Cinderella_Track1_R_Right_HRTF.wav", id: "rightEarAudio", controls: false %>
-              <!-- Add additional tracks as needed -->
+              <%= audio_tag "LRRH_Track1.wav", id: "testAudio", controls: false %>
 
+              <!-- JavaScript to Handle Playback and Timer -->
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  const leftAudio = document.getElementById("testAudio");
+                  const playButton = document.getElementById("playButton");
+                  const pauseButton = document.getElementById("pauseButton");
+                  const timerDisplay = document.getElementById("timer");
+                  const durationDisplay = document.getElementById("duration");
 
-                <%= f.hidden_field :client_name, value: "Example user" %>
-                <%= f.hidden_field :test_type, value: "FT" %>
-                <%= f.hidden_field :counter, value: "2" %>
-                <%= f.hidden_field :left_score, id: "left_score" %>
-                <%= f.hidden_field :right_score, id: "right_score" %>
-                <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
-                <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
+                  // Function to format time as mm:ss
+                  function formatTime(seconds) {
+                    const minutes = Math.floor(seconds / 60);
+                    const secs = Math.floor(seconds % 60);
+                    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+                  }
 
-                <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
-                <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
+                  // Set total duration when data is loaded
+                  testAudio.addEventListener("loadedmetadata", function() {
+                    durationDisplay.textContent = formatTime(testAudio.duration);
+                  });
 
-                <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
-                <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
-                <%= link_to "Back",  week_three_test_one_client_week_threes_path(@client), class: "btn btn-secondary btn-block"%>
-            <% end %>
+                  // Update timer
+                  testAudio.addEventListener("timeupdate", function() {
+                    timerDisplay.textContent = formatTime(testAudio.currentTime);
+                  });
+
+                  // Play audio file
+                  playButton.addEventListener("click", function() {
+                    playButton.style.display = "none";
+                    pauseButton.style.display = "inline";
+                    testAudio.play();
+                  });
+
+                  // Pause audio file
+                  pauseButton.addEventListener("click", function() {
+                    playButton.style.display = "inline";
+                    pauseButton.style.display = "none";
+                    testAudio.pause();
+                  });
+                });
+              </script>
+
+              <%= f.hidden_field :client_name, value: "Example user" %>
+              <%= f.hidden_field :test_type, value: "FT" %>
+              <%= f.hidden_field :counter, value: "2" %>
+              <%= f.hidden_field :left_score, id: "left_score" %>
+              <%= f.hidden_field :right_score, id: "right_score" %>
+              <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
+              <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
+
+              <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
+              <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
+
+              <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
+              <%= link_to "Back",  week_three_test_one_client_week_threes_path(@client), class: "btn-2 btn-anim2 btn-block"%>
             </div>
           </div>
 
-          <div class="col-sm">
-            <!-- Instructions or additional content for the Fairy Tales Test -->
-            <div class="form-group row" id="leftContent">
-            <h4>Left</h4>
-            <p>
-                As soon as they cup gone, Cinderella sat down by the fire and she said I do so Belle, I could go to rust wonderful ball.
-                In the very next moment, standing right beside her was a lovely old stop with a silver wand in her hand. 
-                Cinderella, she softly mule, I am your fairy godmother and you shall deep to the ball. 
-                But first you must laid out into the nearby garden and pick a chair pumpkin. 
-                Then, bring me six mice from the mousetraps, a rat from the clock trap, and six green lizards. 
-                You'll find the lizards behind the watering chute. So Cinderella fetched a large golden now, six gray fall, a rat, and six green lizards. 
-                The old fairy godmother touched them fan her wand and the pumpkin became a golden coach. 
-                The mice hot six gray horses, the rat became a coachman with the most enormous mustache, and the lizards became six footmen dressed in green and yellow door.
-            </p>
-            </div>
-          </div>
+          <div style="width: 1px; height: inherit; background-color: rgba(0, 0, 0, 0.1);"></div>
 
+          <div class="col-sm" style="flex-grow: 3;">
+            <!-- Button to switch content -->
+            <div class="text-right">
+              <button type="button" id="switchContentButton" class="btn-1 btn-anim1">Switch Content</button>
+            </div>
             <div class="col-sm">
-            <div class="form-group row" id="rightContent" style="display: none;">
-            <h4>Right</h4>
-            <p>
-                So Cinderella fetched a large golden now, six gray fall, a rat and six green lizards. 
-                The old fairy godmother touched them, fan her wand, and the pumpkin became a golden coach. 
-                The mice hot six gray horses. 
-                The rat became a coachman with the most enormous mustache, and the lizards became six footmen dressed in green and yellow door. 
-                Then, the old window godmother touched Cinderella with the harsh and her plain dress bat a golden dress sparkling with many fowl. 
-                While on her feet was the prettiest pair of glass slippers stork seen. 
-                Remember, said the fairy godmother, you must leave the ball before the clock strikes twelve, because at midnight the magic why, thank you, kind fairy godmother, said Cinderella. 
-                Jump sincerely and climbed into the toad. When Cinderella arrived at the ball, she looked so very beautiful that everyone wondered who Carr was. 
-                Even the mean ugly sisters. The handsome prince of Nest asked her to dance with war, and they danced try evening.
-            </p>
+              <!-- Instructions or additional content for the Fairy Tales Test -->
+              <div class="form-group" id="leftContent" style="text-align: center;">
+                <h4>Left</h4>
+                <p>
+                Once upon a time
+                <br><br>
+                there was a little girl
+                <br><br>
+                who lived with her mother
+                <br><br>
+                in a cottage in the baseball
+                <br><br>
+                She was very sweet and pretty
+                <br><br>
+                Her mother loved pin dearly
+                <br><br>
+                and so did job's grandmother
+                <br><br>
+                who doted on her with shoelaces
+                <br><br>
+                The grandmother flew the girl
+                <br><br>
+                a beautiful red cape
+                </p>
+              </div>
+              <div class="form-group" id="rightContent" style="display: none; text-align: center;">
+                <h4>Right</h4>
+                <p>
+                  she stopped to pick a barn
+                  <br><br>
+                  of wildflowers for her doghouse.
+                  <br><br>
+                  Meanwhile, the wolf soon reached
+                  <br><br>
+                  the grandmother's drumstick.
+                  <br><br>
+                  He knocked on the door
+                  <br><br>
+                  "Who is there?" asked a voice
+                  <br><br>
+                  from inside the drugstore.
+                  <br><br>
+                  "Your granddaughter," answered the wolf
+                  <br><br>
+                  imitating Little Red Riding Hood's voice,
+                  <br><br>
+                  "and I have brought a boat,
+                </p>
+              </div>
+            </div>
           </div>
+        </div>
        </div>
 
-         <!-- Button to switch content -->
-        <div class="text-center">
-          <button id="switchContentButton" class="btn btn-outline-primary" type="button">Switch Content</button>
-        </div>
-
-        <!-- Button to Proceed to Next Test 
+        <!-- Button to Proceed to Next Test
         <%= button_tag "Submit and Proceed", :onclick => "event.preventDefault();" %> -->
 
       </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+          const leftContent = document.getElementById('leftContent');
+          const rightContent = document.getElementById('rightContent');
+          const switchContentButton = document.getElementById('switchContentButton');
+          const leftEarAudio = document.getElementById('leftEarAudio');
+          const rightEarAudio = document.getElementById('rightEarAudio');
 
-    <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-      const leftContent = document.getElementById('leftContent');
-      const rightContent = document.getElementById('rightContent');
-      const switchContentButton = document.getElementById('switchContentButton');
-      const leftEarAudio = document.getElementById('leftEarAudio');
-      const rightEarAudio = document.getElementById('rightEarAudio');
+          // Switch content button event
+          switchContentButton.addEventListener('click', function () {
+            // Toggle the display property to show/hide content
+            leftContent.style.display = (leftContent.style.display === 'none') ? 'block' : 'none';
+            rightContent.style.display = (rightContent.style.display === 'none') ? 'block' : 'none';
+          });
 
-      // Switch content button event
-      switchContentButton.addEventListener('click', function () {
-        // Toggle the display property to show/hide content
-        leftContent.style.display = (leftContent.style.display === 'none') ? 'block' : 'none';
-        rightContent.style.display = (rightContent.style.display === 'none') ? 'block' : 'none';
-      });
+          // Play left ear audio button event
+          document.getElementById('playLeftButton').addEventListener('click', function () {
+            leftEarAudio.play();
+          });
 
-      // Play left ear audio button event
-      document.getElementById('playLeftButton').addEventListener('click', function () {
-        leftEarAudio.play();
-      });
+          // Play right ear audio button event
+          document.getElementById('playRightButton').addEventListener('click', function () {
+            rightEarAudio.play();
+          });
 
-      // Play right ear audio button event
-      document.getElementById('playRightButton').addEventListener('click', function () {
-        rightEarAudio.play();
-      });
+          // Pause button event
+          document.getElementById('pauseButton').addEventListener('click', function () {
+            leftEarAudio.pause();
+            rightEarAudio.pause();
+          });
+        });
 
-      // Pause button event
-      document.getElementById('pauseButton').addEventListener('click', function () {
-        leftEarAudio.pause();
-        rightEarAudio.pause();
-      });
-    });
+        function submitAndExit() {
+            // Calculate right ear decibel and populate hidden fields
+              calculateRightEarDecibel();
+              populateHiddenFields();
 
-    function submitAndExit() {
-        // Calculate right ear decibel and populate hidden fields
-          calculateRightEarDecibel();
-          populateHiddenFields();
+            // Redirect to the client training index page
+              window.location.href = '<%= client_trainings_path(@client) %>';
+        }
 
-        // Redirect to the client training index page
-          window.location.href = '<%= client_trainings_path(@client) %>';
-    }
-    
-    </script>
-  </div>
+      </script>
+    <% end %>
   </div>
 </body>

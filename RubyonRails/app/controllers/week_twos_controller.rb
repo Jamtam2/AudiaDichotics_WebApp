@@ -3,13 +3,13 @@ class WeekTwosController < ApplicationController
     def rddt_week_two_test1
         @client = Client.find(params[:client_id])
         @week_two = @client.week_twos.build
-       
+
     end
     def dwt_week_two_test2
       @client = Client.find(params[:client_id])
       @week_two = @client.week_twos.build
      end
-     def dwt_week_two_test3 
+     def dwt_week_two_test3
       @client = Client.find(params[:client_id])
       @week_two = @client.week_twos.build
      end
@@ -20,8 +20,8 @@ class WeekTwosController < ApplicationController
      def rddt_week_two_test5
       @client = Client.find(params[:client_id])
       @week_two = @client.week_twos.build
-     
-  end 
+
+  end
     def dnw_week_two_test6
         @client = Client.find(params[:client_id])
         @week_two = @client.week_twos.build
@@ -52,33 +52,36 @@ class WeekTwosController < ApplicationController
         @week_two = WeekTwos.find(params[:id])
         render :edit
       end
-      
-  
+
+
       def update
         @client = Client.find(params[:client_id])
-        @week_two = @client.week_ones.find(params[:id])
+        @week_two = @client.week_twos.find(params[:id])
         @week_two.assign_attributes(week_two_params)
-      
-        if @week_one.save
+
+        if @week_two.save
           redirect_to edit_client_path(@client)
         else
           render 'edit'
         end
       end
-  
-    
-  
-  
-  
-  
+
+
+
+
+
+
   def create
       @client = Client.find(params[:client_id])
-      @week_two = @client.week_ones.build(week_one_params)
+      @week_two = @client.week_twos.build(week_two_params)
       @week_two.user = current_user
       @week_two.client = @client
       submit_with_counter()
-    end
-    def submit_with_counter
+  end
+  def rest_break_week_two
+      @client = Client.find(params[:client_id])
+  end
+  def submit_with_counter
       if @week_two.save
         case @week_two.counter
         when 1
@@ -89,7 +92,7 @@ class WeekTwosController < ApplicationController
         when 3
           redirect_to week_two_test_four_client_week_twos_path(@client)
         when 4
-          redirect_to week_two_test_five_client_week_twos_path(@client)
+          redirect_to rest_break_week_two_client_week_twos_path(@client)
         when 5
           redirect_to week_two_test_six_client_week_twos_path(@client)
         when 6
@@ -104,12 +107,12 @@ class WeekTwosController < ApplicationController
       else
         render 'new'
       end
-    end
-  
-    
+  end
+
+
       private
-    
-      def week_one_params
+
+      def week_two_params
         params.require(:week_two).permit( :notes, :client_name, :test_type, :left_score, :right_score, :ear_advantage, :ear_advantage_score, :counter)
       end
 

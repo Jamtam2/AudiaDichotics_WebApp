@@ -23,19 +23,27 @@ class WeekFoursController < ApplicationController
       @client = Client.find(params[:client_id])
       @week_four = @client.week_fours.build
     end
-    def dnw_week_four_test6
+    def tales_week_four_test6
       @client = Client.find(params[:client_id])
       @week_four = @client.week_fours.build
     end
-    def dwt_week_four_test7
+    def tales_week_four_test7
       @client = Client.find(params[:client_id])
       @week_four = @client.week_fours.build
     end
-    def dwt_week_four_test8
+    def dnw_week_four_test8
       @client = Client.find(params[:client_id])
       @week_four = @client.week_fours.build
     end
-    def rddt_week_four_test9
+    def dwt_week_four_test9
+      @client = Client.find(params[:client_id])
+      @week_four = @client.week_fours.build
+    end
+    def dwt_week_four_test10
+      @client = Client.find(params[:client_id])
+      @week_four = @client.week_fours.build
+    end
+    def rddt_week_four_test11
       @client = Client.find(params[:client_id])
       @week_four = @client.week_fours.build
     end
@@ -56,21 +64,21 @@ class WeekFoursController < ApplicationController
         @week_four = WeekFours.find(params[:id])
         render :edit
     end
-      
-  
+
+
     def update
       @client = Client.find(params[:client_id])
       @week_four = @client.week_fours.find(params[:id])
       @week_four.assign_attributes(week_four_params)
-      
+
       if @week_four.save
         redirect_to edit_client_path(@client)
       else
         render 'edit'
       end
     end
-  
-  
+
+
     def create
       @client = Client.find(params[:client_id])
       @week_four = @client.week_fours.build(week_four_params)
@@ -78,8 +86,11 @@ class WeekFoursController < ApplicationController
       @week_four.client = @client
       submit_with_counter()
     end
-  
-    
+
+    def rest_break_week_four
+      @client = Client.find(params[:client_id])
+    end
+
     def submit_with_counter
       if @week_four.save
         case @week_four.counter
@@ -93,7 +104,7 @@ class WeekFoursController < ApplicationController
         when 4
           redirect_to week_four_test_five_client_week_fours_path(@client)
         when 5
-          redirect_to week_four_test_six_client_week_fours_path(@client)
+          redirect_to rest_break_week_four_client_week_fours_path(@client)
         when 6
           redirect_to week_four_test_seven_client_week_fours_path(@client)
         when 7
@@ -101,6 +112,10 @@ class WeekFoursController < ApplicationController
         when 8
           redirect_to week_four_test_nine_client_week_fours_path(@client)
         when 9
+          redirect_to week_four_test_ten_client_week_fours_path(@client)
+        when 10
+          redirect_to week_four_test_eleven_client_week_fours_path(@client)
+        when 11
           redirect_to client_trainings_path(@client)
         else
           render 'new'
@@ -111,8 +126,8 @@ class WeekFoursController < ApplicationController
         #redirect_to client_trainings_path(@client)
       end
     end
-  
-    
+
+
       private
       #ALLEARS - L - added left and right ear decibel
       # took out :notes -->

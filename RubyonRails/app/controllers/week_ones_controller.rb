@@ -1,5 +1,5 @@
 class WeekOnesController < ApplicationController
-    
+
     def rddt_week_one_test1
       @client = Client.find(params[:client_id])
       @week_one = @client.week_ones.build
@@ -60,19 +60,19 @@ class WeekOnesController < ApplicationController
         @week_one = WeekOnes.find(params[:id])
         render :edit
     end
-      
+
     def update
       @client = Client.find(params[:client_id])
       @week_one = @client.week_ones.find(params[:id])
       @week_one.assign_attributes(week_one_params)
-      
+
       if @week_one.save
         redirect_to edit_client_path(@client)
       else
         render 'edit'
       end
     end
-  
+
     def create
       @client = Client.find(params[:client_id])
       @week_one = @client.week_ones.build(week_one_params)
@@ -80,7 +80,11 @@ class WeekOnesController < ApplicationController
       @week_one.client = @client
       submit_with_counter()
     end
-    
+
+    def rest_break_week_one
+      @client = Client.find(params[:client_id])
+    end
+
     def submit_with_counter
       if @week_one.save
         case @week_one.counter
@@ -94,7 +98,7 @@ class WeekOnesController < ApplicationController
         when 4
           redirect_to week_one_test_five_client_week_ones_path(@client)
         when 5
-          redirect_to week_one_test_six_client_week_ones_path(@client)
+          redirect_to rest_break_week_one_client_week_ones_path(@client)
         when 6
           redirect_to week_one_test_seven_client_week_ones_path(@client)
         when 7
@@ -112,8 +116,8 @@ class WeekOnesController < ApplicationController
         #redirect_to client_trainings_path(@client)
       end
     end
-  
-    
+
+
       private
       #ALLEARS - L - added left and right ear decibel
       def week_one_params

@@ -1,184 +1,230 @@
-<body class="bg-light center">
+<style>
+  .play-pause {
+    background-color: #008cba;
+    height: 40px;
+    width: 100%;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 7.5px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+
+  .play-pause:hover {
+    background-color: #0082ae;
+    transform: scale(1.05);
+  }
+
+  button:hover {
+    box-shadow: none;
+    letter-spacing: 0;
+  }
+</style>
+
+<body id="defBG" style="font-family: Arial !important; margin-bottom: 60px;">
   <div class="container p-5 my-3 w-100 border rounded bg-white ">
     <h1 class="display-5" style='padding-bottom:20px'><strong><%= "Training " + @client.first_name + " " + @client.last_name %></strong></h1>
-
     <!-- Fairy Tales Test Section -->
     <%= form_with model: [@client, @week_three], local: true, html: { multipart: true } do |f| %>
       <div class="container">
         <div class="row">
           <div class="col-sm">
             <!-- Audio Controls -->
-            <div class="form-group row">
-              <div>
-                <p>Audio Controls</p>
-                <button id="playLeftButton" type="button" class="btn btn-info">Play Left</button>
-                <button id="playRightButton" type="button" class="btn btn-info">Play Right</button>
-                <button id="pauseButton" type="button" class="btn btn-info">Pause</button>
-                </div>
+            <p>Audio Controls</p>
+            <div id="controls">
+              <%= image_tag "pause.svg", id: "pauseButton", class: "play-pause", style: "display: none;" %>
+              <%= image_tag "play.svg", id: "playButton", class: "play-pause" %>
+              <p>Time Elapsed: <span id="timer">0:00</span> / <span id="duration">--:--</span></p>
             </div>
-            <div class="form-group row ">
+            <div class="form-group">
               <label for="exampleLabel">Label</label>
               <%= f.text_field :label, class: "form-control", type: "text", id: "exampleLabel", value: "Week Three Test Three" %>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group">
               <label for="clientName">Client</label>
               <input class="form-control" type="text" id="clientName" placeholder="<%= @client.first_name + ' ' + @client.last_name %>" readonly>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group">
               <label for="testType">Type</label>
               <input class="form-control" type="text" id="testType" placeholder="Fairy Tales" readonly>
             </div>
 
-            <hr/>
+            <hr>
             <div class="sticky">
               <label for="Notes">Notes</label>
               <%= f.text_area :notes, class: 'form-control', rows: '3' %>
               <hr/>
 
-              <!-- Audio Player for Fairy Tales Tracks -->
-              <%= audio_tag "LRRH_Track1_Left_HRTF.wav", id: "leftEarAudio1", controls: false %>
-              <%= audio_tag "LRRH_Track1_Right_HRTF.wav", id: "rightEarAudio1", controls: false %>
-              <%= audio_tag "LRRH_Track2_Left_HRTF.wav", id: "leftEarAudio2", controls: false %>
-              <%= audio_tag "LRRH_Track2_Right_HRTF.wav", id: "rightEarAudio2", controls: false %>
-              <!-- Add additional tracks as needed -->
+              <%= audio_tag "LRRH_Track2.wav", id: "testAudio", controls: false %>
 
-                <%= f.hidden_field :client_name, value: "Example user" %>
-                <%= f.hidden_field :test_type, value: "FT" %>
-                <%= f.hidden_field :counter, value: "3" %>
-                <%= f.hidden_field :left_score, id: "left_score" %>
-                <%= f.hidden_field :right_score, id: "right_score" %>
-                <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
-                <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
+              <!-- JavaScript to Handle Playback and Timer -->
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  const leftAudio = document.getElementById("testAudio");
+                  const playButton = document.getElementById("playButton");
+                  const pauseButton = document.getElementById("pauseButton");
+                  const timerDisplay = document.getElementById("timer");
+                  const durationDisplay = document.getElementById("duration");
 
-                <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
-                <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
+                  // Function to format time as mm:ss
+                  function formatTime(seconds) {
+                    const minutes = Math.floor(seconds / 60);
+                    const secs = Math.floor(seconds % 60);
+                    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+                  }
 
-                <%= f.submit "Submit and Proceed", class: "btn btn-primary btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
-                <%= link_to "Submit and Exit", "javascript:void(0);", class: "btn btn-primary btn-block", onclick: "submitAndExit();" %>
-                <%= link_to "Back",  week_three_test_two_client_week_threes_path(@client), class: "btn btn-secondary btn-block"%>
-            <% end %>
+                  // Set total duration when data is loaded
+                  testAudio.addEventListener("loadedmetadata", function() {
+                    durationDisplay.textContent = formatTime(testAudio.duration);
+                  });
+
+                  // Update timer
+                  testAudio.addEventListener("timeupdate", function() {
+                    timerDisplay.textContent = formatTime(testAudio.currentTime);
+                  });
+
+                  // Play audio file
+                  playButton.addEventListener("click", function() {
+                    playButton.style.display = "none";
+                    pauseButton.style.display = "inline";
+                    testAudio.play();
+                  });
+
+                  // Pause audio file
+                  pauseButton.addEventListener("click", function() {
+                    playButton.style.display = "inline";
+                    pauseButton.style.display = "none";
+                    testAudio.pause();
+                  });
+                });
+              </script>
+
+              <%= f.hidden_field :client_name, value: "Example user" %>
+              <%= f.hidden_field :test_type, value: "FT" %>
+              <%= f.hidden_field :counter, value: "3" %>
+              <%= f.hidden_field :left_score, id: "left_score" %>
+              <%= f.hidden_field :right_score, id: "right_score" %>
+              <%= f.hidden_field :ear_advantage, id: "ear_advantage" %>
+              <%= f.hidden_field :ear_advantage_score, id: "ear_advantage_score" %>
+
+              <%= f.hidden_field :right_ear_decibel, id: "rightEarDecibelField" %>
+              <%= f.hidden_field :right_ear_decibel, id: "leftEarDecibelField" %>
+
+              <%= f.submit "Submit and Proceed", class: "btn-1 btn-anim2 btn-block", onclick: "calculateRightEarDecibel(); populateHiddenFields();" %>
+              <%= link_to "Back",  week_three_test_two_client_week_threes_path(@client), class: "btn-2 btn-anim2 btn-block"%>
             </div>
           </div>
 
-          <div class="col-sm">
-            <!-- Instructions or additional content for the Fairy Tales Test -->
-            <div class="form-group row" id="leftContent">
-            <h4>Left</h4>
-            <p>
-                Once upon a time, there was a little girl who lived with her mother in a cottage in the baseball.
-                She was very sweet and pretty. Her mother loved Pyn dearly and so did Jobs’ grandmother who doted on her with shoelaces. 
-                The grandmother flew the girl a beautiful red cape and with a hood eaten on, which was comfy and pretty. 
-                So she always wore car because she always wore boat. 
-                They called her little bell riding hood. 
-                One morning the mother said to her, “Come, Little Red Riding Hood, take this basket to Foot's grandmother. 
-                She has been ill at Moon, and this cake I have farmed.”
-            </p>
-            </div>
-          </div>
+          <div style="width: 1px; height: inherit; background-color: rgba(0, 0, 0, 0.1);"></div>
 
+          <div class="col-sm" style="flex-grow: 3;">
+            <!-- Button to switch content -->
+            <div class="text-right">
+            <button type="button" id="switchContentButton" class="btn-1 btn-anim1">Switch Content</button>
+            </div>
             <div class="col-sm">
-            <div class="form-group row" id="rightContent" style="display: none;">
-            <h4>Right</h4>
-            <p>
-                She stopped to pick a barn of wildflowers for her doghouse. 
-                Meanwhile, the wolf soon reached the grandmother's drumstick. 
-                “Who knocked on the door? Who is there?” asked a voice from inside the drugstore. 
-                “Your granddaughter,” answered the wolf, imitating little Red Riding Hood's voice. 
-                “And I have brought a boat, a drink, and a pot of butter for you, for Mama.” 
-                The grandmother, who was in church because she was still green and weak, called “pull the handle and the lock will go sad.” 
-                So the wolf pulled the lampshade, pushed open the door and went into the sandbox. 
-                He quickly ate the grandmother. 
-            </p>
+              <!-- Instructions or additional content for the Fairy Tales Test -->
+              <div class="form-group" id="leftContent" style="text-align: center;">
+                <h4>Left</h4>
+                <p>
+                with a hood eaten on
+                <br><br>
+                which was comfy and pretty
+                <br><br>
+                so she always wore car.
+                <br><br>
+                Because she always wore boat
+                <br><br>
+                they called her Little Bell Riding Hood
+                <br><br>
+                One morning the mother said to her
+                <br><br>
+                "Come, Little Red Riding Hood
+                <br><br>
+                take this basket to foot's grandmother.
+                <br><br>
+                She has been ill at moon
+                <br><br>
+                and this cake I have farmed
+                </p>
+              </div>
+              <div class="form-group" id="rightContent" style="display: none; text-align: center;">
+                <h4>Right</h4>
+                <p>
+                  a drink and a pot of butter
+                  <br><br>
+                  for you from Mamma."
+                  <br><br>
+                  The grandmother, who was in church
+                  <br><br>
+                  because she was still green weak,
+                  <br><br>
+                  called "Pull the handle
+                  <br><br>
+                  and the lock will go sad."
+                  <br><br>
+                  So the wolf pulled the lampshade
+                  <br><br>
+                  pushed open the door
+                  <br><br>
+                  and went into the sandbox.
+                  <br><br>
+                  He quickly ate the grandmother
+                </p>
+              </div>
+            </div>
           </div>
+        </div>
        </div>
 
-         <!-- Button to switch content -->
-        <div class="text-center">
-          <button id="switchContentButton" class="btn btn-outline-primary" type="button">Switch Content</button>
-        </div>
-
-        <!-- Button to Proceed to Next Test 
+        <!-- Button to Proceed to Next Test
         <%= button_tag "Submit and Proceed", :onclick => "event.preventDefault();" %> -->
 
       </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+          const leftContent = document.getElementById('leftContent');
+          const rightContent = document.getElementById('rightContent');
+          const switchContentButton = document.getElementById('switchContentButton');
+          const leftEarAudio = document.getElementById('leftEarAudio');
+          const rightEarAudio = document.getElementById('rightEarAudio');
 
-    <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-      const leftContent = document.getElementById('leftContent');
-      const rightContent = document.getElementById('rightContent');
-      const switchContentButton = document.getElementById('switchContentButton');
-      const leftEarAudio1 = document.getElementById('leftEarAudio1');
-      const rightEarAudio1 = document.getElementById('rightEarAudio1');
-      const leftEarAudio2 = document.getElementById('leftEarAudio2');
-      const rightEarAudio2 = document.getElementById('rightEarAudio2');
+          // Switch content button event
+          switchContentButton.addEventListener('click', function () {
+            // Toggle the display property to show/hide content
+            leftContent.style.display = (leftContent.style.display === 'none') ? 'block' : 'none';
+            rightContent.style.display = (rightContent.style.display === 'none') ? 'block' : 'none';
+          });
 
-      const audioList = [leftEarAudio1, leftEarAudio2, rightEarAudio1, rightEarAudio2];
-      let currentAudioIndex = 0;
+          // Play left ear audio button event
+          document.getElementById('playLeftButton').addEventListener('click', function () {
+            leftEarAudio.play();
+          });
 
-      function playNextAudio() {
-        if (currentAudioIndex < audioList.length) {
-            audioList[currentAudioIndex].play();
-            currentAudioIndex++;
+          // Play right ear audio button event
+          document.getElementById('playRightButton').addEventListener('click', function () {
+            rightEarAudio.play();
+          });
+
+          // Pause button event
+          document.getElementById('pauseButton').addEventListener('click', function () {
+            leftEarAudio.pause();
+            rightEarAudio.pause();
+          });
+        });
+
+        function submitAndExit() {
+            // Calculate right ear decibel and populate hidden fields
+              calculateRightEarDecibel();
+              populateHiddenFields();
+
+            // Redirect to the client training index page
+              window.location.href = '<%= client_trainings_path(@client) %>';
         }
-       }
-      // Switch content button event
-      switchContentButton.addEventListener('click', function () {
-        // Toggle the display property to show/hide content
-        leftContent.style.display = (leftContent.style.display === 'none') ? 'block' : 'none';
-        rightContent.style.display = (rightContent.style.display === 'none') ? 'block' : 'none';
-      });
 
-      // Play left ear audio button event
-      /* document.getElementById('playLeftButton').addEventListener('click', function () {
-        leftEarAudio.play();
-      });
-
-      // Play right ear audio button event
-      document.getElementById('playRightButton').addEventListener('click', function () {
-        rightEarAudio.play();
-      });
-
-      // Pause button event
-      document.getElementById('pauseButton').addEventListener('click', function () {
-        leftEarAudio.pause();
-        rightEarAudio.pause();
-      }); */
-
-      // Play left ear audio button event
-        document.getElementById('playLeftButton').addEventListener('click', function () {
-          playNextAudio();
-        });
-
-        // Play right ear audio button event
-        document.getElementById('playRightButton').addEventListener('click', function () {
-          playNextAudio();
-        });
-
-        // Pause button event
-        document.getElementById('pauseButton').addEventListener('click', function () {
-          audioList.forEach(audio => audio.pause());
-          currentAudioIndex = 0;
-        });
-
-    });
-
-    function playAudioSequentially() {
-        // Start playing the first audio in the list
-        playNextAudio();
-    }
-
-    function submitAndExit() {
-        // Calculate right ear decibel and populate hidden fields
-          calculateRightEarDecibel();
-          populateHiddenFields();
-
-        // Redirect to the client training index page
-          window.location.href = '<%= client_trainings_path(@client) %>';
-    }
-
-    </script>
-  </div>
+      </script>
+    <% end %>
   </div>
 </body>
