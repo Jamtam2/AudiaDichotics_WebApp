@@ -41,10 +41,10 @@ class ApplicationController < ActionController::Base
     return
     end
 
-    # TODO: Remove this when moving to production
-    # if Rails.env.development?
-    #   return
-    # end
+    if Rails.env.development?
+      return
+    end
+
 
     return unless user_signed_in? && "/users/sign_out" != request.path
 
@@ -100,11 +100,8 @@ class ApplicationController < ActionController::Base
   #         false - if no license key is found
   #         license_key - if a license key is found
   def license_key_expired?(user)
-    license_key = user.license_key
-    return false unless license_key
-    Rails.logger.info("KEY IN EXPIRATION METHOD: #{license_key.inspect}")
-
-    license_key.expiration < DateTime.current
+    return true unless user.tenant&.membership_expiration
+    user.tenant.membership_expiration < DateTime.current
   end
 
   def mfa_process?

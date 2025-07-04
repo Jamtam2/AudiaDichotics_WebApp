@@ -1,13 +1,38 @@
 <h1>Tenants List</h1>
 
+<!-- Unified Search Form -->
+<%= form_with url: tenants_path, method: :get, local: true, class: 'mb-4' do %>
+  <div class="form-row row gx-2 gy-2 align-items-center">
+    <div class="col-md-4">
+      <%= text_field_tag :query, params[:query], class: 'form-control rounded-pill', placeholder: 'Search by name' %>
+    </div>
+
+    <div class="col-md-3">
+      <%= date_field_tag :start_date, params[:start_date], class: 'form-control rounded-pill', placeholder: 'Start date' %>
+    </div>
+
+    <div class="col-md-3">
+      <%= date_field_tag :end_date, params[:end_date], class: 'form-control rounded-pill', placeholder: 'End date' %>
+    </div>
+
+    <div class="col-md-2">
+      <%= submit_tag "Search", class: "btn btn-outline-info w-100 rounded-pill" %>
+    </div>
+  </div>
+<% end %>
+
+
 <table class="table">
   <thead>
     <tr>
       <th>ID</th>
+      <th>Name</th> <!-- New Column for the First User's Email -->
       <th>First User Email</th> <!-- New Column for the First User's Email -->
+      <th># Of Users</th>
       <th>Creation Date</th>
       <th>Membership Expiration</th>
       <th>Test Limit</th>
+      <th>License Keys</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -15,9 +40,13 @@
     <% @tenants.each do |tenant| %>
       <tr>
         <td><%= tenant.id %></td>
+        <td><%= tenant.user_fname %> <%= tenant.user_lname %></td>
+
         <td>
           <%= tenant.first_user_email.present? ? tenant.first_user_email : "No users available" %>
         </td>
+        <td><%= tenant.user_count %></td>
+
         <td><%= tenant.created_at.strftime('%m/%d/%Y') %></td>
           <% if tenant.membership_expiration.present? %>
             <td><%= tenant.membership_expiration.strftime('%m/%d/%Y') %></td>
@@ -25,6 +54,16 @@
             <td>N/A</td>
         <% end %>
         <td><%= tenant.test_limit %></td>
+        <td>
+          <% if tenant.license_keys.present? %>
+            <%= tenant.license_keys %>
+          <% else %>
+            No licenses
+          <% end %>
+       </td>
+
+
+
         <td>
           <%= link_to 'Edit', edit_tenant_path(tenant), class: "btn btn-primary" %>
         </td>
